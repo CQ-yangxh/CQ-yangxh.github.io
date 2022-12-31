@@ -20,24 +20,23 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数">
+  <meta name="description" content="DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：DEMUSE Tool (um.si)。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals">
-<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/index.html">
+<meta property="og:title" content="Multichannel Blind Source Separation Using Convolution Kernel Compensation">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数">
+<meta property="og:description" content="DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：DEMUSE Tool (um.si)。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211211613749.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211210827239.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114311631.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114402665.png">
-<meta property="article:published_time" content="2022-12-11T07:33:14.000Z">
-<meta property="article:modified_time" content="2022-12-15T15:40:45.559Z">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230124700817.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230173231799.png">
+<meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
+<meta property="article:modified_time" content="2022-12-31T09:56:49.869Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211211613749.png">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png">
 
-<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/">
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
 
 
 <script id="page-configurations">
@@ -50,7 +49,7 @@
   };
 </script>
 
-  <title>Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals | Xinhao's notebook</title>
+  <title>Multichannel Blind Source Separation Using Convolution Kernel Compensation | Xinhao's notebook</title>
   
 
 
@@ -165,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -178,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals
+          Multichannel Blind Source Separation Using Convolution Kernel Compensation
         </h1>
 
         <div class="post-meta">
@@ -188,14 +187,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-12-11 15:33:14" itemprop="dateCreated datePublished" datetime="2022-12-11T15:33:14+08:00">2022-12-11</time>
+              <time title="Created: 2022-12-24 19:46:46" itemprop="dateCreated datePublished" datetime="2022-12-24T19:46:46+08:00">2022-12-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-15 23:40:45" itemprop="dateModified" datetime="2022-12-15T23:40:45+08:00">2022-12-15</time>
+                <time title="Modified: 2022-12-31 17:56:49" itemprop="dateModified" datetime="2022-12-31T17:56:49+08:00">2022-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -203,7 +202,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Motor-unit-decomposition/" itemprop="url" rel="index"><span itemprop="name">Motor unit decomposition</span></a>
+                  <a href="/categories/CKC/" itemprop="url" rel="index"><span itemprop="name">CKC</span></a>
                 </span>
             </span>
 
@@ -225,44 +224,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>阅读这篇文献是因为阅读的<em>Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements</em>这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数，然后对在线采集的高密度肌电直接使用训练得到的分离矩阵和相关参数从而得到MUST。文章从仿真数据和真实数据两个方面进行了验证，重点关注了一下实验范式。</p>
+        <p>DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：<a target="_blank" rel="noopener" href="https://demuse.feri.um.si/">DEMUSE Tool (um.si)</a>。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。</p>
 <span id="more"></span>
-<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-分解流程"><a href="#1-1-分解流程" class="headerlink" title="1.1 分解流程"></a>1.1 分解流程</h2><p>Two sessions:</p>
-<ol>
-<li>offline session：得到估计参数、分离MUST的矩阵、以及spike提取的阈值</li>
-<li>online session：滑动窗口中，将预处理过后的EMG信号与分离矩阵直接相乘，得到发放序列</li>
-</ol>
-<p><mark>在离线步骤中，首先使用卷积核补偿（CKC）算法将表面肌电信号分解为MUST</mark>。</p>
-<p>多通道表面EMG信号的生成模型可以描述为一系列脉冲的卷积混合，代表运动单元的<mark>放电模式(diacharge pattern)</mark>。该混合模型中滤波器的<mark>脉冲响应</mark>是运动单元的动作电位，其持续时间有限。混合过程可以矩阵形式写成：</p>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><script type="math/tex; mode=display">
+x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M</script><p>symbol的长度为L，也就是<script type="math/tex">a_{ij}</script>的长度是L。如果不考虑N个源的叠加，那么就是<script type="math/tex">a_{ij}(n)</script>与<script type="math/tex">t(n)</script>的卷积，该表达式的意义就是对于某一个观察或检测，其值等于一个源的发放时间与观测位置处symbol的卷积，再对所有源求和的一个结果。</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png" class="" title="image-20221224202318904">
+<p><strong>超定和欠定主要是看混合矩阵A的行KM与列N(L+K-1)的大小，KM大则是超定，KM小则是欠定。</strong></p>
+<p>采样率高了之后，两个峰值之间的采样点就多了，因此就相当于变得稀疏了。</p>
+<blockquote>
+<p>Moreover, when sampling frequency is high enough (with respect to the symbol rate), the pulse trains become highly sparse.</p>
+</blockquote>
 <script type="math/tex; mode=display">
-y(n)=H \bar{s}+\omega(n)</script><p>CKC方法补偿方程上述方程中的未知混合矩阵H，并估计第j个电机单元的尖峰序列为：</p>
+\overline{\mathbf{y}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script><p>混合矩阵A中包含的信息实际上是被忽略了的，CKC算法更关注脉冲序列的性质。</p>
+<h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p>
+<p>激活指数（<font color="red">怎么得到的这个表达式？</font>）：</p>
 <script type="math/tex; mode=display">
-\widehat{s}_j(n)=w_j^T \bar{y}(n) \\
-w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p>
-<img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211211613749.png" class="" title="image-20221211211613749">
-<p><strong>对online估计所做的改进：</strong></p>
-<p>将离线阶段中获得的分离向量应用于在线分解仅当离线和在线阶段的信号特性之间保持相似时，才能确保在线阶段中的EMG分解的有效性。比如在信号是静止的情况下。然而，在一般情况下，初始的分离向量是需要持续自适应的。</p>
-<p>为了适应非静态条件，文章提出了一种更新策略，在每次识别新的放电时间序列时调整分离向量$w_j$的方法，效果如下：</p>
-<img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211210827239.png" class="" title="image-20221211210827239">
-<p><strong>一个新的概念有待了解：</strong>尖峰间隔变异性</p>
-<h2 id="1-2-实验范式"><a href="#1-2-实验范式" class="headerlink" title="1.2 实验范式"></a>1.2 实验范式</h2><h3 id="1-2-1-模拟EMG："><a href="#1-2-1-模拟EMG：" class="headerlink" title="1.2.1 模拟EMG："></a>1.2.1 模拟EMG：</h3><ol>
-<li><p>数据集1：10%，30%，50%持续兴奋下的数据</p>
-</li>
-<li><p>数据集2：兴奋首先保持10s，然后在60s内变化</p>
-<img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114311631.png" class="" title="image-20221214114311631">
-</li>
-<li><p>数据集3：改变MUAP波形</p>
-<img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114402665.png" class="" title="image-20221214114402665">
-</li>
-</ol>
-<h3 id="1-2-2-实验数据"><a href="#1-2-2-实验数据" class="headerlink" title="1.2.2 实验数据"></a>1.2.2 实验数据</h3><p>真实采集的数据集和模拟仿真的数据集是一一对应的，分为EXP1，EXP2，EXP3：</p>
-<ul>
-<li>在EXP1中，受试者被要求以最大自主收缩（MVC）力的10%、30%和50%的恒定力进行等长抓握</li>
-<li>在EXP2中，受试者被要求遵循模拟2中描述的力轨迹。为了简化实验，只在三个水平上保持6秒的斜坡</li>
-<li>在EXP3中，受试者被要求进行非等长动态抓握，抓握周期被设定为6秒。受试者在动态抓握过程中被要求尽量保持收缩水平，但不严格。</li>
-</ul>
-<p>从这个实验范式的设置中可以看出：（1）真实的力对应模拟的兴奋水平；（2）通过改变等长收缩来改变MUAP的形状2</p>
+\begin{aligned}
+\gamma(n) & =\overline{\mathbf{x}}^T(n) \mathbf{C}_{\overline{\mathbf{xx}}}^{-1} \overline{\mathbf{x}}(n) \\
+& =\overline{\mathbf{t}}^T(n) \mathbf{A}^T\left(\mathbf{A}^T\right)^{-1} \mathbf{C}_{\overline{\mathbf{tt}}} \mathbf{A}^{-1} \mathbf{A} \overline{\mathbf{t}}(n) \\
+& =\overline{\mathbf{t}}^T(n) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n)
+\end{aligned}</script><p>激活指数的发放时间表示形式只需要把公式 <script type="math/tex">\overline{\mathbf{x}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script> 忽略噪声代入即可。激活指数是全局脉冲序列活动的一个指标，在某个时刻时，只有当至少有一个脉冲序列在此刻发放，那么激活指数才不为0，因为C中的元素是时刻之间的自相关系数和互相关系数，均不为0（其逆也不为0），所以只要存在一个MU的发放脉冲，那么相乘相加后一定是大于0的。</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230124700817.png" class="" title="image-20221230124700817">
+<p>当我们用存在发放时刻的观测序列去代替原观测序列后，有如下表达式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nu_{n_0}(n) & =\overline{\mathbf{x}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{x x}}}^{-1} \overline{\mathbf{x}}(n)=\overline{\mathbf{t}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n) \\
+& =\sum_{k \in G_{n_0}} \sum_{j=1}^{N(L+K-1)} c_{j k}^{\mathrm{inv}} \bar{t}_j(n)
+\end{aligned}</script><p>注意，这个表达式中的j已经不代表symbol的编号了，只是一个单纯的索引数字，在左边项取了n0后，t的值就变成了1或者0，0项在求和过程中可以忽略，1作为系数时也省略不写，因此可以化简成上式求和的形式。上式中j代表的是行，k代表的是列，可以看到行是全部索引完的，而列只取矩阵中激活的列，即t中每一个元素与C中的列对应相乘，最后再求和：</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230173231799.png" class="" title="image-20221230173231799">
+<p>附录A证明，C拥有优越的对角线，是对角占优的，所有可以忽略掉非对角线的部分，得到如下公式：</p>
+<script type="math/tex; mode=display">
+\nu_{n_0}(n) \approx \sum_{j \in G_{n_0}} c_{j j}^{\operatorname{inv}} \bar{t}_j(n) .</script><p>这里其实也就是行也不全部索引了，只索引对角线上且处于激活状态的时刻。</p>
+<font color="red">这里对于*k*的取值还不是很清楚，G_{n0}中的索引对应symbol，按理说最大值应该是N，但计算*v*的时候索引最大值又是N(n-L-K+2)，不是很懂。</font>
 
+
+
+<h2 id="1-2-欠定情况"><a href="#1-2-欠定情况" class="headerlink" title="1.2 欠定情况"></a>1.2 欠定情况</h2>
     </div>
 
     
@@ -277,12 +274,12 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/12/08/Spike-Triggered-Average/" rel="prev" title="Spike-Triggered Average">
-      <i class="fa fa-chevron-left"></i> Spike-Triggered Average
+    <a href="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/" rel="prev" title="Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals">
+      <i class="fa fa-chevron-left"></i> Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/" rel="next" title="Multichannel Blind Source Separation Using Convolution Kernel Compensation">
-      Multichannel Blind Source Separation Using Convolution Kernel Compensation <i class="fa fa-chevron-right"></i>
+    <a href="/2022/12/29/Hyser-database/" rel="next" title="Hyser database">
+      Hyser database <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -342,7 +339,7 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%88%86%E8%A7%A3%E6%B5%81%E7%A8%8B"><span class="nav-text">1.1 分解流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%9E%E9%AA%8C%E8%8C%83%E5%BC%8F"><span class="nav-text">1.2 实验范式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-%E6%A8%A1%E6%8B%9FEMG%EF%BC%9A"><span class="nav-text">1.2.1 模拟EMG：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-text">1.2.2 实验数据</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%B6%85%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.1 超定情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%AC%A0%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.2 欠定情况</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

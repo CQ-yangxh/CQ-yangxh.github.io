@@ -20,15 +20,21 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive &#x2F; 理论上全部的positive），虚警率&lt;2%（错误positive &#x2F; 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive &#x2F; 理论上全部的positive），虚警率&lt;2%（错误positive &#x2F; 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png">
 <meta property="article:published_time" content="2022-12-05T14:17:21.000Z">
-<meta property="article:modified_time" content="2022-12-05T14:17:21.000Z">
+<meta property="article:modified_time" content="2022-12-31T09:55:33.266Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/">
 
@@ -183,6 +189,22 @@
 
               <time title="Created: 2022-12-05 22:17:21" itemprop="dateCreated datePublished" datetime="2022-12-05T22:17:21+08:00">2022-12-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-12-31 17:55:33" itemprop="dateModified" datetime="2022-12-31T17:55:33+08:00">2022-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CKC/" itemprop="url" rel="index"><span itemprop="name">CKC</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -202,7 +224,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive / 理论上全部的positive），虚警率&lt;2%（错误positive / 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。</p>
+<span id="more"></span>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-PNR"><a href="#1-1-PNR" class="headerlink" title="1.1 PNR"></a>1.1 PNR</h2><p>关于分解的准确性，Nawab等人(2010)提出了一种基于信号的验证方法，称为重构-测试程序。然而，这种方法衡量的是分解的一致性而不是准确性(Farina和Enoka 2011, De Luca和Nawab 2011)。McGill等人(McGill and Marateb 2011)提出了另一种基于信号的方法来分解留置肌电图信号，并利用统计决策理论和贝叶斯框架来整合MU动作电位波形和MU放电模式的信息。该方法计算成本高，目前不适用于超过8个已识别的MUs。</p>
+<p>CKC方法已在低收缩力下的代表性模拟和实验信号中得到验证(Holobar et al 2010)。在这项研究中，我们证明了CKC分解也可以在高等长收缩力下提供精确的分解，因此我们将这种方法的潜在应用扩展到几乎任何收缩水平。这一证明是通过与肌内肌电图分解进行比较，以及通过一种基于信号的精度估计的新度量获得的，该度量在本文中通过分析得到，并构成了该研究的第二个贡献。所提出的精度度量建立在线性估计理论基础上，提供了一个计算上便宜且可靠的均方误差(MSE)指标，用于每个已识别MU的真实放电模式与其基于ckc的估计之间。在本研究中，模拟和实验信号分析将表明，这一指标与识别MU放电的敏感性及其虚警率显著相关。</p>
+<h2 id="1-2-实验"><a href="#1-2-实验" class="headerlink" title="1.2 实验"></a>1.2 实验</h2><p>9名受试者的优势胫骨前肌和9名受试者中的6名优势肱二头肌同时获得表面肌电图和肌内肌电图信号。在最大自愿收缩(MVC)的5%、10%、15%、20%、50%、60%和70%的等距恒力收缩过程中获得15 s长信号。</p>
+<h2 id="1-3-数据分析"><a href="#1-3-数据分析" class="headerlink" title="1.3 数据分析"></a>1.3 数据分析</h2><p><strong>仿真数据：</strong></p>
+<p>下图分别描述了分解灵敏度Se和虚警率Fa对PNR的依赖关系：</p>
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png" class="" title="image-20221231161026963">
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png" class="" title="image-20221231161048995">
+<p><strong>实验数据：</strong></p>
+<p>以肌内肌电图识别的MU放电模式为参考，计算由两种分解技术识别的MU的灵敏度(如式(8))和虚警率(如式(9))。在匹配表面肌电图和肌内肌电图的分解结果时，只有当两个肌电信号共享至少30%的放电时，才被认为是共同识别的。</p>
+<p>平滑放电率是收缩强度的函数（<mark>通过对瞬时放电率进行低通滤波计算平滑放电率，截止频率设置为2hz。</mark>）。事实上，胫骨前肌在5% MVC时为11.5±2.1 pps，在70% MVC时为23.2±3.0 pps。同样，在肱二头肌中，MU放电速率在5% MVC时为12.4±2.3 /秒，在70% MVC时为20.3±2.9 /秒。</p>
+<p>从合成面肌电信号和实验面肌电信号的结果来看，引入的PNR测量方法与MU放电识别的灵敏度和虚警率显著相关:</p>
+<script type="math/tex; mode=display">
+\operatorname{Se}(j)=a_1+a_2 \log \left(\operatorname{PNR}(j)-a_3\right)</script><script type="math/tex; mode=display">
+\mathrm{Fa}(j)=b_1-b_2 \log \left(\mathrm{PNR}(j)-b_3\right)</script><p>本研究经实验验证，PNR大于30 dB的大多数MUs灵敏度大于90%，虚警率低于1%。这种关系在很大程度上<mark>独立于</mark>测试的信噪比电平(从0到20 dB)和收缩水平(从5%到70% MVC)。此外，回归参数a和b的值，在不同的信噪比和肌肉兴奋水平上没有显著变化(表1和表2)，允许相对可靠地抽象引入的PNR测量与每个识别MU的分解灵敏度和虚警率之间的一般关系。</p>
+<p>识别出的MU的PNR的分布图显示大多集中在30-40dB：</p>
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png" class="" title="image-20221231163927905">
+<p><strong>结论：</strong><mark>仿真和实验鉴定的PNR &gt; 30 dB的MUs具有&gt; 90%的灵敏度和低于2%的虚警率。</mark></p>
+
     </div>
 
     
@@ -282,6 +323,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-PNR"><span class="nav-text">1.1 PNR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%9E%E9%AA%8C"><span class="nav-text">1.2 实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">1.3 数据分析</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -297,14 +339,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -408,6 +450,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
