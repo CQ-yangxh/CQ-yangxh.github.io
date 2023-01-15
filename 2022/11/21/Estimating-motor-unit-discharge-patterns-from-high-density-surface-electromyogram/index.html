@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121173424122.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164612078.png">
 <meta property="article:published_time" content="2022-11-21T08:35:27.000Z">
-<meta property="article:modified_time" content="2022-12-09T13:13:24.000Z">
+<meta property="article:modified_time" content="2023-01-14T09:49:36.801Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221122003643691.png">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-09 21:13:24" itemprop="dateModified" datetime="2022-12-09T21:13:24+08:00">2022-12-09</time>
+                <time title="Modified: 2023-01-14 17:49:36" itemprop="dateModified" datetime="2023-01-14T17:49:36+08:00">2023-01-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,7 +245,7 @@
 <li>分解得到运动单元动作电位</li>
 </ol>
 <h2 id="2-2-Data-Acquire"><a href="#2-2-Data-Acquire" class="headerlink" title="2.2 Data Acquire"></a>2.2 Data Acquire</h2><p>13 * 5 采集阵列</p>
-<p>信噪比20DB的模拟信号</p>
+<p>信噪比20DB的仿真信号</p>
 <h2 id="2-3-Materials-and-methods"><a href="#2-3-Materials-and-methods" class="headerlink" title="2.3 Materials and methods"></a>2.3 Materials and methods</h2><h3 id="2-3-1-EMG-Signal-Simulation"><a href="#2-3-1-EMG-Signal-Simulation" class="headerlink" title="2.3.1 EMG Signal Simulation"></a>2.3.1 EMG Signal Simulation</h3><p>（1）在给定兴奋水平下，决定运动神经元募集和放电时间<br>（2）根据每个运动单元的肌纤维的数量、位置、传导速度生成MUAPs</p>
 <blockquote>
 <p>MU具有正态分布的传导速度，平均值和标准偏差为4.0±0.3 m/s（Farina等人，2000），最小的MU具有最慢的传导速度（Andreassen和Arendt-Nielsen，1987）。属于同一MU的纤维具有相同的传导速度。细胞内动作电位的模拟基于Rosenfalk（1969）的分析描述。</p>
@@ -254,7 +254,7 @@
 <h3 id="2-3-2-Discharge-Pattern"><a href="#2-3-2-Discharge-Pattern" class="headerlink" title="2.3.2 Discharge Pattern"></a>2.3.2 Discharge Pattern</h3><p>在模拟的12秒长收缩中，肌肉的兴奋水平在前6秒从0%增加到10%，在后6秒从10%下降到0%。在10%激发水平下激活的MU数量为120个中的63个。<font color="red">一旦激发超过指定的募集阈值，每个MU以每秒8个脉冲（pps）的速度放电，并且放电速率随激发线性增加（0.3pps/%）。</font>所有模拟MU的峰值放电速率为35pps。最后一个单位在50%的最大激励下募集。</p>
 <h2 id="2-4-Experiments"><a href="#2-4-Experiments" class="headerlink" title="2.4 Experiments"></a>2.4 Experiments</h2><p><strong>（1）8名受试者的拇短展肌肌电图的分解结果：</strong></p>
 <img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221122003643691.png" class="" title="image-20221122003643691">
-<p>募集阈值定义为前5个放电的MU的平均频率，去募集阈值定义为后5个放电的MU的平均频率。表中MU的性质（瞬时放电率、脉冲间间隔变异性和重构的MUAP形状）需要与已知的生理范围作对比，也就是说需要有一个参考结果，这样才能评估分解精度。</p>
+<p>募集阈值定义为前5个放电的平均频率，去募集阈值定义为后5个放电的平均频率。表中MU的性质（瞬时放电率、脉冲间间隔变异性和重构的MUAP形状）需要与已知的生理范围作对比，也就是说需要有一个参考结果，这样才能评估分解精度。</p>
 <font color="red">**施加的力与所识别MU的数量之间的高度相关性，所识别的MU募集数目随着收缩力的增加而逐渐增加。**</font>
 
 <p>新募集的MU以9.0±1.6 pps开始放电，并随着力的增加逐渐增加放电速率（达到15.6±2.1 pps）。在斜坡的下降侧，MU放电速率降低至8.8±1.5 pps，MU以与募集相反的顺序逐渐去募集。MU的募集阈值在研究的力范围内大致均匀分布，并与MU峰值放电率呈负相关。</p>
@@ -295,9 +295,14 @@
 <li><p>Reconstructed MU不是很懂</p>
 </li>
 <li><p>如何通过表面MUAP估计原始的MUAP</p>
-<p>估计不了，原始的MUAP经过容积导体滤波后才得到了表面MUAP，这两者比较相似。</p>
+<blockquote>
+<p>估计不了，原始的MUAP经过容积导体滤波后才得到了表面MUAP，这两者比较相似。可以使用fastICA方法估计原MUAP</p>
+</blockquote>
 </li>
 <li><p>如果CKC是在MU募集后，也就是放电后才能识别到，那么放电时间图上，为什么上面的MU（如果代表着后募集的）存在放电时间先于下面的MU（先募集）</p>
+<blockquote>
+<p>这个不影响数据分析，谁上谁下无所谓</p>
+</blockquote>
 </li>
 </ul>
 
@@ -396,14 +401,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -441,7 +446,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

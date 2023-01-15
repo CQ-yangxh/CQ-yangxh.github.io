@@ -28,7 +28,7 @@
 <meta property="og:description" content="Open Access Dataset and Toolbox of High-Density Surface Electromyogram Recordings v1.0.0 (physionet.org)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-29T12:45:38.000Z">
-<meta property="article:modified_time" content="2022-12-31T09:58:56.142Z">
+<meta property="article:modified_time" content="2023-01-02T04:12:03.149Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 
@@ -190,7 +190,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-31 17:58:56" itemprop="dateModified" datetime="2022-12-31T17:58:56+08:00">2022-12-31</time>
+                <time title="Modified: 2023-01-02 12:12:03" itemprop="dateModified" datetime="2023-01-02T12:12:03+08:00">2023-01-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,7 +229,7 @@
 <h1 id="3-方法"><a href="#3-方法" class="headerlink" title="3.方法"></a>3.方法</h1><p>20名受试者，包括12名男性和8名女性（22至34岁），手指完好无损，参加了这项研究。所有受试者都签署了书面知情同意书。该实验经复旦大学伦理委员会审核通过（批准文号：BE2035）。</p>
 <p>对于PR数据集，当受试者执行34种不同的手势时，获得了256通道HD-sEMG。对于每个手势，执行动态任务（1 s持续时间，从受试者的放松状态到所需的手势）和保持任务（4 s持续时间，从受试者的放松状态到所需的手势，然后保持该手势）。</p>
 <p>对于MVC数据集，1-DoF数据集，N-DoF数据集和随机数据集，同步获取256通道HD-sEMG和地面实况力值。</p>
-<p>HD-sEMG信号以2048 Hz采样率采集。以100 Hz采样率采集地面实况力信号。</p>
+<p>HD-sEMG信号以<mark>2048 Hz采样率</mark>采集。以<mark>100 Hz</mark>采样率采集地面实况力信号。</p>
 <p>在预处理阶段，首先使用10—500 Hz 8阶巴特沃兹带通滤波器对采集的HD-sEMG信号进行滤波。然后使用陷波滤波器组合来衰减50 Hz的电力线干扰和高达400 Hz的所有谐波分量。 力数据由8阶10 Hz低通巴特沃兹滤波器滤波。我们在数据集中提供原始的HD-sEMG信号和预处理的HD-sEMG信号。</p>
 <p>此外，我们提供了一个用于HD-sEMG分析的工具箱，它执行：（1）使用基于线性判别分析（LDA）和基于深度学习的手势分类分析模式识别数据集，（2）分析数据集2—4（来自背景部分中概述的5个子数据集），（3）使用ICA将HD-sEMG信号分解为MU尖峰序列。我们工具箱中的所有分析都是通过 MATLAB 实现的。请注意，要完全实现我们的工具箱，用户仍然需要 MATLAB 许可证。</p>
 <h1 id="4-数据描述"><a href="#4-数据描述" class="headerlink" title="4.数据描述"></a>4.数据描述</h1><p>五个数据集对应的数据存储在五个文件夹中，分别是”pr_dataset”（37.1GB）, “mvc_dataset”（7.8GB）,”1dof_dataset”（29.3GB）, “ndof_dataset”（58.6GB）, “random_dataset”（9.8GB）。对于 PR 数据集，真实手势标签存储在“.txt”文件中，具有逗号分隔值格式。所有其他信号段（HD-sEMG信号和地面实况力轨迹）都以波形数据库（WFDB）格式存储，其中一个“.dat”文件存储所有16位有符号类型量化值，一个“.hea”文件（除文件扩展名外，文件名与“.dat”文件相同）存储比例因子。</p>
@@ -251,7 +251,10 @@
     <a href="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/" rel="prev" title="Multichannel Blind Source Separation Using Convolution Kernel Compensation">
       <i class="fa fa-chevron-left"></i> Multichannel Blind Source Separation Using Convolution Kernel Compensation
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/" rel="next" title="Surface electromyography  physiology, engineering and applications">
+      Surface electromyography  physiology, engineering and applications <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -326,14 +329,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -371,7 +374,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

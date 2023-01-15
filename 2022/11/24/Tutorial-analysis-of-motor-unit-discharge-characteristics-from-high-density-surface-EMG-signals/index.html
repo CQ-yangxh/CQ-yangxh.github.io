@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png">
 <meta property="article:published_time" content="2022-11-24T13:28:55.000Z">
-<meta property="article:modified_time" content="2022-12-15T09:58:58.628Z">
+<meta property="article:modified_time" content="2023-01-07T10:29:41.995Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-15 17:58:58" itemprop="dateModified" datetime="2022-12-15T17:58:58+08:00">2022-12-15</time>
+                <time title="Modified: 2023-01-07 18:29:41" itemprop="dateModified" datetime="2023-01-07T18:29:41+08:00">2023-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,11 +234,9 @@
       
         <p>包括对全局EMG信号特征的提取与生理学研究中运动单元活动的识别之间的差异的讨论，以及如何获取、检查和分解HDEMG信号的全面指南，以及运动单元放电特征的稳健提取。</p>
 <span id="more"></span>
-<hr>
 <h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul>
 <li>了解运动单元分解的详细流程，如何得到放电时间，希望通过本文章对MUAP和MUST有一个更清晰的认识</li>
 </ul>
-<hr>
 <h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>HD-EMG分解是一个半自动过程，这是因为需要对分解的结果进行全面的检查。</p>
 <h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p>运动单元是一个转换器，把突触对神经的输入转换为力，包含<mark>一组</mark>肌肉纤维和<mark>一个</mark>α运动神经元。神经信息由运动单元通过<mark>轴突动作电位</mark>（即为对肌肉的<font color="red">神经驱动</font>，可以近似表示为MUST）传递，轴突动作电位在受神经支配的<mark>肌肉纤维</mark>中引发动作电位（即为<font color="red">运动单元动作电位MUAP</font>），运动单位动作电位的<mark>总和和时间过程</mark>决定了在运动任务期间用放置在皮肤上的电极记录的表面肌电图（EMG）的特征：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125103049582.png" class="" title="image-20221125103049582">
@@ -265,12 +263,21 @@
 </ol>
 <p><mark>BSS程序通常通过迭代优化运动单元分离滤波器并将其应用于EMG信号，一次估计一个运动单元尖峰序列（放电时间）。</mark>完整的流程如下：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212204308.png" class="" title="image-20221127212204308">
-<p>从上图的标识可以看到，<font color="red">识别出的尖峰序列（spike trains）是存在高低差的，代表的是矩阵电极中各个MUAP的权重</font>，这需要目视检查去掉一些低于阈值的尖峰来调整盲源分离器（调整后应该就从图b变成图B了），目视检查的流程如下图所示：</p>
+<p>从上图的标识可以看到，<font color="red">识别出的尖峰序列（spike trains）是存在高低差的</font>，这需要目视检查去掉一些低于阈值的尖峰来调整盲源分离器（调整后应该就从图b变成图B了），目视检查的流程如下图所示：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212445774.png" class="" title="image-20221127212445774">
 <p>注意看左边图之间的对比，B是在A的基础上设置了一个阈值，去掉了低于阈值的尖峰；重构滤波器，再次应用到HD-sEMG信号中，得到了图C；图C中发现漏掉了两个尖峰，于是再手动加上这两个尖峰。这样人工优化分离器可以得到一个稳定的结果<font color="red">（目前还不知道如何根据放电频率来设置阈值）</font>。<mark>请注意，此部分手动选择仅用于分离器的计算，而不用于分解的输出</mark>。在排除信号质量较差的尖峰序列间隔后，应重新计算电机单元滤波器并将其应用于整个EMG信号，以便重新估计（客观地，无需任何人工干预）整个电机单元尖峰序列。</p>
-<h2 id="2-5-Decomposition-accuracy"><a href="#2-5-Decomposition-accuracy" class="headerlink" title="2.5 Decomposition accuracy"></a>2.5 Decomposition accuracy</h2><p>详细的 iEMG和sEMG分解准确率对比可以参考文献《Decoding the neural drive to muscles from the surface electromyogram》。</p>
+<h2 id="2-5-Decomposition-accuracy"><a href="#2-5-Decomposition-accuracy" class="headerlink" title="2.5 Decomposition accuracy"></a>2.5 Decomposition accuracy</h2><p>评价指标：</p>
+<ul>
+<li>直接法：双源法（详细的 iEMG和sEMG分解准确率对比可以参考文献《Decoding the neural drive to muscles from the surface electromyogram》）</li>
+<li>间接法：<ul>
+<li>PNR</li>
+<li>silhoutette distance</li>
+<li>sta后MUAP的比较</li>
+</ul>
+</li>
+</ul>
+<p>所有这些测量都是渐近的，并随着尖峰序列中识别的尖峰的数量增加其精度。因此，它们不应用于评估少于30个尖峰的尖峰序列的准确性（Holobar等人，2014）或评估尖峰序列中每个单个尖峰的准确性。</p>
 <p>由于运动单元动作电位形状在等长收缩期间可能发生变化，因此在尖峰触发平均值中应使用相对较少的运动单元放电时间。我们根据经验观察到，3–5秒（约30–100个峰值）足以在持续和快速等长收缩期间稳健地提取运动动作电位波形。</p>
-<p>评价指标：PNR</p>
 <h2 id="2-6-Motor-unit-properties"><a href="#2-6-Motor-unit-properties" class="headerlink" title="2.6 Motor unit properties"></a>2.6 Motor unit properties</h2><p>根据所识别的运动单元的放电时间，可以识别参与的运动单元的特性。一个关键特性是募集阈值，其对应于第一个运动单元动作电位发生时的力。由运动神经元（肌肉单位）支配的肌肉纤维产生的力以延迟发生，该延迟取决于轴突传导速度和肌肉纤维的性质（主动和被动）。为了获得募集和解除募集阈值的可靠估计，受试者必须练习进行缓慢的线性斜坡收缩。</p>
 <p>用于估计募集阈值和测量运动单元放电特性的一种常用方法是梯形力轨迹，控制力的增加和减少率（5–20%MVC/s）至中等平台力（最大力的35–70%）。鉴于目前HD-EMG分解在跨募集阈值均匀采样运动单位方面的局限性，最佳方法是根据测试肌肉和收缩类型使用一系列目标力（最大力的30至70–90%）。</p>
 <p>可以从运动单元放电时间中提取的另一个信息是根据募集和解除募集时的放电率估计运动神经元持续内向电流<mark>（persistent inward currents）</mark>的强度。从运动单元动作电位波形的形状，还可以提取其他生理信息。该信息包括电机单元波形的分析，如振幅和传导速度（参见第1-2段和图2）。通过对运动单元放电时间和动作电位波形的分析，可以同时分析神经和外周特性。例如，不同肌肉的运动单元募集阈值和运动单位传导速度之间的强关联。</p>
@@ -280,14 +287,12 @@
 <p>运动单元募集速度表示连续运动单元之间第一次放电时间的间隔（<font color="red">这个不是很懂，相当于是第一个放电时间竖线之间的间隔？但按照募集的顺序，有的后募集但是在图上体现出放电时间早于先募集的是怎么回事？</font>）</p>
 <h2 id="2-7-Conclusions"><a href="#2-7-Conclusions" class="headerlink" title="2.7 Conclusions"></a>2.7 Conclusions</h2><p>不同肌肉能够识别到的运动单元的数量：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200939603.png" class="" title="image-20221129200939603"> <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200953927.png" class="" title="image-20221129200953927">
-<hr>
 <h1 id="3-文章得到了哪些结论"><a href="#3-文章得到了哪些结论" class="headerlink" title="3. 文章得到了哪些结论"></a>3. 文章得到了哪些结论</h1><ul>
 <li>动作电位振幅和传导速度，其与肌肉纤维的直径成比例</li>
 <li>运动单元动作电位的幅度还取决于受神经支配的肌肉纤维的数量，这与运动单元募集阈值相关</li>
 <li>分解的输出结果受肌肉、被试的容积导体性质、以及收缩强度限制。这些限制主要是因为记录电极与肌肉单元之间的距离和肌纤维动作电位的重叠。通常，<mark>随着收缩力的增加，通过分解能够识别的运动单元的数量会减少（<font color="red">只是能够识别的减少了，实际上募集的MU更多了。</font>）</mark>。比如，以胫骨前肌来说，这是一种可靠的分解肌肉（Del Vecchio和Farina，2019；Negro等人，2016a），<font color="red">我们观察到当目标力从最大力的35%增加到70%时，可以识别的运动单元数量减少了30%</font>。同样，对于皮下层较厚的受试者，识别的运动单元数量也有减少的趋势。这些趋势是由于当容积导体减少信号带宽时，不同运动单元的动作电位波形中的辨别信息减少</li>
 <li><mark>spike trains</mark>和<mark>discharge times</mark>还是有区别的，spike trains包含了放电的时间，但同时其幅值还代表了权重，但这个权重应该是没有意义的。discharge times对应的是raster</li>
 </ul>
-<hr>
 <h1 id="4-文章有哪些疑问"><a href="#4-文章有哪些疑问" class="headerlink" title="4. 文章有哪些疑问"></a>4. 文章有哪些疑问</h1><ul>
 <li><p>互相关图？CST是用来干嘛的，25ms的汉宁窗干嘛的？搞清楚下面几张图：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png" class="" title="image-20221129195300583"> <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png" class="" title="image-20221129195313224.png">
@@ -394,14 +399,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -439,7 +444,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

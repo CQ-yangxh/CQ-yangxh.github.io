@@ -28,7 +28,7 @@
 <meta property="og:description" content="CKC算法分解的一篇中文文献，以帮助更好地理解MUAP和MUST，了解CKC算法的具体作用，输入输出，文献中有对CKC算法的概述。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-05T11:54:19.000Z">
-<meta property="article:modified_time" content="2022-12-05T14:00:05.000Z">
+<meta property="article:modified_time" content="2023-01-15T03:45:49.394Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 
@@ -182,10 +182,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-12-05 19:54:19 / Modified: 22:00:05" itemprop="dateCreated datePublished" datetime="2022-12-05T19:54:19+08:00">2022-12-05</time>
+              <time title="Created: 2022-12-05 19:54:19" itemprop="dateCreated datePublished" datetime="2022-12-05T19:54:19+08:00">2022-12-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-01-15 11:45:49" itemprop="dateModified" datetime="2023-01-15T11:45:49+08:00">2023-01-15</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -207,18 +213,60 @@
       
         <p>CKC算法分解的一篇中文文献，以帮助更好地理解MUAP和MUST，了解CKC算法的具体作用，输入输出，文献中有对CKC算法的概述。</p>
 <span id="more"></span>
-<h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2.笔记"></a>2.笔记</h1><h2 id="2-1-Intro"><a href="#2-1-Intro" class="headerlink" title="2.1 Intro"></a>2.1 Intro</h2><p>由于<font color="red">容积导体</font>和<font color="red">幅值抵消</font>现象的存在，表面肌电信号并不能完全地反应神经驱动信息。从表面肌电信号中提取出的时域和频域特征也只能从一定程度上反应神经元放电活动。为了克服表面肌电的固有缺陷，肌电分解（electromyography decomposition）技术逐渐发展起来。基于肌电分解技术可以识别出运动单元的动作电位脉冲串，提取MUAP波形，从而对神经电生理活动进行分析。</p>
-<p>基于<mark>盲源分离（blind source separation）</mark>或<mark>模板匹配（template matching）</mark>框架，各种解码算法被相继提出，并且在多肌肉不同收缩状态下得到了验证</p>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>运动神经元负责将脊髓和大脑发出的信息传到肌肉，其放电信息表征着中枢神经系统传输到肌肉的<mark>驱动信息</mark>。运动神经元的动作电位会传输到所支配的肌纤维，引起肌纤维收缩并产生力。运动单元动作电位（motor unit action potential，MUAP）是一个运动单元中所有肌纤维动作电位的叠加。</p>
+<p>由于<font color="red">容积导体</font>和<font color="red">幅值抵消</font>现象的存在，表面肌电信号并不能完全地反应神经驱动信息。从表面肌电信号中提取出的时域和频域特征也只能从一定程度上反应神经元放电活动。为了克服表面肌电的固有缺陷，肌电分解（electromyography decomposition）技术逐渐发展起来。基于肌电分解技术可以识别出运动单元的动作电位脉冲串，提取MUAP波形，从而对神经电生理活动进行分析。</p>
+<p>基于<mark>盲源分离（blind source separation）</mark>或<mark>模板匹配（template matching）</mark>框架，各种解码算法被相继提出，并且在多肌肉不同收缩状态下得到了验证。</p>
 <p>多通道的肌电信号的生成模型是一个多输入多输出的模型，可以看做是一系列神经元放电脉冲串及其动作电位波形的卷积混合： </p>
 <script type="math/tex; mode=display">
-x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2 id="2-2-Method"><a href="#2-2-Method" class="headerlink" title="2.2 Method"></a>2.2 Method</h2><p><strong>重点：</strong></p>
+x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2 id="1-2-实验设置"><a href="#1-2-实验设置" class="headerlink" title="1.2 实验设置"></a>1.2 实验设置</h2><p><strong>实验人数：</strong>12人</p>
+<p><strong>MVC获取：</strong>缓慢增加收缩力至最大值并保持5s，这一过程重复3次，最终计算保持阶段收缩力的平均值作为MVC</p>
+<p><strong>力曲线设置：</strong></p>
+<ul>
+<li>任务1：梯形曲线长度为30 s，包含10 s的上升阶段、10 s的平稳阶段和10 s的下降阶段</li>
+<li>任务2：梯形曲线长度为14 s，包含2 s的上升阶段、10 s的平稳阶段和2 s的下降阶段</li>
+</ul>
+<p><strong>力水平设置：</strong></p>
+<ul>
+<li>10%MVC  </li>
+<li>30%MVC  </li>
+<li>50%MVC  </li>
+<li>70%MVC  </li>
+</ul>
+<p>（每个研究对象需要完成8次伸膝动作（2种曲线 × 4种等级），每次动作之间休息 1~2 min以防止肌肉疲劳）</p>
+<p><strong>通道数：</strong>64*2（OT Bioelettronica，Italy ），每一行电极沿肌肉纤维方向</p>
+<p><strong>备皮工作：</strong>用75%的医用酒精棉擦拭皮肤干净，待酒精挥发后利用双面胶海绵垫将电极贴附在相应肌肉的肌腹位置。实验所用的电极为湿电极，使用前需先涂抹导电膏。</p>
+<h2 id="1-3-数据处理"><a href="#1-3-数据处理" class="headerlink" title="1.3 数据处理"></a>1.3 数据处理</h2><h3 id="1-3-1-预处理"><a href="#1-3-1-预处理" class="headerlink" title="1.3.1 预处理"></a>1.3.1 预处理</h3><p><strong>EMG预处理：</strong></p>
 <ol>
-<li><p>CKC算法解码HD-sEMG得到MUST；</p>
+<li><p>采用4阶巴特沃斯滤波器对肌电信号进行20 ~500 Hz的带通滤波；</p>
 </li>
-<li><p>STA方法提取每个运动单元在每个通道的放电波形MUAP；</p>
+<li><p>采用梳状滤波器进行50 Hz阻断滤波以消除工频干扰；</p>
 </li>
+<li><p>人工判断信号异常的通道并将其去除。</p>
+</li>
+</ol>
+<p><strong>力信号预处理：</strong>首先升采样至2 048 Hz，然后采用4阶巴特沃斯滤波器进行10 Hz的低通滤波</p>
+<h3 id="1-3-2-EMG分解"><a href="#1-3-2-EMG分解" class="headerlink" title="1.3.2 EMG分解"></a>1.3.2 EMG分解</h3><p><mark>股内侧肌和股外侧肌分别解码。</mark></p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>CKC算法解码HD-sEMG得到MUST；</li>
+<li>STA方法提取每个运动单元在每个通道的放电波形MUAP；</li>
 <li>每个MU的MUST和MUAP卷积，所有MU的卷积结果求和得到EMG；</li>
 </ol>
+<p><strong>特征提取：</strong></p>
+<ul>
+<li>累积脉冲串（cumulative spike train，CST）特征：对每次动作的肌电信号进行解码得到 MUST，然后将这些 MUST 合并形成 CST， 然后采用400 ms 的汉宁窗对 CST 进行平滑滤波，得到 CST 特征。</li>
+<li>主成分分析（principal component analysis，PCA）特征：同样基于 400 ms 的汉宁窗，对每次动作解码得到的所有 MUST 分别进行平滑滤波，然后进行 PCA，提取第一主成分 （first principal component）作为PCA特征。</li>
+<li>均方根值（root mean square，RMS）特征：采用滑动窗的方式对每一通道的肌电信号计算RMS，然后对所用通道的 RMS 进行平均形成 RMS 特征。滑动窗为矩形窗，窗长400 ms，每次滑动1个采样点。</li>
+</ul>
+<h3 id="1-3-3-运动单元追踪"><a href="#1-3-3-运动单元追踪" class="headerlink" title="1.3.3 运动单元追踪"></a>1.3.3 运动单元追踪</h3><p>MUAP波形匹配来追踪不同动作之间的运动单元。</p>
+<h3 id="1-3-4-相关性分析"><a href="#1-3-4-相关性分析" class="headerlink" title="1.3.4 相关性分析"></a>1.3.4 相关性分析</h3><ol>
+<li>对每一通道的肌电信号进行2 Hz的低通滤波（4阶巴特沃斯滤波器）；</li>
+<li>对所有通道的低通滤波信号做平均；</li>
+<li>基于互相关分析（标准化法）计算肌电信号和力之间的时移，并将肌电信号或力信号平移到相关性最大的时刻 （<mark>对齐</mark>）。</li>
+</ol>
+<h1 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h1><p>一般情况下肌肉中运动单元的募集遵循“大小原则”，即肌纤维数量少、收缩力较小的运动单元先被募集，纤维数量多、收缩力较大的运动单元后被募集。运动单元在被募集的初始阶段，其放电频率较低，后来会随着激活程度的增加（肌肉收缩力的增加）而提高，直至达到最大值，此时放电频率保持稳定，不会再随着激活程度的增加而提高。一般来说，高阈值的运动单元其稳定放电频率要<mark>低于</mark>低阈值的运动单元。</p>
+<p>在等长收缩（isometric contraction）中，快速发力会降低运动单元的募集阈值，并且伴随放电频率的增加，因此在快速收缩过程中，更多高阈值运动单元被募集。</p>
+<p>从理论上讲，相对于RMS特征，从运动单元放电活动中提取的CST和PCA特征与收缩力之间的相关性应该更高，以往的研究也证明了这一点。但值得注意的是，CST 和 PCA 特征对收缩力的估计效果与运动单元的解码数量非常敏感。由于现有算法的局限性，无法解码出足够多运动单元。如图4a 所示，在收缩力较低时无运动单元放电脉冲被解码到，所以此时CST特征和PCA特征均为零。在运动单元数量足够高的情况下，CST 和 PCA 特征  与收缩力之间的相关性更高。根据研究结果，建议运动单元的解码数量应该在<mark>5</mark>以上。本项研究中虽然CST和PCA特征与力之间的相关性略低于RMS特征，但平均相关系数仍然在 0.8 以上。</p>
 
     </div>
 
@@ -299,7 +347,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%AC%94%E8%AE%B0"><span class="nav-text">2.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Intro"><span class="nav-text">2.1 Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Method"><span class="nav-text">2.2 Method</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%BC%95%E8%A8%80"><span class="nav-text">1.1 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-text">1.2 实验设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-text">1.3 数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-text">1.3.1 预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-EMG%E5%88%86%E8%A7%A3"><span class="nav-text">1.3.2 EMG分解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E8%BF%BD%E8%B8%AA"><span class="nav-text">1.3.3 运动单元追踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4-%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-text">1.3.4 相关性分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%BB%93%E8%AE%BA"><span class="nav-text">2.结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -315,14 +363,14 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -360,7 +408,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

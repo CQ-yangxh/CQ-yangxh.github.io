@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129214033653.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129214555084.png">
 <meta property="article:published_time" content="2022-11-19T16:06:28.000Z">
-<meta property="article:modified_time" content="2022-12-07T08:08:03.000Z">
+<meta property="article:modified_time" content="2023-01-14T08:38:58.613Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-07 16:08:03" itemprop="dateModified" datetime="2022-12-07T16:08:03+08:00">2022-12-07</time>
+                <time title="Modified: 2023-01-14 16:38:58" itemprop="dateModified" datetime="2023-01-14T16:38:58+08:00">2023-01-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,17 +270,26 @@
 <p>❓<font color="red">搞清楚B是怎么的来的</font></p>
 <h1 id="3-文章得到了哪些结论"><a href="#3-文章得到了哪些结论" class="headerlink" title="3. 文章得到了哪些结论"></a>3. 文章得到了哪些结论</h1><ul>
 <li>尽管在某些情况下，可以从相对较少的运动单位推断神经激活的变化（主要是低频成分），但运动神经元特性的更细微调整不能从整体信号中推断出来。例如，在间歇性疲劳收缩期间，低阈值运动单位的恢复阈值和放电率的变化有很大差异。这些变化不能仅从有限数量的单位推断出来，需要更大的样本。此外，运动神经元放电低频分量的相关性强度可能会在肌肉间变化。目前，还没有经过验证的方法可以在自愿收缩过程中识别体内大部分活动运动单位。</li>
+<li>从运动单元的放电时间，可以提取到运动神经元池的共同突触输入的特征。</li>
 </ul>
 <h1 id="4-文章有哪些疑问"><a href="#4-文章有哪些疑问" class="headerlink" title="4. 文章有哪些疑问"></a>4. 文章有哪些疑问</h1><ul>
 <li><p>the interference signal表示什么？根据上下文感觉是sEMG的意思，但是翻译应该是干扰信号的意思</p>
+<ul>
+<li>解答：interference EMG signal</li>
+</ul>
 </li>
 <li><p>Fig. 2. amplitude cancellation的计算方法。参考文献 <em>Influence of amplitude cancellation on the simulated surface electromyogram</em></p>
 <img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129214555084.png" class="" title="image-20221129214555084">
 </li>
 <li><p>Fig. 3. 中(c)表示的是什么，文中说的是动作电位的幅值，但是所有的动作电位的幅值不应该一样吗？</p>
+<ul>
+<li>解答：所谓的动作电位幅值一样指的是神经元的去极化动作电位一样，通过频率来反映兴奋强弱。而运动单元动作电位的形状是有可能有区别的，MUAP是由SFAP叠加而来的，因此可能出现双相，三相，多相的MUAP。而MUAP经过容积导体的传导，在各个电极处体现的表面MUAP不一样。</li>
+</ul>
 </li>
-<li>Fig. 4.中的(c)表示什么，说的是5 * 13的电极阵列，但MU只有12行，并且左上角还缺了一个。MU的动作电位是怎么得到的？<font color="red">as averaged over all the discharge times of each unit.</font></li>
-<li>Fig. 7. (B)的原理</li>
+<li><p>Fig. 4.中的(c)表示什么，说的是5 * 13的电极阵列，但MU只有12行，并且左上角还缺了一个。MU的动作电位是怎么得到的？<font color="red">as averaged over all the discharge times of each unit.</font></p>
+</li>
+<li><p>Fig. 7. (B)的原理</p>
+</li>
 </ul>
 
     </div>
@@ -381,14 +390,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -426,7 +435,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

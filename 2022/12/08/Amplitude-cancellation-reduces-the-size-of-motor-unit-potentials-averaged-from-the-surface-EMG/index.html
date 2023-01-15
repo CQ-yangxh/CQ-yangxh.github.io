@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过excitation level, motor unit conduction velocity, motor unit synchronization这三个参数来控制amplitude cancellation。文章还比较了从干扰、没有幅值抵消、以及整流的EMG信号中通过STA方法">
+  <meta name="description" content="文章介绍了三个生理学参数对幅值抵消的影响，并从STA得到的MUAP分析了幅值抵消带给结果的影响。幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过excitation level, motor unit conduction velocity, motor unit synchronization这三个参数来控制amplitude">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Amplitude cancellation reduces the size of motor unit potentials averaged from the surface EMG">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过excitation level, motor unit conduction velocity, motor unit synchronization这三个参数来控制amplitude cancellation。文章还比较了从干扰、没有幅值抵消、以及整流的EMG信号中通过STA方法">
+<meta property="og:description" content="文章介绍了三个生理学参数对幅值抵消的影响，并从STA得到的MUAP分析了幅值抵消带给结果的影响。幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过excitation level, motor unit conduction velocity, motor unit synchronization这三个参数来控制amplitude">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/image-20221209170408831.png">
 <meta property="article:published_time" content="2022-12-08T02:16:36.000Z">
-<meta property="article:modified_time" content="2022-12-15T15:45:56.439Z">
+<meta property="article:modified_time" content="2023-01-13T15:05:24.200Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Cancellation">
 <meta name="twitter:card" content="summary">
@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-15 23:45:56" itemprop="dateModified" datetime="2022-12-15T23:45:56+08:00">2022-12-15</time>
+                <time title="Modified: 2023-01-13 23:05:24" itemprop="dateModified" datetime="2023-01-13T23:05:24+08:00">2023-01-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,7 +223,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过<font color="red">excitation level, motor unit conduction velocity, motor unit synchronization</font>这三个参数来控制amplitude cancellation。文章还比较了从<font color="red">干扰、没有幅值抵消、以及整流的EMG信号中通过STA方法得到的运动单位电位</font>与<font color="red">从表面检测到的运动单位动作电位</font>。结果表明，生理学上的属性改变（对应着cancellation的强弱）一定程度上违背了STA的基本假设，同时也影响了输出电位的幅值。</p>
+        <p>文章介绍了三个生理学参数对幅值抵消的影响，并从STA得到的MUAP分析了幅值抵消带给结果的影响。幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过<font color="red">excitation level, motor unit conduction velocity, motor unit synchronization</font>这三个参数来控制amplitude cancellation。文章还比较了从<font color="red">干扰、没有幅值抵消、以及整流的EMG信号中通过STA方法得到的运动单位电位</font>与<font color="red">从表面检测到的运动单位动作电位</font>。结果表明，生理学上的属性改变（对应着cancellation的强弱）一定程度上违背了STA的基本假设，同时也影响了输出电位的幅值。</p>
 <span id="more"></span>
 <h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><p><strong>STA算法依赖于许多假设：</strong></p>
 <ol>
@@ -233,17 +233,30 @@
 <li>足够多的触发事件以提取响应</li>
 </ol>
 <p>（当将该技术应用于表面肌电的平均值时，可能会违反某些假设。）</p>
-<p><strong>基于运动单元群的计算机模拟：</strong></p>
+<p><strong>基于运动单元群的计算机仿真：</strong></p>
 <ol>
-<li>确定120个运动神经元群体对不同刺激水平的反应的招募和释放时间</li>
+<li>确定120个运动神经元群体对不同刺激水平的反应的募集和释放时间</li>
 <li>根据每个运动单元的模拟肌肉纤维动作电位的数量、位置和传导速度生成运动单元电位</li>
 <li>通过对运动单位动作电位序列求和来模拟表面肌电</li>
-<li>在参考运动单元的每个动作电位之前和之后50ms计算尖峰触发平均值</li>
+<li>在参考运动单元的每个动作电位之前和之后<mark>50ms</mark>计算尖峰触发平均值</li>
 </ol>
+<p>MU 的募集初始频率为8 pps，也就是说兴奋一旦超过阈值，就开始以8 pps的频率放电。</p>
+<p>兴奋对应于运动神经元池的突触输入水平，是通过输入电流来代表兴奋。</p>
 <p><strong>几种条件下MU分解的对比图：</strong></p>
 <img src="/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/image-20221209170408831.png" class="" title="image-20221209170408831">
+<p><strong>STA的处理过程：</strong></p>
+<ol>
+<li>以正峰值为中心前后共取100ms</li>
+<li>每个sta的前40ms用来计算基线噪声</li>
+<li>正峰值前10ms和负峰值后10ms之间的面积用来代表sta的绝对值</li>
+</ol>
+<p><strong>Cancellation的计算方法：</strong></p>
+<p>计算interference EMG中丢失的那部分信号</p>
 <h1 id="2-文章中包含的结论"><a href="#2-文章中包含的结论" class="headerlink" title="2.文章中包含的结论"></a>2.文章中包含的结论</h1><blockquote>
 <ul>
+<li>MU的数目和运动单元力之间是指数关系</li>
+<li>仿真MU的募集阈值分布服从指数函数，低阈值的MU多，高阈值的MU少</li>
+<li>募集阈值高的MU峰值放电频率相较于阈值低的MU更小</li>
 <li>峰值放电率随着募集阈值的增加而线性下降</li>
 <li>容积导体是一种各向异性且不均匀的介质</li>
 <li><strong>幅值抵消的计算：</strong>通过比较MUAP整流之前和整流之后的sEMG的幅值来量化</li>
@@ -350,14 +363,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -395,7 +408,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
