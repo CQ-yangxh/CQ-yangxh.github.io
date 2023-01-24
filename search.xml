@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Gradient Convolution Kernel Compensation Applied to Surface Electromyograms</title>
+      <link href="/2023/01/19/Gradient-Convolution-Kernel-Compensation-Applied-to-Surface-Electromyograms/"/>
+      <url>/2023/01/19/Gradient-Convolution-Kernel-Compensation-Applied-to-Surface-Electromyograms/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Deep transfer learning compared to subject-specific models for sEMG decoders</title>
+      <link href="/2023/01/15/Deep-transfer-learning-compared-to-subject-specific-models-for-sEMG-decoders/"/>
+      <url>/2023/01/15/Deep-transfer-learning-compared-to-subject-specific-models-for-sEMG-decoders/</url>
+      
+        <content type="html"><![CDATA[<p>EMG具有很高的受试者间变异性。这篇文章的目标是研究当只有有限数量的训练数据可用时，为新用户校准深度学习模型的方法。这是特定受试者建模和迁移学习的首次比较。文章比较了不同条件下的特定受试者模型、预训练再微调模型。本文的目标是深入了解在何种情况下基于迁移学习的sEMG分类器用户校准表现良好的问题。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1研究目标"><a href="#1-1研究目标" class="headerlink" title="1.1研究目标"></a>1.1研究目标</h2><p>文献使用了两种方法：</p><ol><li>特定受试者模型</li><li>迁移学习</li></ol><p>这篇文章研究了权重初始化对两个不同的预训练深度学习模型在新的受试者数据上进行重新校准的迁移学习的有效性，并将其性能与受试者特定模型进行了比较。一般来说，基于机器学习的sEMG解码器因此必须针对每个新对象进行校准。大多数现有的sEMG解码器研究都是基于单个受试者对数据进行训练和评估，这在本文中称为<code>特定受试者建模型</code>。迄今为止，研究文献中特定受试者模型仅与特定受试者模型进行了比较，迁移学习模型仅与迁移学习模型进行了对比。然而，有必要了解两种建模方法在数据需求、训练时间和准确性方面的相互比较。</p><p><strong>受试者间变异性：</strong>电极放置、疲劳、热量、皮肤脂肪比和性别等其他因素也会影响sEMG测量的受试者间和受试者内方差。</p><p>最近，一些工作使用<code>few shot learning</code>、<code>具有递归神经网络的自适应层</code>和<code>卷积神经网络（CNN）上的自适应批处理归一化</code>来解决人际差异的问题。</p><h2 id="1-2研究方法"><a href="#1-2研究方法" class="headerlink" title="1.2研究方法"></a>1.2研究方法</h2><p>通常，迁移学习表示一种机器学习应用，能够将在一种情况下学习的知识转移到不同但<mark>相关的情况</mark>上。所述的<mark>相关的情况</mark>可能是稍微不同的输出任务、输入表示、输入和输出之间的映射或数据生成过程。在我们的案例中，我们希望使用迁移学习来对来自一个新的、看不见的受试的数据进行分类。任务和输入保持不变，但由于sEMG信号的人际变异性，预计每个受试者之间的输入特征和输入-输出的映射的不同。</p><h1 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h1><ul><li>在所有设置中，本文的迁移学习方法在没有微调的预训练模型上平均提高了5%，在特定受试者模型上提高了12%，同时平均减少了22%的训练时间。我们的结果表明，与特定受试者模型相比，迁移学习能够在更少的训练样本上实现更快的学习。</li></ul><blockquote><p>在之前发表的研究中，<mark>深度神经网络</mark>显示了sEMG信号的有希望的分类精度，并优于传统的统计和机器学习模型，尤其是在人工特征工程更少的复杂分类任务中。</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Transfer Learning </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Central nervous system modulates the neuromechanical delay in a broad range for the control of muscle force</title>
+      <link href="/2023/01/14/Central-nervous-system-modulates-the-neuromechanical-delay-in-a-broad-range-for-the-control-of-muscle-force/"/>
+      <url>/2023/01/14/Central-nervous-system-modulates-the-neuromechanical-delay-in-a-broad-range-for-the-control-of-muscle-force/</url>
+      
+        <content type="html"><![CDATA[<p>这篇文章提出了一种精确测量神经驱动到肌肉力之间延迟的方法，把这种延迟成为neuromechanical delay (NMD)  。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1研究目标"><a href="#1-1研究目标" class="headerlink" title="1.1研究目标"></a>1.1研究目标</h2><p>由于运动神经元的动态敏感性以及肌纤维去极化后拉伸肌腱单元的系列弹性组件（SEC）所需的时间，神经编码向力的转换具有延迟。神经机械延迟（NMD）定义为在可变力的自愿收缩过程中，神经对肌肉的驱动和力量之间的延迟。<mark>为了计算神经驱动和力之间的延迟，将带通滤波器（带宽：2Hz）应用于CST和力信号（四阶零相位巴特沃斯滤波器）。滤波后，将CST和力信号分为一个周期时间帧，并计算每个时间帧的CST和作用力之间的互相关，然后在所有时间帧上取平均值。互相关函数峰值的时滞提供了NMD的估计。</mark></p><p>NMD和EMD之间的区别：</p><ul><li>NMD是在具有任何<mark>力变化率</mark>的任务期间神经驱动和力之间的延迟。</li><li>EMD估计值由<mark>表面EMG</mark>信号开始与力开始之间的时间差获得。</li></ul><h2 id="1-2实验设置"><a href="#1-2实验设置" class="headerlink" title="1.2实验设置"></a>1.2实验设置</h2><p><strong>人数：</strong><code>8男</code></p><p><strong>Two sessions：</strong><code>2 seperated day</code></p><p><strong>MVC：</strong><code>3 contraction</code></p><p><strong>Trials：</strong><code>3 frequencies</code> and <code>3 amplitude</code>，9 trials in all combination, 3 mins left for recovery between two trials</p><p><strong>EMG设备：</strong><code>OT Bioelettronica, Torino</code></p><h2 id="1-3数据处理"><a href="#1-3数据处理" class="headerlink" title="1.3数据处理"></a>1.3数据处理</h2><p><strong>HD-EMG带通滤波：</strong><code>20-500Hz，2阶巴特沃斯滤波器</code></p><p><strong>MU剔除：</strong><code>＜30 dB的MU</code>or<code>存在间隔＞2s的MU</code></p><p><strong>ANOVA：</strong><code>评估计算的NMD和力精度</code></p><p><strong>回归：</strong><code>线性和非线性模型用于对NMD和DR关于力倒数的回归</code></p><p><strong>NMD的计算方法：</strong><code>CST和力信号之间的互相关系数，相关度最大处的时间代表延迟</code></p><img src="/2023/01/14/Central-nervous-system-modulates-the-neuromechanical-delay-in-a-broad-range-for-the-control-of-muscle-force/image-20230115160944311.png" class="" title="image-20230115160944311"><p><strong>A and a：</strong>MUST和force</p><p><strong>B and b：</strong>力信号和以及对A和a中的运动单元放电序列进行低通滤波（2Hz），以产生运动单元的平滑放电率。（<font color='red'>为什么对MUST进行低通滤波就得到smoothed discharge rate？</font>）</p><p><strong>C and c：</strong>将单个运动单元放电序列求和以生成累积尖峰序列（CST）（<font color='red'>求和的时候有些时刻会有多个MU同时放电，这个时候的求和是代数求和还是只用1表示这个时刻存在放电就行</font>）。求和后，用2Hz低通滤波器对CST进行滤波。</p><h1 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h1><ul><li><p>频率或振幅的增加导致了NMD的降低，最短的NMD对应于最高的目标频率和峰峰值：</p><img src="/2023/01/14/Central-nervous-system-modulates-the-neuromechanical-delay-in-a-broad-range-for-the-control-of-muscle-force/image-20230115161943801.png" class="" title="image-20230115161943801"></li><li><p>神经对肌肉的驱动（MUST）到力的产生之间的延迟大约在200ms左右，由中枢神经系统根据收缩速度进行调节。NMD本质上与运动单元抽动特性相关，因此可以根据尺寸原理进行调节。</p></li><li><p>NMD取决于运动神经元的动态敏感性（1）和肌肉腱系统的固有特性，因此中枢神经系统只能通过改变肌肉单位的激活来调节NMD。</p></li><li><p>放电率和力的导数之间的关系：（运动单元池的所有放电脉冲总和，除以运动单元数再除以时间）</p><img src="/2023/01/14/Central-nervous-system-modulates-the-neuromechanical-delay-in-a-broad-range-for-the-control-of-muscle-force/image-20230115164156913.png" class="" title="image-20230115164156913"></li><li><p>手部肌肉和腿部肌肉的NMD差异很大</p></li></ul><blockquote><ul><li>运动单元的募集阈值取决于力的改变速度，NMD越短，收缩越快</li><li>运动神经元的募集取决于它们接受的净兴奋性输入</li></ul></blockquote><h1 id="3-问题"><a href="#3-问题" class="headerlink" title="3.问题"></a>3.问题</h1><ol><li>如何通过低通滤波得到smoothed discharge rate</li><li>CST的求和过程中重叠的脉冲该怎么处理</li><li>如何对CST进行滤波得到对力的近似估计</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Neural Drive </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Open Access Dataset Toolbox and Benchmark Processing Results of High-Density Surface Electromyogram Recordings</title>
+      <link href="/2023/01/09/Open-Access-Dataset-Toolbox-and-Benchmark-Processing-Results-of-High-Density-Surface-Electromyogram-Recordings/"/>
+      <url>/2023/01/09/Open-Access-Dataset-Toolbox-and-Benchmark-Processing-Results-of-High-Density-Surface-Electromyogram-Recordings/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p>放电频率的计算</p><p>计算每个相邻19.5ms窗口（40个采样点）中每个MU的尖峰序列的发放频率。然后用8阶10Hz低通巴特沃斯滤波器对该激发频率进行滤波。<font color='red'>(MU的发放间隔一般在20-200ms之间，这里只间隔19.5ms，那最多只能有一个发放时刻，这个窗口的选取意义是什么？)</font></p></li><li><p>SIL的含义</p><p>分解MUs的平均SIL。SIL度量MUST与噪声（背景噪声和其他潜在源信号）的分离程度。较高的平均SIL代表较好的分解性能。</p></li></ul>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>杂记</title>
+      <link href="/2023/01/07/%E6%9D%82%E8%AE%B0/"/>
+      <url>/2023/01/07/%E6%9D%82%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<p>Motor units with a pulse-to-noise ratio (<a href="https://journals.physiology.org/doi/full/10.1152/japplphysiol.00135.2018#B14">13</a>) <30 dB and/or with discharges separated by >2 s were discarded from further analysis. The individual motor unit discharge timings were summed to generate a cumulative spike train (CST). </p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation from Dynamic High-Density EMG</title>
+      <link href="/2023/01/07/Cumulative-Spike-Train-Outperforms-the-Root-Mean-Square-Metric-in-Muscle-Excitation-Estimation-from-Dynamic-High-Density-EMG/"/>
+      <url>/2023/01/07/Cumulative-Spike-Train-Outperforms-the-Root-Mean-Square-Metric-in-Muscle-Excitation-Estimation-from-Dynamic-High-Density-EMG/</url>
+      
+        <content type="html"><![CDATA[<p>通过这篇文章了解CST的性质和计算方法。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1 笔记"></a>1 笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>更先进的肌肉激励技术建立在通过分解hdEMG信号直接识别MU尖峰序列的基础上。这些技术将MUAP与兴奋模式完全分离，但在很大程度上仅对等长肌肉收缩进行了测试。没有详细研究动态条件，主要是因为缺乏可靠的动态hdEMG分解技术。最近，引入了循环平稳卷积核补偿（csCKC）技术，用于识别动态肌肉收缩中的MU尖峰序列。在这项研究中，我们系统地量化了等距和动态条件下基于RMS的肌肉兴奋估计的误差，并将其与基于csCKC的累积尖峰训练（CST）估计的性能进行了比较。为此，我们使用了合成的hdEMG信号，该信号具有已知的肌肉兴奋和曲线，并且使用了从肱二头肌实验估计的MUAP。</p><h2 id="1-2-实验设置"><a href="#1-2-实验设置" class="headerlink" title="1.2 实验设置"></a>1.2 实验设置</h2><p><strong>被试人数：</strong>5人</p><p><strong>高密度电极：</strong>13*5 （OT）</p><p><strong>EMG采样率：</strong>2048</p><p><strong>EMG滤波：</strong>20-700Hz</p><h2 id="1-3-HD-EMG分解"><a href="#1-3-HD-EMG分解" class="headerlink" title="1.3 HD-EMG分解"></a>1.3 HD-EMG分解</h2><p>csCKC分解，PNR低于30dB的MU丢弃</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于运动单元的肌肉力估计新方法</title>
+      <link href="/2023/01/07/%E5%9F%BA%E4%BA%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E7%9A%84%E8%82%8C%E8%82%89%E5%8A%9B%E4%BC%B0%E8%AE%A1%E6%96%B0%E6%96%B9%E6%B3%95/"/>
+      <url>/2023/01/07/%E5%9F%BA%E4%BA%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E7%9A%84%E8%82%8C%E8%82%89%E5%8A%9B%E4%BC%B0%E8%AE%A1%E6%96%B0%E6%96%B9%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<p>这篇文献在运动单元分解方面讲解得较为简单易懂，主要是文中基本涉及到了MUST分解、MUAP估计等分解方面的流程，并且在相关部分引用的文献确实能够解答一些疑惑，对运动单元分解的理解有很大的帮助。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>目前研究肌肉力的方法仍然局限于 sEMG 与力宏观参数之间的关系， 比如均方根( root mean square， ＲMS) 、积分肌电( integral electromyogram，IEMG) 、平均功率频率 ( mean power frequency，MPF) 、中位频率( median frequency， MF) 等等时频域的参数， 而从运动单元角度描述 sEMG 与力的关系较少。  随着分解技术的发展，通过运动单元来估计肌肉力成为可能。  </p><h2 id="1-2-实验设置"><a href="#1-2-实验设置" class="headerlink" title="1.2 实验设置"></a>1.2 实验设置</h2><p>实验前需要对皮肤用医用研磨膏、砂纸去掉肱二头肌皮肤上角质层，并用酒精消毒。把电极阵列均匀涂上导电膏，贴在肱二头肌上，用胶带固定，保证电极与皮肤的充分接触。  </p><p><strong>人数：</strong>5——3男2女</p><p><strong>MVC：</strong>受试者用手 3 次最大力推手柄， 每次保持 2 s， 每次用最大力， 取 3 次最大力的平均值作为该受试者最大收缩力</p><p><strong>力水平设置：</strong></p><ul><li>5% MVC</li><li>10% MVC</li><li>15% MVC</li><li>20 % MVC</li></ul><h2 id="1-3-结论"><a href="#1-3-结论" class="headerlink" title="1.3 结论"></a>1.3 结论</h2><p>随着肌肉力的增加 ， MU 的募集数目基本上都在增加。</p><p>需要手动调整发放时间，运动单元发放间隔在［20ms， 200 ms］ 范围内。</p><p>采用棘波触发平均技术STA 提取的 MU 波形， 由于采用 64 电极阵列，得到 64 个波形。STA 实施方法如下: </p><ol><li>把分解得到的发放时刻作为中心， 前 30 ms、中间段 36 ms 以及后 30 ms 作为 MU 波形提取长度</li><li>去掉整个波形平均值得到 MU 波形</li></ol><p>研究表明，在肌肉疲劳的情况下，肌肉运动单元会降低发放频率。  </p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Surface electromyography  physiology, engineering and applications</title>
+      <link href="/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/"/>
+      <url>/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/</url>
+      
+        <content type="html"><![CDATA[<p>关于肌电最新研究的介绍书籍。</p><span id="more"></span><h1 id="第一章-肌肉激活和力量产生的生理学"><a href="#第一章-肌肉激活和力量产生的生理学" class="headerlink" title="第一章 肌肉激活和力量产生的生理学"></a>第一章 肌肉激活和力量产生的生理学</h1><p><strong>运动单元：</strong></p><p>神经肌肉系统的基本功能单位是运动单位。它包括一个运动神经元，包括其树突和轴突，以及受轴突支配的肌肉纤维。</p><p><strong>运动神经元：</strong></p><p>运动神经元位于脊髓的腹角或脑干，在那里它接受来自神经系统其他部分的感觉和下行输入。每个运动神经元的轴突通过腹根离开脊髓，并投射到周围神经到其目标肌肉和它支配的肌肉纤维。由于运动神经元产生的动作电位通常会导致所有属于运动单元的肌肉纤维产生动作电位，肌肉纤维动作电位的EMG记录提供了脊髓或脑干中运动神经元激活的信息。</p><p><strong>运动神经元池：</strong></p><p>支配单个肌肉的运动神经元群被称为运动核或运动神经元池，运动核中的运动神经元数量从几十个到几百个不等。每个肌肉的运动神经元池通常纵向延伸到脊髓的几个节段，在每个节段水平上，近端肌肉的运动神经元池比远端肌肉的运动神经元池更倾向于腹侧和外侧，前端肌肉的运动神经元池比后端肌肉的运动神经元池更偏向外侧。</p><p><strong>肌肉单元：</strong></p><p>由单个轴突支配的肌纤维被称为肌肉单元，其大小在每个运动单元池中不同。每个运动单元支配一些肌肉纤维(肌肉单元)。在自愿收缩时，相比于后募集的运动单元，先募集的运动单元支配的肌肉纤维更少更小。肌肉中的大多数运动单元具有小肌肉单元，只有少数运动单元具有大肌肉单元。肌肉单位纤维的密度为每100个肌肉纤维中3至20个。此外，单个肌肉单位的纤维通常不是从肌肉的一端延伸到另一端，而是终止于肌肉束内。</p><p><strong>神经驱动</strong>和<strong>肌肉激活：</strong></p><p>有必要区分从脊髓释放的运动单元动作电位的数量和肌电图电极记录的肌肉纤维动作电位的数量。这种区别用术语“神经驱动”表示运动单元动作电位，用术语“肌肉激活”表示肌肉纤维动作电位（muscle fiber action potential）。</p><p><strong>运动神经元动作电位的产生：</strong></p><ul><li>泄露通道：主要负责形成静息电位</li><li>电压门通道</li><li>离子突触通道</li><li>神经调节受体</li></ul><p>各通道涉及到K、Na离子的出入，详细请参考page25。</p><img src="/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/image-20230104222905456.png" class="" title="image-20230104222905456"><p>运动神经元接收的电流、其释放动作电位的速率和肌肉单位施加的力之间的关系。（底部）用微电极注入运动神经元的电流。（中间）运动神经元的膜电位（电压）随着注入电流的逐渐增加而发生的变化。当膜电位的变化超过电压阈值时，运动神经元被激活（募集阈值）并开始释放动作电位。插图显示了动作电位之间的膜电位轨迹，其被截断以强调后超极化（AHP）阶段。（上部）响应于电流增加和肌肉单元产生的力相应增加的瞬时放电速率（pps=每秒脉冲数）的曲线图。</p><p>运动神经元膜电位随突触电流的变化而变化，这在很大程度上取决于树突的数量和大小。小运动神经元具有最不广泛的树突网络（低输入电导），因此膜电位在突触电流的影响下变化最大。由于所有运动神经元的电压阈值值相似，触发区（轴突丘）中膜电位的变化将超过电压阈值，小运动神经元的突触电流最少，因此这些神经元将首先随着突触输入的逐渐增加而被招募（尽管兴奋性输入通常在最大的运动神经元中最大，在最小的运动神经元最小，但结合运动神经元的固有特性时，募集顺序仍按从最小到最大的顺序进行）。此外，运动神经元在其被募集（募集阈值）后释放动作电位的速率（速率编码）与其接收的电流成正比。</p><p><strong>肌肉产生的力：</strong></p><p>肌肉单位产生的力在很大程度上取决于其神经支配数量，其在运动单位池内呈指数变化（图1.2B），并且肌肉的平均神经支配数量不同（表1.1）。在弱收缩期间精确分级力的能力可能取决于所涉及肌肉中小肌肉单位的大小和数量。相比之下，大的肌肉单位可能只在快速或有力的收缩时发生。</p><p><strong>肌肉纤维动作电位：</strong></p><p>由于神经-肌肉突触通常提供运动神经元与其肌肉纤维之间的安全传输，轴突动作电位总是产生超过电压阈值的端板电位，并产生与收缩蛋白结合的肌肉纤维动作电位。每个肌纤维动作电位从神经-肌肉突触开始，并向肌纤维末端的两个方向传播。尽管动作电位沿肌肉纤维传播的速度（称为传导速度）取决于肌肉纤维的直径，但它受到肌肉长度变化、皮肤温度和代谢产物胞外浓度等因素的调节。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hyser database</title>
+      <link href="/2022/12/29/Hyser-database/"/>
+      <url>/2022/12/29/Hyser-database/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://physionet.org/content/hd-semg/1.0.0/">Open Access Dataset and Toolbox of High-Density Surface Electromyogram Recordings v1.0.0 (physionet.org)</a></p><span id="more"></span><h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h1><p>我们提供了一个<em>高密度表面肌电图</em>（HD-sEMG）<em>记录</em>（名为“<em>Hyser</em>”）的开放访问数据集，以及用于神经接口研究的工具箱。我们从20名受试者那里获得了数据，每个受试者在不同的日期按照相同的实验范式参加了两次实验。使用我们的数据集，研究人员可以开发34个手势的模式识别以及HD-sEMG和五个手指力之间的回归的先进技术。这些技术对于直观控制神经假体和神经外骨骼至关重要。我们的工具箱可用于：（1）使用标准基准方法分析五个数据集中的每一个，以及（2）通过独立成分分析将HD-sEMG信号分解为运动单元动作电位。</p><h1 id="2-背景"><a href="#2-背景" class="headerlink" title="2.背景"></a>2.背景</h1><p>基于表面肌电图（sEMG）的神经接口[1]最近引起了越来越多的关注。具体来说，通过从sEMG信号中解码截肢者的运动意图信息，可以自动检测残肢残余肌肉的收缩，然后用于直观地控制神经假体和神经外骨骼[2]。随着柔性传感技术的进步，高密度sEMG（HD-sEMG）具有覆盖特定肌肉上方更大皮肤区域的大量通道，可以提供高分辨率的肌肉激活图[3]。然而，HD-sEMG数据集非常稀缺。此外，没有用于手部假肢的HD-sEMG数据集来控制五个手指的力量（我们松散地使用术语手指来指代给定手上的手指和拇指）。因此，我们提供了一个<em>高密度表面肌电图记录</em>（名为“<em>Hyser</em>”）的开放访问数据集。</p><p>Hyser数据集由5个子数据集组成：（1）模式识别（PR）数据集，该数据集是在日常常用的34个手势下获得的，（2）最大自愿肌肉收缩（MVC）数据集，该数据集是在每个受试者单独收缩他们的5个手指时获得的（MVC信号可用于归一化力数据），（3）在每个手指收缩期间获得的一自由度（DoF）数据集（跟踪目标力轨迹）， （4）在规定的多个手指组合收缩期间获得的N-DoF数据集（跟踪目标力轨迹），以及（5）在手指组合随机收缩期间获得的随机任务数据集，不遵循任何规定的力轨迹。</p><p>不同手势的模式识别[4]和HD-sEMG和手指力[2]之间的回归都可以使用我们的Hyser数据集进行研究。此外，我们的工具箱可用于：（1）使用标准基准方法分析五个数据集中的每一个[2]和（2）通过独立的分量分析将HD-sEMG信号分解为运动单元动作电位[5]。我们希望我们的数据集能够提供一个平台，以促进神经接口技术的广泛研究以及神经康复领域工程师之间的合作。</p><h1 id="3-方法"><a href="#3-方法" class="headerlink" title="3.方法"></a>3.方法</h1><p>20名受试者，包括12名男性和8名女性（22至34岁），手指完好无损，参加了这项研究。所有受试者都签署了书面知情同意书。该实验经复旦大学伦理委员会审核通过（批准文号：BE2035）。</p><p>对于PR数据集，当受试者执行34种不同的手势时，获得了256通道HD-sEMG。对于每个手势，执行动态任务（1 s持续时间，从受试者的放松状态到所需的手势）和保持任务（4 s持续时间，从受试者的放松状态到所需的手势，然后保持该手势）。</p><p>对于MVC数据集，1-DoF数据集，N-DoF数据集和随机数据集，同步获取256通道HD-sEMG和地面实况力值。</p><p>HD-sEMG信号以<mark>2048 Hz采样率</mark>采集。以<mark>100 Hz</mark>采样率采集地面实况力信号。</p><p>在预处理阶段，首先使用10—500 Hz 8阶巴特沃兹带通滤波器对采集的HD-sEMG信号进行滤波。然后使用陷波滤波器组合来衰减50 Hz的电力线干扰和高达400 Hz的所有谐波分量。 力数据由8阶10 Hz低通巴特沃兹滤波器滤波。我们在数据集中提供原始的HD-sEMG信号和预处理的HD-sEMG信号。</p><p>此外，我们提供了一个用于HD-sEMG分析的工具箱，它执行：（1）使用基于线性判别分析（LDA）和基于深度学习的手势分类分析模式识别数据集，（2）分析数据集2—4（来自背景部分中概述的5个子数据集），（3）使用ICA将HD-sEMG信号分解为MU尖峰序列。我们工具箱中的所有分析都是通过 MATLAB 实现的。请注意，要完全实现我们的工具箱，用户仍然需要 MATLAB 许可证。</p><h1 id="4-数据描述"><a href="#4-数据描述" class="headerlink" title="4.数据描述"></a>4.数据描述</h1><p>五个数据集对应的数据存储在五个文件夹中，分别是”pr_dataset”（37.1GB）, “mvc_dataset”（7.8GB）,”1dof_dataset”（29.3GB）, “ndof_dataset”（58.6GB）, “random_dataset”（9.8GB）。对于 PR 数据集，真实手势标签存储在“.txt”文件中，具有逗号分隔值格式。所有其他信号段（HD-sEMG信号和地面实况力轨迹）都以波形数据库（WFDB）格式存储，其中一个“.dat”文件存储所有16位有符号类型量化值，一个“.hea”文件（除文件扩展名外，文件名与“.dat”文件相同）存储比例因子。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Database </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Multichannel Blind Source Separation Using Convolution Kernel Compensation</title>
+      <link href="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/"/>
+      <url>/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/</url>
+      
+        <content type="html"><![CDATA[<p>DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：<a href="https://demuse.feri.um.si/">DEMUSE Tool (um.si)</a>。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><script type="math/tex; mode=display">x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M</script><p>symbol的长度为L，也就是<script type="math/tex">a_{ij}</script>的长度是L。如果不考虑N个源的叠加，那么就是<script type="math/tex">a_{ij}(n)</script>与<script type="math/tex">t(n)</script>的卷积，该表达式的意义就是对于某一个观察或检测，其值等于一个源的发放时间与观测位置处symbol的卷积，再对所有源求和的一个结果。</p><img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png" class="" title="image-20221224202318904"><p><strong>超定和欠定主要是看混合矩阵A的行KM与列N(L+K-1)的大小，KM大则是超定，KM小则是欠定。</strong></p><p>采样率高了之后，两个峰值之间的采样点就多了，因此就相当于变得稀疏了。</p><blockquote><p>Moreover, when sampling frequency is high enough (with respect to the symbol rate), the pulse trains become highly sparse.</p></blockquote><script type="math/tex; mode=display">\overline{\mathbf{y}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script><p>混合矩阵A中包含的信息实际上是被忽略了的，CKC算法更关注脉冲序列的性质。</p><h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p><p>激活指数（<font color="red">怎么得到的这个表达式？</font>）：</p><script type="math/tex; mode=display">\begin{aligned}\gamma(n) & =\overline{\mathbf{x}}^T(n) \mathbf{C}_{\overline{\mathbf{xx}}}^{-1} \overline{\mathbf{x}}(n) \\& =\overline{\mathbf{t}}^T(n) \mathbf{A}^T\left(\mathbf{A}^T\right)^{-1} \mathbf{C}_{\overline{\mathbf{tt}}} \mathbf{A}^{-1} \mathbf{A} \overline{\mathbf{t}}(n) \\& =\overline{\mathbf{t}}^T(n) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n)\end{aligned}</script><p>激活指数的发放时间表示形式只需要把公式 <script type="math/tex">\overline{\mathbf{x}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script> 忽略噪声代入即可。激活指数是全局脉冲序列活动的一个指标，在某个时刻时，只有当至少有一个脉冲序列在此刻发放，那么激活指数才不为0，因为C中的元素是时刻之间的自相关系数和互相关系数，均不为0（其逆也不为0），所以只要存在一个MU的发放脉冲，那么相乘相加后一定是大于0的。</p><img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230124700817.png" class="" title="image-20221230124700817"><p>当我们用存在发放时刻的观测序列去代替原观测序列后，有如下表达式：</p><script type="math/tex; mode=display">\begin{aligned}\nu_{n_0}(n) & =\overline{\mathbf{x}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{x x}}}^{-1} \overline{\mathbf{x}}(n)=\overline{\mathbf{t}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n) \\& =\sum_{k \in G_{n_0}} \sum_{j=1}^{N(L+K-1)} c_{j k}^{\mathrm{inv}} \bar{t}_j(n)\end{aligned}</script><p>注意，这个表达式中的j已经不代表symbol的编号了，只是一个单纯的索引数字，在左边项取了n0后，t的值就变成了1或者0，0项在求和过程中可以忽略，1作为系数时也省略不写，因此可以化简成上式求和的形式。上式中j代表的是行，k代表的是列，可以看到行是全部索引完的，而列只取矩阵中激活的列，即t中每一个元素与C中的列对应相乘，最后再求和：</p><img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230173231799.png" class="" title="image-20221230173231799"><p>附录A证明，C拥有优越的对角线，是对角占优的，所有可以忽略掉非对角线的部分，得到如下公式：</p><script type="math/tex; mode=display">\nu_{n_0}(n) \approx \sum_{j \in G_{n_0}} c_{j j}^{\operatorname{inv}} \bar{t}_j(n) .</script><p>这里其实也就是行也不全部索引了，只索引对角线上且处于激活状态的时刻。</p><font color="red">这里对于*k*的取值还不是很清楚，G_{n0}中的索引对应symbol，按理说最大值应该是N，但计算*v*的时候索引最大值又是N(n-L-K+2)，不是很懂。</font><h2 id="1-2-欠定情况"><a href="#1-2-欠定情况" class="headerlink" title="1.2 欠定情况"></a>1.2 欠定情况</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> CKC </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals</title>
+      <link href="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/"/>
+      <url>/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/</url>
+      
+        <content type="html"><![CDATA[<p>阅读这篇文献是因为阅读的<em>Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements</em>这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数，然后对在线采集的高密度肌电直接使用训练得到的分离矩阵和相关参数从而得到MUST。文章从仿真数据和真实数据两个方面进行了验证，重点关注了一下实验范式。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><blockquote><p> a decomposition method robust to changes of motor unit action potential (MUAP) has been proposed and can be used for the identification of motor unit firings during dynamic contractions.   </p></blockquote><font color='red'>什么是静态？静态就是兴奋的水平（频率）和MUAP的波形不变。</font><h2 id="1-2-分解流程"><a href="#1-2-分解流程" class="headerlink" title="1.2 分解流程"></a>1.2 分解流程</h2><p>Two sessions:</p><ol><li>offline session：得到估计参数、分离MUST的矩阵、以及spike提取的阈值</li><li>online session：滑动窗口中，将预处理过后的EMG信号与分离矩阵直接相乘，得到发放序列</li></ol><p><mark>在离线步骤中，首先使用卷积核补偿（CKC）算法将表面肌电信号分解为MUST</mark>。</p><p>多通道表面EMG信号的生成模型可以描述为一系列脉冲的卷积混合，代表运动单元的<mark>放电模式(diacharge pattern)</mark>。该混合模型中滤波器的<mark>脉冲响应</mark>是运动单元的动作电位，其持续时间有限。混合过程可以矩阵形式写成：</p><script type="math/tex; mode=display">y(n)=H \bar{s}+\omega(n)</script><p>CKC方法补偿方程上述方程中的未知混合矩阵H，并估计第j个电机单元的尖峰序列为：</p><script type="math/tex; mode=display">\widehat{s}_j(n)=w_j^T \bar{y}(n) \\w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211211613749.png" class="" title="image-20221211211613749"><p><strong>对online估计所做的改进：</strong></p><p>将离线阶段中获得的分离向量应用于在线分解仅当离线和在线阶段的信号特性之间保持相似时，才能确保在线阶段中的EMG分解的有效性。比如在信号是静止的情况下。然而，在一般情况下，初始的分离向量是需要持续自适应的。</p><p><strong>为了适应非静态条件</strong>，文章提出了一种更新策略，在每次识别新的放电时间序列时调整分离向量$w_j$的方法，效果如下：</p><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211210827239.png" class="" title="image-20221211210827239"><p><strong>online估计的滑动窗口：</strong>200 ms</p><p><font color='red'>一个新的概念有待了解：</font>尖峰间隔变异性</p><h2 id="1-3-实验范式"><a href="#1-3-实验范式" class="headerlink" title="1.3 实验范式"></a>1.3 实验范式</h2><h3 id="1-3-1-仿真EMG："><a href="#1-3-1-仿真EMG：" class="headerlink" title="1.3.1 仿真EMG："></a>1.3.1 仿真EMG：</h3><ol><li><p>数据集1：10%，30%，50%持续兴奋下的数据</p></li><li><p>数据集2：兴奋首先保持10s，然后在60s内变化，兴奋的水平3<script type="math/tex">\times</script>4兴奋的改变速度<script type="math/tex">=</script>12组</p><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114311631.png" class="" title="image-20221214114311631"></li><li><p>数据集3：<mark>改变MUAP波形</mark></p><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114402665.png" class="" title="image-20221214114402665"></li></ol><h3 id="1-3-2-实验数据"><a href="#1-3-2-实验数据" class="headerlink" title="1.3.2 实验数据"></a>1.3.2 实验数据</h3><p>真实采集的数据集和模拟仿真的数据集是一一对应的，分为EXP1，EXP2，EXP3：</p><ul><li>在EXP1中，受试者被要求以最大自主收缩（MVC）力的10%、30%和50%的恒定力进行等长抓握</li><li>在EXP2中，受试者被要求遵循模拟2中描述的力轨迹。为了简化实验，只在三个水平上保持6秒的斜坡</li><li>在EXP3中，受试者被要求进行非等长动态抓握，抓握周期被设定为6秒。受试者在<mark>动态抓握</mark>过程中被要求尽量保持收缩水平，但不严格。</li></ul><p>从这个实验范式的设置中可以看出：（1）真实的力对应模拟的兴奋水平；（2）通过改变等长收缩来改变MUAP的形状</p><p><strong>人数：</strong>5——4男1女</p><p><strong>设备：</strong></p><ul><li>EMG采集：ELSCH064NM3, 8 × 8 channels, OT Bioelettronica, Italy</li><li>运动学采集：14通道，5 DT Data Glove 14 Ultra, 5DT Inc. USA </li></ul><h2 id="1-4-分解评估"><a href="#1-4-分解评估" class="headerlink" title="1.4 分解评估"></a>1.4 分解评估</h2><p>对于仿真数据集：</p><script type="math/tex; mode=display">\begin{aligned}\text { Sensitivity } & =\frac{T P}{T P+F N} \\\text { Precision } & =\frac{T P}{T P+F P}\end{aligned}</script><p>对于实验数据：PNR</p><script type="math/tex; mode=display">\mathrm{PNR}_j=10 \cdot \log \left(\frac{E\left(\left.\widehat{s}_j(n)\right|_{\widehat{s}_j(n) \geq r}\right)}{E\left(\left.\widehat{s}_j(n)\right|_{\widehat{s}_j(n)<r}\right)}\right)</script><h2 id="1-5-结论"><a href="#1-5-结论" class="headerlink" title="1.5 结论"></a>1.5 结论</h2><p>延迟：滑动窗口的计算耗时＜50ms，在线分解10s的信号延迟＜250ms，</p><p>仿真数据集：</p><ul><li><p>在线分解中，sim1的灵敏度和准确度都大于80%</p></li><li><p>在线分解中，sim1的灵敏度大于80%，准确度大于70%</p></li><li><p>更新策略在sim1、2中改善不大，但在sim3（对应于动态情形）中对灵敏度和准确度的提升巨大</p></li><li><p>PNR和sen以及pre之间的回归决定系数</p><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20230111134956070.png" class="" title="image-20230111134956070"></li></ul><p>实验数据集：</p><ul><li>平均PNR为24dB，对应于sensitivity&gt;80%，precision&gt;75%</li></ul><p>等距收缩中的非静态参数来自MU的募集、去募集以及放电频率的变化，这两个参数只影响源信号，不影响H本文提出的更新策略对这种变化是稳健的。</p><p>动态非等长收缩中，电极与肌肉的相对位置发生变化，导致MUAP的变化以及混合模式H的变化</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Spike-Triggered Average</title>
+      <link href="/2022/12/08/Spike-Triggered-Average/"/>
+      <url>/2022/12/08/Spike-Triggered-Average/</url>
+      
+        <content type="html"><![CDATA[<p>Spike-Triggered Average算法简单来说就是首先设置一个窗口长度，然后把这个窗口放置到发放时间处的采集信号下，把所有窗口中的采集点对应相加，最后再除以窗口数量。</p><span id="more"></span><img src="/2022/12/08/Spike-Triggered-Average/image-20230107211333896.png" class="" title="image-20230107211333896">]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Amplitude cancellation reduces the size of motor unit potentials averaged from the surface EMG</title>
+      <link href="/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/"/>
+      <url>/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/</url>
+      
+        <content type="html"><![CDATA[<p>文章介绍了三个生理学参数对幅值抵消的影响，并从STA得到的MUAP分析了幅值抵消带给结果的影响。幅值抵消减小了由sEMG averaged而来的运动单元动作电位。这篇文章研究了幅值抵消对MUAP的影响，主要是通过<font color="red">excitation level, motor unit conduction velocity, motor unit synchronization</font>这三个参数来控制amplitude cancellation。文章还比较了从<font color="red">干扰、没有幅值抵消、以及整流的EMG信号中通过STA方法得到的运动单位电位</font>与<font color="red">从表面检测到的运动单位动作电位</font>。结果表明，生理学上的属性改变（对应着cancellation的强弱）一定程度上违背了STA的基本假设，同时也影响了输出电位的幅值。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><p><strong>STA算法依赖于许多假设：</strong></p><ol><li>触发和目标响应之间的延迟固定</li><li>响应和其他信号之间没有相关联的活动</li><li>对每个触发事件的响应波形是一样的</li><li>足够多的触发事件以提取响应</li></ol><p>（当将该技术应用于表面肌电的平均值时，可能会违反某些假设。）</p><p><strong>基于运动单元群的计算机仿真：</strong></p><ol><li>确定120个运动神经元群体对不同刺激水平的反应的募集和释放时间</li><li>根据每个运动单元的模拟肌肉纤维动作电位的数量、位置和传导速度生成运动单元电位</li><li>通过对运动单位动作电位序列求和来模拟表面肌电</li><li>在参考运动单元的每个动作电位之前和之后<mark>50ms</mark>计算尖峰触发平均值</li></ol><p>MU 的募集初始频率为8 pps，也就是说兴奋一旦超过阈值，就开始以8 pps的频率放电。</p><p>兴奋对应于运动神经元池的突触输入水平，是通过输入电流来代表兴奋。</p><p><strong>几种条件下MU分解的对比图：</strong></p><img src="/2022/12/08/Amplitude-cancellation-reduces-the-size-of-motor-unit-potentials-averaged-from-the-surface-EMG/image-20221209170408831.png" class="" title="image-20221209170408831"><p><strong>STA的处理过程：</strong></p><ol><li>以正峰值为中心前后共取100ms</li><li>每个sta的前40ms用来计算基线噪声</li><li>正峰值前10ms和负峰值后10ms之间的面积用来代表sta的绝对值</li></ol><p><strong>Cancellation的计算方法：</strong></p><p>计算interference EMG中丢失的那部分信号</p><h1 id="2-文章中包含的结论"><a href="#2-文章中包含的结论" class="headerlink" title="2.文章中包含的结论"></a>2.文章中包含的结论</h1><blockquote><ul><li>MU的数目和运动单元力之间是指数关系</li><li>仿真MU的募集阈值分布服从指数函数，低阈值的MU多，高阈值的MU少</li><li>募集阈值高的MU峰值放电频率相较于阈值低的MU更小</li><li>峰值放电率随着募集阈值的增加而线性下降</li><li>容积导体是一种各向异性且不均匀的介质</li><li><strong>幅值抵消的计算：</strong>通过比较MUAP整流之前和整流之后的sEMG的幅值来量化</li><li>神经支配区的中心位于近端附件纤维长度的40%处。一个运动单元中，the end plate和每根纤维插入肌腱的情况在5mm范围内随机变化（均匀分布）</li><li>一旦兴奋超过运动单元的募集阈值，运动单元就开始以一定发放频率（如：每秒8个脉冲）放电，发放频率随着兴奋的增加而线性增加。最大兴奋表示为：使<strong>最后募集</strong>的运动神经元达到其<strong>峰值发放率</strong>所需的兴奋水平。比如研究表明，<em>第一个募集MU的最大发放率为35 pps，而峰值发放率随着募集阈值的增加而线性下降，最后一个募集MU分配的峰值发放率为25 pps。最后一个单元的募集接近50%的最大兴奋</em>。</li></ul></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Amplitude Cancellation </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Cancellation </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于盲源分离技术的高密度表面肌电分解</title>
+      <link href="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/"/>
+      <url>/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<p>肌电信号分解可以看成是肌电形成的逆过程。肌电分解的主要目的是将肌电信号还原成其基本的组成成分：运动单位动作电位序列（MUAPT）。从而可以将肌电信号中的单个的运动单位识别出来并进行归类，进而得到参与此次肌肉活动的运动单位的个数、种类、发放信息及波形信息。（<font color="red">存疑，是先得到MUAPT？还是MUST</font>） 。尽管FastICA算法非常契合表面肌电信号分解的需求，但FastICA是基于瞬时线性混合模型推导的，而表面肌电信号更符合卷积模型</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-改进FastICA及sEMG模型"><a href="#1-1-改进FastICA及sEMG模型" class="headerlink" title="1.1 改进FastICA及sEMG模型"></a>1.1 改进FastICA及sEMG模型</h2><p>FastICA的特性与表面肌电分解的需求非常符合 ：</p><ol><li>FastICA是基于信号的非高斯性来估计源信号。而在肌电信号分解中，源信号运动单位动作电位序列正是稀疏的超高斯信号。这是符合FastICA的理论假设的。也可以说，FastICA是在肌电分解中是利用了运动单位动作电位序列的稀疏性来进行分解的。同时，不同运动单位的发放可以认为是互相独立的，这也符合FastICA 基本假设。</li><li>相较于其他独立分量分析方法，FastICA的收敛速度快，鲁棒性更好。并且从迭代方程式来看，FastICA不同于其它基于梯度的优化方法，不需要设置步长参数，这一点给算法的使用带来很大方便。</li><li>FastICA可以逐个估计源信号。这个的特性是最为重要的。在表面肌电信号分解中，运动单位动作电位叠加十分严重，且运动单位个数未知，信号的信噪比也非常低。要一次性估计出所有运动单位几乎是不可能的任务。而FastICA的这个特性，在探索型数据分析上是十分重要的，它大大简化了求解问题的难度。可以说这是其他大部分盲源分离方法所不具有的优势。</li></ol><p><strong>传统的表面肌电模型如下，记为模型A：</strong></p><script type="math/tex; mode=display">x_i(t)=\sum_j a_{i j} s_j(t), \quad \text { for } i=1, \cdots, M ; j=1, \cdots, N</script><p>在这个模型中考虑表面肌电分解的问题, <script type="math/tex">x_i(t)</script> 表示第 <script type="math/tex">i</script> 个通道采集到的表面肌电信号, 而 <script type="math/tex">s_j(t)</script> 则对应着第 <script type="math/tex">j</script> 个运动单位的运动单位动作电位序列。 从该模型中可以看出, 模型假设不同的通道的表面肌电信号是由同样一批运动单位动作电位序列通过不同的权重 <script type="math/tex">a_{i j}</script> 线性叠加得到的。问题就出在这里。 这样的假设意味着, 对每个运动单位来说, 它在不同电极通道中的运动单位动作电位序列的波形是一致的, 所不同的只是波形的幅值大小。这样的假设显然过于简单了, 其并没有考虑到皮肤、脂肪等对动作电位的滤波作用, 也没有考虑运动电位传播到电极处所需要的传播延迟。事实上，由于皮肤和皮下组织的容积导体效应和电极的不同位置的影响，运动单位的波形在每个电极通道中都是各不相同的。</p><p><strong>要更为准确地描述表面肌电信号，应该考虑下面这样一个的卷积模型，记为模型B：</strong></p><script type="math/tex; mode=display">x_i(t)=\sum_{j=1}^N \sum_{\tau=0}^{L-1} a_{i j}(\tau) s_j(t-\tau) + n(t); \quad i=1,2, \ldots, M</script><p>在模型B 中, <script type="math/tex">a_{i j}</script> 和 <script type="math/tex">s_j(t)</script> 的含义都相对模型A发生了较为明显的变化，<script type="math/tex">n(t)</script>是均值为0的高斯白噪声。<mark> $s_{\jmath}(t)$ 从运动单位动作电位序列抽象成了运动单位的发放时间序列</mark>。在这里<script type="math/tex">s_j(t)</script>是一 个<mark>0-1</mark>序列：</p><script type="math/tex; mode=display">s_j(t)=\sum_k \delta\left(t-T_j(k)\right)</script><p>表示第 <script type="math/tex">j</script> 个运动单位是否在某个时刻 <script type="math/tex">t</script> 发放。 <script type="math/tex">T_j(k)</script> 表示第 <script type="math/tex">j</script> 个 运动单位的第 <script type="math/tex">k</script> 次发放时刻, <script type="math/tex">\delta</script> 表示 delta 函数（Dirac Delta Function）。而模型A中 <script type="math/tex">s_j(t)</script> 中的波形信息被转移到了 <script type="math/tex">a_{i j}</script> 中, <script type="math/tex">a_{i j}</script> 从叠加权重变成了波形向量。<script type="math/tex">a_{\imath j}(t), \quad t=0, \cdots, L-1</script> 这个向量就代表第 <script type="math/tex">j</script> 个运动单位在第 <script type="math/tex">i</script> 通道中的波形, 波形长度为 <script type="math/tex">L</script>, 同时假设对 <script type="math/tex">\forall k \in N</script>, 有 <script type="math/tex">T_j(k+1)-T_j(k)>L</script> 。并且对于第 <script type="math/tex">j</script> 个运动单位来说, 其在不同的通道中的波形 <script type="math/tex">a_{i j}(t)</script> 可以是不一样的。简单来说模型B的含义便是对某一个通道 <script type="math/tex">i</script> 来说, 第 <script type="math/tex">j</script> 个运动单位的波形与其发放时刻卷积, 就形成了第 <script type="math/tex">j</script> 个运动单位在这个通道中的运动单位动作电位序列, 将所有参与发放的运动单位的运动单位动作电位序列叠加, 就得到该通道采集的表面肌电信号 <script type="math/tex">x_i(t)</script> 。在这个模型中, 有两个假设，这两个假设很重要，涉及到MUAP波形的估计：</p><ul><li><p>一个是假设<font color="red">在所有通道中, 运动单位的发放时间是一致的</font>。（运动单位一旦发放，其动作电位便会沿着肌纤维传播开来，被各个电极采集到。至于传播延迟，则可以体现在<script type="math/tex">a_{i j}(t)</script>偏移量上面。）</p></li><li><p>第二个假设便是<font color="red">每个运动单位在某个通道的波形，在信号持续时间段内是不变的</font>。也就是说这是一个Shift-invariant的系统。第二个假设对于肌电信号来说并不是总成立的。比如在肌肉收缩的过程中肌纤维的长度和运动单位到电极的距离都会发生变化，可能会导致动作电位的形变。因此模型B中可以引入时变的因素从而使得模型更为贴切。但是这同时也会让问题变得更加复杂。就目前来说，肌电信号分解往往只考虑肌肉等长收缩(Isometric Contraction)情况，在这种情况下，肌肉组织并不发生形变，可以认为运动单位动作电位在采集过程中是保持一致的。</p></li></ul><p>表面肌电信号分解最主要的目的就是得到单个运动单位的发放信息和波形信息，<mark>其中发放信息最为重要。</mark>事实上如果得到了准确的运动单位的发放信息，就不难得到其波形信息(在运动单位持续发放时间足够长的情况下)，<font color="red">比如可以通过发放位置的平均波形来作为运动单位动作电位波形的估计(Spike Trigger Average,STA)。</font>FastICA输出的结果虽然不能直接被当成运动单位动作电位序列，但是它是对应于某个运动单位动作电位序列滤波后的结果，因此可以从FastICA的输出中提取出不同运动单位的发放时间信息。<font color="red">比如，可以认为FastICA输出中波形的峰值位置就对应着某运动单位的发放时刻。 </font></p><h2 id="1-2-sEMG模拟过程"><a href="#1-2-sEMG模拟过程" class="headerlink" title="1.2 sEMG模拟过程"></a>1.2 sEMG模拟过程</h2><p>运动单位动作电位的波形则由表面肌电模型从单纤维动作电位(SFAP)开始模拟，运动单位的每一根肌纤维在电极处形成的单纤维动作电位进行叠加便是该运动单位在该电极处的运动单位动作电位(MUAP)，运动单位动作电位与该运动单位的发放时间序列卷积，便是运动单位动作电位序列(MUAPT)，这也是肌电分解想要关注的对象。最后所有参与发放的运动单位动作电位序列进行叠加，便得到表面肌电信号。  </p><h2 id="1-3-算法评估"><a href="#1-3-算法评估" class="headerlink" title="1.3 算法评估"></a>1.3 算法评估</h2><img src="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221209151729491.png" class="" title="image-20221209151729491"><img src="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221211164338861.png" class="" title="image-20221211164338861">]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MUST </tag>
+            
+            <tag> 博士论文 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric</title>
+      <link href="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/"/>
+      <url>/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/</url>
+      
+        <content type="html"><![CDATA[<p>几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive / 理论上全部的positive），虚警率&lt;2%（错误positive / 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-PNR"><a href="#1-1-PNR" class="headerlink" title="1.1 PNR"></a>1.1 PNR</h2><p>关于分解的准确性，Nawab等人(2010)提出了一种基于信号的验证方法，称为重构-测试程序。然而，这种方法衡量的是分解的一致性而不是准确性(Farina和Enoka 2011, De Luca和Nawab 2011)。McGill等人(McGill and Marateb 2011)提出了另一种基于信号的方法来分解留置肌电图信号，并利用统计决策理论和贝叶斯框架来整合MU动作电位波形和MU放电模式的信息。该方法计算成本高，目前不适用于超过8个已识别的MUs。</p><p>CKC方法已在低收缩力下的代表性模拟和实验信号中得到验证(Holobar et al 2010)。在这项研究中，我们证明了CKC分解也可以在高等长收缩力下提供精确的分解，因此我们将这种方法的潜在应用扩展到几乎任何收缩水平。这一证明是通过与肌内肌电图分解进行比较，以及通过一种基于信号的精度估计的新度量获得的，该度量在本文中通过分析得到，并构成了该研究的第二个贡献。所提出的精度度量建立在线性估计理论基础上，提供了一个计算上便宜且可靠的均方误差(MSE)指标，用于每个已识别MU的真实放电模式与其基于ckc的估计之间。在本研究中，模拟和实验信号分析将表明，这一指标与识别MU放电的敏感性及其虚警率显著相关。</p><h2 id="1-2-实验"><a href="#1-2-实验" class="headerlink" title="1.2 实验"></a>1.2 实验</h2><p>9名受试者的优势胫骨前肌和9名受试者中的6名优势肱二头肌同时获得表面肌电图和肌内肌电图信号。在最大自愿收缩(MVC)的5%、10%、15%、20%、50%、60%和70%的等距恒力收缩过程中获得15 s长信号。</p><h2 id="1-3-数据分析"><a href="#1-3-数据分析" class="headerlink" title="1.3 数据分析"></a>1.3 数据分析</h2><p><strong>仿真数据：</strong></p><p>下图分别描述了分解灵敏度Se和虚警率Fa对PNR的依赖关系：</p><img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png" class="" title="image-20221231161026963"><img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png" class="" title="image-20221231161048995"><p><strong>实验数据：</strong></p><p>以肌内肌电图识别的MU放电模式为参考，计算由两种分解技术识别的MU的灵敏度(如式(8))和虚警率(如式(9))。在匹配表面肌电图和肌内肌电图的分解结果时，只有当两个肌电信号共享至少30%的放电时，才被认为是共同识别的。</p><p>平滑放电率是收缩强度的函数（<mark>通过对瞬时放电率进行低通滤波计算平滑放电率，截止频率设置为2hz。</mark>）。事实上，胫骨前肌在5% MVC时为11.5±2.1 pps，在70% MVC时为23.2±3.0 pps。同样，在肱二头肌中，MU放电速率在5% MVC时为12.4±2.3 /秒，在70% MVC时为20.3±2.9 /秒。</p><p>从合成面肌电信号和实验面肌电信号的结果来看，引入的PNR测量方法与MU放电识别的灵敏度和虚警率显著相关:</p><script type="math/tex; mode=display">\operatorname{Se}(j)=a_1+a_2 \log \left(\operatorname{PNR}(j)-a_3\right)</script><script type="math/tex; mode=display">\mathrm{Fa}(j)=b_1-b_2 \log \left(\mathrm{PNR}(j)-b_3\right)</script><p>本研究经实验验证，PNR大于30 dB的大多数MUs灵敏度大于90%，虚警率低于1%。这种关系在很大程度上<mark>独立于</mark>测试的信噪比电平(从0到20 dB)和收缩水平(从5%到70% MVC)。此外，回归参数a和b的值，在不同的信噪比和肌肉兴奋水平上没有显著变化(表1和表2)，允许相对可靠地抽象引入的PNR测量与每个识别MU的分解灵敏度和虚警率之间的一般关系。</p><p>识别出的MU的PNR的分布图显示大多集中在30-40dB：</p><img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png" class="" title="image-20221231163927905"><p><strong>结论：</strong><mark>仿真和实验鉴定的PNR &gt; 30 dB的MUs具有&gt; 90%的灵敏度和低于2%的虚警率。</mark></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CKC </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation</title>
+      <link href="/2022/12/05/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/"/>
+      <url>/2022/12/05/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/</url>
+      
+        <content type="html"><![CDATA[<span id="more"></span><h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2.笔记"></a>2.笔记</h1><h2 id="2-1-Intro"><a href="#2-1-Intro" class="headerlink" title="2.1 Intro"></a>2.1 Intro</h2><p>评价准则基于gold standard of manual decomposition。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>等长伸膝动作的运动单元放电特征分析</title>
+      <link href="/2022/12/05/%E7%AD%89%E9%95%BF%E4%BC%B8%E8%86%9D%E5%8A%A8%E4%BD%9C%E7%9A%84%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E6%94%BE%E7%94%B5%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/"/>
+      <url>/2022/12/05/%E7%AD%89%E9%95%BF%E4%BC%B8%E8%86%9D%E5%8A%A8%E4%BD%9C%E7%9A%84%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E6%94%BE%E7%94%B5%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<p>CKC算法分解的一篇中文文献，以帮助更好地理解MUAP和MUST，了解CKC算法的具体作用，输入输出，文献中有对CKC算法的概述。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>运动神经元负责将脊髓和大脑发出的信息传到肌肉，其放电信息表征着中枢神经系统传输到肌肉的<mark>驱动信息</mark>。运动神经元的动作电位会传输到所支配的肌纤维，引起肌纤维收缩并产生力。运动单元动作电位（motor unit action potential，MUAP）是一个运动单元中所有肌纤维动作电位的叠加。</p><p>由于<font color="red">容积导体</font>和<font color="red">幅值抵消</font>现象的存在，表面肌电信号并不能完全地反应神经驱动信息。从表面肌电信号中提取出的时域和频域特征也只能从一定程度上反应神经元放电活动。为了克服表面肌电的固有缺陷，肌电分解（electromyography decomposition）技术逐渐发展起来。基于肌电分解技术可以识别出运动单元的动作电位脉冲串，提取MUAP波形，从而对神经电生理活动进行分析。</p><p>基于<mark>盲源分离（blind source separation）</mark>或<mark>模板匹配（template matching）</mark>框架，各种解码算法被相继提出，并且在多肌肉不同收缩状态下得到了验证。</p><p>多通道的肌电信号的生成模型是一个多输入多输出的模型，可以看做是一系列神经元放电脉冲串及其动作电位波形的卷积混合： </p><script type="math/tex; mode=display">x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} h_{i j}(l) s_j(n-l)+\omega_i(n)</script><h2 id="1-2-实验设置"><a href="#1-2-实验设置" class="headerlink" title="1.2 实验设置"></a>1.2 实验设置</h2><p><strong>实验人数：</strong>12人</p><p><strong>MVC获取：</strong>缓慢增加收缩力至最大值并保持5s，这一过程重复3次，最终计算保持阶段收缩力的平均值作为MVC</p><p><strong>力曲线设置：</strong></p><ul><li>任务1：梯形曲线长度为30 s，包含10 s的上升阶段、10 s的平稳阶段和10 s的下降阶段</li><li>任务2：梯形曲线长度为14 s，包含2 s的上升阶段、10 s的平稳阶段和2 s的下降阶段</li></ul><p><strong>力水平设置：</strong></p><ul><li>10%MVC  </li><li>30%MVC  </li><li>50%MVC  </li><li>70%MVC  </li></ul><p>（每个研究对象需要完成8次伸膝动作（2种曲线 × 4种等级），每次动作之间休息 1~2 min以防止肌肉疲劳）</p><p><strong>通道数：</strong>64*2（OT Bioelettronica，Italy ），每一行电极沿肌肉纤维方向</p><p><strong>备皮工作：</strong>用75%的医用酒精棉擦拭皮肤干净，待酒精挥发后利用双面胶海绵垫将电极贴附在相应肌肉的肌腹位置。实验所用的电极为湿电极，使用前需先涂抹导电膏。</p><h2 id="1-3-数据处理"><a href="#1-3-数据处理" class="headerlink" title="1.3 数据处理"></a>1.3 数据处理</h2><h3 id="1-3-1-预处理"><a href="#1-3-1-预处理" class="headerlink" title="1.3.1 预处理"></a>1.3.1 预处理</h3><p><strong>EMG预处理：</strong></p><ol><li><p>采用4阶巴特沃斯滤波器对肌电信号进行20 ~500 Hz的带通滤波；</p></li><li><p>采用梳状滤波器进行50 Hz阻断滤波以消除工频干扰；</p></li><li><p>人工判断信号异常的通道并将其去除。</p></li></ol><p><strong>力信号预处理：</strong>首先升采样至2 048 Hz，然后采用4阶巴特沃斯滤波器进行10 Hz的低通滤波</p><h3 id="1-3-2-EMG分解"><a href="#1-3-2-EMG分解" class="headerlink" title="1.3.2 EMG分解"></a>1.3.2 EMG分解</h3><p><mark>股内侧肌和股外侧肌分别解码。</mark></p><p><strong>步骤：</strong></p><ol><li>CKC算法解码HD-sEMG得到MUST；</li><li>STA方法提取每个运动单元在每个通道的放电波形MUAP；</li><li>每个MU的MUST和MUAP卷积，所有MU的卷积结果求和得到EMG；</li></ol><p><strong>特征提取：</strong></p><ul><li>累积脉冲串（cumulative spike train，CST）特征：对每次动作的肌电信号进行解码得到 MUST，然后将这些 MUST 合并形成 CST， 然后采用400 ms 的汉宁窗对 CST 进行平滑滤波，得到 CST 特征。</li><li>主成分分析（principal component analysis，PCA）特征：同样基于 400 ms 的汉宁窗，对每次动作解码得到的所有 MUST 分别进行平滑滤波，然后进行 PCA，提取第一主成分 （first principal component）作为PCA特征。</li><li>均方根值（root mean square，RMS）特征：采用滑动窗的方式对每一通道的肌电信号计算RMS，然后对所用通道的 RMS 进行平均形成 RMS 特征。滑动窗为矩形窗，窗长400 ms，每次滑动1个采样点。</li></ul><h3 id="1-3-3-运动单元追踪"><a href="#1-3-3-运动单元追踪" class="headerlink" title="1.3.3 运动单元追踪"></a>1.3.3 运动单元追踪</h3><p>MUAP波形匹配来追踪不同动作之间的运动单元。</p><h3 id="1-3-4-相关性分析"><a href="#1-3-4-相关性分析" class="headerlink" title="1.3.4 相关性分析"></a>1.3.4 相关性分析</h3><ol><li>对每一通道的肌电信号进行2 Hz的低通滤波（4阶巴特沃斯滤波器）；</li><li>对所有通道的低通滤波信号做平均；</li><li>基于互相关分析（标准化法）计算肌电信号和力之间的时移，并将肌电信号或力信号平移到相关性最大的时刻 （<mark>对齐</mark>）。</li></ol><h1 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h1><p>一般情况下肌肉中运动单元的募集遵循“大小原则”，即肌纤维数量少、收缩力较小的运动单元先被募集，纤维数量多、收缩力较大的运动单元后被募集。运动单元在被募集的初始阶段，其放电频率较低，后来会随着激活程度的增加（肌肉收缩力的增加）而提高，直至达到最大值，此时放电频率保持稳定，不会再随着激活程度的增加而提高。一般来说，高阈值的运动单元其稳定放电频率要<mark>低于</mark>低阈值的运动单元。</p><p>在等长收缩（isometric contraction）中，快速发力会降低运动单元的募集阈值，并且伴随放电频率的增加，因此在快速收缩过程中，更多高阈值运动单元被募集。</p><p>从理论上讲，相对于RMS特征，从运动单元放电活动中提取的CST和PCA特征与收缩力之间的相关性应该更高，以往的研究也证明了这一点。但值得注意的是，CST 和 PCA 特征对收缩力的估计效果与运动单元的解码数量非常敏感。由于现有算法的局限性，无法解码出足够多运动单元。如图4a 所示，在收缩力较低时无运动单元放电脉冲被解码到，所以此时CST特征和PCA特征均为零。在运动单元数量足够高的情况下，CST 和 PCA 特征  与收缩力之间的相关性更高。根据研究结果，建议运动单元的解码数量应该在<mark>5</mark>以上。本项研究中虽然CST和PCA特征与力之间的相关性略低于RMS特征，但平均相关系数仍然在 0.8 以上。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements</title>
+      <link href="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/"/>
+      <url>/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/</url>
+      
+        <content type="html"><![CDATA[<p>文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-Intro"><a href="#1-1-Intro" class="headerlink" title="1.1 Intro"></a>1.1 Intro</h2><p><strong>不能完全反映神经活动的原因</strong>：</p><ul><li>容积导体：类似于低通滤波的作用</li><li>幅值抵消：由于动作电位的重叠</li></ul><p><mark>植入式电极可以在没有容积导体干扰的情况下直接获得MUAP，因此，MUST可以通过比较和计数MUAP来获得。<strong>MUAP和MUST是一一对应的</strong></mark></p><blockquote><p>With needle/wire electrodes implanted inside the muscle, the motor unit action potentials (MUAP) can be observed without volume conduction and crosstalk. Therefore, the MUST can be obtained by comparing and counting the MUAP.   </p></blockquote><p><strong>表面肌电的两类分解算法</strong>：</p><ul><li>Blind source separation</li><li>Template matching</li></ul><h2 id="1-2-Experiment"><a href="#1-2-Experiment" class="headerlink" title="1.2 Experiment"></a>1.2 Experiment</h2><ol><li>session1包含4个<mark>单自由度</mark>的动作</li><li>session2包含4组<mark>两自由度</mark>的动作</li></ol><img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png" class=""><p>注：session2中两个动作的曲线有重叠部分</p><p>使用3*64=192个电极进行HD-EMG的采集。</p><h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1先进行了训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p><p>session2的task对应session1的哪个MUST分离矩阵呢？</p><p><strong>EMG分解方法：</strong></p><p>step1. 使用CKC算法将EMG分解成MUST</p><p>step2. 使用聚类算法（设置聚类的数目为2）区分脉冲和基线噪声（传统的方法采用设置阈值目视检查）</p><p><strong>EMG分解准确率的评价方法：</strong><mark>PNR (pulse-to-noise)</mark></p><p><strong>神经特征提取：</strong></p><ol><li><p>表征单个运动神经元的放电活动</p><ul><li>MUST：把滑动窗口中尖峰的的数量作为MUST的实时放电率，使用多元线性回归来拟合MUST和弯矩。</li></ul><script type="math/tex; mode=display">y_i=\sum_{m=1}^{M_i} a_{i m} x_{i m}+b_i</script></li><li><p>表征神经对肌肉的共同输入</p><ul><li><p>CST：将MUST池划分成两组，对应两个动作，每组中分别得到的CST，用CST的频率作为特征。选取了300ms宽、100ms步长的滑动窗口，使用一元线性回归来拟合弯矩和CST的放电频率。</p><script type="math/tex; mode=display">y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p><blockquote><p>Central nervous system modulates the neuromechanical delay in a broad range for the control of muscle force</p></blockquote></li><li><p>PCA：从全部MUST池中得到的主成分，用主成分表征。</p></li></ul></li></ol><p>（除此之外，还提取了时域的RMS来和神经特征作为对比。）</p><p><strong>MUAP分析参数：</strong></p><ul><li>peak-to-peak value</li><li>duration</li><li>area of MUAP(obtained by computing the definite integral of action potentials within the duration.  )</li></ul><p><strong>特征评估：</strong></p><ul><li>使用ANOVA来评估3种神经特征对估计的影响</li></ul><p><strong>性能评估：</strong></p><ul><li>PNR与MUST高度相关，并用于间接评估本工作中的<mark>分解性能</mark></li></ul><p><strong>回归算法：</strong></p><ul><li>linear regression model</li></ul><h2 id="1-3-Conclusion"><a href="#1-3-Conclusion" class="headerlink" title="1.3 Conclusion"></a>1.3 Conclusion</h2><ol><li>CST的估计结果从决定系数和RMSE上来说均显著好于RMS</li><li>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation 和supination 的MUAP激活区域几乎相同；然而flexion 和extension 的激活区域很容易区分。</li></ol><h2 id="1-4-Discussion"><a href="#1-4-Discussion" class="headerlink" title="1.4 Discussion"></a>1.4 Discussion</h2><ol><li>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig 3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关。</li><li>文章尝试直接把MUST映射到力矩的输出上，这比CST的维度更高，但效果并没有比CST好，特别是在光滑度上，CST要优异很多（但是文章适用的是多元线性回归，效果不理想的原因也可能是受限于方法，因为神经元是非线性的）。</li><li>PCA特征比传统的基于EMG信号的方法更好，这是因为PCA能提取更多的低维特征，一定程度上能够代表是神经冲动</li></ol><h1 id="2-文章有哪些疑问"><a href="#2-文章有哪些疑问" class="headerlink" title="2.文章有哪些疑问"></a>2.文章有哪些疑问</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MUST </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于深度机器学习的体态与手势感知计算关键技术研究</title>
+      <link href="/2022/12/03/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BD%93%E6%80%81%E4%B8%8E%E6%89%8B%E5%8A%BF%E6%84%9F%E7%9F%A5%E8%AE%A1%E7%AE%97%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+      <url>/2022/12/03/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BD%93%E6%80%81%E4%B8%8E%E6%89%8B%E5%8A%BF%E6%84%9F%E7%9F%A5%E8%AE%A1%E7%AE%97%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/</url>
+      
+        <content type="html"><![CDATA[<p>一般来说，基于瞬时肌电图像的手势识别可以被定义为图像分类问题，可以通过标准的有监督学习来解决：<mark>给定具有手势标签的瞬时肌电图像集合作为训练数据，训练一个分类器来识别每一幅新的肌电图像所对应的手势。</mark></p><p>因为电极位移，肌肉疲劳，电极和皮肤之间的阻抗变化等因素的干扰，肌电信号与采集会话高度相关，已经训练好的手势分类器直接被应用在新的会话时通常准确率较低。针对基于肌电信号的会话间手势识别，已有方法通常需要用户在新的会话开始时进行标定，然后使用标定数据来适配模型。 <mark> 基于深度机器学习的领域自适应框架，用于提升基于肌电信号的会话间手势识别的准确率，同时降低模型适配过程中所需要的用户交互的复杂度。  </mark></p><span id="more"></span><h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>每个MU激活过程中的<mark>“放电”(discharge)或“发射”(firing)</mark>产生了运动单元动作电位(motor unit action potential，MUAP)。MUAP是组成MU的每个纤维所贡献的电位的总和。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> EMG images </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 博士论文 </tag>
+            
+            <tag> 自适应分类器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>表面肌电信号的运动单位动作电位检测</title>
+      <link href="/2022/11/30/%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E8%BF%90%E5%8A%A8%E5%8D%95%E4%BD%8D%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E6%A3%80%E6%B5%8B/"/>
+      <url>/2022/11/30/%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E4%BF%A1%E5%8F%B7%E7%9A%84%E8%BF%90%E5%8A%A8%E5%8D%95%E4%BD%8D%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E6%A3%80%E6%B5%8B/</url>
+      
+        <content type="html"><![CDATA[<span id="more"></span><h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p><mark>肌肉收缩力越大，募集MU越多，sEMG信号MUAP波形间的叠加程度和波形变异越高，分解方法也就不再适用</mark></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 博士论文 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于经验模板的表面肌电运动单元动作电位序列分解方法研究</title>
+      <link href="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/"/>
+      <url>/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/</url>
+      
+        <content type="html"><![CDATA[<p>这篇硕士论文介绍了单纤维动作电位（SFAP），运动单元动作电位（MUAP）的波形，运动单元动作电位与单纤维动作单位的关系，运动单元动作电位序列（MUAPTs）。</p><span id="more"></span><h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="MUAP的形成"><a href="#MUAP的形成" class="headerlink" title="MUAP的形成"></a>MUAP的形成</h2><p>动作电位形成后由终板沿肌纤维向两侧传导，形成单纤维动作电位（ Single Fiber Action Potential, SFAP）。通常情况下， SFAP 的波形主要由肌纤维直径、肌纤维的相对位置、 AP 传导速度和所使用的检测电极等因素共同决定。 SFAP 波形幅值与肌纤维直径成正比例关系； AP 传导速度越快，相应 SFAP 波形的时程越小。</p><blockquote><p>汤晓芙. 神经病学——神经系统临床电生理学(下)(肌电图学及其他)[M]. 北京: 人民军医出版社, 2002.</p><p>刘磊，岳文浩. 神经肌电图原理[M]. 北京: 科学出版社, 1983.  </p><p>安媛. 手指活动影响前臂多腱肌运动单元募集模式的初步研究[D]. 重庆大学, 2012.  </p></blockquote><p>当运动单元（MU）被激活时，其包含的所有肌纤维的 SFAP 在检测电极处综合叠加形成运动单位动作电位（Motor Unit Action Potential, MUAP），如图 2. 3 所示。从图中可以看出，不同肌纤维的终板位置不同，导致各个 SFAP 传导至检测电极的时延和相位不同；而各肌纤维终板与检测电极的相对距离的最大值决定了此MUAP 的持续时间，SFAP 的时延和相位共同决定了 MUAP 的相位，单相、双相或多相，在正常肌肉中，双相或三相结构的 MUAP 波形是最常见的，只有极少数MUAP 波形呈现多相结构。 </p><img src="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/image-20221130180015342.png" class="" title="image-20221130180015342"><p><mark>MUAPT的定义：</mark></p><script type="math/tex; mode=display">\operatorname{MUAPT}_j(t)=\sum_{k=1}^{M_j} M U A P_{j k}\left(t-\delta_{j k}\right)</script><p>其中, MUAP <script type="math/tex">\mathrm{jk}</script> 表示运动单元<script type="math/tex">j</script> 发放的第 <script type="math/tex">k</script> 个 MUAP; <script type="math/tex">M_j</script> 表示运动单元 <script type="math/tex">j</script> 所发放的 MUAP 总个数; <script type="math/tex">\delta_{j k}</script> 为运动单元 <script type="math/tex">j</script> 发放的第 <script type="math/tex">k</script> 个 MUAP 在 MUAPT 中出现的时刻点 。</p><p>由于神经-肌肉控制系统的复杂性，迄今为止，有关中枢神经系统对 MU募集和 MUAP 的发放特性目前仍是一个未解之谜。经典的理论认为 MU 的募集遵循”大小原理“，即 MU 按体积从小到大的顺序依次募集，较小的 MU 在较低的收缩力水平下兴奋，较大的 MU 在较高的收缩力水平下兴奋。</p><p><strong>MUAP和EMG的关系：</strong></p><img src="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/image-20221130221730927.png" class="" title="image-20221130221730927"><h2 id="MUAP的识别"><a href="#MUAP的识别" class="headerlink" title="MUAP的识别"></a>MUAP的识别</h2><p><strong>造成MUAP波形识别困难的因素：</strong></p><ol><li><p>波形湮灭：这是 MUAP 波形识别所面临的最大挑战。当某一时刻同时有多个 MUAP 发放时，幅值大的 MUAP 波形就会覆盖掉幅值小的 MUAP 波形；   </p></li><li><p>波形叠加：除了波形湮灭这种完全叠加以外，如果不同 MU发放的 MUAP 时刻点十分相近， MUAP 波形的部分叠加也会大大增加 MUAP 的识别难度；  </p></li><li><p>波形相似：不同 MU 所发放的 MUAP 波形具有一定的相似性；  </p></li><li><p>波形变异：同一 MU 所发放的 MUAP 波形也并非一成不变的，不同肌肉状态下所放的 MUAP 波形存在着一定的差异，如肌肉疲劳时所发放的 MUAP 波形与疲<br>劳前所发放的 MUAP 波形就略为不同  </p><img src="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/image-20221130201632205.png" class="" title="image-20221130201632205"></li></ol><p>目前， sEMG 信号分解技术可以大致分为<mark>两种类型</mark>：</p><ul><li><p>一类是系统辨识法。该方法从系统理论的角度出发，将神经-肌肉系统看作是一个多输入多输出（ MIMO）系统，把 MUAPTs 混合形成 sEMG 信号的假设成是线性混合或是非线性混合的过程。通过盲源分离等方法将多通道 sEMG 信号分解成为不同的分量，所得到的分量中与 MUAP 发放具有相似特性的即看作是 MUAPT。</p><img src="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/image-20221130204756672.png" class="" title="image-20221130204756672"></li><li><p>另一类是 MUAP 形态学方法。这类方法以 MUAP 的生理背景为基础并未对 MUAPT 的具体混合形式进行假设，是从客观存在的 MUAP 波形特点出发，采用波形检测、波形分类和叠加波形分解的方式进行分解。下面分别对两种不同的 sEMG 分解方法的思路进行叙述。  </p></li></ul><p>除此之外，De Luca团队还提出了<mark>reconstruct-and-test</mark>评价方法：</p><ul><li><p>该方法的基本思路是先用 sEMG 分解算法分解得到不同 MUAP 序列，然后，将所分解得到的 MUAP 序列相加，并加入高斯噪声，再完成一次分解。最后，通过对比分析两次分解得到的 MUAP 序列的信息来评价算法的准确性。</p><img src="/2022/11/30/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/image-20221130205514609.png" class="" title="image-20221130205514609"></li></ul><p>**综上所述，就现有的 sEMG 分解效果评价方法而言，比较完善的评价方案是先通过仿真 sEMG 信号从理论上验证算法的分解准确性，然后通过实验研究对算法的有效性进行验证。它既克服了同步采集 iEMG 给受试者带来的创伤，又具有比较高的可行度</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 硕士论文 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Analysis of motor units with high-density surface electromyography</title>
+      <link href="/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/"/>
+      <url>/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/</url>
+      
+        <content type="html"><![CDATA[<p>这篇文章主要介绍了高密度肌电和侵入式肌电的对比，高密度肌电的必要性，空间滤波和空间采样等等。文章中引出了关于肌电的两种混合模型：1. 线性瞬时混合模型；2.卷积混合模型。这在以前阅读的文章中没有详细提及。文章还引出了获得MUAP的两种方法：1.直接获得；2.STA方法。</p><span id="more"></span><h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>植入式电极受容积导体的影响小，表面电极受的影响大。由于电信号在组织的扩散作用导致了低通滤波的效果，以及采集电极的限制，表面肌电信号中检测到的不同运动单元的动作电位比较相似，如下图所示：</p><img src="/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231100101926.png" class="" title="image-20221231100101926"><p>同时受干扰的表面肌电信号也包含更多的源（因为这个原因，20年前，表面肌电信号被作为经典的干扰信号进行分析，所以叫做<em>interference signal / interfercence EMG</em>，采用的是全局变量如RMS等，没有对神经特征进行分析，得到的结论往往不一定正确）。</p><p>表面肌电信号运动单元分解并不能取代植入式电极的检测，而是在很多场景下提供了一种非侵入式的分析方法，同时相比于植入式电极，能够分析运动单元的性质，能同时检测多个运动单元。</p><ul><li><p><strong>空间滤波spatial filtering：</strong>空间滤波抵消了容积导体的低通滤波效应，并减少对记录信号有显著贡献的运动单元的数量，还提高了对运动单元动作电位的辨别能力。这是通过高通空间滤波器来实现的，该滤波器增强了肌肉内不同深度的运动单元产生的动作电位之间的振幅差异（二维滤波器，例如拉普拉斯滤波器）。</p></li><li><p><strong>空间采样spatial sampling：</strong>在多个位置记录表面肌电增强了区分单独运动单元动作电位的能力。</p></li></ul><h2 id="1-2-EMG采集技术"><a href="#1-2-EMG采集技术" class="headerlink" title="1.2 EMG采集技术"></a>1.2 EMG采集技术</h2><p><strong>如果记录网格与肌纤维方向一致，则在传播过程中电位幅值在空间分布上保持类似的形状，尽管传播方向上组织的均匀性可能会发生变化。</strong></p><img src="/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221207174512694.png" class="" title="image-20221207174512694"><p>神经支配区域、肌纤维膜的平均特征，如动作电位传播速度通常不需要运动单元分解，从表面肌电图分析即可得到。然而，这种方法通常在具有复杂纤维结构的肌肉中失败。脊髓的神经输出和肌电图振幅之间的联系取决于信号产生的许多内在因素，如运动单元电位的正相位和负相位之间的抵消程度。</p><p><strong>高密度的必要性：</strong>仅用几个电极记录动作电位时，表面动作电位差异显著的运动单元数量很少。尽管在某些特殊情况下，运动单元活动只能通过少数表面肌电图通道识别。</p><img src="/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231112044143.png" class="" title="image-20221231112044143"><p>以a图为例，尽凭一个电极或者仅凭中间这一列是无法区分出这两个运动电位的。（这张图是怎么的来的呢？同时采集表面肌电信号和侵入式肌电信号，侵入式肌电是比较准确的，把侵入式肌电检测到的运动单元动作电位作为触发事件，通过STA方法得到表面运动单元动作电位）。</p><h2 id="1-3-分解"><a href="#1-3-分解" class="headerlink" title="1.3 分解"></a>1.3 分解</h2><p>模板匹配技术已被提出用于高密度表面肌电图的分解。使用这种方法，动作电位从信号中连续检测出来，并通过将其形状与表示一组运动单元的模板电位相匹配来进行分类，以类似于肌内肌电图分解的方式。这些方法很少分离在时间上重叠的不同运动单元的动作电位，因此往往只能提供不完整的运动单元放电模式。</p><p>模板匹配方法的局限性推动了基于盲源分离和高阶统计量的运动单元识别技术的发展。盲源分离方法不依赖于动作电位形状的先验估计，对动作电位的叠加不敏感，是目前最有希望解决表面肌电图分解问题的方法。因此，该技术可以提供完整的单个运动单元放电模式的解码。</p><p>盲源分离方法将单个运动单元的贡献建模为统计上独立(或至少弱相关)的信号。然而，除了统计独立性之外，该方法不假设电机单元放电模式的任何其他性质，因此也可以应用于<mark>不规则的脉冲间隔条件</mark>。</p><p>为了分离源，提出了两种表面肌电混合过程的数学模型:</p><ul><li>根据<strong>线性瞬时混合模型</strong>(Garcıá et al, 2005;Nakamura et al, 2004a,b)，将单个运动单元的动作电位按未知因素进行幅值缩放，并求和得到观测到的表面肌电信号。利用该模型，可以有效地解决源分离问题；然而，该模型的局限性在于它没有考虑到不同记录位置的动作电位形状的差异，这是由于容积导体和动作电位传播的卷积效应造成的。</li><li>另一方面，<strong>卷积混合模型</strong>(Holobar和Zazula, 2004)将每个电机单元的放电序列表示为离散的二进制源信号，即狄拉克delta函数的和。运动单元动作电位被建模为有限长度因果滤波器的未知脉冲响应，可以是任意形状。因此，基于卷积混合模型的分解技术不依赖于底层肌肉结构，相对于基于瞬时混合模型的方法具有更好的性能。</li></ul><p>在卷积分解方法中，卷积核补偿(CKC)方法(Holobar and Zazula, 2007)在不识别底层混合过程的情况下估计单个电机单元的放电模式，从而大大减少了计算时间(Holobar and Zazula, 2004, 2007)。图6显示了当应用于等长、可变力的拇短外展肌收缩过程中记录的信号时，该方法所进行的分解。CKC方法已在模拟和实验条件下对若干肌肉进行了<mark>中等收缩水平</mark>的测试，并已被证明可以提供大量运动单元的放电模式，其精度可与肌内肌电图分解相媲美。</p><img src="/2022/11/30/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231143704490.png" class="" title="image-20221231143704490"><h2 id="1-4-肌纤维属性分析"><a href="#1-4-肌纤维属性分析" class="headerlink" title="1.4 肌纤维属性分析"></a>1.4 肌纤维属性分析</h2><p>通过电极网格检测到的运动单元动作电位的空间表示，有可能识别神经支配区和肌腱末梢、纤维长度的位置和纤维取向。</p><p><strong>获得MUAP的两种方法：</strong>当通过完全分解识别主动运动单元的放电模式时，表面运动单元电位的空间表示可以直接从<font color="red">分割阶段</font>获得，也可以通过使用识别的发放序列作为触发器对干扰肌电图进行<font color="red">STA</font>获得。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>输出力与运动单元募集的关系</title>
+      <link href="/2022/11/25/%E8%BE%93%E5%87%BA%E5%8A%9B%E4%B8%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8B%9F%E9%9B%86%E7%9A%84%E5%85%B3%E7%B3%BB/"/>
+      <url>/2022/11/25/%E8%BE%93%E5%87%BA%E5%8A%9B%E4%B8%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8B%9F%E9%9B%86%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
+      
+        <content type="html"><![CDATA[<p>力的大小主要通过两种途径改变：</p><ul><li>运动单元的放电频率：运动单元的放电频率越高，产生的力越大 </li><li>运动单元的募集数量：募集的运动单元数量越多，产生的力越大</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Physiology </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals</title>
+      <link href="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/"/>
+      <url>/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/</url>
+      
+        <content type="html"><![CDATA[<p>包括对全局EMG信号特征的提取与生理学研究中运动单元活动的识别之间的差异的讨论，以及如何获取、检查和分解HDEMG信号的全面指南，以及运动单元放电特征的稳健提取。</p><span id="more"></span><h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul><li>了解运动单元分解的详细流程，如何得到放电时间，希望通过本文章对MUAP和MUST有一个更清晰的认识</li></ul><h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>HD-EMG分解是一个半自动过程，这是因为需要对分解的结果进行全面的检查。</p><h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p>运动单元是一个转换器，把突触对神经的输入转换为力，包含<mark>一组</mark>肌肉纤维和<mark>一个</mark>α运动神经元。神经信息由运动单元通过<mark>轴突动作电位</mark>（即为对肌肉的<font color="red">神经驱动</font>，可以近似表示为MUST）传递，轴突动作电位在受神经支配的<mark>肌肉纤维</mark>中引发动作电位（即为<font color="red">运动单元动作电位MUAP</font>），运动单位动作电位的<mark>总和和时间过程</mark>决定了在运动任务期间用放置在皮肤上的电极记录的表面肌电图（EMG）的特征：</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125103049582.png" class="" title="image-20221125103049582"><p>上图表明：轴突动作电位和运动单元动作电位之间的一一对应。（<strong>注意：</strong>这里的肌肉应该包含很多运动单元的肌纤维，一个肌纤维只属于一个运动单元，只能接收一个α运动神经元的指令；这里的MUAPs已经是经过容积导体后的波形，所以波形的幅值存在差异）。MUAPs由MUST转换而来，但由于容积导体的影响，运动单元动作电位的幅度会变化，并且这些比变化并不总是与运动单元的尺寸相关。由于这些效应，肌肉的神经驱动力与EMG振幅之间的关联并不总是线性的。对肌肉的神经驱动只能通过运动单元放电时间来估计。</p><p>从表面肌电信号中识别MUAPs能够让我们得知个体运动神经元的放电活动。<mark>基于这种方法，运动神经元是人类唯一可以无创记录的神经细胞。</mark>非侵入式高密度表面肌电图提供了皮肤表面运动单元动作电位的空间采样，通过<mark>盲源分离（BSS）</mark>可以识别运动单元放电时间（在等长收缩任务中）。尽管BSS分解程序是以自动方式执行的，但它们需要用户检查已识别的运动单元尖峰序列。</p><h2 id="2-2-Global-EMG-estimates-vs-Decomposition"><a href="#2-2-Global-EMG-estimates-vs-Decomposition" class="headerlink" title="2.2 Global EMG estimates vs. Decomposition"></a>2.2 Global EMG estimates vs. Decomposition</h2><p>运动单元动作电位的特性取决于许多因素，例如，动作电位振幅和传导速度与肌肉纤维的直径成比例；运动单元动作电位的幅度还取决于受神经支配的肌肉纤维的数量，这与运动单元募集阈值（对应于运动单元第一次放电的自愿发力水平，<font color="red">Estimating motor unit discharge patterns这篇文章中采用pps来表示募集阈值？</font>）相关。然而，这种关联受到容积导体的影响，因此受到肌肉纤维和记录电极之间的距离的影响。这导致募集阈值和运动单位动作电位幅值之间的关联通常较弱(<font color="red">?</font>)，这影响了EMG幅值和神经对肌肉的驱动之间的关系，以及EMG幅值和力之间的关联（<strong>总结就是EMG的幅值和<mark>力</mark>以及<mark>神经驱动</mark>之间的关联受到了影响，Fig 2.显示高阈值的运动单元MUAP幅值并不一定高</strong>）。</p><p>与EMG幅值分析不同，单个运动单元放电时间的识别提供了对肌肉的神经驱动的直接估计。例如，当从梭形肌肉进行记录时，最好将EMG阵列的中心定位在初级神经支配区上方。在其他类型的肌肉（例如，三角肌）中，BSS对电极阵列的位置不太敏感，尽管电极仍需要放置在肌腹上方。</p><h2 id="2-3-HD-sEMG-Acquisition"><a href="#2-3-HD-sEMG-Acquisition" class="headerlink" title="2.3 HD-sEMG Acquisition"></a>2.3 HD-sEMG Acquisition</h2><font color="red">电极的放置位置是需要选择的，并不是随便放。</font><p>在应用高密度电极网格之前，应将皮肤剃光，轻轻研磨，并用酒精溶液和研磨膏清洁（Piervirgili等人，2014）。盲源分离基于这样的假设：</p><blockquote><p>运动单元的动作电位是独立唯一的，电极应放置在使得不同MUAP的幅值差异最大的地方。</p></blockquote><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125222351782.png" class="" title="image-20221125222351782"><p>上图中的B和C两图对比，可以看到C图的基线处有高水平的噪声。一个通道（小插图中的灰色线）在较低频率下显示的功率高于所有其他通道，这表明该通道信噪比差。HDEMG信号的公认基线噪声水平约为10–40µV RMS，但这一要求可能随收缩强度而变化。可以通过单极显示而非双极来目视检查异常通道。</p><p>根据经验经验，在低EMG振幅下，信号噪声应不超过信号功率的一半，以确保可靠分解。除了电极-皮肤和信号放大器的噪声（信号噪声），EMG分解只能识别相对较少的活动运动单元，未识别到的运动单元的活动是分解过程中的额外噪声源，通常也是主要噪声源。</p><p>EMG的带通滤波通常在10-20Hz至400-500Hz之间滤波，能保证EMG的大部分功率。带宽越小，不同运动单元的动作电位的相似性越大。然而，较小的带宽确实会降低噪声水平。如果可能，建议使用零相位滤波器，以避免不同运动单元动作电位的可变延迟，并保持运动单元动作电位的能量集中在短时间间隔内。非线性滤波改变了EMG的混合模型，应该避免。在可用于识别具有低信噪比的信道的方法中，一种方法是通过估计网格中每个电极的功率谱密度并将其与基线进行比较来检查信号的质量。在识别出具有高信噪比的电极之后，可以使用滤波技术（例如陷波滤波器）去除潜在的电力线干扰。</p><h2 id="2-4-Decomposition"><a href="#2-4-Decomposition" class="headerlink" title="2.4 Decomposition"></a>2.4 Decomposition</h2><p>流程：</p><ol><li>采集HDEMG记录</li><li>通过BSS分离源（运动单元）</li><li>目视检查</li><li>绘制可靠的识别出的运动单元的光栅图</li></ol><p><mark>BSS程序通常通过迭代优化运动单元分离滤波器并将其应用于EMG信号，一次估计一个运动单元尖峰序列（放电时间）。</mark>完整的流程如下：</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212204308.png" class="" title="image-20221127212204308"><p>从上图的标识可以看到，<font color="red">识别出的尖峰序列（spike trains）是存在高低差的</font>，这需要目视检查去掉一些低于阈值的尖峰来调整盲源分离器（调整后应该就从图b变成图B了），目视检查的流程如下图所示：</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212445774.png" class="" title="image-20221127212445774"><p>注意看左边图之间的对比，B是在A的基础上设置了一个阈值，去掉了低于阈值的尖峰；重构滤波器，再次应用到HD-sEMG信号中，得到了图C；图C中发现漏掉了两个尖峰，于是再手动加上这两个尖峰。这样人工优化分离器可以得到一个稳定的结果<font color="red">（目前还不知道如何根据放电频率来设置阈值）</font>。<mark>请注意，此部分手动选择仅用于分离器的计算，而不用于分解的输出</mark>。在排除信号质量较差的尖峰序列间隔后，应重新计算电机单元滤波器并将其应用于整个EMG信号，以便重新估计（客观地，无需任何人工干预）整个电机单元尖峰序列。</p><h2 id="2-5-Decomposition-accuracy"><a href="#2-5-Decomposition-accuracy" class="headerlink" title="2.5 Decomposition accuracy"></a>2.5 Decomposition accuracy</h2><p>评价指标：</p><ul><li>直接法：双源法（详细的 iEMG和sEMG分解准确率对比可以参考文献《Decoding the neural drive to muscles from the surface electromyogram》）</li><li>间接法：<ul><li>PNR</li><li>silhoutette distance</li><li>sta后MUAP的比较</li></ul></li></ul><p>所有这些测量都是渐近的，并随着尖峰序列中识别的尖峰的数量增加其精度。因此，它们不应用于评估少于30个尖峰的尖峰序列的准确性（Holobar等人，2014）或评估尖峰序列中每个单个尖峰的准确性。</p><p>由于运动单元动作电位形状在等长收缩期间可能发生变化，因此在尖峰触发平均值中应使用相对较少的运动单元放电时间。我们根据经验观察到，3–5秒（约30–100个峰值）足以在持续和快速等长收缩期间稳健地提取运动动作电位波形。</p><h2 id="2-6-Motor-unit-properties"><a href="#2-6-Motor-unit-properties" class="headerlink" title="2.6 Motor unit properties"></a>2.6 Motor unit properties</h2><p>根据所识别的运动单元的放电时间，可以识别参与的运动单元的特性。一个关键特性是募集阈值，其对应于第一个运动单元动作电位发生时的力。由运动神经元（肌肉单位）支配的肌肉纤维产生的力以延迟发生，该延迟取决于轴突传导速度和肌肉纤维的性质（主动和被动）。为了获得募集和解除募集阈值的可靠估计，受试者必须练习进行缓慢的线性斜坡收缩。</p><p>用于估计募集阈值和测量运动单元放电特性的一种常用方法是梯形力轨迹，控制力的增加和减少率（5–20%MVC/s）至中等平台力（最大力的35–70%）。鉴于目前HD-EMG分解在跨募集阈值均匀采样运动单位方面的局限性，最佳方法是根据测试肌肉和收缩类型使用一系列目标力（最大力的30至70–90%）。</p><p>可以从运动单元放电时间中提取的另一个信息是根据募集和解除募集时的放电率估计运动神经元持续内向电流<mark>（persistent inward currents）</mark>的强度。从运动单元动作电位波形的形状，还可以提取其他生理信息。该信息包括电机单元波形的分析，如振幅和传导速度（参见第1-2段和图2）。通过对运动单元放电时间和动作电位波形的分析，可以同时分析神经和外周特性。例如，不同肌肉的运动单元募集阈值和运动单位传导速度之间的强关联。</p><h2 id="2-7-Motor-unit-tracking"><a href="#2-7-Motor-unit-tracking" class="headerlink" title="2.7 Motor unit tracking"></a>2.7 Motor unit tracking</h2><p>只有在干预前后能够识别出相同的运动单元时，才能在纵向研究期间（如康复干预后）比较运动单元特性。HD-EMG记录的一个优点是它们通常提供运动单元动作电位的高空间分辨率。对于大型电极网格，两个运动单元在所有通道中显示完全相同的动作电位波形的可能性很小，<mark>这意味着当网格在不同的任务中放置在相似位置时，可以在多个任务中跟踪运动单元，这可以用于跨日跨周的研究当中</mark>。当多个运动单元彼此之间具有高互相关（偶尔发生）时，应将这些运动单元从跟踪中移除。</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200045625.png" class="" title="image-20221129200045625"><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200252345.png" class="" title="image-20221129200252345"><p>运动单元募集速度表示连续运动单元之间第一次放电时间的间隔（<font color="red">这个不是很懂，相当于是第一个放电时间竖线之间的间隔？但按照募集的顺序，有的后募集但是在图上体现出放电时间早于先募集的是怎么回事？</font>）</p><h2 id="2-7-Conclusions"><a href="#2-7-Conclusions" class="headerlink" title="2.7 Conclusions"></a>2.7 Conclusions</h2><p>不同肌肉能够识别到的运动单元的数量：</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200939603.png" class="" title="image-20221129200939603"> <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200953927.png" class="" title="image-20221129200953927"><h1 id="3-文章得到了哪些结论"><a href="#3-文章得到了哪些结论" class="headerlink" title="3. 文章得到了哪些结论"></a>3. 文章得到了哪些结论</h1><ul><li>动作电位振幅和传导速度，其与肌肉纤维的直径成比例</li><li>运动单元动作电位的幅度还取决于受神经支配的肌肉纤维的数量，这与运动单元募集阈值相关</li><li>分解的输出结果受肌肉、被试的容积导体性质、以及收缩强度限制。这些限制主要是因为记录电极与肌肉单元之间的距离和肌纤维动作电位的重叠。通常，<mark>随着收缩力的增加，通过分解能够识别的运动单元的数量会减少（<font color="red">只是能够识别的减少了，实际上募集的MU更多了。</font>）</mark>。比如，以胫骨前肌来说，这是一种可靠的分解肌肉（Del Vecchio和Farina，2019；Negro等人，2016a），<font color="red">我们观察到当目标力从最大力的35%增加到70%时，可以识别的运动单元数量减少了30%</font>。同样，对于皮下层较厚的受试者，识别的运动单元数量也有减少的趋势。这些趋势是由于当容积导体减少信号带宽时，不同运动单元的动作电位波形中的辨别信息减少</li><li><mark>spike trains</mark>和<mark>discharge times</mark>还是有区别的，spike trains包含了放电的时间，但同时其幅值还代表了权重，但这个权重应该是没有意义的。discharge times对应的是raster</li></ul><h1 id="4-文章有哪些疑问"><a href="#4-文章有哪些疑问" class="headerlink" title="4. 文章有哪些疑问"></a>4. 文章有哪些疑问</h1><ul><li><p>互相关图？CST是用来干嘛的，25ms的汉宁窗干嘛的？搞清楚下面几张图：</p><img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png" class="" title="image-20221129195300583"> <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png" class="" title="image-20221129195313224.png"></li><li><p>是不是  <font color="red">虽然识别出来的尖峰幅值存在不同，高低表示MUAP的权重，但这是因为MUAP受传播、容积导体等影响后的结果，而神经驱动理论上来说每一次动作电位的幅值应该是一样的，因此我们估计神经驱动只需要关注放电的时间，所以这才是后面的图中所有竖线都一样长的原因？</font></p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MUST </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Estimating motor unit discharge patterns from high-density surface electromyogram</title>
+      <link href="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/"/>
+      <url>/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/</url>
+      
+        <content type="html"><![CDATA[<p>为了进一步理解《A convolutional neural network to identify motor units from high-density surface electromyography signals in real time》，通过这篇文章弄清了这样一个过程：CKC算法分解sEMG得到了MUST（运动单元的放电时间，也叫discharge parttern），MUST通过spike-triggered averaging (SPA)方法得到表面MUAP。这篇文章分别通过仿真EMG、拇短展肌、肱二头肌、上斜方肌和股外侧肌实验阐述了MU的募集阈值，放电时间，募集先后，表面MUAP的形成这几方面的研究。</p><span id="more"></span><h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul><li>怎样从高密度机电中识别出运动单元</li><li>怎样识别出运动单元的放电时间</li><li>卷积核补偿算法是如何运用的</li></ul><hr><h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>文章是在low-level force-varying contractions条件下进行的。</p><h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p>电信号由所有激活的运动单元贡献而成，因此要将合成的EMG信号分解成各个独立的运动单元动作电位（composite signal into its constituent MUAP trains）。活跃运动单元的经典识别方式是由植入式电极来完成的，具有高度的选择性，不会混杂过多的其他运动单元的电信号，<font color="red">但不能代表运动单元中所有的纤维，也不能每次都检测相同的位置。同时，肌纤维的一些属性，如动作电位的传播速度，或者运动单元的解剖特性，如纤维长度、纤维朝向不能确定。</font></p><p>信号分解方面的一些研究（文中提到的以下内容均不能自动识别完整的MU放电模式或是只能同时识别少量激活MU）：<mark>模板匹配；有限元分析；盲源分离；高阶统计</mark></p><p>本文使用<strong>CKC算法</strong>完成：</p><ol><li>同时识别大量激活的MU</li><li>跟踪MU募集的早晚(<font color="red">这部分内容需要再详细看一下，募集的时间顺序</font>)</li><li>从不同解剖结构的肌肉中识别MU</li><li>分解得到运动单元动作电位</li></ol><h2 id="2-2-Data-Acquire"><a href="#2-2-Data-Acquire" class="headerlink" title="2.2 Data Acquire"></a>2.2 Data Acquire</h2><p>13 * 5 采集阵列</p><p>信噪比20DB的仿真信号</p><h2 id="2-3-Materials-and-methods"><a href="#2-3-Materials-and-methods" class="headerlink" title="2.3 Materials and methods"></a>2.3 Materials and methods</h2><h3 id="2-3-1-EMG-Signal-Simulation"><a href="#2-3-1-EMG-Signal-Simulation" class="headerlink" title="2.3.1 EMG Signal Simulation"></a>2.3.1 EMG Signal Simulation</h3><p>（1）在给定兴奋水平下，决定运动神经元募集和放电时间<br>（2）根据每个运动单元的肌纤维的数量、位置、传导速度生成MUAPs</p><blockquote><p>MU具有正态分布的传导速度，平均值和标准偏差为4.0±0.3 m/s（Farina等人，2000），最小的MU具有最慢的传导速度（Andreassen和Arendt-Nielsen，1987）。属于同一MU的纤维具有相同的传导速度。细胞内动作电位的模拟基于Rosenfalk（1969）的分析描述。</p></blockquote><p>（3）对MUAPs求和模拟sEMG</p><h3 id="2-3-2-Discharge-Pattern"><a href="#2-3-2-Discharge-Pattern" class="headerlink" title="2.3.2 Discharge Pattern"></a>2.3.2 Discharge Pattern</h3><p>在模拟的12秒长收缩中，肌肉的兴奋水平在前6秒从0%增加到10%，在后6秒从10%下降到0%。在10%激发水平下激活的MU数量为120个中的63个。<font color="red">一旦激发超过指定的募集阈值，每个MU以每秒8个脉冲（pps）的速度放电，并且放电速率随激发线性增加（0.3pps/%）。</font>所有模拟MU的峰值放电速率为35pps。最后一个单位在50%的最大激励下募集。</p><h2 id="2-4-Experiments"><a href="#2-4-Experiments" class="headerlink" title="2.4 Experiments"></a>2.4 Experiments</h2><p><strong>（1）8名受试者的拇短展肌肌电图的分解结果：</strong></p><img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221122003643691.png" class="" title="image-20221122003643691"><p>募集阈值定义为前5个放电的平均频率，去募集阈值定义为后5个放电的平均频率。表中MU的性质（瞬时放电率、脉冲间间隔变异性和重构的MUAP形状）需要与已知的生理范围作对比，也就是说需要有一个参考结果，这样才能评估分解精度。</p><font color="red">**施加的力与所识别MU的数量之间的高度相关性，所识别的MU募集数目随着收缩力的增加而逐渐增加。**</font><p>新募集的MU以9.0±1.6 pps开始放电，并随着力的增加逐渐增加放电速率（达到15.6±2.1 pps）。在斜坡的下降侧，MU放电速率降低至8.8±1.5 pps，MU以与募集相反的顺序逐渐去募集。MU的募集阈值在研究的力范围内大致均匀分布，并与MU峰值放电率呈负相关。</p><p><strong>（2）从拇短展肌（受试者G）确定的MU的瞬时放电率：</strong></p><img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121173352199.png" class="" title="image-20221121173352199"><p>subplot 2 每个点表示给定时刻的MU放电（也就是MUST），灰色线表示施加的肌肉力。subplot 1 描述了MU 5和MU 6的细节。<font color="red">subplot 2 可以看到所有MU募集的过程，随着力的增大，会有新的MU募集。</font></p><img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164528441.png" class="" title="image-20221121164528441"><font color="red">**这张图中的波形就是MUAP在各个通道处的波形（表面MUAP）！！！注意图注中的STA方法，通过STA可以从MUST得到表面MUAP。CKC方法估计MU放电时间，但不估计动作电位的形状。因此，MUAP形状通过sEMG的spike-triggered averaging（Keenan，2006）来估计，使用识别的MU放电时间作为triggers。**</font><p>这张图中还有一个值得注意的地方，黑色实心圆圈代表靠近神经处，空心圆圈代表靠近肌肉处，可以看到<strong>神经处的动作电位是要比肌肉处的提前的</strong>。</p><p><strong>（3）仿真sEMG：</strong></p><p>CKC方法对噪声和动作电位叠加都是高度鲁棒的。MUAP trains的总和占总sEMG能量的60%以上。Residual部分主要是由于大量小、深的MU产生的相对较小的MUAP，这些MUAP被分解算法视为<mark>噪声</mark>:</p><img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121173424122.png" class="" title="image-20221121173424122"><p><strong>（4）肱二头肌、上斜方肌和股外侧肌：</strong></p><p>随着肌力的增加，MU逐渐被募集。并且ramp-down比ramp-up的MUAPs和更接近sEMG.</p><img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164612078.png" class="" title="image-20221121164612078"><hr><h1 id="3-文章使用了哪些方法"><a href="#3-文章使用了哪些方法" class="headerlink" title="3. 文章使用了哪些方法"></a>3. 文章使用了哪些方法</h1><ol><li>CKC算法分解sEMG和iEMG</li><li>仿真emg，拇短展肌，肱二头肌/上斜方肌/股外侧肌</li></ol><hr><h1 id="4-文章得到了哪些结论"><a href="#4-文章得到了哪些结论" class="headerlink" title="4. 文章得到了哪些结论"></a>4. 文章得到了哪些结论</h1><ol><li>通过分解得到的放电时间和植入式电极得到的放电时间的一致性达到了98+-1%</li></ol><hr><h1 id="5-文章有哪些疑问"><a href="#5-文章有哪些疑问" class="headerlink" title="5. 文章有哪些疑问"></a>5. 文章有哪些疑问</h1><ul><li><p>MUAP和SFAP具体是一个什么形式的波形</p><blockquote><p>每一个肌纤维的活化所产生的运动电势叫做单纤维动作电位（SFAP）。每个运动单位全部肌肉纤维的SFAP共同构成了一个运动单位的动作电位（MUAP）。一旦运动中心下达了一条运动命令，一连串的神经元脉冲就会通过运动神经元的轴突传递到神经肌肉结合处，形成一系列MUAP，并由此构成运动单位动作电位序列（MUAPT）。</p></blockquote><p><font color="red"><strong>表面MUAP是MUST通过STA方法得到信号</strong></font>，将其进行代数求和就是表面肌电信号。表面MUAP是肌纤维产生的MUAP经过脂肪、皮肤等容积导体后在皮肤表面测得的运动单元动作电位，所以不同的MUAP的幅值会因为收到影响而不同。<font color="red">SFAP有待进一步弄清</font>，MU包含了很多肌肉纤维，SF是单纤维，<font color="red">之间的波形是否存在差异？</font>同一个运动单元中的放电是由一个神经元决定的，也就是说电信号的源是一样的。</p><blockquote><p>SFAP的形式已经弄清，参加文献笔记《<em>基于经验模板的表面肌电运动单元动作电位序列分解方法研究</em>》。</p><p>MUAP和SFAP之间的波形是存在差异的，MUAP通常呈现双相或三相结构。</p></blockquote></li><li><p>Reconstructed MU不是很懂</p></li><li><p>如何通过表面MUAP估计原始的MUAP</p><blockquote><p>估计不了，原始的MUAP经过容积导体滤波后才得到了表面MUAP，这两者比较相似。可以使用fastICA方法估计原MUAP</p></blockquote></li><li><p>如果CKC是在MU募集后，也就是放电后才能识别到，那么放电时间图上，为什么上面的MU（如果代表着后募集的）存在放电时间先于下面的MU（先募集）</p><blockquote><p>这个不影响数据分析，谁上谁下无所谓</p></blockquote></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Decoding the neural drive to muscles from the surface electromyogram</title>
+      <link href="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/"/>
+      <url>/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/</url>
+      
+        <content type="html"><![CDATA[<p>这篇文章主要是介绍了为什么通过sEMG来表示神经驱动是不精确的，然后引出了幅值抵消（amplitude cancellation）这个概念，并举例子说明了幅值抵消带来的影响。相比之下，从sEMG中识别单个运动单元释放动作电位的时间允许更直接地访问神经驱动。然后文章介绍了CKC分解算法，能够得到运动单元的放电时间和在各个通道处的信号。接着，文献将iEMG和sEMG分解得到的放电时间做了个对比，灵敏度能达到90%以上。</p><span id="more"></span><h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul><li>作为文献<em>Estimating motor unit discharge patterns from high-density surface electromyogram</em>的补充，解决MUAP和MUST的疑惑</li><li>神经驱动</li><li>运动单元分解</li></ul><h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>肌肉：拇短展肌</p><h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><ul><li>产生力的大小是由运动单元的募集数量和发放频率控制的。</li><li>运动神经元产生的动作电势通常会沿着肌纤维传导。</li><li>运动单元动作电位的波形取决于神经元所支配的肌肉纤维的数目和解剖特性，以及电极的参数。</li><li>通过识别单位时间内产生的运动单元动作电位的数量，可以从表面肌电图中量化神经对肌肉的驱动程度。</li></ul><p>由表面肌电分解识别的单个运动单元动作电位的发生时间（放电时间）来估计脊髓的运动输出。</p><h2 id="2-2-Amplitude"><a href="#2-2-Amplitude" class="headerlink" title="2.2 Amplitude"></a>2.2 Amplitude</h2><p>通过幅值来估计神经的兴奋程度存在几个弊端：</p><ol><li>皮肤表面运动单元动作电位的大小仅与运动单元大小部分相关；</li><li>不同运动单元动作电位对肌电信号振幅的相对贡献可能因条件而异；</li><li>传导到皮肤表面上的动作电势会因外界条件的不同而变化；</li><li>表面动作电位之和小于单个动作电位幅值之和，这是因为不同运动单元动作电位之间存在抵消关系，专业术语为”amplitude cancellation“；</li><li>肌肉疲劳等因素对表面肌电有影响，振幅抵消的量也会发生变化。</li></ol><p><code>是不是说明，直接通过sEMG来估计力是不准确的。是否应该先通过sEMG来估计相关的运动单元，以及运动单元的放电时间，然后再通过这样一个二维图像来估计力。</code></p><p>运动单元的活动在不同受试者、条件和肌肉之间是不同的，因此实验过程中EMG的幅值不能用绝对幅值，必须归一化为参考收缩中获得的值，如MVC。</p><p>表面肌电图的幅值与单位时间内的动作电位之间的关系并不是简单的线性，因为存在幅值抵消amplitude cancellation。因为低阈值运动单元倾向于产生比高阈值单元更小的表面动作电位，所以低阈值运动单元的表面动作电位通过振幅抵消而降低得更多，特别是对于高水平的肌肉活动。由于这种效应，表面肌电振幅可能对低阈值运动单元的活动变化相对不敏感。</p><ul><li>在30%MVC的实验中，所有运动单元在实验开始时单位时间内发放的动作电位数量为28%，在实验结束时是61%；</li><li>在60%MVC的实验中，所有运动单元在实验开始时单位时间内发放的动作电位数量为52%，在实验结束时是62%；</li></ul><p>实验开始时两种力水平的动作电位发放不一样，但结束时却非常接近，而幅值（体现为RMS）上两者并不接近，分别为62%和88%。这之间的差异是由幅值抵消造成的。<font color="red">总而言之，就是EMG幅值的改变并不能真实地反应神经活跃程度的改变。</font></p><h2 id="2-3-Decomposition"><a href="#2-3-Decomposition" class="headerlink" title="2.3 Decomposition"></a>2.3 Decomposition</h2><p>根据运动单元的形状和位置，每个运动单元由它的模板动作电位表示。高密度肌电中不同运动单元间的动作电位的形状通常不同。即使某两个运动单元的动作电位在某些通道中相同，但其他通道中的微小持续的差别能够通过EMG的分解区别出来。</p><img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221207152750399.png" class="" title="image-20221207152750399"><p>CKC算法分解结果和植入式电极分解结果对比：</p><img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129213713087.png" class="" title="image-20221129213713087"><p><mark>在2.5%到20%MVC力水平下，通过sEMG和iEMG两种信号进行分解可以达到90%以上相同。并且有研究表明肌肉的结构对这种分解方式并没有影响。</mark></p><p>通过表面肌电的分解可以识别的运动单元的数量在受试者、肌肉和条件之间有很大的差异。研究还表明，sEMG分解得到的表面肌电的数目通常比真实的活跃的运动单元少。<font color="red">尽管可以通过表面肌电的分解来识别的运动单元相对较少，但识别出的运动单元的电活动解释了大部分肌电信号。Amplitude和EMG decomposition都偏向于具有最大表面动作电位的运动单元，即大型和浅表运动单元。</font></p><img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129213953237.png" class="" title="image-20221129213953237"><p>表面EMG的分解目前仅限于低收缩力和等距条件。这些限制不适用于可以在任何条件下容易执行的具有表面EMG振幅的神经激活分析。</p><img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129214033653.png" class="" title="image-20221129214033653"><p>❓<font color="red">搞清楚B是怎么的来的</font></p><h1 id="3-文章得到了哪些结论"><a href="#3-文章得到了哪些结论" class="headerlink" title="3. 文章得到了哪些结论"></a>3. 文章得到了哪些结论</h1><ul><li>尽管在某些情况下，可以从相对较少的运动单位推断神经激活的变化（主要是低频成分），但运动神经元特性的更细微调整不能从整体信号中推断出来。例如，在间歇性疲劳收缩期间，低阈值运动单位的恢复阈值和放电率的变化有很大差异。这些变化不能仅从有限数量的单位推断出来，需要更大的样本。此外，运动神经元放电低频分量的相关性强度可能会在肌肉间变化。目前，还没有经过验证的方法可以在自愿收缩过程中识别体内大部分活动运动单位。</li><li>从运动单元的放电时间，可以提取到运动神经元池的共同突触输入的特征。</li></ul><h1 id="4-文章有哪些疑问"><a href="#4-文章有哪些疑问" class="headerlink" title="4. 文章有哪些疑问"></a>4. 文章有哪些疑问</h1><ul><li><p>the interference signal表示什么？根据上下文感觉是sEMG的意思，但是翻译应该是干扰信号的意思</p><ul><li>解答：interference EMG signal</li></ul></li><li><p>Fig. 2. amplitude cancellation的计算方法。参考文献 <em>Influence of amplitude cancellation on the simulated surface electromyogram</em></p><img src="/2022/11/20/Decoding-the-neural-drive-to-muscles-from-the-surface-electromyogram/image-20221129214555084.png" class="" title="image-20221129214555084"></li><li><p>Fig. 3. 中(c)表示的是什么，文中说的是动作电位的幅值，但是所有的动作电位的幅值不应该一样吗？</p><ul><li>解答：所谓的动作电位幅值一样指的是神经元的去极化动作电位一样，通过频率来反映兴奋强弱。而运动单元动作电位的形状是有可能有区别的，MUAP是由SFAP叠加而来的，因此可能出现双相，三相，多相的MUAP。而MUAP经过容积导体的传导，在各个电极处体现的表面MUAP不一样。</li></ul></li><li><p>Fig. 4.中的(c)表示什么，说的是5 * 13的电极阵列，但MU只有12行，并且左上角还缺了一个。MU的动作电位是怎么得到的？<font color="red">as averaged over all the discharge times of each unit.</font></p></li><li><p>Fig. 7. (B)的原理</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Motor unit decomposition </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MUST </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Personal Blog Build Tutorial</title>
+      <link href="/2022/11/17/personal-blog-build-tutorial/"/>
+      <url>/2022/11/17/personal-blog-build-tutorial/</url>
+      
+        <content type="html"><![CDATA[<p>这篇文章记录如何使用github page + hexo搭建个人博客（<a href="https://zhuanlan.zhihu.com/p/370635512">超详细 Hexo + Github Pages 博客搭建教程 - 知乎 (zhihu.com)</a>）。</p><span id="more"></span><img src="/2022/11/17/personal-blog-build-tutorial/image-20221117231436491.png" class=""><h1 id="1-环境配置"><a href="#1-环境配置" class="headerlink" title="1. 环境配置"></a>1. 环境配置</h1><h2 id="1-1-安装git"><a href="#1-1-安装git" class="headerlink" title="1.1 安装git"></a>1.1 安装git</h2><p>在官网下载后直接一路默认安装。安装好git后，需要配置git使其与远程仓库相连：</p><ol><li><p>生成密钥，添加到github的setting。在生成密钥前，需要先配置git的全局别名和邮箱。生成密钥后，进入生成密钥的目录，使用记事本打开id_rsa.pub，复制粘贴到github的SSH配置中。</p><blockquote><p>Git使用https协议，每次pull, push都要输入密码，相当麻烦。使用ssh密钥，可以省去每次都输密码。</p></blockquote><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;#需要添加引号</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure><img src="/2022/11/17/personal-blog-build-tutorial/image-20221118235600050.png" class="" title="image-20221118235600050"></li><li><p>git添加远程仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin your_repository_ssh_address</span><br><span class="line">git branch -M main</span><br></pre></td></tr></table></figure></li><li><p>git添加文件到本地仓库并传导远程github仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure></li></ol><h2 id="1-2-安装node-js"><a href="#1-2-安装node-js" class="headerlink" title="1.2 安装node.js"></a>1.2 安装node.js</h2><p>一路默认安装，注意安装图中不要勾选automatically install。</p><p>参考链接：<a href="[windows 下安装nodejs-百度经验 (baidu.com">node.js安装教程</a>](<a href="https://jingyan.baidu.com/article/b0b63dbfca599a4a483070a5.html">https://jingyan.baidu.com/article/b0b63dbfca599a4a483070a5.html</a>))</p><h2 id="1-3-安装hexo"><a href="#1-3-安装hexo" class="headerlink" title="1.3 安装hexo"></a>1.3 安装hexo</h2><p>在安装好node.js后，使用npm安装hexo：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure><hr><h1 id="2-参数配置"><a href="#2-参数配置" class="headerlink" title="2. 参数配置"></a>2. 参数配置</h1><p>一般来说，参数只需要更改_config.yml文件即可。如果添加了主题，比如我使用了icarus主题，那么带主题名字的config文件是主题的配置文件，而原本就有的config文件是站点的配置文件。</p><img src="/2022/11/17/personal-blog-build-tutorial/image-20221119001218720.png" class=""><p>主题配置文件只需要把不需要的部分使用#注释掉即可。站点的config.yml配置文件中要注意两点：</p><ul><li>设置post_asset_folder为true，这样便于后面能够同步上传图片，解决网页上图片不显示的问题</li><li>设置部署网站，如果没有设置，那么即使push到github后，主页打开也是404</li></ul><img src="/2022/11/17/personal-blog-build-tutorial/image-20221128221446594.png" class="" title="image-20221128221446594"><hr><h1 id="3-图片解决方案"><a href="#3-图片解决方案" class="headerlink" title="3. 图片解决方案"></a>3. 图片解决方案</h1><p>markdown对图片的支持不友好，需要设置一下才能使得网页上能够显示图片。</p><ol><li><p>安装插件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-img --save</span><br></pre></td></tr></table></figure></li><li><p>配置typora</p><img src="/2022/11/17/personal-blog-build-tutorial/image-20221119002000517.png" class=""></li><li><p>完成参数设置中的第一点</p></li></ol><h1 id="4-公式解决方案"><a href="#4-公式解决方案" class="headerlink" title="4. 公式解决方案"></a>4. 公式解决方案</h1><p>教程：<a href="https://www.jianshu.com/p/7ab21c7f0674">公式解决方案教程博客</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Computer </category>
+          
+          <category> Blog </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
