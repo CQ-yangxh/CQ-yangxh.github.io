@@ -27,14 +27,12 @@
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
 <meta property="og:description" content="DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：DEMUSE Tool (um.si)。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230124700817.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230173231799.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 <meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
-<meta property="article:modified_time" content="2023-01-24T02:14:18.667Z">
+<meta property="article:modified_time" content="2023-03-09T14:04:34.134Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
 
@@ -222,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-01-24 10:14:18" itemprop="dateModified" datetime="2023-01-24T10:14:18+08:00">2023-01-24</time>
+                <time title="Modified: 2023-03-09 22:04:34" itemprop="dateModified" datetime="2023-03-09T22:04:34+08:00">2023-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +254,6 @@
 <span id="more"></span>
 <h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><script type="math/tex; mode=display">
 x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M</script><p>symbol的长度为L，也就是<script type="math/tex">a_{ij}</script>的长度是L。如果不考虑N个源的叠加，那么就是<script type="math/tex">a_{ij}(n)</script>与<script type="math/tex">t(n)</script>的卷积，该表达式的意义就是对于某一个观察或检测，其值等于一个源的发放时间与观测位置处symbol的卷积，再对所有源求和的一个结果。</p>
-<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221224202318904.png" class="" title="image-20221224202318904">
 <p><strong>超定和欠定主要是看混合矩阵A的行KM与列N(L+K-1)的大小，KM大则是超定，KM小则是欠定。</strong></p>
 <p>采样率高了之后，两个峰值之间的采样点就多了，因此就相当于变得稀疏了。</p>
 <blockquote>
@@ -264,6 +261,27 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 </blockquote>
 <script type="math/tex; mode=display">
 \overline{\mathbf{y}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script><p>混合矩阵A中包含的信息实际上是被忽略了的，CKC算法更关注脉冲序列的性质。</p>
+<blockquote>
+<p>CKC算法用于求取脉冲序列，也就是上式中的$$<br>\overline{\mathbf{t}}(n)</p>
+<script type="math/tex; mode=display">，求得的结果是对</script><p>\overline{\mathbf{t}}(n)</p>
+<p>$$的最佳线性贝叶斯估计，线性贝叶斯估计是求取一组最佳的权重，将信号每一个时间点的值加权求和来估计参数。</p>
+</blockquote>
+<h2 id="1-0-符号说明"><a href="#1-0-符号说明" class="headerlink" title="1.0 符号说明"></a>1.0 符号说明</h2><ul>
+<li><p>时间扩展向量（在n这个时刻对N个源信号扩展）：<script type="math/tex">\begin{array}{r}
+\overline{\mathbf{t}}(n)=\left[t_1(n), t_1(n-1), \ldots, t_1(n-L-K+2), \ldots,\right.
+\left.t_N(n), \ldots, t_N(n-L-K+2)\right]^T
+\end{array}</script></p>
+<p>维度：1 × N(K+L-1)</p>
+</li>
+<li><p>时间扩展向量中的第j个元素（这个元素可能是n时刻的，也可能是n时刻前的）：<script type="math/tex">\bar{t}_j(n)</script></p>
+</li>
+<li><script type="math/tex; mode=display">\overline{\mathbf{t}}(n) $$中的第j个元素在每个n时刻都取出来构成向量：$$ \overline{\mathbf{t}}_j=\left\{\bar{t}_j(n) ; n=0,1, \ldots\right\}</script></li>
+<li><p>全局活跃指数：<script type="math/tex">\gamma=\{\gamma(n) ; n=0,1, \ldots\}</script></p>
+<p><script type="math/tex">n_k</script>时刻不为0，则至少存在一个j，使得<script type="math/tex">\overline{\mathbf{t}}(n_k)</script>中的第j个元素 = 1。即： <script type="math/tex">\gamma\left(n_k\right)>0 \Leftrightarrow \exists j;\bar{t}_j(n) =1</script>。</p>
+</li>
+<li><p>当<script type="math/tex">n_0</script>时刻存在<script type="math/tex">g_0</script>个j时，j的一个集合：<script type="math/tex">G_{n_0}=\left\{j_{n_0, 1}, \ldots, j_{n_0, g_0}\right\} \text {, i.e., } j \in G_{n_0} \Leftrightarrow \bar{t}_j\left(n_0\right)=1</script></p>
+</li>
+</ul>
 <h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p>
 <p>激活指数（<font color="red">怎么得到的这个表达式？</font>）：</p>
 <script type="math/tex; mode=display">
@@ -271,23 +289,24 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 \gamma(n) & =\overline{\mathbf{x}}^T(n) \mathbf{C}_{\overline{\mathbf{xx}}}^{-1} \overline{\mathbf{x}}(n) \\
 & =\overline{\mathbf{t}}^T(n) \mathbf{A}^T\left(\mathbf{A}^T\right)^{-1} \mathbf{C}_{\overline{\mathbf{tt}}} \mathbf{A}^{-1} \mathbf{A} \overline{\mathbf{t}}(n) \\
 & =\overline{\mathbf{t}}^T(n) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n)
-\end{aligned}</script><p>激活指数的发放时间表示形式只需要把公式 <script type="math/tex">\overline{\mathbf{x}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script> 忽略噪声代入即可。激活指数是全局脉冲序列活动的一个指标，在某个时刻时，只有当至少有一个脉冲序列在此刻发放，那么激活指数才不为0，因为C中的元素是时刻之间的自相关系数和互相关系数，均不为0（其逆也不为0），所以只要存在一个MU的发放脉冲，那么相乘相加后一定是大于0的。</p>
-<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230124700817.png" class="" title="image-20221230124700817">
+\end{aligned}</script><p>激活数的发放时间表示形式只需要把公式 <script type="math/tex">\overline{\mathbf{x}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script> 忽略噪声代入即可。激活指数是全局脉冲序列活动的一个指标，在某个时刻时，只有当至少有一个脉冲序列在此刻发放，那么激活指数才不为0，因为C中的元素是时刻之间的自相关系数和互相关系数，均不为0（其逆也不为0），所以只要存在一个MU的发放脉冲，那么相乘相加后一定是大于0的。</p>
 <p>当我们用存在发放时刻的观测序列去代替原观测序列后，有如下表达式：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 \nu_{n_0}(n) & =\overline{\mathbf{x}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{x x}}}^{-1} \overline{\mathbf{x}}(n)=\overline{\mathbf{t}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n) \\
 & =\sum_{k \in G_{n_0}} \sum_{j=1}^{N(L+K-1)} c_{j k}^{\mathrm{inv}} \bar{t}_j(n)
-\end{aligned}</script><p>注意，这个表达式中的j已经不代表symbol的编号了，只是一个单纯的索引数字，在左边项取了n0后，t的值就变成了1或者0，0项在求和过程中可以忽略，1作为系数时也省略不写，因此可以化简成上式求和的形式。上式中j代表的是行，k代表的是列，可以看到行是全部索引完的，而列只取矩阵中激活的列，即t中每一个元素与C中的列对应相乘，最后再求和：</p>
-<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20221230173231799.png" class="" title="image-20221230173231799">
+\end{aligned}</script><p>注意，这个表达式中的j代表的是时间扩展向量中的第j个元素，在左边项取了n0后，t的值就变成了1或者0，0项在求和过程中可以忽略，1作为系数时也省略不写，因此可以化简成上式求和的形式。上式中j代表的是行，k代表的是列，可以看到行是全部索引完的，而列只取矩阵中激活的列，即t中每一个元素与C中的列对应相乘，最后再求和。</p>
 <p>附录A证明，C拥有优越的对角线，是对角占优的，所有可以忽略掉非对角线的部分，得到如下公式：</p>
 <script type="math/tex; mode=display">
-\nu_{n_0}(n) \approx \sum_{j \in G_{n_0}} c_{j j}^{\operatorname{inv}} \bar{t}_j(n) .</script><p>这里其实也就是行也不全部索引了，只索引对角线上且处于激活状态的时刻。</p>
-<font color="red">这里对于k的取值还不是很清楚，G_{n0}中的索引对应symbol，按理说最大值应该是N，但计算v的时候索引最大值又是N(n-L-K+2)，不是很懂。</font>
+\nu_{n_0}(n) \approx \sum_{j \in G_{n_0}} c_{j j}^{\operatorname{inv}} \bar{t}_j(n) .</script><p>注意，上述公式中，n是遍历所有采样点的，只有当n=n0时，<script type="math/tex">\nu_{n_0}</script>才不等于0（因为j是在n0时取的，一旦错位最终结果就是0），这样也就在时间轴上找到了n0。但是也存在一些偶然情况，比如考虑n0时刻，其脉冲集合是<script type="math/tex">G_{n_0}</script>，而当n遍历到n2时，这时如果n2时间序列的第<script type="math/tex">j_{n_0,1}</script>个元素恰好与n0时间序列的<script type="math/tex">j_{n_0,2}</script>重合，那么该式得到的结果也不是0，这样就会找到两个时刻点n0和n2，因此，还需要对这些时刻进行分离，示意图如下：</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png" class="" title="image-20230309210631973">
+<h2 id="1-2-脉冲序列的分离"><a href="#1-2-脉冲序列的分离" class="headerlink" title="1.2 脉冲序列的分离"></a>1.2 脉冲序列的分离</h2><p>从上图可以看到，<script type="math/tex">G_{n_0}</script>和<script type="math/tex">G_{n_2}</script>中至少存在一个脉冲重叠。对<script type="math/tex">\nu_{n_0}</script>和<script type="math/tex">\nu_{n_2}</script>做内积（<script type="math/tex">\nu_{n_0}(n) \cdot \nu_{n_1}(n) ; n=0,1,2, \ldots</script>），得到一个序列，记为<script type="math/tex">\mathbf{h}_{n_0, n_1}</script>，再随机选择R-2个脉冲记为<script type="math/tex">n_r ; r=2, \ldots, R-1</script>。对于<script type="math/tex">n_r</script>，有两个互补（两者之一必成立）结论：</p>
+<ol>
+<li><script type="math/tex; mode=display">n_r$$中至少有一个脉冲同时属于$$ G_{n_0} \cap G_{n_1}</script></li>
+<li><script type="math/tex; mode=display">n_r$$中如果没有脉冲属于$$ G_{n_0} \cap G_{n_1} $$，但一定有脉冲属于$$ G_{n_0}-G_{n_1} $$或者$$ G_{n_1}-G_{n_0}</script></li>
+</ol>
+<p>对每一个<script type="math/tex">n_r ; r=2, \ldots, R-1</script>，求<script type="math/tex">\mathbf{v}_{n_r}</script>，并生成集合<script type="math/tex">G_{n_r}=\left\{j_{n_r, 1}, \ldots, j_{n_r, g_r}\right\}</script>。再对所有的<script type="math/tex">\nu_{n_r}(n)</script>求内积得到最终序列。</p>
 
-
-
-<h2 id="1-2-欠定情况"><a href="#1-2-欠定情况" class="headerlink" title="1.2 欠定情况"></a>1.2 欠定情况</h2>
     </div>
 
     
@@ -367,7 +386,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%B6%85%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.1 超定情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%AC%A0%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.2 欠定情况</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-0-%E7%AC%A6%E5%8F%B7%E8%AF%B4%E6%98%8E"><span class="nav-text">1.0 符号说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%B6%85%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.1 超定情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%84%89%E5%86%B2%E5%BA%8F%E5%88%97%E7%9A%84%E5%88%86%E7%A6%BB"><span class="nav-text">1.2 脉冲序列的分离</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -383,14 +402,14 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

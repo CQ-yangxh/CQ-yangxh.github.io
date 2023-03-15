@@ -20,17 +20,23 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="提这篇文章提出了一种方法能够从HD-EMG中估计神经区域。2阶PCA与各通道的时间延迟线性相关，在IZ附近的通道有最短的时间延迟。这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。 1. Introduction神经支配区域指神经末梢与肌肉纤维相接触的地方，通常位于肌纤维中点处的狭长一带，MUAP从IZ往两个方向传播分别到达肌腱。  传统的IZ估计方法通常是基于EMG的幅值、频率和">
+  <meta name="description" content="这篇文章提出了一种方法能够从HD-EMG中估计神经区域。第二主成分与各通道的时间延迟线性相关，在IZ（innervation zone）附近的通道有最短的时间延迟。当噪声在各个通道独立分布时，这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。但在模拟的特殊通道污染中，基于PCA的方法相比于互相关分析达到了更好的效果。在实验数据中，这两种方法也高度一致。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Novel Muscle Innervation Zone Estimation Method Using Monopolar High Density Surface Electromyography">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="提这篇文章提出了一种方法能够从HD-EMG中估计神经区域。2阶PCA与各通道的时间延迟线性相关，在IZ附近的通道有最短的时间延迟。这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。 1. Introduction神经支配区域指神经末梢与肌肉纤维相接触的地方，通常位于肌纤维中点处的狭长一带，MUAP从IZ往两个方向传播分别到达肌腱。  传统的IZ估计方法通常是基于EMG的幅值、频率和">
+<meta property="og:description" content="这篇文章提出了一种方法能够从HD-EMG中估计神经区域。第二主成分与各通道的时间延迟线性相关，在IZ（innervation zone）附近的通道有最短的时间延迟。当噪声在各个通道独立分布时，这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。但在模拟的特殊通道污染中，基于PCA的方法相比于互相关分析达到了更好的效果。在实验数据中，这两种方法也高度一致。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312153203298.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312170951763.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312200223631.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312200438103.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312201221393.png">
 <meta property="article:published_time" content="2023-02-28T09:37:11.000Z">
-<meta property="article:modified_time" content="2023-02-28T12:33:34.910Z">
+<meta property="article:modified_time" content="2023-03-15T07:43:31.482Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312153203298.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/">
 
@@ -210,10 +216,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-02-28 17:37:11 / Modified: 20:33:34" itemprop="dateCreated datePublished" datetime="2023-02-28T17:37:11+08:00">2023-02-28</time>
+              <time title="Created: 2023-02-28 17:37:11" itemprop="dateCreated datePublished" datetime="2023-02-28T17:37:11+08:00">2023-02-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-03-15 15:43:31" itemprop="dateModified" datetime="2023-03-15T15:43:31+08:00">2023-03-15</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -233,12 +245,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>提这篇文章提出了一种方法能够从HD-EMG中估计神经区域。2阶PCA与各通道的时间延迟线性相关，在IZ附近的通道有最短的时间延迟。这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。</p>
-<h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h1><p>神经支配区域指神经末梢与肌肉纤维相接触的地方，通常位于肌纤维中点处的狭长一带，MUAP从IZ往两个方向传播分别到达肌腱。</p>
+        <p>这篇文章提出了一种方法能够从HD-EMG中估计神经区域。第二主成分与各通道的时间延迟线性相关，在IZ（innervation zone）附近的通道有最短的时间延迟。当噪声在各个通道独立分布时，这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。但在模拟的特殊通道污染中，基于PCA的方法相比于互相关分析达到了更好的效果。在实验数据中，这两种方法也高度一致。</p>
+<span id="more"></span>
+<h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h1><p>神经支配区域指神经末梢与肌肉纤维相接触的地方，通常位于肌纤维中点处的<mark>狭长一带（垂直于肌纤维）</mark>，MUAP从IZ往两个方向传播分别到达肌腱。</p>
 <ul>
 <li>传统的IZ估计方法通常是基于EMG的幅值、频率和互相关分析的，使用的算法有optical flow technique、robust linear analysis、 randon reansform、graph-cut segmentation。</li>
 </ul>
-<p>PCA方法通常用于改善通过EMG对力进行估计，或者从单极EMG识别肌肉的初始激活</p>
+<p>PCA方法通常用于改善通过单极EMG对力的估计，或者从单极EMG识别肌肉的初始激活。Laguna等人证明第二主成分系数与不同通道的时间延迟是成比例的：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{\psi} \approx \beta \boldsymbol{\theta}</script><h1 id="2-方法"><a href="#2-方法" class="headerlink" title="2. 方法"></a>2. 方法</h1><p>PCA将M通道的EMG投影成M个不相关的成分：<script type="math/tex">S=W^T X</script>（X是原始信号）。系数矩阵W（M×M）的每一列都包含所有M个通道与对应主分量的相关系数（可以理解为对主成分的贡献），这些列按照分量方差的降序排列（第一主成分对应的方差最大，其对应的向量是所有样本点在第一坐标轴上的投影，排在第一列）。</p>
+<img src="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312153203298.png" class="" title="image-20230312153203298">
+<p>这篇文章把表面肌电信号建模为某一未知确定信号的延迟：</p>
+<script type="math/tex; mode=display">
+x_i(t)=s\left(t-\theta_i\right)+v_i(t), \quad i=1, \ldots, M</script><p>对于小的时间延迟，考虑泰勒展开：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{x}(t) \approx s(t) \mathbf{1}-s^{\prime}(t) \boldsymbol{\theta}+\frac{1}{2} s^{\prime \prime}(t) \boldsymbol{\theta}^2+\boldsymbol{v}(t)</script><p>第二主成分跟通道时间延迟向量是正相关的，通过第二主成分与通道延迟向量之间的关系，一旦我们通过PCA主成分分析观测信号得到第二主成分，那么就能够得到通道延迟向量，从而确定IZ位置（靠近IZ的通道时间延迟更短）。尽管<script type="math/tex">\beta</script>在本文中没有导出，但可以根据各列的系数的导数估计IZ。</p>
+<h1 id="3-仿真验证"><a href="#3-仿真验证" class="headerlink" title="3. 仿真验证"></a>3. 仿真验证</h1><ul>
+<li>模拟了120个运动单元，支配70000个肌肉纤维</li>
+<li>募集阈值建模为指数，大多数运动单元在低兴奋状态下就可以激活，少数运动单元有较高的阈值</li>
+<li>一旦达到募集阈值，运动单元开始以8Hz频率放电</li>
+<li>最后一个运动单元在40%MVC时激活</li>
+<li>“onion skin”发放原则：后募集的大运动单元峰值发放频率低于先募集的小的运动单元</li>
+<li>最大运动单元的峰值发放频率为25Hz，最小运动单元的峰值发放频率为35Hz</li>
+<li>发放间隔建模为符合高斯概率分布函数的随机过程</li>
+<li>tripole model 用于仿真MUAP</li>
+<li>电极阵列的列与肌肉纤维平行</li>
+</ul>
+<h1 id="4-实验验证"><a href="#4-实验验证" class="headerlink" title="4. 实验验证"></a>4. 实验验证</h1><ul>
+<li>人数：9人</li>
+<li>肌肉：肱二头肌</li>
+<li>实验设备：意大利OT</li>
+</ul>
+<img src="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312170951763.png" class="" title="image-20230312170951763">
+<h1 id="5-数据处理"><a href="#5-数据处理" class="headerlink" title="5. 数据处理"></a>5. 数据处理</h1><ol>
+<li><p>数据标准化：0均值、单位方差</p>
+</li>
+<li><p>使用三次样条插值用于确定IZ位置,通过3次样条找的最低点</p>
+</li>
+<li><p>仿真数据分析：将PCA得到的IZ和预先设定的IZ做对比；将PCA得到的IZ和互相关、RMS幅值通过双极信号估计的IZ做对比</p>
+<p>实验数据分析：将PCA得到的IZ和互相关、RMS幅值通过双极信号估计的IZ做对比</p>
+</li>
+<li><p>RMS判断IZ的方法通过两行相减得出</p>
+<blockquote>
+<p>The IZ was identified as at row(i+1) if row(i)-row(i+2) had the smallest value.  The IZ location was identified at between row(i) and row(i+1) if row(i)-row(i+1) had the minimum value.  </p>
+</blockquote>
+</li>
+</ol>
+<h1 id="6-实验结果"><a href="#6-实验结果" class="headerlink" title="6. 实验结果"></a>6. 实验结果</h1><p>第二主成分的系数可以表示出神经支配区域，通过三次样条插值能够找出最低点以验证：</p>
+<p>1.位于两个通道之间的：</p>
+<img src="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312200223631.png" class="" title="image-20230312200223631">
+<ol>
+<li>位于单个通道上：</li>
+</ol>
+<img src="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312200438103.png" class="" title="image-20230312200438103">
+<p>不同方法间的对比：</p>
+<img src="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/image-20230312201221393.png" class="" title="image-20230312201221393">
+<h1 id="7-结论"><a href="#7-结论" class="headerlink" title="7. 结论"></a>7. 结论</h1><p>基于PCA的方法对噪声更不敏感。以前的方法大多是根据双极电极来判断IZ的，基于PCA的方法使得能够通过单极的EMG信号判断IZ，并与互相关分析高度一致。</p>
+<h1 id="8-疑问"><a href="#8-疑问" class="headerlink" title="8. 疑问"></a>8. 疑问</h1><ul>
+<li>如何使用互相关、RMS来确定神经支配区域</li>
+</ul>
 
     </div>
 
@@ -257,7 +322,10 @@
     <a href="/2023/02/28/%E5%AE%9E%E9%AA%8C%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" rel="prev" title="实验平台搭建教程">
       <i class="fa fa-chevron-left"></i> 实验平台搭建教程
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/05/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7/" rel="next" title="随机信号">
+      随机信号 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -316,7 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Introduction"><span class="nav-text">1. Introduction</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%96%B9%E6%B3%95"><span class="nav-text">2. 方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BB%BF%E7%9C%9F%E9%AA%8C%E8%AF%81"><span class="nav-text">3. 仿真验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%AE%9E%E9%AA%8C%E9%AA%8C%E8%AF%81"><span class="nav-text">4. 实验验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-text">5. 数据处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-text">6. 实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E7%BB%93%E8%AE%BA"><span class="nav-text">7. 结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E7%96%91%E9%97%AE"><span class="nav-text">8. 疑问</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -332,14 +400,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
