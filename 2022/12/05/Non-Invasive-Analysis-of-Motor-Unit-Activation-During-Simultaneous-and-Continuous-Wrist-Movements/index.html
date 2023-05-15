@@ -27,13 +27,16 @@
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
 <meta property="og:description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png">
 <meta property="article:published_time" content="2022-12-05T11:37:47.000Z">
-<meta property="article:modified_time" content="2022-12-15T15:43:43.325Z">
+<meta property="article:modified_time" content="2023-04-24T09:03:48.885Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/">
 
@@ -221,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-15 23:43:43" itemprop="dateModified" datetime="2022-12-15T23:43:43+08:00">2022-12-15</time>
+                <time title="Modified: 2023-04-24 17:03:48" itemprop="dateModified" datetime="2023-04-24T17:03:48+08:00">2023-04-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,19 +265,41 @@
 <blockquote>
 <p>With needle/wire electrodes implanted inside the muscle, the motor unit action potentials (MUAP) can be observed without volume conduction and crosstalk. Therefore, the MUST can be obtained by comparing and counting the MUAP.   </p>
 </blockquote>
+<p>之前的研究主要集中在单个自由度的动作，本文选用了手腕关节，手腕关节拥有多自由度。除此之外，运动单元到运动学参数的映射通常使用基于data-driven的模式识别、聚类、主成分分析等方法，并没有把运动单元和动作直接联系起来。</p>
 <p><strong>表面肌电的两类分解算法</strong>：</p>
 <ul>
 <li>Blind source separation</li>
-<li>Template matching</li>
+<li><p>Template matching</p>
+<p><strong>Data-driven和EMG-driven的区别：</strong></p>
+</li>
 </ul>
-<h2 id="1-2-Experiment"><a href="#1-2-Experiment" class="headerlink" title="1.2 Experiment"></a>1.2 Experiment</h2><ol>
-<li>session1包含4个<mark>单自由度</mark>的动作</li>
-<li>session2包含4组<mark>两自由度</mark>的动作</li>
+<p>​    （1）Data-driven是一个黑箱模型，是model-free的，这里的model指代的是关节运动之类的运动学模型。Data-driven是直接将EMG映射到力/力矩、速度、角位移上，优点是训练完之后，模型的计算速度快。</p>
+<p>​    （2）EMG-driven的全称是EMG-driven musculoskeletal model，EMG只是参与计算肌肉活性，通过Hill模型，使用肌肉活性和肌腱长度作为输入来计算个体肌肉力，其核心还是骨骼肌模型（肌肉-肌腱模型、关节运动学模型）。肌肉活性的计算公式如下：</p>
+<script type="math/tex; mode=display">
+a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-2-Experiment" class="headerlink" title="1.2 Experiment"></a>1.2 Experiment</h2><p>被试：12，9男性，3女性。</p>
+<p>被试被要求在低和中力水平下，执行动态和静态的手腕收缩。一个session包含4个task（对应4个动作），每个task包含3个重复trial。trial之间休息1-2分钟，斌面肌肉疲劳。</p>
+<ol>
+<li><p>session1包含4个<mark>单自由度</mark>的动作：等长收缩</p>
+<ul>
+<li>伸展</li>
+<li>收缩</li>
+<li>内翻</li>
+<li>外翻</li>
+</ul>
+<img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png" class="" title="image-20230421204749427">
+<p>平均每个动作识别到 44 ± 13 个运动单元</p>
+<img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png" class="" title="image-20230421210338235">
+</li>
+<li><p>session2包含4组<mark>两自由度</mark>的动作</p>
+</li>
 </ol>
 <img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png" class="">
-<p>注：session2中两个动作的曲线有重叠部分</p>
-<p>使用3*64=192个电极进行HD-EMG的采集。</p>
-<h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1先进行了训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
+<p>​    注：session2中两个动作的曲线有重叠部分</p>
+<p>​    使用3*64=192个电极进行HD-EMG的采集。</p>
+<ol>
+<li>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</li>
+</ol>
+<h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1的动作先进行了级联，级联后进行训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
 <p>session2的task对应session1的哪个MUST分离矩阵呢？</p>
 <p><strong>EMG分解方法：</strong></p>
 <p>step1. 使用CKC算法将EMG分解成MUST</p>
@@ -292,7 +317,9 @@ y_i=\sum_{m=1}^{M_i} a_{i m} x_{i m}+b_i</script></li>
 <ul>
 <li><p>CST：将MUST池划分成两组，对应两个动作，每组中分别得到的CST，用CST的频率作为特征。选取了300ms宽、100ms步长的滑动窗口，使用一元线性回归来拟合弯矩和CST的放电频率。</p>
 <script type="math/tex; mode=display">
-y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p>
+y_i=a_i x_i+b_i</script><p>CST的实时放电率与力曲线非常的接近：</p>
+<img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png" class="" title="image-20230419170121928">
+<p>如何从MUST得到CST的参考文献：</p>
 <blockquote>
 <p>Central nervous system modulates the neuromechanical delay in a broad range for the control of muscle force</p>
 </blockquote>
@@ -302,7 +329,7 @@ y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p>
 </ul>
 </li>
 </ol>
-<p>（除此之外，还提取了时域的RMS来和神经特征作为对比。）</p>
+<p>（这里的CST和MUST都是通过滑动窗口计算的放电频率。除此之外，还提取了时域的RMS来和神经特征作为对比。）</p>
 <p><strong>MUAP分析参数：</strong></p>
 <ul>
 <li>peak-to-peak value</li>
@@ -319,11 +346,12 @@ y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p>
 </ul>
 <p><strong>回归算法：</strong></p>
 <ul>
-<li>linear regression model</li>
+<li><mark>linear regression model</mark></li>
 </ul>
 <h2 id="1-3-Conclusion"><a href="#1-3-Conclusion" class="headerlink" title="1.3 Conclusion"></a>1.3 Conclusion</h2><ol>
-<li>CST的估计结果从决定系数和RMSE上来说均显著好于RMS</li>
+<li>CST的估计结果从决定系数和RMSE上来说均显著好于RMS。</li>
 <li>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation 和supination 的MUAP激活区域几乎相同；然而flexion 和extension 的激活区域很容易区分。</li>
+<li>尽管MUST估计的维度比CST更高，但是MUST的估计效果并没有显著好于CST。</li>
 </ol>
 <h2 id="1-4-Discussion"><a href="#1-4-Discussion" class="headerlink" title="1.4 Discussion"></a>1.4 Discussion</h2><ol>
 <li>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig 3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关。</li>
@@ -429,7 +457,7 @@ y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -442,7 +470,7 @@ y_i=a_i x_i+b_i</script><p>如何从MUST得到CST的参考文献：</p>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

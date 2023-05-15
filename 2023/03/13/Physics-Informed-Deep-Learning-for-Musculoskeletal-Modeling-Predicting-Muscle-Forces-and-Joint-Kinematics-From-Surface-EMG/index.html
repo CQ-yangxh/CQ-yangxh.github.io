@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/03/13/Physics-Informed-Deep-Learning-for-Musculoskeletal-Modeling-Predicting-Muscle-Forces-and-Joint-Kinematics-From-Surface-EMG/image-20230314171029166.png">
 <meta property="article:published_time" content="2023-03-13T13:37:55.000Z">
-<meta property="article:modified_time" content="2023-03-15T08:20:48.298Z">
+<meta property="article:modified_time" content="2023-04-24T08:54:08.235Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/03/13/Physics-Informed-Deep-Learning-for-Musculoskeletal-Modeling-Predicting-Muscle-Forces-and-Joint-Kinematics-From-Surface-EMG/image-20230314171029166.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-03-15 16:20:48" itemprop="dateModified" datetime="2023-03-15T16:20:48+08:00">2023-03-15</time>
+                <time title="Modified: 2023-04-24 16:54:08" itemprop="dateModified" datetime="2023-04-24T16:54:08+08:00">2023-04-24</time>
               </span>
 
           
@@ -323,7 +323,10 @@ L_P & =\Phi(F, \theta)
 <li>CMC：得到手腕肌力</li>
 </ul>
 <h2 id="2-3-ANOVA"><a href="#2-3-ANOVA" class="headerlink" title="2.3 ANOVA"></a>2.3 ANOVA</h2><p>一区的文章一般都加入了ANOVA分析，能够更有说服力，考虑在文章中加入这部分内容以丰富discussion。</p>
-<h1 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h1><p>深度学习（CNN-based、ML-ELM）的比机器学习（SVR、ELM）的效果，因为深度学习能够自动提取更高阶的特征。本文提出的物理规律嵌入式架构可以修正CNN，因而达到了最好的预测效果。同时，由于CNN网络较简单，本文框架的性能也与复杂的纯CNN相近。</p>
+<h1 id="3-实验"><a href="#3-实验" class="headerlink" title="3. 实验"></a>3. 实验</h1><p>被试：6人</p>
+<p>两个task：手腕收缩和伸张。每个task重复6次</p>
+<p>在实验中，受试者的肩膀保持90°竖直和肘关节保持90°弯曲。</p>
+<h1 id="4-结果"><a href="#4-结果" class="headerlink" title="4. 结果"></a>4. 结果</h1><p>深度学习（CNN-based、ML-ELM）的比机器学习（SVR、ELM）的效果，因为深度学习能够自动提取更高阶的特征。本文提出的物理规律嵌入式架构可以修正CNN，因而达到了最好的预测效果。同时，由于CNN网络较简单，本文框架的性能也与复杂的纯CNN相近。</p>
 <p><mark>注意intrasession和intersession的区分。</mark></p>
 <p>本文提出的方法在不同速度的混合数据集、受试泛化能力、数据集规模、相同结构的CNN下都取得了更好的效果。本文对CNN的结构作了进一步研究，发现PINN-3型结构有着最好的效果。</p>
 <blockquote>
@@ -347,7 +350,10 @@ L_P & =\Phi(F, \theta)
     <a href="/2023/03/09/%E9%A9%AC%E6%B0%8F%E8%B7%9D%E7%A6%BB/" rel="prev" title="马氏距离">
       <i class="fa fa-chevron-left"></i> 马氏距离
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/21/A-Novel-Myoelectric-Control-Scheme-Supporting-Synchronous-Gesture-Recognition-and-Muscle-Force-Estimation/" rel="next" title="A Novel Myoelectric Control Scheme Supporting Synchronous Gesture Recognition and Muscle Force Estimation">
+      A Novel Myoelectric Control Scheme Supporting Synchronous Gesture Recognition and Muscle Force Estimation <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -406,7 +412,7 @@ L_P & =\Phi(F, \theta)
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%96%B9%E6%B3%95"><span class="nav-text">2. 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-CNN"><span class="nav-text">2.1 CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Loss-Functions"><span class="nav-text">2.2 Loss Functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-ANOVA"><span class="nav-text">2.3 ANOVA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%BB%93%E6%9E%9C"><span class="nav-text">3. 结果</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%96%B9%E6%B3%95"><span class="nav-text">2. 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-CNN"><span class="nav-text">2.1 CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Loss-Functions"><span class="nav-text">2.2 Loss Functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-ANOVA"><span class="nav-text">2.3 ANOVA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%AE%9E%E9%AA%8C"><span class="nav-text">3. 实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%BB%93%E6%9E%9C"><span class="nav-text">4. 结果</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -422,7 +428,7 @@ L_P & =\Phi(F, \theta)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -435,7 +441,7 @@ L_P & =\Phi(F, \theta)
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png">
 <meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
-<meta property="article:modified_time" content="2023-03-15T08:28:49.107Z">
+<meta property="article:modified_time" content="2023-04-09T04:34:05.653Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-03-15 16:28:49" itemprop="dateModified" datetime="2023-03-15T16:28:49+08:00">2023-03-15</time>
+                <time title="Modified: 2023-04-09 12:34:05" itemprop="dateModified" datetime="2023-04-09T12:34:05+08:00">2023-04-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,6 +281,8 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 <p><script type="math/tex">n_k</script>时刻不为0，则至少存在一个j，使得<script type="math/tex">\overline{\mathbf{t}}(n_k)</script>中的第j个元素 = 1。即： <script type="math/tex">\gamma\left(n_k\right)>0 \Leftrightarrow \exists j;\bar{t}_j(n) =1</script>。</p>
 </li>
 <li><p>当<script type="math/tex">n_0</script>时刻存在<script type="math/tex">g_0</script>个j时，j的一个集合：<script type="math/tex">G_{n_0}=\left\{j_{n_0, 1}, \ldots, j_{n_0, g_0}\right\} \text {, i.e., } j \in G_{n_0} \Leftrightarrow \bar{t}_j\left(n_0\right)=1</script></p>
+</li>
+<li><p>观测扩展向量：<script type="math/tex">\begin{aligned}\overline{\mathbf{y}}(n)=[y_1(n),y_1(n-1),\ldots,y_1(n-K+1),\ldots,y_M(n),\ldots,y_M(n-K+1)]^T\end{aligned}</script></p>
 </li>
 </ul>
 <h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p>
@@ -400,7 +402,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -413,7 +415,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
