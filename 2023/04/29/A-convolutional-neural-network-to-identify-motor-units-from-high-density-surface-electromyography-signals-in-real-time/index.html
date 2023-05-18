@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="重要程度: ⭐⭐⭐⭐ 为什么看这篇文献？ 利用高密度肌电，通过卷积神经网络识别运动单元的尖峰序列以及实时估计肌肉的神经驱动 两种不同的CNN网络与卷积核补偿算法（CKC）进行了比较，分别从仿真和实验上 探究窗口大小和步长的影响 该方法是用于识别运动单元的。运动单元目前有多种分解方法，如FastICA算法、CKC算法，本文是在CKC算法的基础上缩短识别时间  看文献过程中的笔记：❓疑问： 98%和8">
+  <meta name="description" content="重要程度: ⭐⭐⭐⭐ 为什么看这篇文献？ 利用高密度肌电，通过卷积神经网络识别运动单元的尖峰序列以及实时估计肌肉的神经驱动 两种不同的CNN网络与卷积核补偿算法（CKC）进行了比较，分别从仿真和实验上 探究窗口大小和步长的影响 该方法是用于识别运动单元的。运动单元目前有多种分解方法，如FastICA算法、CKC算法，本文是在CKC算法的基础上缩短识别时间">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A convolutional neural network to identify motor units from high-density surface electromyography signals in real time">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/04/29/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="重要程度: ⭐⭐⭐⭐ 为什么看这篇文献？ 利用高密度肌电，通过卷积神经网络识别运动单元的尖峰序列以及实时估计肌肉的神经驱动 两种不同的CNN网络与卷积核补偿算法（CKC）进行了比较，分别从仿真和实验上 探究窗口大小和步长的影响 该方法是用于识别运动单元的。运动单元目前有多种分解方法，如FastICA算法、CKC算法，本文是在CKC算法的基础上缩短识别时间  看文献过程中的笔记：❓疑问： 98%和8">
+<meta property="og:description" content="重要程度: ⭐⭐⭐⭐ 为什么看这篇文献？ 利用高密度肌电，通过卷积神经网络识别运动单元的尖峰序列以及实时估计肌肉的神经驱动 两种不同的CNN网络与卷积核补偿算法（CKC）进行了比较，分别从仿真和实验上 探究窗口大小和步长的影响 该方法是用于识别运动单元的。运动单元目前有多种分解方法，如FastICA算法、CKC算法，本文是在CKC算法的基础上缩短识别时间">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/Untitled.png">
 <meta property="article:published_time" content="2023-04-29T13:31:19.000Z">
-<meta property="article:modified_time" content="2023-04-29T13:34:50.876Z">
+<meta property="article:modified_time" content="2023-05-18T09:08:04.943Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/04/29/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/Untitled.png">
@@ -212,10 +212,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-04-29 21:31:19 / Modified: 21:34:50" itemprop="dateCreated datePublished" datetime="2023-04-29T21:31:19+08:00">2023-04-29</time>
+              <time title="Created: 2023-04-29 21:31:19" itemprop="dateCreated datePublished" datetime="2023-04-29T21:31:19+08:00">2023-04-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-05-18 17:08:04" itemprop="dateModified" datetime="2023-05-18T17:08:04+08:00">2023-05-18</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -242,6 +248,7 @@
 <li>探究窗口大小和步长的影响</li>
 <li>该方法是用于识别运动单元的。运动单元目前有多种分解方法，如FastICA算法、CKC算法，本文是在CKC算法的基础上缩短识别时间</li>
 </ul>
+<span id="more"></span>
 <h1 id="看文献过程中的笔记："><a href="#看文献过程中的笔记：" class="headerlink" title="看文献过程中的笔记："></a>看文献过程中的笔记：</h1><h2 id="❓疑问："><a href="#❓疑问：" class="headerlink" title="❓疑问："></a>❓疑问：</h2><ul>
 <li><p>98%和85%的准确率和灵敏性分别代表什么？</p>
 <p>准确率是识别错的，灵敏性是没识别到的</p>
