@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive &#x2F; 理论上全部的positive），虚警率&lt;2%（错误positive &#x2F; 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive &#x2F; 理论上全部的positive），虚警率&lt;2%（错误positive &#x2F; 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png">
+<meta property="article:published_time" content="2022-12-05T14:17:21.000Z">
+<meta property="article:modified_time" content="2023-04-13T07:08:24.512Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-12-05 22:17:21" itemprop="dateCreated datePublished" datetime="2022-12-05T22:17:21+08:00">2022-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-04-13 15:08:24" itemprop="dateModified" datetime="2023-04-13T15:08:24+08:00">2023-04-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CKC/" itemprop="url" rel="index"><span itemprop="name">CKC</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>几乎所有PNR &gt;30 dB的MUs所表现出的灵敏度&gt;90%（识别出来的positive / 理论上全部的positive），虚警率&lt;2%（错误positive / 错误的positive、negative之和）。因此，PNR中30 dB的阈值可以作为选择可靠分解单元的简单方法。研究还表明，高密度表面肌电图可在高达最大收缩力70%的情况下可靠分解。</p>
+<span id="more"></span>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-PNR"><a href="#1-1-PNR" class="headerlink" title="1.1 PNR"></a>1.1 PNR</h2><p>关于分解的准确性，Nawab等人(2010)提出了一种基于信号的验证方法，称为重构-测试程序。然而，这种方法衡量的是分解的一致性而不是准确性(Farina和Enoka 2011, De Luca和Nawab 2011)。McGill等人(McGill and Marateb 2011)提出了另一种基于信号的方法来分解留置肌电图信号，并利用统计决策理论和贝叶斯框架来整合MU动作电位波形和MU放电模式的信息。该方法计算成本高，目前不适用于超过8个已识别的MUs。</p>
+<p>CKC方法已在低收缩力下的代表性模拟和实验信号中得到验证(Holobar et al 2010)。在这项研究中，我们证明了CKC分解也可以在高等长收缩力下提供精确的分解，因此我们将这种方法的潜在应用扩展到几乎任何收缩水平。这一证明是通过与肌内肌电图分解进行比较，以及通过一种基于信号的精度估计的新度量获得的，该度量在本文中通过分析得到，并构成了该研究的第二个贡献。所提出的精度度量建立在线性估计理论基础上，提供了一个计算上便宜且可靠的均方误差(MSE)指标，用于每个已识别MU的真实放电模式与其基于ckc的估计之间。在本研究中，模拟和实验信号分析将表明，这一指标与识别MU放电的敏感性及其虚警率显著相关。</p>
+<p>PNR的计算公式：</p>
+<script type="math/tex; mode=display">
+\mathrm{PNR}(j)=\mathrm{PNR}(\hat{t}_j(n))=10\cdot\log\left(\dfrac{E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)\geqslant r}\big)}{E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)<r}\big)}\right)</script><script type="math/tex; mode=display">E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)\geqslant r}\big) $$这一项可以由$$ E(x|_{t_j(n)=1}) \approx E(x|_{\hat{t}_j(n)\geqslant r}) $$这一项代替
+
+$$ E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)<r}\big) $$这一项可以由$$ E(x|_{t_j(n)=0}) \approx E(x|_{\hat{t}_j(n)< r}) $$这项代替
+
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnr = <span class="number">10</span>*<span class="built_in">log10</span>(<span class="built_in">mean</span>(signal_cluster)/<span class="built_in">mean</span>(noise_cluster));</span><br></pre></td></tr></table></figure>
+
+## 1.2 实验
+
+9名受试者的优势胫骨前肌和9名受试者中的6名优势肱二头肌同时获得表面肌电图和肌内肌电图信号。在最大自愿收缩(MVC)的5%、10%、15%、20%、50%、60%和70%的等距恒力收缩过程中获得15 s长信号。
+
+## 1.3 数据分析
+
+**仿真数据：**
+
+下图分别描述了分解灵敏度Se和虚警率Fa对PNR的依赖关系：
+
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161026963.png" class="" title="image-20221231161026963">
+
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png" class="" title="image-20221231161048995">
+
+**实验数据：**
+
+以肌内肌电图识别的MU放电模式为参考，计算由两种分解技术识别的MU的灵敏度(如式(8))和虚警率(如式(9))。在匹配表面肌电图和肌内肌电图的分解结果时，只有当两个肌电信号共享至少30%的放电时，才被认为是共同识别的。
+
+平滑放电率是收缩强度的函数（<mark>通过对瞬时放电率进行低通滤波计算平滑放电率，截止频率设置为2hz。</mark>）。事实上，胫骨前肌在5% MVC时为11.5±2.1 pps，在70% MVC时为23.2±3.0 pps。同样，在肱二头肌中，MU放电速率在5% MVC时为12.4±2.3 /秒，在70% MVC时为20.3±2.9 /秒。
+
+从合成面肌电信号和实验面肌电信号的结果来看，引入的PNR测量方法与MU放电识别的灵敏度和虚警率显著相关:</script><p>\operatorname{Se}(j)=a_1+a_2 \log \left(\operatorname{PNR}(j)-a_3\right)</p>
+<script type="math/tex; mode=display">
+</script><p>\mathrm{Fa}(j)=b_1-b_2 \log \left(\mathrm{PNR}(j)-b_3\right)</p>
+<p>$$</p>
+<p>本研究经实验验证，PNR大于30 dB的大多数MUs灵敏度大于90%，虚警率低于1%。这种关系在很大程度上<mark>独立于</mark>测试的信噪比电平(从0到20 dB)和收缩水平(从5%到70% MVC)。此外，回归参数a和b的值，在不同的信噪比和肌肉兴奋水平上没有显著变化(表1和表2)，允许相对可靠地抽象引入的PNR测量与每个识别MU的分解灵敏度和虚警率之间的一般关系。</p>
+<p>识别出的MU的PNR的分布图显示大多集中在30-40dB：</p>
+<img src="/2022/12/05/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png" class="" title="image-20221231163927905">
+<p><strong>结论：</strong><mark>仿真和实验鉴定的PNR &gt; 30 dB的MUs具有&gt; 90%的灵敏度和低于2%的虚警率。</mark></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/05/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/" rel="prev" title="Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation">
+      <i class="fa fa-chevron-left"></i> Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/" rel="next" title="基于盲源分离技术的高密度表面肌电分解">
+      基于盲源分离技术的高密度表面肌电分解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-PNR"><span class="nav-text">1.1 PNR</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

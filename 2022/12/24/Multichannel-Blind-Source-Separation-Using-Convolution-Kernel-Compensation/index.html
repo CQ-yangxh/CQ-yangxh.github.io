@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：DEMUSE Tool (um.si)。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multichannel Blind Source Separation Using Convolution Kernel Compensation">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：DEMUSE Tool (um.si)。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png">
+<meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
+<meta property="article:modified_time" content="2023-04-09T04:34:05.653Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Multichannel Blind Source Separation Using Convolution Kernel Compensation | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Multichannel Blind Source Separation Using Convolution Kernel Compensation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-12-24 19:46:46" itemprop="dateCreated datePublished" datetime="2022-12-24T19:46:46+08:00">2022-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-04-09 12:34:05" itemprop="dateModified" datetime="2023-04-09T12:34:05+08:00">2023-04-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CKC/" itemprop="url" rel="index"><span itemprop="name">CKC</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：<a target="_blank" rel="noopener" href="https://demuse.feri.um.si/">DEMUSE Tool (um.si)</a>。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。</p>
+<span id="more"></span>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><script type="math/tex; mode=display">
+x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M</script><p>symbol的长度为L，也就是<script type="math/tex">a_{ij}</script>的长度是L。如果不考虑N个源的叠加，那么就是<script type="math/tex">a_{ij}(n)</script>与<script type="math/tex">t(n)</script>的卷积，该表达式的意义就是对于某一个观察或检测，其值等于一个源的发放时间与观测位置处symbol的卷积，再对所有源求和的一个结果。</p>
+<p><strong>超定和欠定主要是看混合矩阵A的行KM与列N(L+K-1)的大小，KM大则是超定，KM小则是欠定。</strong></p>
+<p>采样率高了之后，两个峰值之间的采样点就多了，因此就相当于变得稀疏了。</p>
+<blockquote>
+<p>Moreover, when sampling frequency is high enough (with respect to the symbol rate), the pulse trains become highly sparse.</p>
+</blockquote>
+<script type="math/tex; mode=display">
+\overline{\mathbf{y}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script><p>混合矩阵A中包含的信息实际上是被忽略了的，CKC算法更关注脉冲序列的性质。</p>
+<blockquote>
+<p>CKC算法用于求取脉冲序列，也就是上式中的$$<br>\overline{\mathbf{t}}(n)</p>
+<script type="math/tex; mode=display">，求得的结果是对</script><p>\overline{\mathbf{t}}(n)</p>
+<p>$$的最佳线性贝叶斯估计，线性贝叶斯估计是求取一组最佳的权重，将信号每一个时间点的值加权求和来估计参数。</p>
+</blockquote>
+<h2 id="1-0-符号说明"><a href="#1-0-符号说明" class="headerlink" title="1.0 符号说明"></a>1.0 符号说明</h2><ul>
+<li><p>时间扩展向量（在n这个时刻对N个源信号扩展）：<script type="math/tex">\begin{array}{r}
+\overline{\mathbf{t}}(n)=\left[t_1(n), t_1(n-1), \ldots, t_1(n-L-K+2), \ldots,\right.
+\left.t_N(n), \ldots, t_N(n-L-K+2)\right]^T
+\end{array}</script></p>
+<p>维度：1 × N(K+L-1)</p>
+</li>
+<li><p>时间扩展向量中的第j个元素（这个元素可能是n时刻的，也可能是n时刻前的）：<script type="math/tex">\bar{t}_j(n)</script></p>
+</li>
+<li><script type="math/tex; mode=display">\overline{\mathbf{t}}(n) $$中的第j个元素在每个n时刻都取出来构成向量：$$ \overline{\mathbf{t}}_j=\left\{\bar{t}_j(n) ; n=0,1, \ldots\right\}</script></li>
+<li><p>全局活跃指数：<script type="math/tex">\gamma=\{\gamma(n) ; n=0,1, \ldots\}</script></p>
+<p><script type="math/tex">n_k</script>时刻不为0，则至少存在一个j，使得<script type="math/tex">\overline{\mathbf{t}}(n_k)</script>中的第j个元素 = 1。即： <script type="math/tex">\gamma\left(n_k\right)>0 \Leftrightarrow \exists j;\bar{t}_j(n) =1</script>。</p>
+</li>
+<li><p>当<script type="math/tex">n_0</script>时刻存在<script type="math/tex">g_0</script>个j时，j的一个集合：<script type="math/tex">G_{n_0}=\left\{j_{n_0, 1}, \ldots, j_{n_0, g_0}\right\} \text {, i.e., } j \in G_{n_0} \Leftrightarrow \bar{t}_j\left(n_0\right)=1</script></p>
+</li>
+<li><p>观测扩展向量：<script type="math/tex">\begin{aligned}\overline{\mathbf{y}}(n)=[y_1(n),y_1(n-1),\ldots,y_1(n-K+1),\ldots,y_M(n),\ldots,y_M(n-K+1)]^T\end{aligned}</script></p>
+</li>
+</ul>
+<h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p>
+<p>激活指数（<font color="red">怎么得到的这个表达式？</font>）：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\gamma(n) & =\overline{\mathbf{x}}^T(n) \mathbf{C}_{\overline{\mathbf{xx}}}^{-1} \overline{\mathbf{x}}(n) \\
+& =\overline{\mathbf{t}}^T(n) \mathbf{A}^T\left(\mathbf{A}^T\right)^{-1} \mathbf{C}_{\overline{\mathbf{tt}}} \mathbf{A}^{-1} \mathbf{A} \overline{\mathbf{t}}(n) \\
+& =\overline{\mathbf{t}}^T(n) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n)
+\end{aligned}</script><p>激活数的发放时间表示形式只需要把公式 <script type="math/tex">\overline{\mathbf{x}}(n)=\mathbf{A} \overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script> 忽略噪声代入即可。激活指数是全局脉冲序列活动的一个指标，在某个时刻时，只有当至少有一个脉冲序列在此刻发放，那么激活指数才不为0，因为C中的元素是时刻之间的自相关系数和互相关系数，均不为0（其逆也不为0），所以只要存在一个MU的发放脉冲，那么相乘相加后一定是大于0的。</p>
+<p>当我们用存在发放时刻的观测序列去代替原观测序列后，有如下表达式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nu_{n_0}(n) & =\overline{\mathbf{x}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{x x}}}^{-1} \overline{\mathbf{x}}(n)=\overline{\mathbf{t}}^T\left(n_0\right) \mathbf{C}_{\overline{\mathbf{t t}}}^{-1} \overline{\mathbf{t}}(n) \\
+& =\sum_{k \in G_{n_0}} \sum_{j=1}^{N(L+K-1)} c_{j k}^{\mathrm{inv}} \bar{t}_j(n)
+\end{aligned}</script><p>注意，这个表达式中的j代表的是时间扩展向量中的第j个元素，在左边项取了n0后，t的值就变成了1或者0，0项在求和过程中可以忽略，1作为系数时也省略不写，因此可以化简成上式求和的形式。上式中j代表的是行，k代表的是列，可以看到行是全部索引完的，而列只取矩阵中激活的列，即t中每一个元素与C中的列对应相乘，最后再求和。</p>
+<p>附录A证明，C拥有优越的对角线，是对角占优的，所有可以忽略掉非对角线的部分，得到如下公式：</p>
+<script type="math/tex; mode=display">
+\nu_{n_0}(n) \approx \sum_{j \in G_{n_0}} c_{j j}^{\operatorname{inv}} \bar{t}_j(n) .</script><p>注意，上述公式中，n是遍历所有采样点的，只有当n=n0时，<script type="math/tex">\nu_{n_0}</script>才不等于0（因为j是在n0时取的，一旦错位最终结果就是0），这样也就在时间轴上找到了n0。但是也存在一些偶然情况，比如考虑n0时刻，其脉冲集合是<script type="math/tex">G_{n_0}</script>，而当n遍历到n2时，这时如果n2时间序列的第<script type="math/tex">j_{n_0,1}</script>个元素恰好与n0时间序列的<script type="math/tex">j_{n_0,2}</script>重合，那么该式得到的结果也不是0，这样就会找到两个时刻点n0和n2，因此，还需要对这些时刻进行分离，示意图如下：</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png" class="" title="image-20230309210631973">
+<h2 id="1-2-脉冲序列的分离"><a href="#1-2-脉冲序列的分离" class="headerlink" title="1.2 脉冲序列的分离"></a>1.2 脉冲序列的分离</h2><p>从上图可以看到，<script type="math/tex">G_{n_0}</script>和<script type="math/tex">G_{n_2}</script>中至少存在一个脉冲重叠。对<script type="math/tex">\nu_{n_0}</script>和<script type="math/tex">\nu_{n_2}</script>做内积（<script type="math/tex">\nu_{n_0}(n) \cdot \nu_{n_1}(n) ; n=0,1,2, \ldots</script>），得到一个序列，记为<script type="math/tex">\mathbf{h}_{n_0, n_1}</script>，再随机选择R-2个脉冲记为<script type="math/tex">n_r ; r=2, \ldots, R-1</script>。对于<script type="math/tex">n_r</script>，有两个互补（两者之一必成立）结论：</p>
+<img src="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png" class="" title="image-20230315162816044">
+<p>对每一个<script type="math/tex">n_r ; r=2, \ldots, R-1</script>，求<script type="math/tex">\mathbf{v}_{n_r}</script>，并生成集合<script type="math/tex">G_{n_r}=\left\{j_{n_r, 1}, \ldots, j_{n_r, g_r}\right\}</script>。再对所有的<script type="math/tex">\nu_{n_r}(n)</script>求内积得到最终序列。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/" rel="prev" title="Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals">
+      <i class="fa fa-chevron-left"></i> Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/29/Hyser-database/" rel="next" title="Hyser database">
+      Hyser database <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-0-%E7%AC%A6%E5%8F%B7%E8%AF%B4%E6%98%8E"><span class="nav-text">1.0 符号说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%B6%85%E5%AE%9A%E6%83%85%E5%86%B5"><span class="nav-text">1.1 超定情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%84%89%E5%86%B2%E5%BA%8F%E5%88%97%E7%9A%84%E5%88%86%E7%A6%BB"><span class="nav-text">1.2 脉冲序列的分离</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
