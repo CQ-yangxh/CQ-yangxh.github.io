@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="使用深度学习进行时序预测此示例说明如何使用长期短期记忆 (LSTM) 网络预测时序数据。 要预测序列在将来时间步的值，您可以训练“序列到序列”回归 LSTM 网络，其中响应是将值移位了一个时间步的训练序列。也就是说，在输入序列的每个时间步，LSTM 网络都学习预测下一个时间步的值。 要预测将来多个时间步的值，请使用 predictAndUpdateState 函数一次预测一个时间步，并在每次预测时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSTM实例1">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="使用深度学习进行时序预测此示例说明如何使用长期短期记忆 (LSTM) 网络预测时序数据。 要预测序列在将来时间步的值，您可以训练“序列到序列”回归 LSTM 网络，其中响应是将值移位了一个时间步的训练序列。也就是说，在输入序列的每个时间步，LSTM 网络都学习预测下一个时间步的值。 要预测将来多个时间步的值，请使用 predictAndUpdateState 函数一次预测一个时间步，并在每次预测时">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_01_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_02_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_03_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_04_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_05_zh_CN.png">
+<meta property="article:published_time" content="2023-07-15T02:31:49.000Z">
+<meta property="article:modified_time" content="2023-07-18T08:22:24.197Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_01_zh_CN.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>LSTM实例1 | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LSTM实例1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-07-15 10:31:49" itemprop="dateCreated datePublished" datetime="2023-07-15T10:31:49+08:00">2023-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-07-18 16:22:24" itemprop="dateModified" datetime="2023-07-18T16:22:24+08:00">2023-07-18</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用深度学习进行时序预测"><a href="#使用深度学习进行时序预测" class="headerlink" title="使用深度学习进行时序预测"></a>使用深度学习进行时序预测</h1><p>此示例说明如何使用长期短期记忆 (LSTM) 网络预测时序数据。</p>
+<p>要预测序列在将来时间步的值，您可以训练“序列到序列”回归 LSTM 网络，其中响应是将值移位了一个时间步的训练序列。也就是说，在输入序列的每个时间步，LSTM 网络都学习预测下一个时间步的值。</p>
+<p>要预测将来多个时间步的值，请使用 <code>predictAndUpdateState</code> 函数一次预测一个时间步，并在每次预测时更新网络状态。</p>
+<p>此示例使用数据集 <code>chickenpox_dataset</code>。该示例训练一个 LSTM 网络，旨在根据前几个月的水痘病例数来预测未来的水痘病例数。</p>
+<span id="more"></span>
+<h3 id="加载序列数据"><a href="#加载序列数据" class="headerlink" title="加载序列数据"></a>加载序列数据</h3><p>加载示例数据。<code>chickenpox_dataset</code> 包含一个时序，其时间步对应于月份，值对应于病例数。输出是一个元胞数组，其中每个元素均为单一时间步。将数据重构为行向量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data = chickenpox_dataset;</span><br><span class="line">data = [data&#123;:&#125;];</span><br><span class="line"></span><br><span class="line">figure</span><br><span class="line">plot(data)</span><br><span class="line">xlabel(&quot;Month&quot;)</span><br><span class="line">ylabel(&quot;Cases&quot;)</span><br><span class="line">title(&quot;Monthly Cases of Chickenpox&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_01_zh_CN.png" class="" title="img">
+<p>对训练数据和测试数据进行分区。序列的前 90% 用于训练，后 10% 用于测试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">numTimeStepsTrain = floor(0.9*numel(data));</span><br><span class="line"></span><br><span class="line">dataTrain = data(1:numTimeStepsTrain+1);</span><br><span class="line">dataTest = data(numTimeStepsTrain+1:end);</span><br></pre></td></tr></table></figure>
+<h3 id="标准化数据"><a href="#标准化数据" class="headerlink" title="标准化数据"></a>标准化数据</h3><p>为了获得较好的拟合并防止训练发散，将<mark>训练数据</mark>标准化为具有零均值和单位方差（响应变量并没有标准化）。<mark>在预测时，您必须使用与训练数据相同的参数来标准化测试数据。</mark></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mu = mean(dataTrain);</span><br><span class="line">sig = std(dataTrain);</span><br><span class="line"></span><br><span class="line">dataTrainStandardized = (dataTrain - mu) / sig;</span><br></pre></td></tr></table></figure>
+<h3 id="准备预测变量和响应"><a href="#准备预测变量和响应" class="headerlink" title="准备预测变量和响应"></a>准备预测变量和响应</h3><p>要预测序列在将来时间步的值，请将响应指定为将值移位了一个时间步的训练序列。也就是说，在输入序列的每个时间步，LSTM 网络都学习预测下一个时间步的值。预测变量是没有最终时间步的训练序列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XTrain = dataTrainStandardized(1:end-1);</span><br><span class="line">YTrain = dataTrainStandardized(2:end);</span><br></pre></td></tr></table></figure>
+<h3 id="定义-LSTM-网络架构"><a href="#定义-LSTM-网络架构" class="headerlink" title="定义 LSTM 网络架构"></a><strong>定义 LSTM 网络架构</strong></h3><p>创建 LSTM 回归网络。指定 LSTM 层有 200 个隐含单元。</p>
+<ul>
+<li>注意这里的特征维度和响应维度都是1维的。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">numFeatures = 1;</span><br><span class="line">numResponses = 1;</span><br><span class="line">numHiddenUnits = 200;</span><br><span class="line"></span><br><span class="line">layers = [ ...</span><br><span class="line">    sequenceInputLayer(numFeatures)</span><br><span class="line">    lstmLayer(numHiddenUnits)</span><br><span class="line">    fullyConnectedLayer(numResponses)</span><br><span class="line">    regressionLayer];</span><br></pre></td></tr></table></figure>
+<p>指定训练选项。将求解器设置为 <code>&#39;adam&#39;</code> 并进行 250 轮训练。要防止梯度爆炸，请将梯度阈值设置为 1。指定初始学习率 0.005，在 125 轮训练后通过乘以因子 0.2 来降低学习率。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">options = trainingOptions(&#x27;adam&#x27;, ...</span><br><span class="line">    &#x27;MaxEpochs&#x27;,250, ...</span><br><span class="line">    &#x27;GradientThreshold&#x27;,1, ...</span><br><span class="line">    &#x27;InitialLearnRate&#x27;,0.005, ...</span><br><span class="line">    &#x27;LearnRateSchedule&#x27;,&#x27;piecewise&#x27;, ...</span><br><span class="line">    &#x27;LearnRateDropPeriod&#x27;,125, ...</span><br><span class="line">    &#x27;LearnRateDropFactor&#x27;,0.2, ...</span><br><span class="line">    &#x27;Verbose&#x27;,0, ...</span><br><span class="line">    &#x27;Plots&#x27;,&#x27;training-progress&#x27;);</span><br></pre></td></tr></table></figure>
+<h3 id="训练-LSTM-网络"><a href="#训练-LSTM-网络" class="headerlink" title="训练 LSTM 网络"></a>训练 LSTM 网络</h3><p>使用 <code>trainNetwork</code> 以指定的训练选项训练 LSTM 网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net = trainNetwork(XTrain,YTrain,layers,options);</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_02_zh_CN.png" class="" title="img">
+<h3 id="预测将来时间步"><a href="#预测将来时间步" class="headerlink" title="预测将来时间步"></a>预测将来时间步</h3><p>要预测将来多个时间步的值，请使用 <code>predictAndUpdateState</code> 函数一次预测一个时间步，并在每次预测时更新网络状态。对于每次预测，使用前一次预测作为函数的输入。</p>
+<p>使用与训练数据相同的参数来标准化测试数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataTestStandardized = (dataTest - mu) / sig;</span><br><span class="line">XTest = dataTestStandardized(1:end-1);</span><br></pre></td></tr></table></figure>
+<p>要初始化网络状态，请先对训练数据 <code>XTrain</code> 进行预测。接下来，使用训练响应的最后一个时间步 <code>YTrain(end)</code> 进行第一次预测。循环其余预测并将前一次预测输入到 <code>predictAndUpdateState</code>。</p>
+<ul>
+<li><p>为什么要先使用XTrain来预测？</p>
+<p>因为LSTM网络的隐藏状态和记忆细胞状态是需要初始化的，训练之后的网络只是确定了各个连接的权重和偏置，并没有包含这两个量，所以先要用XTrain来得到这两个量，然后输入到后面预测的时间步中。</p>
+</li>
+<li><p>为什么要是更新网络状态？</p>
+<p>更新网络状态就是更新隐藏状态和记忆细胞状态，不然一直是YTrain(end)的状态。</p>
+</li>
+<li><p>为什么初始化和更新都是用predictAndUpdateState函数？</p>
+<p>初始化的时候使用的是一个数组，这样就能从最开始一步一步predict到XTrain的最后一个数据，而不是一上来就用最后一个数据去预测和更新状态。后面测试的时候是因为数据已经连贯了，接着输入一个数据就可以了。</p>
+</li>
+</ul>
+<p>对于大型数据集合、长序列或大型网络，在 GPU 上进行预测计算通常比在 CPU 上快。其他情况下，在 CPU 上进行预测计算通常更快。对于单时间步预测，请使用 CPU。要使用 CPU 进行预测，请将 <code>predictAndUpdateState</code> 的 <code>&#39;ExecutionEnvironment&#39;</code> 选项设置为 <code>&#39;cpu&#39;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">net = predictAndUpdateState(net,XTrain);</span><br><span class="line">[net,YPred] = predictAndUpdateState(net,YTrain(end));</span><br><span class="line"></span><br><span class="line">numTimeStepsTest = numel(XTest);</span><br><span class="line">for i = 2:numTimeStepsTest</span><br><span class="line">    [net,YPred(:,i)] = predictAndUpdateState(net,YPred(:,i-1),&#x27;ExecutionEnvironment&#x27;,&#x27;cpu&#x27;);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>使用先前计算的参数对预测去标准化。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YPred = sig*YPred + mu;</span><br></pre></td></tr></table></figure>
+<p>训练进度图会报告根据标准化数据计算出的均方根误差 (RMSE)。根据去标准化的预测值计算 RMSE。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">YTest = dataTest(2:end);</span><br><span class="line">rmse = sqrt(mean((YPred-YTest).^2))</span><br><span class="line">rmse = single</span><br><span class="line">    248.5531</span><br></pre></td></tr></table></figure>
+<p>使用预测值绘制训练时序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">plot(dataTrain(1:end-1))</span><br><span class="line">hold on</span><br><span class="line">idx = numTimeStepsTrain:(numTimeStepsTrain+numTimeStepsTest);</span><br><span class="line">plot(idx,[data(numTimeStepsTrain) YPred],&#x27;.-&#x27;)</span><br><span class="line">hold off</span><br><span class="line">xlabel(&quot;Month&quot;)</span><br><span class="line">ylabel(&quot;Cases&quot;)</span><br><span class="line">title(&quot;Forecast&quot;)</span><br><span class="line">legend([&quot;Observed&quot; &quot;Forecast&quot;])</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_03_zh_CN.png" class="" title="img">
+<p>将预测值与测试数据进行比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">subplot(2,1,1)</span><br><span class="line">plot(YTest)</span><br><span class="line">hold on</span><br><span class="line">plot(YPred,&#x27;.-&#x27;)</span><br><span class="line">hold off</span><br><span class="line">legend([&quot;Observed&quot; &quot;Forecast&quot;])</span><br><span class="line">ylabel(&quot;Cases&quot;)</span><br><span class="line">title(&quot;Forecast&quot;)</span><br><span class="line"></span><br><span class="line">subplot(2,1,2)</span><br><span class="line">stem(YPred - YTest)</span><br><span class="line">xlabel(&quot;Month&quot;)</span><br><span class="line">ylabel(&quot;Error&quot;)</span><br><span class="line">title(&quot;RMSE = &quot; + rmse)</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_04_zh_CN.png" class="" title="img">
+<h3 id="使用观测值更新网络状态"><a href="#使用观测值更新网络状态" class="headerlink" title="使用观测值更新网络状态"></a>使用观测值更新网络状态</h3><p>如果您可以访问预测之间的时间步的实际值，则可以使用观测值而不是预测值更新网络状态。</p>
+<p>首先，初始化网络状态。要对新序列进行预测，请使用 <code>resetState</code> 重置网络状态。重置网络状态可防止先前的预测影响对新数据的预测。重置网络状态，然后通过对训练数据进行预测来初始化网络状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = resetState(net);</span><br><span class="line">net = predictAndUpdateState(net,XTrain);</span><br></pre></td></tr></table></figure>
+<p>对每个时间步进行预测。对于每次预测，使用前一时间步的观测值预测下一个时间步。将 <code>predictAndUpdateState</code> 的 <code>&#39;ExecutionEnvironment&#39;</code> 选项设置为 <code>&#39;cpu&#39;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">YPred = [];</span><br><span class="line">numTimeStepsTest = numel(XTest);</span><br><span class="line">for i = 1:numTimeStepsTest</span><br><span class="line">    [net,YPred(:,i)] = predictAndUpdateState(net,XTest(:,i),&#x27;ExecutionEnvironment&#x27;,&#x27;cpu&#x27;);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>使用先前计算的参数对预测去标准化。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YPred = sig*YPred + mu;</span><br></pre></td></tr></table></figure>
+<p>计算均方根误差 (RMSE)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rmse = sqrt(mean((YPred-YTest).^2))</span><br><span class="line">rmse = 158.0959</span><br></pre></td></tr></table></figure>
+<p>将预测值与测试数据进行比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">subplot(2,1,1)</span><br><span class="line">plot(YTest)</span><br><span class="line">hold on</span><br><span class="line">plot(YPred,&#x27;.-&#x27;)</span><br><span class="line">hold off</span><br><span class="line">legend([&quot;Observed&quot; &quot;Predicted&quot;])</span><br><span class="line">ylabel(&quot;Cases&quot;)</span><br><span class="line">title(&quot;Forecast with Updates&quot;)</span><br><span class="line"></span><br><span class="line">subplot(2,1,2)</span><br><span class="line">stem(YPred - YTest)</span><br><span class="line">xlabel(&quot;Month&quot;)</span><br><span class="line">ylabel(&quot;Error&quot;)</span><br><span class="line">title(&quot;RMSE = &quot; + rmse)</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/15/LSTM%E5%AE%9E%E4%BE%8B1/timeseriesforecastingusingdeeplearningexample_05_zh_CN.png" class="" title="img">
+<p>这里，当使用观测值而不是预测值更新网络状态时，预测更准确。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="prev" title="深度学习基础概念">
+      <i class="fa fa-chevron-left"></i> 深度学习基础概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/17/LSTM%E5%AE%9E%E4%BE%8B2/" rel="next" title="LSTM实例2">
+      LSTM实例2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E8%A1%8C%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B"><span class="nav-text">使用深度学习进行时序预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE"><span class="nav-text">加载序列数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E6%95%B0%E6%8D%AE"><span class="nav-text">标准化数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%A2%84%E6%B5%8B%E5%8F%98%E9%87%8F%E5%92%8C%E5%93%8D%E5%BA%94"><span class="nav-text">准备预测变量和响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-LSTM-%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-text">定义 LSTM 网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83-LSTM-%E7%BD%91%E7%BB%9C"><span class="nav-text">训练 LSTM 网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E5%B0%86%E6%9D%A5%E6%97%B6%E9%97%B4%E6%AD%A5"><span class="nav-text">预测将来时间步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%82%E6%B5%8B%E5%80%BC%E6%9B%B4%E6%96%B0%E7%BD%91%E7%BB%9C%E7%8A%B6%E6%80%81"><span class="nav-text">使用观测值更新网络状态</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
