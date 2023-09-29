@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="重点精读文章。这篇文章的literature review部分介绍了很多关于手腕运动学估计的文献，值得学习，为小论文做准备。这篇文章的方法是先把HD-EMG分解成MUST，然后用MUAP卷积MUST得到各个电极处重构的EMG信号，重构的EMG信号构成了一张图像，N个MU的图像构成了CNN某一时刻的输出。这篇文章分析了MU-specific image和discharge rate的回归效果，发现M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wrist Torque Estimation via Electromyographic Motor Unit Decomposition and Image Reconstruction">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/07/06/Wrist-Torque-Estimation-via-Electromyographic-Motor-Unit-Decomposition-and-Image-Reconstruction/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="重点精读文章。这篇文章的literature review部分介绍了很多关于手腕运动学估计的文献，值得学习，为小论文做准备。这篇文章的方法是先把HD-EMG分解成MUST，然后用MUAP卷积MUST得到各个电极处重构的EMG信号，重构的EMG信号构成了一张图像，N个MU的图像构成了CNN某一时刻的输出。这篇文章分析了MU-specific image和discharge rate的回归效果，发现M">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-06T13:45:47.000Z">
+<meta property="article:modified_time" content="2023-09-29T10:10:00.767Z">
+<meta property="article:author" content="Xinhao">
+<meta property="article:tag" content="TNSRE">
+<meta property="article:tag" content="Image">
+<meta property="article:tag" content="上交">
+<meta property="article:tag" content="Wrist torque">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/07/06/Wrist-Torque-Estimation-via-Electromyographic-Motor-Unit-Decomposition-and-Image-Reconstruction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Wrist Torque Estimation via Electromyographic Motor Unit Decomposition and Image Reconstruction | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/07/06/Wrist-Torque-Estimation-via-Electromyographic-Motor-Unit-Decomposition-and-Image-Reconstruction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Wrist Torque Estimation via Electromyographic Motor Unit Decomposition and Image Reconstruction
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-07-06 21:45:47" itemprop="dateCreated datePublished" datetime="2023-07-06T21:45:47+08:00">2023-07-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 18:10:00" itemprop="dateModified" datetime="2023-09-29T18:10:00+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>重点精读文章。这篇文章的literature review部分介绍了很多关于手腕运动学估计的文献，值得学习，为小论文做准备。这篇文章的方法是先把HD-EMG分解成MUST，然后用MUAP卷积MUST得到各个电极处重构的EMG信号，重构的EMG信号构成了一张图像，N个MU的图像构成了CNN某一时刻的输出。这篇文章分析了MU-specific image和discharge rate的回归效果，发现MU-specific image包含更多的local information，而discharge rate只包含了开关量。讨论部分，文章对比了CNN-DR，LR-DR，SVR-DR，ANN-DR，和CNN-image之间的回归效果，通过R2和nRMSE来评价模型的优劣。这篇文章的方法值得借鉴，没有简单地一开始就考虑图像，而是先分解得到MUST，再重构图像。</p>
+<span id="more"></span>
+<h1 id="1-Intro"><a href="#1-Intro" class="headerlink" title="1.Intro"></a>1.Intro</h1><p>sEMG是由MUAP和MUST的卷积结果叠加形成的。受神经支配的肌肉纤维收缩并驱动骨骼肌产生所需的运动。</p>
+<p>肌电控制的直接控制通常只能控制一个自由度，因而通过模式识别来实现多个自由度的控制，区分手部的不同pattern，但是这种方法是离散的，不能对连续动作解码。</p>
+<blockquote>
+<p>still consider the sEMG signals as an interfered source signal and ignore the underlying generation process in physiology 。</p>
+</blockquote>
+<p>文献《Decodingmotor unitactivityfromforearmmuscles: Perspectivesformyoelectric control》验证了<mark>非等长收缩下手腕动作</mark>MU解码的可行性。</p>
+<p>文章指出了使用discharge rate的缺点，由此引出图像能够包含更丰富的信息：</p>
+<blockquote>
+<p>值得注意的是，大多数基于分解MU的现有范式仅基于DR特征，这些特征已被证明是有效的，但可能缺乏放电瞬间周围的局部信息，并忽略了不同MU的微妙相互作用。由于DR特征来源于运动单位的开关状态，因此该时刻的激活水平（即局部信息）不足。此外，人工提取的DR特征是否是HMI中MUST特征提取的最佳和代表，这仍然是一个悬而未决的问题。</p>
+</blockquote>
+<h1 id="2-Experiments"><a href="#2-Experiments" class="headerlink" title="2.Experiments"></a>2.Experiments</h1><p><strong>人数：</strong>10人。健康：7男1女；残疾：1男1女</p>
+<p><strong>数据采集：</strong></p>
+<ul>
+<li>力矩：2 DOF，伸/缩，内旋/外旋，采样率1000Hz</li>
+<li>HD-EMG：3*64通道，2048Hz (EMG-USB2+, OT Bioelettronica, Italy)  </li>
+<li>同步：发送同步脉冲</li>
+</ul>
+<p><strong>实验范式：</strong>通过光标的移动来指示（可以改进）</p>
+<p><strong>实验数目：</strong>两个任务，每个任务包含5个trial，每个trial持续29s</p>
+<h1 id="3-Method"><a href="#3-Method" class="headerlink" title="3. Method"></a>3. Method</h1><p><strong>数据预处理：</strong></p>
+<ul>
+<li>4阶巴特沃斯带通滤波器，20-500Hz</li>
+<li>50Hz陷波滤波器</li>
+<li>丢弃信噪比低的通道</li>
+<li>力矩通过4Hz 4阶低通巴特沃斯滤波器滤波，重采样至2048Hz</li>
+</ul>
+<p><strong>MU-specific image：</strong></p>
+<p>通过MUAP和MUST卷积来重建（resconstructed）单个MU的放电信号，然后把每个通道重建的信号按电极顺序排列成8*24网格，称为MU-specific image。</p>
+<p><strong>排除重复MU：</strong></p>
+<blockquote>
+<p>在本研究中，EMG信号的分解是在每个电极阵列中单独进行的。由于EMG信号的串扰，相邻电极阵列应该包含一些共模信号。因此，分解的尖峰序列可能具有重复的尖峰序列，如果两个尖峰序列的一致性（RoA）超过30%，则会消除重复的尖峰。</p>
+</blockquote>
+<p>这说明64通道分解的结果是有效的，通道数的多少无非是得到MU的多少，即使电极片数更多，但可能会分解得到相同的MU。<font color = "red">可以在代码中添加RoA的判断条件来确保没有得到重复的MU。</font></p>
+<p><strong>有效MU的判断条件：</strong></p>
+<blockquote>
+<p>Those MUSTs with PNR below 20 dB were discarded because of low decomposition confidence.  </p>
+</blockquote>
+<font color = "red">低于20dB的MU被排除，并不是低于30</font>
+
+<p><strong>CNN的输入和输出：</strong></p>
+<ul>
+<li>如果识别到N个MU，那么某一个时刻根据这些MU重建的N个图像就构成了CNN的输入：8 × 24 × N MU-images</li>
+<li>与Pro-Sup，Fle-Ext对应的二维向量（<font color = "red">？</font>）</li>
+</ul>
+<p><strong>CNN数据集划分：</strong></p>
+<ul>
+<li>10%验证集</li>
+<li>20%测试集</li>
+<li>70%训练集</li>
+</ul>
+<p><strong>滑动窗口：</strong></p>
+<ul>
+<li>200ms宽，150ms重叠</li>
+</ul>
+<p><strong>多种回归器的对比：</strong></p>
+<ul>
+<li>LR-DR（DR代表discharge rate）</li>
+<li>SVR-DR</li>
+<li>ANN-DR</li>
+<li>CNN-DR</li>
+</ul>
+<p>传统的回归方法使用discharge rate作为特征，N × 1  的特征作为回归模型的输入。他是把各个MU的放电率分开来的，不是CST。</p>
+<p><strong>评价指标：</strong></p>
+<ul>
+<li>决定系数：</li>
+</ul>
+<script type="math/tex; mode=display">
+R^2=1-\frac{\sum_{i=1}^n\left(\hat{T}_i-T_i\right)^2}{\sum_{i=1}^n\left(T_i-\bar{T}\right)^2}</script><ul>
+<li>归一化均方误差：</li>
+</ul>
+<script type="math/tex; mode=display">
+nRMSE=\frac{\sqrt{\sum_{i=1}^n\left(\hat{T}_i-T_i\right)^2/n}}{T_{\mathrm{max}}-T_{\mathrm{min}}}\times100\%</script><p><strong>MU统计：</strong></p>
+<p>分别分解来自每个电极阵列的EMG信号，然后根据放电序列剔除重复的运动单位，进而合并得到的全部的运动单位。对于每个受试者的每次试验，在激活Pro/Sup和Fle/Ext时，可以从EMG信号中分解出20多个运动单位。</p>
+<p><strong>特征分析：</strong></p>
+<p>分析了测试数据集下每个DoF中记录的手腕力矩与<code>从dropout层后训练的CNN模型中提取的特征</code>以及<code>DR特征</code>之间的相互关系。具体来说，我们分别通过对CNN模型提取的特征和DR特征进行了主成分分析。</p>
+<blockquote>
+<p>PC1-MUimage and PCsDev-DR across all the subjects were calculated.</p>
+</blockquote>
+<ul>
+<li><p>Regardless of Pro-Sup or Fle-Ext, the cross-correlation of PC1-MUimage with wrist torques was <mark>much higher</mark> than that of PCsDev-DR. </p>
+</li>
+<li><p>The extracted features from MU-specific images had much stronger linearity than DR features with respect to the recorded wrist torques.  </p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TNSRE/" rel="tag"># TNSRE</a>
+              <a href="/tags/Image/" rel="tag"># Image</a>
+              <a href="/tags/%E4%B8%8A%E4%BA%A4/" rel="tag"># 上交</a>
+              <a href="/tags/Wrist-torque/" rel="tag"># Wrist torque</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/27/Behaviour-of-human-motor-units-in-different-muscles-during-linearly-varying-contractions/" rel="prev" title="Behaviour of human motor units in different muscles during linearly varying contractions">
+      <i class="fa fa-chevron-left"></i> Behaviour of human motor units in different muscles during linearly varying contractions
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/" rel="next" title="Surface Electromyography Image-Driven Torque Estimation of Multi-DoF Wrist Movements">
+      Surface Electromyography Image-Driven Torque Estimation of Multi-DoF Wrist Movements <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Intro"><span class="nav-text">1.Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Experiments"><span class="nav-text">2.Experiments</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Method"><span class="nav-text">3. Method</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

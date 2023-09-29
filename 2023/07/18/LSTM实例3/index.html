@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="使用深度学习进行“序列到序列”回归此示例说明如何使用深度学习预测发动机的剩余使用寿命 (RUL)。 要训练深度神经网络以根据时序数据或序列数据预测数值，可以使用长短期记忆 (LSTM) 网络。 此示例使用 [1] 中所述的涡轮风扇发动机退化仿真数据集。该示例训练一个 LSTM 网络，旨在根据表示发动机中各种传感器的时序数据来预测发动机的剩余使用寿命（预测性维护，以周期为单位度量）。训练数据包含 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSTM实例3">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="使用深度学习进行“序列到序列”回归此示例说明如何使用深度学习预测发动机的剩余使用寿命 (RUL)。 要训练深度神经网络以根据时序数据或序列数据预测数值，可以使用长短期记忆 (LSTM) 网络。 此示例使用 [1] 中所述的涡轮风扇发动机退化仿真数据集。该示例训练一个 LSTM 网络，旨在根据表示发动机中各种传感器的时序数据来预测发动机的剩余使用寿命（预测性维护，以周期为单位度量）。训练数据包含 1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_01_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_02_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_03_zh_CN.png">
+<meta property="article:published_time" content="2023-07-18T08:46:07.000Z">
+<meta property="article:modified_time" content="2023-09-29T10:06:52.285Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_01_zh_CN.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>LSTM实例3 | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LSTM实例3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-07-18 16:46:07" itemprop="dateCreated datePublished" datetime="2023-07-18T16:46:07+08:00">2023-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 18:06:52" itemprop="dateModified" datetime="2023-09-29T18:06:52+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用深度学习进行“序列到序列”回归"><a href="#使用深度学习进行“序列到序列”回归" class="headerlink" title="使用深度学习进行“序列到序列”回归"></a>使用深度学习进行“序列到序列”回归</h1><p>此示例说明如何使用深度学习预测发动机的剩余使用寿命 (RUL)。</p>
+<p>要训练深度神经网络以根据时序数据或序列数据预测数值，可以使用长短期记忆 (LSTM) 网络。</p>
+<p>此示例使用 [1] 中所述的涡轮风扇发动机退化仿真数据集。该示例训练一个 LSTM 网络，旨在根据表示发动机中各种传感器的时序数据来预测发动机的剩余使用寿命（预测性维护，以周期为单位度量）。训练数据包含 100 台发动机的仿真时序数据。每个序列的长度各不相同，对应于完整的运行至故障 (RTF) 实例。测试数据包含 100 个不完整序列，每个序列的末尾为相应的剩余使用寿命值。</p>
+<p>该数据集包含 100 个训练观测值和 100 个测试观测值。</p>
+<span id="more"></span>
+<h3 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h3><p>从 <a target="_blank" rel="noopener" href="https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/">https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/</a> [2] 下载并解压缩涡轮风扇发动机退化仿真数据集。</p>
+<p>涡轮风扇发动机退化仿真数据集的每个时序表示一个发动机。每台发动机启动时的初始磨损程度和制造变差均未知。发动机在每个时序开始时运转正常，在到达序列中的某一时刻时出现故障。在训练集中，故障的规模不断增大，直到出现系统故障。</p>
+<p>数据是 ZIP 压缩的文本文件，其中包含 26 列以空格分隔的数值。每一行是在一个运转周期中截取的数据快照，每一列代表一个不同的变量。这些列分别对应于以下数据：</p>
+<ul>
+<li>第 1 列 - 单元编号</li>
+<li>第 2 列 - 周期时间</li>
+<li>第 3-5 列 - 操作设置</li>
+<li>第 6-26 列 - 传感器测量值 1-21</li>
+</ul>
+<p>创建一个目录来存储涡轮风扇发动机退化仿真数据集。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dataFolder = fullfile(tempdir,&quot;turbofan&quot;);</span><br><span class="line">if ~exist(dataFolder,&#x27;dir&#x27;)</span><br><span class="line">    mkdir(dataFolder);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>从 <a target="_blank" rel="noopener" href="https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/">https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/</a> 下载并提取涡轮风扇发动机退化仿真数据集。</p>
+<p>从文件 <code>CMAPSSData.zip</code> 中解压缩数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filename = &quot;CMAPSSData.zip&quot;;</span><br><span class="line">unzip(filename,dataFolder)</span><br></pre></td></tr></table></figure>
+<h3 id="准备训练数据"><a href="#准备训练数据" class="headerlink" title="准备训练数据"></a>准备训练数据</h3><p>使用此示例附带的函数 <code>processTurboFanDataTrain</code> 加载数据。函数 <code>processTurboFanDataTrain</code> 从 <code>filenamePredictors</code> 中提取数据并返回元胞数组 <code>XTrain</code> 和 <code>YTrain</code>，其中包含训练预测变量和响应序列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filenamePredictors = fullfile(dataFolder,&quot;train_FD001.txt&quot;);</span><br><span class="line">[XTrain,YTrain] = processTurboFanDataTrain(filenamePredictors);</span><br></pre></td></tr></table></figure>
+<p><strong>删除具有常量值的特征</strong></p>
+<p>在所有时间步都保持不变的特征可能对训练产生负面影响。找到最小值和最大值相同的数据行，然后删除这些行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m = min([XTrain&#123;:&#125;],[],2);</span><br><span class="line">M = max([XTrain&#123;:&#125;],[],2);</span><br><span class="line">idxConstant = M == m;</span><br><span class="line"></span><br><span class="line">for i = 1:numel(XTrain)</span><br><span class="line">    XTrain&#123;i&#125;(idxConstant,:) = [];</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>查看序列中其余特征的数量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFeatures = size(XTrain&#123;1&#125;,1)</span><br><span class="line">numFeatures = 17</span><br></pre></td></tr></table></figure>
+<p><strong>归一化训练预测变量</strong></p>
+<p>将训练预测变量归一化为具有零均值和单位方差。要计算所有观测值的均值和标准差，请水平串联序列数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mu = mean([XTrain&#123;:&#125;],2);</span><br><span class="line">sig = std([XTrain&#123;:&#125;],0,2);</span><br><span class="line"></span><br><span class="line">for i = 1:numel(XTrain)</span><br><span class="line">    XTrain&#123;i&#125; = (XTrain&#123;i&#125; - mu) ./ sig;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p><strong>裁剪响应</strong></p>
+<p>要更多地从发动机快要出现故障时的序列数据中进行学习，请以阈值 150 对响应进行裁剪。这会使网络将具有更高 RUL 值的实例视为等同。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">thr = 150;</span><br><span class="line">for i = 1:numel(YTrain)</span><br><span class="line">    YTrain&#123;i&#125;(YTrain&#123;i&#125; &gt; thr) = thr;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>下图显示了第一个观测值及其对应的裁剪响应。</p>
+<img src="/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_01_zh_CN.png" class="" title="img">
+<p><strong>准备要填充的数据</strong></p>
+<p>要最大程度地减少添加到小批量的填充量，请按序列长度对训练数据进行排序。然后，选择可均匀划分训练数据的小批量大小，并减少小批量中的填充量。</p>
+<p>按序列长度对训练数据进行排序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for i=1:numel(XTrain)</span><br><span class="line">    sequence = XTrain&#123;i&#125;;</span><br><span class="line">    sequenceLengths(i) = size(sequence,2);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">[sequenceLengths,idx] = sort(sequenceLengths,&#x27;descend&#x27;);</span><br><span class="line">XTrain = XTrain(idx);</span><br><span class="line">YTrain = YTrain(idx);</span><br></pre></td></tr></table></figure>
+<p>在条形图中查看排序的序列长度。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">bar(sequenceLengths)</span><br><span class="line">xlabel(&quot;Sequence&quot;)</span><br><span class="line">ylabel(&quot;Length&quot;)</span><br><span class="line">title(&quot;Sorted Data&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_02_zh_CN.png" class="" title="img">
+<p>选择可均匀划分训练数据的小批量大小，并减少小批量中的填充量。指定小批量大小为 20。下图显示了未排序序列和已排序序列的填充情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">miniBatchSize = 20;</span><br></pre></td></tr></table></figure>
+<img src="/2023/07/18/LSTM%E5%AE%9E%E4%BE%8B3/sequencetosequenceregressionusingdeeplearningexample_03_zh_CN.png" class="" title="img">
+<h3 id="定义网络架构"><a href="#定义网络架构" class="headerlink" title="定义网络架构"></a>定义网络架构</h3><p>定义网络架构。创建一个 LSTM 网络，该网络包含一个具有 200 个隐藏单元的 LSTM 层，然后是一个大小为 50 的全连接层和一个丢弃概率为 0.5 的丢弃层。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">numResponses = size(YTrain&#123;1&#125;,1);</span><br><span class="line">numHiddenUnits = 200;</span><br><span class="line"></span><br><span class="line">layers = [ ...</span><br><span class="line">    sequenceInputLayer(numFeatures)</span><br><span class="line">    lstmLayer(numHiddenUnits,&#x27;OutputMode&#x27;,&#x27;sequence&#x27;)</span><br><span class="line">    fullyConnectedLayer(50)</span><br><span class="line">    dropoutLayer(0.5)</span><br><span class="line">    fullyConnectedLayer(numResponses)</span><br><span class="line">    regressionLayer];</span><br></pre></td></tr></table></figure>
+<p>指定训练选项。使用求解器 <code>&#39;adam&#39;</code> 以大小为 20 的小批量进行 60 轮训练。指定学习率为 0.01。要防止梯度爆炸，请将梯度阈值设置为 1。要使序列保持按长度排序，请将 <code>&#39;Shuffle&#39;</code> 设置为 <code>&#39;never&#39;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">maxEpochs = 60;</span><br><span class="line">miniBatchSize = 20;</span><br><span class="line"></span><br><span class="line">options = trainingOptions(&#x27;adam&#x27;, ...</span><br><span class="line">    &#x27;MaxEpochs&#x27;,maxEpochs, ...</span><br><span class="line">    &#x27;MiniBatchSize&#x27;,miniBatchSize, ...</span><br><span class="line">    &#x27;InitialLearnRate&#x27;,0.01, ...</span><br><span class="line">    &#x27;GradientThreshold&#x27;,1, ...</span><br><span class="line">    &#x27;Shuffle&#x27;,&#x27;never&#x27;, ...</span><br><span class="line">    &#x27;Plots&#x27;,&#x27;training-progress&#x27;,...</span><br><span class="line">    &#x27;Verbose&#x27;,0);</span><br></pre></td></tr></table></figure>
+<h3 id="训练网络"><a href="#训练网络" class="headerlink" title="训练网络"></a>训练网络</h3><p>使用 <code>trainNetwork</code> 训练网络。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net = trainNetwork(XTrain,YTrain,layers,options);</span><br></pre></td></tr></table></figure>
+<h3 id="测试网络"><a href="#测试网络" class="headerlink" title="测试网络"></a>测试网络</h3><p>使用此示例附带的函数 <code>processTurboFanDataTest</code> 准备测试数据。函数 <code>processTurboFanDataTest</code> 从 <code>filenamePredictors</code> 和 <code>filenameResponses</code> 中提取数据并返回元胞数组 <code>XTest</code> 和 <code>YTest</code>，其中分别包含测试预测变量和响应序列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">filenamePredictors = fullfile(dataFolder,&quot;test_FD001.txt&quot;);</span><br><span class="line">filenameResponses = fullfile(dataFolder,&quot;RUL_FD001.txt&quot;);</span><br><span class="line">[XTest,YTest] = processTurboFanDataTest(filenamePredictors,filenameResponses);</span><br></pre></td></tr></table></figure>
+<p>使用根据训练数据计算出的 <code>idxConstant</code> 删除具有常量值的特征。使用与训练数据相同的参数来归一化测试预测变量。使用与训练数据相同的阈值对测试响应进行裁剪。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for i = 1:numel(XTest)</span><br><span class="line">    XTest&#123;i&#125;(idxConstant,:) = [];</span><br><span class="line">    XTest&#123;i&#125; = (XTest&#123;i&#125; - mu) ./ sig;</span><br><span class="line">    YTest&#123;i&#125;(YTest&#123;i&#125; &gt; thr) = thr;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>使用 <code>predict</code> 对测试数据进行预测。为防止函数向数据添加填充，请指定小批量大小为 1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YPred = predict(net,XTest,&#x27;MiniBatchSize&#x27;,1);</span><br></pre></td></tr></table></figure>
+<p>LSTM 网络对不完整序列进行预测，一次预测一个时间步。在每个时间步，网络使用此时间步的值进行预测，网络状态仅根据先前的时间步进行计算。网络在各次预测之间更新其状态。<code>predict</code> 函数返回这些预测值的序列。预测值的最后一个元素对应于不完整序列的预测 RUL。</p>
+<p>您也可以使用 <code>predictAndUpdateState</code> 一次对一个时间步进行预测。这在时间步的值以流的方式到达时非常有用。通常，对完整序列进行预测比一次对一个时间步进行预测更快。有关如何通过在相邻的单个时间步预测之间更新网络来预测将来时间步的示例，请参阅<a target="_blank" rel="noopener" href="https://www.mathworks.com/help/releases/R2021b/deeplearning/ug/time-series-forecasting-using-deep-learning.html">使用深度学习进行时序预测</a>。</p>
+<p>在绘图中可视化一些预测值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">idx = randperm(numel(YPred),4);</span><br><span class="line">figure</span><br><span class="line">for i = 1:numel(idx)</span><br><span class="line">    subplot(2,2,i)</span><br><span class="line">    </span><br><span class="line">    plot(YTest&#123;idx(i)&#125;,&#x27;--&#x27;)</span><br><span class="line">    hold on</span><br><span class="line">    plot(YPred&#123;idx(i)&#125;,&#x27;.-&#x27;)</span><br><span class="line">    hold off</span><br><span class="line">    </span><br><span class="line">    ylim([0 thr + 25])</span><br><span class="line">    title(&quot;Test Observation &quot; + idx(i))</span><br><span class="line">    xlabel(&quot;Time Step&quot;)</span><br><span class="line">    ylabel(&quot;RUL&quot;)</span><br><span class="line">end</span><br><span class="line">legend([&quot;Test Data&quot; &quot;Predicted&quot;],&#x27;Location&#x27;,&#x27;southeast&#x27;)</span><br></pre></td></tr></table></figure>
+<p>对于给定的不完整序列，预测的当前 RUL 是预测序列的最后一个元素。计算预测值的均方根误差 (RMSE)，并在直方图中可视化预测误差。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for i = 1:numel(YTest)</span><br><span class="line">    YTestLast(i) = YTest&#123;i&#125;(end);</span><br><span class="line">    YPredLast(i) = YPred&#123;i&#125;(end);</span><br><span class="line">end</span><br><span class="line">figure</span><br><span class="line">rmse = sqrt(mean((YPredLast - YTestLast).^2))</span><br><span class="line">histogram(YPredLast - YTestLast)</span><br><span class="line">title(&quot;RMSE = &quot; + rmse)</span><br><span class="line">ylabel(&quot;Frequency&quot;)</span><br><span class="line">xlabel(&quot;Error&quot;)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/17/LSTM%E5%AE%9E%E4%BE%8B2/" rel="prev" title="LSTM实例2">
+      <i class="fa fa-chevron-left"></i> LSTM实例2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/16/%E8%A5%BF%E7%93%9C%E4%B9%A6/" rel="next" title="西瓜书">
+      西瓜书 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E8%A1%8C%E2%80%9C%E5%BA%8F%E5%88%97%E5%88%B0%E5%BA%8F%E5%88%97%E2%80%9D%E5%9B%9E%E5%BD%92"><span class="nav-text">使用深度学习进行“序列到序列”回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="nav-text">下载数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="nav-text">准备训练数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-text">定义网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E7%BD%91%E7%BB%9C"><span class="nav-text">训练网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C"><span class="nav-text">测试网络</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
