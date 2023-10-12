@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。">
+  <meta name="description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。文章结果表明CST的鲁棒性是比">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。">
+<meta property="og:description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。文章结果表明CST的鲁棒性是比">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png">
 <meta property="article:published_time" content="2022-12-05T11:37:47.000Z">
-<meta property="article:modified_time" content="2023-09-29T10:07:43.309Z">
+<meta property="article:modified_time" content="2023-10-12T14:35:20.193Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="PCA">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:07:43" itemprop="dateModified" datetime="2023-09-29T18:07:43+08:00">2023-09-29</time>
+                <time title="Modified: 2023-10-12 22:35:20" itemprop="dateModified" datetime="2023-10-12T22:35:20+08:00">2023-10-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,9 +257,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。</p>
+        <p>文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。<mark>文章结果表明CST的鲁棒性是比RMS更好的，EMG通道之间的串扰可能会导致通过RMS力矩估计的准确率降低。</mark></p>
 <span id="more"></span>
-<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-Intro"><a href="#1-1-Intro" class="headerlink" title="1.1 Intro"></a>1.1 Intro</h2><p><strong>不能完全反映神经活动的原因</strong>：</p>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-Introduction"><a href="#1-1-Introduction" class="headerlink" title="1.1 Introduction"></a>1.1 Introduction</h2><p><strong>不能完全反映神经活动的原因</strong>：</p>
 <ul>
 <li>容积导体：类似于低通滤波的作用</li>
 <li>幅值抵消：由于动作电位的重叠</li>
@@ -280,7 +280,7 @@
 <p>​    （2）EMG-driven的全称是EMG-driven musculoskeletal model，EMG只是参与计算肌肉活性，通过Hill模型，使用肌肉活性和肌腱长度作为输入来计算个体肌肉力，其核心还是骨骼肌模型（肌肉-肌腱模型、关节运动学模型）。肌肉活性的计算公式如下：</p>
 <script type="math/tex; mode=display">
 a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-2-Experiment" class="headerlink" title="1.2 Experiment"></a>1.2 Experiment</h2><p>被试：12，9男性，3女性。</p>
-<p>被试被要求在低和中力水平下，执行动态和静态的手腕收缩。一个session包含4个task（对应4个动作），每个task包含3个重复trial。trial之间休息1-2分钟，斌面肌肉疲劳。</p>
+<p>被试被要求在低和中力水平下，执行动态和静态的手腕收缩。一个session包含4个task（对应4个动作），每个task包含3个重复trial。trial之间休息1-2分钟，斌面肌肉疲劳。session中的1个trial用作训练，剩下的trial和session2用作测试。</p>
 <ol>
 <li><p>session1包含4个<mark>单自由度</mark>的动作：等长收缩</p>
 <ul>
@@ -304,11 +304,13 @@ a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-
 </ol>
 <h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1的动作先进行了级联，级联后进行训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
 <p>session2的task对应session1的哪个MUST分离矩阵呢？</p>
+<p>——session2包含哪两个动作就用哪两个动作级联。</p>
 <p><strong>EMG分解方法：</strong></p>
 <p>step1. 使用CKC算法将EMG分解成MUST</p>
 <p>step2. 使用聚类算法（设置聚类的数目为2）区分脉冲和基线噪声（传统的方法采用设置阈值目视检查）</p>
-<p><strong>EMG分解准确率的评价方法：</strong><mark>PNR (pulse-to-noise)</mark></p>
+<p><strong>EMG分解准确率的评价方法：</strong><mark>PNR (pulse-to-noise)</mark>，PNR与MUST高度相关，并用于间接评估本工作中的<mark>分解性能</mark>，训练的平均PNR大于 25 dB</p>
 <p><strong>神经特征提取：</strong></p>
+<p>MU首先被分组，与动作一一对应，两个动作共同的MU在分析中被忽略。</p>
 <ol>
 <li><p>表征单个运动神经元的放电活动</p>
 <ul>
@@ -337,31 +339,40 @@ y_i=a_i x_i+b_i</script><p>CST的实时放电率与力曲线非常的接近：</
 <ul>
 <li>peak-to-peak value</li>
 <li>duration</li>
-<li>area of MUAP(obtained by computing the definite integral of action potentials within the duration.  )</li>
+<li>area of MUAP（obtained by computing the definite integral of action potentials within the duration.）  </li>
 </ul>
 <p><strong>特征评估：</strong></p>
 <ul>
 <li>使用ANOVA来评估3种神经特征对估计的影响</li>
-</ul>
-<p><strong>性能评估：</strong></p>
-<ul>
-<li>PNR与MUST高度相关，并用于间接评估本工作中的<mark>分解性能</mark></li>
 </ul>
 <p><strong>回归算法：</strong></p>
 <ul>
 <li><mark>linear regression model</mark></li>
 </ul>
 <h2 id="1-3-Conclusion"><a href="#1-3-Conclusion" class="headerlink" title="1.3 Conclusion"></a>1.3 Conclusion</h2><ol>
-<li>CST的估计结果从决定系数和RMSE上来说均显著好于RMS。</li>
-<li>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation 和supination 的MUAP激活区域几乎相同；然而flexion 和extension 的激活区域很容易区分。</li>
-<li>尽管MUST估计的维度比CST更高，但是MUST的估计效果并没有显著好于CST。</li>
+<li><p>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig 3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关</p>
+</li>
+<li><p>RMS用来和神经特征做对比，在训练集上，RMS在大多数情况下性能是优于神经特征的，然而在测试集上，RMS的估计性能会显著降低，CST的估计结果从决定系数和RMSE上来说均显著好于RMS。这说明神经特征的鲁棒性更好</p>
+</li>
+<li><p>RMS性能低下的原因可能是由于：（1）EMG通道之间的串扰；（2）2-DOF下动作电位的叠加，存在幅值抵消的特性</p>
+<blockquote>
+<p><em>Amplitude cancellationof motor-unit action potentials in the surface electromyogram can be estimated with spike-triggered averaging</em></p>
+</blockquote>
+</li>
+<li><p>文章尝试直接把MUST映射到力矩的输出上，这比CST的维度更高，但效果并没有比CST好，特别是在光滑度上，CST要优异很多（但是文章适用的是多元线性回归，效果不理想的原因也可能是受限于方法，因为神经元是非线性的，同时，单独考虑MUST可能引入单个MU中的震荡）</p>
+</li>
+<li><p>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation 和supination 的MUAP激活区域几乎相同；然而flexion 和extension 的激活区域很容易区分</p>
+</li>
+<li><p>PCA能够从多个MUST中提取出低维信息，能够代表从神经驱动。因此比传统的EMG-based的方法有更好的性能</p>
+</li>
+<li><p>MUAP的一些参数能够反映一些肌肉特性，比如MUAP的幅值和长度能够反映肌肉的疲劳程度</p>
+</li>
+<li><p>MUAP的空间信息能够帮助改善力矩的估计</p>
+</li>
+<li><p>MUAP的空间特征在不同被试之间是相似的，这说明这些特征能够用在被试之间的估计</p>
+</li>
 </ol>
-<h2 id="1-4-Discussion"><a href="#1-4-Discussion" class="headerlink" title="1.4 Discussion"></a>1.4 Discussion</h2><ol>
-<li>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig 3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关。</li>
-<li>文章尝试直接把MUST映射到力矩的输出上，这比CST的维度更高，但效果并没有比CST好，特别是在光滑度上，CST要优异很多（但是文章适用的是多元线性回归，效果不理想的原因也可能是受限于方法，因为神经元是非线性的）。</li>
-<li>PCA特征比传统的基于EMG信号的方法更好，这是因为PCA能提取更多的低维特征，一定程度上能够代表是神经冲动</li>
-</ol>
-<h1 id="2-文章有哪些疑问"><a href="#2-文章有哪些疑问" class="headerlink" title="2.文章有哪些疑问"></a>2.文章有哪些疑问</h1>
+
     </div>
 
     
@@ -447,7 +458,7 @@ y_i=a_i x_i+b_i</script><p>CST的实时放电率与力曲线非常的接近：</
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Intro"><span class="nav-text">1.1 Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Experiment"><span class="nav-text">1.2 Experiment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Method"><span class="nav-text">1.3 Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Conclusion"><span class="nav-text">1.3 Conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-Discussion"><span class="nav-text">1.4 Discussion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%96%87%E7%AB%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E7%96%91%E9%97%AE"><span class="nav-text">2.文章有哪些疑问</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Introduction"><span class="nav-text">1.1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Experiment"><span class="nav-text">1.2 Experiment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Method"><span class="nav-text">1.3 Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Conclusion"><span class="nav-text">1.3 Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
