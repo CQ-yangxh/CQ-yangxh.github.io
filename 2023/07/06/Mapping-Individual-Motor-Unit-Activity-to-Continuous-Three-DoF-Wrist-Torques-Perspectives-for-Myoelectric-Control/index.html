@@ -20,16 +20,21 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="以往的研究主要集中在离散的动作和单自由度。在基于回归的连续控制方案中，EMG信号通常被视为随机信号，其中运动运动学&#x2F;动力学由统计特性反映。尽管SPC相关研究在过去十年中取得了巨大的进展，但实现自然直观的基于EMG的控制仍然具有挑战性。本文是第一篇考虑3自由度连续力矩估计的。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Mapping Individual Motor Unit Activity to Continuous Three-DoF Wrist Torques: Perspectives for Myoelectric Control">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="以往的研究主要集中在离散的动作和单自由度。在基于回归的连续控制方案中，EMG信号通常被视为随机信号，其中运动运动学&#x2F;动力学由统计特性反映。尽管SPC相关研究在过去十年中取得了巨大的进展，但实现自然直观的基于EMG的控制仍然具有挑战性。本文是第一篇考虑3自由度连续力矩估计的。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011161049914.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011172949151.png">
 <meta property="article:published_time" content="2023-07-06T13:46:48.000Z">
-<meta property="article:modified_time" content="2023-09-29T10:06:57.627Z">
+<meta property="article:modified_time" content="2023-10-12T02:26:16.802Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="上交">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011161049914.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/">
 
@@ -217,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:06:57" itemprop="dateModified" datetime="2023-09-29T18:06:57+08:00">2023-09-29</time>
+                <time title="Modified: 2023-10-12 10:26:16" itemprop="dateModified" datetime="2023-10-12T10:26:16+08:00">2023-10-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,7 +252,109 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>以往的研究主要集中在离散的动作和单自由度。在基于回归的连续控制方案中，EMG信号通常被视为随机信号，其中运动运动学/动力学由统计特性反映。尽管SPC相关研究在过去十年中取得了巨大的进展，但实现自然直观的基于EMG的控制仍然具有挑战性。本文是第一篇考虑3自由度连续力矩估计的。</p>
+<span id="more"></span>
+<h1 id="1-Introuction"><a href="#1-Introuction" class="headerlink" title="1. Introuction"></a>1. Introuction</h1><p>肌电的离散控制方案：</p>
+<ul>
+<li>状态机</li>
+<li>模式识别</li>
+</ul>
+<p>肌电的连续控制方案：</p>
+<ul>
+<li>regression model</li>
+<li>simultaneous adn proportional control</li>
+</ul>
+<font color = "red">基于MUAPT的关节连续运动估计：</font>
+
+<blockquote>
+<p><em>Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses</em> </p>
+<p><em>Real-time isometric finger extension force estimation based on motor unit discharge information</em> </p>
+<p><em>Man/machine interface based on the discharge timings of spinal motor neurons after targeted muscle reinnervation</em> </p>
+<p><em>In vivo neuromechanics: Decoding causal motor neuron behavior with resulting musculoskeletal function</em>  </p>
+</blockquote>
+<font color = "red">通过放电属性来线性估计激活程度：</font>
+
+<blockquote>
+<p><em>Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses</em>  </p>
+<p><em>Finger joint angle estimation based on motoneuron discharge activities</em>  </p>
+<p><em>放电率跟运动参数高度相关:</em> <em>Prediction of finger kinematics from discharge timings of motor units: Implications for intuitive control of myoelectric prostheses</em>  </p>
+</blockquote>
+<font color = "red">MUAPT得到的神经驱动用于神经肌肉-骨骼模型：</font>
+
+<blockquote>
+<p><em>In vivo neuromechanics: Decoding causal motor neuron behavior with resulting musculoskeletal function</em> </p>
+<p><em>Neuromusculoskeletal mapping for man-machine interfacing</em>  </p>
+</blockquote>
+<p>基于MUAPT控制的优势：</p>
+<ul>
+<li>能够更好的理解深层的运动</li>
+<li>基于MUAPT的控制范式在自然和灵巧控制中更有优势</li>
+</ul>
+<p><strong>本文的意义：</strong></p>
+<p>先前的研究主要研究了基于MUAPT的连续控制在单个DoF或两个DoF（本文是3个）任务中的可行性。此外，与传统的连续控制相比，基于MUAPT的控制实验协议相对简单，不能满足实际应用。为了克服这些限制，本研究旨在将从高密度表面肌电信号中识别的运动单元放电映射为多DoF和连续手腕扭矩。</p>
+<h1 id="2-Methods"><a href="#2-Methods" class="headerlink" title="2. Methods"></a>2. Methods</h1><p>受试者执行等长收缩，没有关节运动</p>
+<p>7个 session，session之间休息1-2分钟，每个session对应一个task，每个session包含两个，每个trial中执行task的周期为2-3s，每个trial持续20s</p>
+<p>第一个trial的信号用作训练，第二个trial的信号用作测试</p>
+<p>3个自由度分别是：</p>
+<ul>
+<li>pronation - supination</li>
+<li>wrist flexion - wrist extension</li>
+<li>ulnar deviation - radius deviation</li>
+</ul>
+<p>高密度肌电：3*64通道</p>
+<p><font color = "red">分解方法：</font>segment-wise decomposition method</p>
+<blockquote>
+<p>Segment-wise decomposition of surface electromyography to identify discharges across motor neuron populations</p>
+</blockquote>
+<p>先使用上述方法在1自由度下分解得到分离向量，然后把分离向量用在多自由度的肌电信号在线分解中。神经特征被提取并通过线性回归模型映射到力矩上。</p>
+<p>力矩信号的预处理：通过插值升至2048Hz，然后20Hz低通滤波过滤基线噪声</p>
+<p>EMG信号的预处理：4阶巴特沃斯，20-500Hz，50Hz陷波</p>
+<p>无效通道的剔除：rms高于均值的3倍</p>
+<p>把单自由度的信号级联起来分解，每个电极片单独分解，剔除重复：</p>
+<img src="/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011161049914.png" class="" title="image-20231011161049914">
+<h1 id="3-Analysis"><a href="#3-Analysis" class="headerlink" title="3. Analysis"></a>3. Analysis</h1><p>提取两种神经特征：</p>
+<ul>
+<li><p>MU发放时的抽搐力</p>
+<blockquote>
+<p>抽搐力的模型：</p>
+<p><em>Models of recruitment and rate coding organization in motor-unit pools</em> </p>
+</blockquote>
+</li>
+<li><p>滑动窗口中MU发放的次数</p>
+</li>
+</ul>
+<p>线性估计方法：</p>
+<img src="/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011172949151.png" class="" title="image-20231011172949151">
+<p>评价回归效果的指标：</p>
+<ul>
+<li>皮尔森相关系数</li>
+<li>决定系数</li>
+<li>标准化均方根误差</li>
+<li>粗糙度：用于评估输出平滑度，表示估计和记录的波动水平之间的比率</li>
+</ul>
+<p>单因素方差分析：ANOVA，类似于控制变量法，探究单个因素对组别的影响</p>
+<p>分解结果是的形式是：均值±标准差，这是对所有被试进行统计分析得到的</p>
+<h1 id="4-Results"><a href="#4-Results" class="headerlink" title="4. Results"></a>4. Results</h1><ul>
+<li><p>segment-wise分解方法可以分解出更多的MU</p>
+</li>
+<li><p>多自由度训练的效果更好</p>
+</li>
+<li><p>抽搐力比ST的效果更好，准确率和平滑度更好</p>
+</li>
+<li><p>fle-ext这个自由度的估计效果是最好的</p>
+</li>
+<li><p>与以前的研究相比，在多DoF手腕运动过程中发现了更多的MUAPT。尽管运动单位数量的增加是以分解精度的下降为代价的，但基于神经特征的转矩估计在多DoF任务中显示出较高的精度。</p>
+</li>
+<li><p>通过保留分离向量的方法，可以在任务之间跟踪MU</p>
+<blockquote>
+<p><em>Real-time isometric finger extension force estimation based on motor unit discharge information</em> </p>
+<p><em>Simultaneous and proportional control of wrist and hand movements by decoding motor unit discharges in real time</em></p>
+</blockquote>
+</li>
+<li><p>非震荡的自由度会导致更大的误差</p>
+</li>
+</ul>
+
     </div>
 
     
@@ -330,6 +437,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Introuction"><span class="nav-text">1. Introuction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Methods"><span class="nav-text">2. Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Analysis"><span class="nav-text">3. Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Results"><span class="nav-text">4. Results</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

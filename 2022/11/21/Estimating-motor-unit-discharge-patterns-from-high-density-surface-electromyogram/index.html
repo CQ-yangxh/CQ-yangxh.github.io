@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121173424122.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164612078.png">
 <meta property="article:published_time" content="2022-11-21T08:35:27.000Z">
-<meta property="article:modified_time" content="2023-09-29T10:06:13.959Z">
+<meta property="article:modified_time" content="2023-10-06T12:39:14.145Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="MUAP">
@@ -226,7 +226,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:06:13" itemprop="dateModified" datetime="2023-09-29T18:06:13+08:00">2023-09-29</time>
+                <time title="Modified: 2023-10-06 20:39:14" itemprop="dateModified" datetime="2023-10-06T20:39:14+08:00">2023-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,14 +256,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>为了进一步理解《A convolutional neural network to identify motor units from high-density surface electromyography signals in real time》，通过这篇文章弄清了这样一个过程：CKC算法分解sEMG得到了MUST（运动单元的放电时间，也叫discharge parttern），MUST通过spike-triggered averaging (SPA)方法得到表面MUAP。这篇文章分别通过仿真EMG、拇短展肌、肱二头肌、上斜方肌和股外侧肌实验阐述了MU的募集阈值，放电时间，募集先后，表面MUAP的形成这几方面的研究。</p>
+        <p>为了进一步理解《A convolutional neural network to identify motor units from high-density surface electromyography signals in real time》，通过这篇文章弄清了这样一个过程：CKC算法分解sEMG得到了MUST（运动单元的放电时间，也叫discharge parttern），MUST通过spike-triggered averaging (STA)方法得到表面MUAP。这篇文章分别通过仿真EMG、拇短展肌、肱二头肌、上斜方肌和股外侧肌实验阐述了MU的募集阈值，放电时间，募集先后，表面MUAP的形成这几方面的研究。</p>
 <span id="more"></span>
 <h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul>
 <li>怎样从高密度机电中识别出运动单元</li>
 <li>怎样识别出运动单元的放电时间</li>
 <li>卷积核补偿算法是如何运用的</li>
 </ul>
-<hr>
 <h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>文章是在low-level force-varying contractions条件下进行的。</p>
 <h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p>电信号由所有激活的运动单元贡献而成，因此要将合成的EMG信号分解成各个独立的运动单元动作电位（composite signal into its constituent MUAP trains）。活跃运动单元的经典识别方式是由植入式电极来完成的，具有高度的选择性，不会混杂过多的其他运动单元的电信号，<font color="red">但不能代表运动单元中所有的纤维，也不能每次都检测相同的位置。同时，肌纤维的一些属性，如动作电位的传播速度，或者运动单元的解剖特性，如纤维长度、纤维朝向不能确定。</font></p>
 <p>信号分解方面的一些研究（文中提到的以下内容均不能自动识别完整的MU放电模式或是只能同时识别少量激活MU）：<mark>模板匹配；有限元分析；盲源分离；高阶统计</mark></p>
@@ -284,15 +283,15 @@
 <h3 id="2-3-2-Discharge-Pattern"><a href="#2-3-2-Discharge-Pattern" class="headerlink" title="2.3.2 Discharge Pattern"></a>2.3.2 Discharge Pattern</h3><p>在模拟的12秒长收缩中，肌肉的兴奋水平在前6秒从0%增加到10%，在后6秒从10%下降到0%。在10%激发水平下激活的MU数量为120个中的63个。<font color="red">一旦激发超过指定的募集阈值，每个MU以每秒8个脉冲（pps）的速度放电，并且放电速率随激发线性增加（0.3pps/%）。</font>所有模拟MU的峰值放电速率为35pps。最后一个单位在50%的最大激励下募集。</p>
 <h2 id="2-4-Experiments"><a href="#2-4-Experiments" class="headerlink" title="2.4 Experiments"></a>2.4 Experiments</h2><p><strong>（1）8名受试者的拇短展肌肌电图的分解结果：</strong></p>
 <img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221122003643691.png" class="" title="image-20221122003643691">
-<p>募集阈值定义为前5个放电的平均频率，去募集阈值定义为后5个放电的平均频率。表中MU的性质（瞬时放电率、脉冲间间隔变异性和重构的MUAP形状）需要与已知的生理范围作对比，也就是说需要有一个参考结果，这样才能评估分解精度。</p>
-<font color="red">**施加的力与所识别MU的数量之间的高度相关性，所识别的MU募集数目随着收缩力的增加而逐渐增加。**</font>
+<p>募集阈值定义为前5个放电的平均频率，去募集阈值定义为后5个放电的平均频率（这里考虑用倒数来计算，两个放电之间的时间间隔取倒数，然后求平均）。表中MU的性质（瞬时放电率、脉冲间间隔变异性和重构的MUAP形状）需要与已知的生理范围作对比，也就是说需要有一个参考结果，这样才能评估分解精度。</p>
+<font color="red">施加的力与所识别MU的数量之间的高度相关性，所识别的MU募集数目随着收缩力的增加而逐渐增加。</font>
 
 <p>新募集的MU以9.0±1.6 pps开始放电，并随着力的增加逐渐增加放电速率（达到15.6±2.1 pps）。在斜坡的下降侧，MU放电速率降低至8.8±1.5 pps，MU以与募集相反的顺序逐渐去募集。MU的募集阈值在研究的力范围内大致均匀分布，并与MU峰值放电率呈负相关。</p>
 <p><strong>（2）从拇短展肌（受试者G）确定的MU的瞬时放电率：</strong></p>
 <img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121173352199.png" class="" title="image-20221121173352199">
 <p>subplot 2 每个点表示给定时刻的MU放电（也就是MUST），灰色线表示施加的肌肉力。subplot 1 描述了MU 5和MU 6的细节。<font color="red">subplot 2 可以看到所有MU募集的过程，随着力的增大，会有新的MU募集。</font></p>
 <img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164528441.png" class="" title="image-20221121164528441">
-<font color="red">**这张图中的波形就是MUAP在各个通道处的波形（表面MUAP）！！！注意图注中的STA方法，通过STA可以从MUST得到表面MUAP。CKC方法估计MU放电时间，但不估计动作电位的形状。因此，MUAP形状通过sEMG的spike-triggered averaging（Keenan，2006）来估计，使用识别的MU放电时间作为triggers。**</font>
+<font color="red">这张图中的波形就是MUAP在各个通道处的波形（表面MUAP）！！！注意图注中的STA方法，通过STA可以从MUST得到表面MUAP。CKC方法估计MU放电时间，但不估计动作电位的形状。因此，MUAP形状通过sEMG的spike-triggered averaging（Keenan，2006）来估计，使用识别的MU放电时间作为triggers。</font>
 
 <p>这张图中还有一个值得注意的地方，黑色实心圆圈代表靠近神经处，空心圆圈代表靠近肌肉处，可以看到<strong>神经处的动作电位是要比肌肉处的提前的</strong>。</p>
 <p><strong>（3）仿真sEMG：</strong></p>
@@ -301,16 +300,13 @@
 <p><strong>（4）肱二头肌、上斜方肌和股外侧肌：</strong></p>
 <p>随着肌力的增加，MU逐渐被募集。并且ramp-down比ramp-up的MUAPs和更接近sEMG.</p>
 <img src="/2022/11/21/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/image-20221121164612078.png" class="" title="image-20221121164612078">
-<hr>
 <h1 id="3-文章使用了哪些方法"><a href="#3-文章使用了哪些方法" class="headerlink" title="3. 文章使用了哪些方法"></a>3. 文章使用了哪些方法</h1><ol>
 <li>CKC算法分解sEMG和iEMG</li>
 <li>仿真emg，拇短展肌，肱二头肌/上斜方肌/股外侧肌</li>
 </ol>
-<hr>
 <h1 id="4-文章得到了哪些结论"><a href="#4-文章得到了哪些结论" class="headerlink" title="4. 文章得到了哪些结论"></a>4. 文章得到了哪些结论</h1><ol>
 <li>通过分解得到的放电时间和植入式电极得到的放电时间的一致性达到了98+-1%</li>
 </ol>
-<hr>
 <h1 id="5-文章有哪些疑问"><a href="#5-文章有哪些疑问" class="headerlink" title="5. 文章有哪些疑问"></a>5. 文章有哪些疑问</h1><ul>
 <li><p>MUAP和SFAP具体是一个什么形式的波形</p>
 <blockquote>

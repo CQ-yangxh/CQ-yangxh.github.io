@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数">
+  <meta name="description" content="重要程度: ⭐⭐⭐⭐⭐ 阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Adaptive Real-Time Identification of Motor Unit Discharges From Non-Stationary High-Density Surface Electromyographic Signals">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数">
+<meta property="og:description" content="重要程度: ⭐⭐⭐⭐⭐ 阅读这篇文献是因为阅读的Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MU">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211211613749.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211210827239.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114311631.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114402665.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20231008210215975.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20230111134956070.png">
 <meta property="article:published_time" content="2022-12-11T07:33:14.000Z">
-<meta property="article:modified_time" content="2023-09-29T10:05:35.599Z">
+<meta property="article:modified_time" content="2023-10-09T13:24:32.102Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="Real-time">
@@ -227,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:05:35" itemprop="dateModified" datetime="2023-09-29T18:05:35+08:00">2023-09-29</time>
+                <time title="Modified: 2023-10-09 21:24:32" itemprop="dateModified" datetime="2023-10-09T21:24:32+08:00">2023-10-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,13 +258,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>阅读这篇文献是因为阅读的<em>Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements</em>这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数，然后对在线采集的高密度肌电直接使用训练得到的分离矩阵和相关参数从而得到MUST。文章从仿真数据和真实数据两个方面进行了验证，重点关注了一下实验范式。</p>
+        <p>重要程度: ⭐⭐⭐⭐⭐</p>
+<p>阅读这篇文献是因为阅读的<em>Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements</em>这篇文献在介绍其分解流程时引用了这篇文献，想通过该文献来详细了解分解流程。这篇文章介绍了如何实时分解高密度肌电得到运动单元。方法也比较简单，就是先训练得到MUST的分离矩阵和相关参数，然后对在线采集的高密度肌电直接使用训练得到的分离矩阵和相关参数从而得到MUST。文章从仿真数据和真实数据两个方面进行了验证，重点关注了一下实验范式。</p>
+<font color='red'>这篇文章还研究动态下的分解效果，通过数据手套来记录关节数据，重点参考。提出的更新算法也主要是对动态的数据有用。</font>之前有文章研究了实时的分解，但是局限在静态的条件下，也有文章研究了动态的分解，但是是离线的，这篇文章同时实现了实时的MUST识别，还能够适用于非静态的条件，
+
 <span id="more"></span>
-<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><blockquote>
-<p> a decomposition method robust to changes of motor unit action potential (MUAP) has been proposed and can be used for the identification of motor unit firings during dynamic contractions.   </p>
-</blockquote>
+
+# 1.笔记
+
+## 1.1 引言
+
+>  a decomposition method robust to changes of motor unit action potential (MUAP) has been proposed and can be used for the identification of motor unit firings during dynamic contractions.   
+
 <font color='red'>什么是静态？静态就是兴奋的水平（频率）和MUAP的波形不变。</font>
 
+<p>对于兴奋程度改变，MUAP改变的情况，不能直接把离线的分离向量用在在线的分解上，因此需要对分离向量等参数进行更新。但是之前使用的CNN是可以的。</p>
 <h2 id="1-2-分解流程"><a href="#1-2-分解流程" class="headerlink" title="1.2 分解流程"></a>1.2 分解流程</h2><p>Two sessions:</p>
 <ol>
 <li>offline session：得到估计参数、分离MUST的矩阵、以及spike提取的阈值</li>
@@ -281,18 +290,39 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 <p>将离线阶段中获得的分离向量应用于在线分解仅当离线和在线阶段的信号特性之间保持相似时，才能确保在线阶段中的EMG分解的有效性。比如在信号是静止的情况下。然而，在一般情况下，初始的分离向量是需要持续自适应的。</p>
 <p><strong>为了适应非静态条件</strong>，文章提出了一种更新策略，在每次识别新的放电时间序列时调整分离向量$w_j$的方法，效果如下：</p>
 <img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221211210827239.png" class="" title="image-20221211210827239">
+<p>分离向量和聚类中心的更新公式如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&C_{\bar{y}\bar{y}} =C_{\bar{y}\bar{y}}+C_{\triangle\bar{y}\triangle\bar{y}}  \\
+&c_{s_{j}\bar{y}} =c_{s_j\bar{y}}+\ell\cdot\frac1{card(\Psi_j)}\sum_{n_k\in\Psi_j}\triangle\bar{y}(n_k) \\
+&T_{ij}=\frac{w_1T_{ij}+w_2T_{ij}^{^{\prime}}}{w_1+w_2},i=1,2
+\end{aligned}</script><p>这里是对分离向量进行更新，这个更新类似于梯度的更新。</p>
 <p><strong>online估计的滑动窗口：</strong>200 ms</p>
-<p><font color='red'>一个新的概念有待了解：</font>尖峰间隔变异性</p>
-<h2 id="1-3-实验范式"><a href="#1-3-实验范式" class="headerlink" title="1.3 实验范式"></a>1.3 实验范式</h2><h3 id="1-3-1-仿真EMG："><a href="#1-3-1-仿真EMG：" class="headerlink" title="1.3.1 仿真EMG："></a>1.3.1 仿真EMG：</h3><ol>
-<li><p>数据集1：10%，30%，50%持续兴奋下的数据</p>
+<font color='red'>一个新的概念有待了解：</font>尖峰间隔变异性
+
+## 1.3 实验范式
+
+### 1.3.1 仿真EMG：
+
+<font color="red">通过把MUST卷积MUAP得到仿真的EMG。</font>
+
+<ul>
+<li><p>数据集1：10%，30%，50%持续兴奋下的数据，持续70s</p>
 </li>
-<li><p>数据集2：兴奋首先保持10s，然后在60s内变化，兴奋的水平3<script type="math/tex">\times</script>4兴奋的改变速度<script type="math/tex">=</script>12组</p>
+<li><p>数据集2：兴奋首先保持10s（这10s应该是和数据集1中的兴奋是一致的），然后在60s内变化，兴奋的水平3<script type="math/tex">\times</script>4兴奋的改变速度<script type="math/tex">=</script>12组</p>
+</li>
+</ul>
 <img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114311631.png" class="" title="image-20221214114311631">
-</li>
-<li><p>数据集3：<mark>改变MUAP波形</mark></p>
+<ul>
+<li>数据集3：兴奋的水平是保持不变的，<mark>改变MUAP波形（stretching the MUAP duration and compressing the MUAP amplitude  ）</mark></li>
+</ul>
 <img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20221214114402665.png" class="" title="image-20221214114402665">
-</li>
-</ol>
+<p>红色和蓝色分别代表肌肉完全伸张和完全收缩情况下的MUAP，可以看到波形虽然有区别，但是是差不多的。</p>
+<p>如何量化兴奋程度参考文献：</p>
+<blockquote>
+<p>Models of recruitment andrate coding organization in motor-unit pools</p>
+</blockquote>
+<p>在每个仿真数据集中</p>
 <h3 id="1-3-2-实验数据"><a href="#1-3-2-实验数据" class="headerlink" title="1.3.2 实验数据"></a>1.3.2 实验数据</h3><p>真实采集的数据集和模拟仿真的数据集是一一对应的，分为EXP1，EXP2，EXP3：</p>
 <ul>
 <li>在EXP1中，受试者被要求以最大自主收缩（MVC）力的10%、30%和50%的恒定力进行等长抓握</li>
@@ -300,10 +330,11 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 <li>在EXP3中，受试者被要求进行非等长动态抓握，抓握周期被设定为6秒。受试者在<mark>动态抓握</mark>过程中被要求尽量保持收缩水平，但不严格。</li>
 </ul>
 <p>从这个实验范式的设置中可以看出：（1）真实的力对应模拟的兴奋水平；（2）通过改变等长收缩来改变MUAP的形状</p>
+<p>实验数据长40s，前10s用作训练得到分离向量，后30s用作</p>
 <p><strong>人数：</strong>5——4男1女</p>
 <p><strong>设备：</strong></p>
 <ul>
-<li>EMG采集：ELSCH064NM3, 8 × 8 channels, OT Bioelettronica, Italy</li>
+<li>EMG采集：ELSCH064NM3, 8 × 8 channels, OT Bioelettronica, Italy，3片64通道电极片</li>
 <li>运动学采集：14通道，5 DT Data Glove 14 Ultra, 5DT Inc. USA </li>
 </ul>
 <h2 id="1-4-分解评估"><a href="#1-4-分解评估" class="headerlink" title="1.4 分解评估"></a>1.4 分解评估</h2><p>对于仿真数据集：</p>
@@ -311,7 +342,9 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 \begin{aligned}
 \text { Sensitivity } & =\frac{T P}{T P+F N} \\
 \text { Precision } & =\frac{T P}{T P+F P}
-\end{aligned}</script><p>对于实验数据：PNR</p>
+\end{aligned}</script><img src="/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20231008210215975.png" class="" title="image-20231008210215975">
+<p>上图是仿真数据集2的分解结果，可以看到随着兴奋程度的增加，分解的MU数目减少，并且时间越长（最左边是30s，最右边是6s），得到的MU数目越多。</p>
+<p>对于实验数据：PNR（基于信号的评价标准）</p>
 <script type="math/tex; mode=display">
 \mathrm{PNR}_j=10 \cdot \log \left(\frac{E\left(\left.\widehat{s}_j(n)\right|_{\widehat{s}_j(n) \geq r}\right)}{E\left(\left.\widehat{s}_j(n)\right|_{\widehat{s}_j(n)<r}\right)}\right)</script><h2 id="1-5-结论"><a href="#1-5-结论" class="headerlink" title="1.5 结论"></a>1.5 结论</h2><p>延迟：滑动窗口的计算耗时＜50ms，在线分解10s的信号延迟＜250ms，</p>
 <p>仿真数据集：</p>
@@ -328,10 +361,23 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 </ul>
 <p>实验数据集：</p>
 <ul>
-<li>平均PNR为24dB，对应于sensitivity&gt;80%，precision&gt;75%</li>
+<li><font color="red">平均PNR为24dB</font>，对应于sensitivity&gt;80%，precision&gt;75%</li>
 </ul>
-<p>等距收缩中的非静态参数来自MU的募集、去募集以及放电频率的变化，这两个参数只影响源信号，不影响H本文提出的更新策略对这种变化是稳健的。</p>
-<p>动态非等长收缩中，电极与肌肉的相对位置发生变化，导致MUAP的变化以及混合模式H的变化</p>
+<h2 id="1-7-分解的条件"><a href="#1-7-分解的条件" class="headerlink" title="1.7 分解的条件"></a>1.7 分解的条件</h2><p>等距收缩中的非静态参数来自MU的募集、去募集以及放电频率的变化，这两个参数只影响源信号（<font color="red">?</font>），不影响混合过程，本文提出的更新策略对这种变化是稳健的。</p>
+<p>在基于CKC的分解算法中，基于混合过程来计算分离向量。等式中的混合矩阵 H 在等长收缩中是恒定的，但在非等长收缩下随时间变化，这需要相应的分离向量更新。动态非等长收缩中，电极与肌肉的相对位置发生变化，导致MUAP的变化以及混合模式的变化</p>
+<h1 id="2-问题"><a href="#2-问题" class="headerlink" title="2. 问题"></a>2. 问题</h1><ul>
+<li><p>滑动窗口的步长是多少，这篇文章是怎么执行滑动窗口的</p>
+<blockquote>
+<p>文章说延迟250ms，那么推算步长应该是200ms，窗口不重叠</p>
+</blockquote>
+</li>
+<li><p>滑动窗口是200ms，但是muap的长度一般就100ms了，是不是窗口里面一个MU只能识别出1个或者0个discharge</p>
+</li>
+<li><p>这种方法只适用于分解出训练中出现的MU？</p>
+</li>
+<li><p>使用持续兴奋的数据集得到的分离向量，用在兴奋变化的数据集上，这样吗？</p>
+</li>
+</ul>
 
     </div>
 
@@ -417,7 +463,7 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%BC%95%E8%A8%80"><span class="nav-text">1.1 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%88%86%E8%A7%A3%E6%B5%81%E7%A8%8B"><span class="nav-text">1.2 分解流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%AE%9E%E9%AA%8C%E8%8C%83%E5%BC%8F"><span class="nav-text">1.3 实验范式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-%E4%BB%BF%E7%9C%9FEMG%EF%BC%9A"><span class="nav-text">1.3.1 仿真EMG：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-text">1.3.2 实验数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%88%86%E8%A7%A3%E8%AF%84%E4%BC%B0"><span class="nav-text">1.4 分解评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E7%BB%93%E8%AE%BA"><span class="nav-text">1.5 结论</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%88%86%E8%A7%A3%E6%B5%81%E7%A8%8B"><span class="nav-text">1.2 分解流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-text">1.3.2 实验数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%88%86%E8%A7%A3%E8%AF%84%E4%BC%B0"><span class="nav-text">1.4 分解评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E7%BB%93%E8%AE%BA"><span class="nav-text">1.5 结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-%E5%88%86%E8%A7%A3%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-text">1.7 分解的条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%97%AE%E9%A2%98"><span class="nav-text">2. 问题</span></a></div>
       </div>
       <!--/noindex-->
 
