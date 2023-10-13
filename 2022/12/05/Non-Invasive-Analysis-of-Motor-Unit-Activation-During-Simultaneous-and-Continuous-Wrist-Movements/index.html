@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png">
 <meta property="article:published_time" content="2022-12-05T11:37:47.000Z">
-<meta property="article:modified_time" content="2023-10-12T14:35:20.193Z">
+<meta property="article:modified_time" content="2023-10-13T03:15:26.459Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="PCA">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-12 22:35:20" itemprop="dateModified" datetime="2023-10-12T22:35:20+08:00">2023-10-12</time>
+                <time title="Modified: 2023-10-13 11:15:26" itemprop="dateModified" datetime="2023-10-13T11:15:26+08:00">2023-10-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -298,13 +298,12 @@ a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-
 </ol>
 <img src="/2022/12/05/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png" class="">
 <p>​    注：session2中两个动作的曲线有重叠部分</p>
-<p>​    使用3*64=192个电极进行HD-EMG的采集。</p>
 <ol>
+<li>通道数：使用3*64=192个电极进行HD-EMG的采集。</li>
 <li>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</li>
 </ol>
 <h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1的动作先进行了级联，级联后进行训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
-<p>session2的task对应session1的哪个MUST分离矩阵呢？</p>
-<p>——session2包含哪两个动作就用哪两个动作级联。</p>
+<p>session2的task对应session1的哪个MUST分离矩阵呢？——session2包含哪两个动作就用哪两个动作级联。</p>
 <p><strong>EMG分解方法：</strong></p>
 <p>step1. 使用CKC算法将EMG分解成MUST</p>
 <p>step2. 使用聚类算法（设置聚类的数目为2）区分脉冲和基线噪声（传统的方法采用设置阈值目视检查）</p>

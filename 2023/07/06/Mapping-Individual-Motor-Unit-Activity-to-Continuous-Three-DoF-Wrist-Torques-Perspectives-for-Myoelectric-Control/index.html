@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011161049914.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011172949151.png">
 <meta property="article:published_time" content="2023-07-06T13:46:48.000Z">
-<meta property="article:modified_time" content="2023-10-12T02:26:16.802Z">
+<meta property="article:modified_time" content="2023-10-13T03:26:37.375Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="上交">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-12 10:26:16" itemprop="dateModified" datetime="2023-10-12T10:26:16+08:00">2023-10-12</time>
+                <time title="Modified: 2023-10-13 11:26:37" itemprop="dateModified" datetime="2023-10-13T11:26:37+08:00">2023-10-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,47 +293,45 @@
 <p><strong>本文的意义：</strong></p>
 <p>先前的研究主要研究了基于MUAPT的连续控制在单个DoF或两个DoF（本文是3个）任务中的可行性。此外，与传统的连续控制相比，基于MUAPT的控制实验协议相对简单，不能满足实际应用。为了克服这些限制，本研究旨在将从高密度表面肌电信号中识别的运动单元放电映射为多DoF和连续手腕扭矩。</p>
 <h1 id="2-Methods"><a href="#2-Methods" class="headerlink" title="2. Methods"></a>2. Methods</h1><p>受试者执行等长收缩，没有关节运动</p>
-<p>7个 session，session之间休息1-2分钟，每个session对应一个task，每个session包含两个，每个trial中执行task的周期为2-3s，每个trial持续20s</p>
-<p>第一个trial的信号用作训练，第二个trial的信号用作测试</p>
-<p>3个自由度分别是：</p>
+<p><strong>实验范式：</strong>7个 session，session之间休息1-2分钟，每个session对应一个task，每个session包含两个，每个trial中执行task的周期为2-3s，每个trial持续20s。第一个trial的信号用作训练，第二个trial的信号用作测试</p>
+<p><strong>3个自由度分别是：</strong></p>
 <ul>
 <li>pronation - supination</li>
 <li>wrist flexion - wrist extension</li>
 <li>ulnar deviation - radius deviation</li>
 </ul>
-<p>高密度肌电：3*64通道</p>
+<p><strong>高密度肌电：</strong>3*64通道</p>
 <p><font color = "red">分解方法：</font>segment-wise decomposition method</p>
 <blockquote>
 <p>Segment-wise decomposition of surface electromyography to identify discharges across motor neuron populations</p>
 </blockquote>
 <p>先使用上述方法在1自由度下分解得到分离向量，然后把分离向量用在多自由度的肌电信号在线分解中。神经特征被提取并通过线性回归模型映射到力矩上。</p>
-<p>力矩信号的预处理：通过插值升至2048Hz，然后20Hz低通滤波过滤基线噪声</p>
-<p>EMG信号的预处理：4阶巴特沃斯，20-500Hz，50Hz陷波</p>
-<p>无效通道的剔除：rms高于均值的3倍</p>
+<p><strong>力矩信号的预处理：</strong>通过插值升至2048Hz，然后20Hz低通滤波过滤基线噪声</p>
+<p><strong>EMG信号的预处理：</strong>4阶巴特沃斯，20-500Hz，50Hz陷波</p>
+<p><strong>无效通道的剔除：</strong>rms高于均值的3倍</p>
 <p>把单自由度的信号级联起来分解，每个电极片单独分解，剔除重复：</p>
 <img src="/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011161049914.png" class="" title="image-20231011161049914">
-<h1 id="3-Analysis"><a href="#3-Analysis" class="headerlink" title="3. Analysis"></a>3. Analysis</h1><p>提取两种神经特征：</p>
+<h1 id="3-Analysis"><a href="#3-Analysis" class="headerlink" title="3. Analysis"></a>3. Analysis</h1><p><strong>提取两种神经特征：</strong></p>
 <ul>
 <li><p>MU发放时的抽搐力</p>
 <blockquote>
-<p>抽搐力的模型：</p>
-<p><em>Models of recruitment and rate coding organization in motor-unit pools</em> </p>
+<p>抽搐力的模型：<br><em>Models of recruitment and rate coding organization in motor-unit pools</em> </p>
 </blockquote>
 </li>
 <li><p>滑动窗口中MU发放的次数</p>
 </li>
 </ul>
-<p>线性估计方法：</p>
+<p><strong>线性估计方法：</strong></p>
 <img src="/2023/07/06/Mapping-Individual-Motor-Unit-Activity-to-Continuous-Three-DoF-Wrist-Torques-Perspectives-for-Myoelectric-Control/image-20231011172949151.png" class="" title="image-20231011172949151">
-<p>评价回归效果的指标：</p>
+<p><strong>评价回归效果的指标：</strong></p>
 <ul>
 <li>皮尔森相关系数</li>
 <li>决定系数</li>
 <li>标准化均方根误差</li>
 <li>粗糙度：用于评估输出平滑度，表示估计和记录的波动水平之间的比率</li>
 </ul>
-<p>单因素方差分析：ANOVA，类似于控制变量法，探究单个因素对组别的影响</p>
-<p>分解结果是的形式是：均值±标准差，这是对所有被试进行统计分析得到的</p>
+<p><strong>单因素方差分析：</strong>ANOVA，类似于控制变量法，探究单个因素对组别的影响</p>
+<p><strong>分解结果是的形式是：</strong>均值±标准差，这是对所有被试进行统计分析得到的</p>
 <h1 id="4-Results"><a href="#4-Results" class="headerlink" title="4. Results"></a>4. Results</h1><ul>
 <li><p>segment-wise分解方法可以分解出更多的MU</p>
 </li>
