@@ -20,16 +20,22 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="1. Introduction肌电控制主要有两个方案：  PR-based control regression-based control  通常只包含时域特征或者频域特征。 多自由度手腕动作估计：  Regressionconvolutional neural network for improved simultaneous EMG controlDecoding simultaneous">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Surface Electromyography Image-Driven Torque Estimation of Multi-DoF Wrist Movements">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="1. Introduction肌电控制主要有两个方案：  PR-based control regression-based control  通常只包含时域特征或者频域特征。 多自由度手腕动作估计：  Regressionconvolutional neural network for improved simultaneous EMG controlDecoding simultaneous">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013222131728.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013223036822.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013223121615.png">
 <meta property="article:published_time" content="2023-07-06T13:46:20.000Z">
-<meta property="article:modified_time" content="2023-09-29T10:09:01.394Z">
+<meta property="article:modified_time" content="2023-10-15T03:39:53.233Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="上交">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013222131728.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/">
 
@@ -217,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:09:01" itemprop="dateModified" datetime="2023-09-29T18:09:01+08:00">2023-09-29</time>
+                <time title="Modified: 2023-10-15 11:39:53" itemprop="dateModified" datetime="2023-10-15T11:39:53+08:00">2023-10-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,7 +253,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h1><p>肌电控制主要有两个方案：</p>
+<ul>
+<li>PR-based control</li>
+<li>regression-based control</li>
+</ul>
+<p>通常只包含时域特征或者频域特征。</p>
+<p>多自由度手腕动作估计：</p>
+<blockquote>
+<p><em>Regressionconvolutional neural network for improved simultaneous EMG control</em><br><em>Decoding simultaneous multi-DOFwrist movements from raw EMG signals using a convolutional neural network</em></p>
+</blockquote>
+<p>肌电控制中，CNN模型能够用于减少电极移位的影响，并结合自我校准来在跨天的情况下保持性能。</p>
+<p><strong>本文的意义：</strong></p>
+<p>力的变化会影响运动单元募集的<mark>空间分布</mark>，进而导致sEMG信号的不同空间模式。因此，将空间信息引入基于sEMG信号的SPC具有至关重要的意义。本文将每一时刻的高密度肌电作为一幅图像，使用CNN进行力矩估计。</p>
+<h1 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h1><p><strong>实验范式：</strong>单自由度——5个trial；双自由度——2个trials。每个trial持续30s，动作的频率小于1Hz</p>
+<img src="/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013222131728.png" class="" title="image-20231013222131728">
+<p><strong>神经网络的结构：</strong>27层</p>
+<img src="/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013223036822.png" class="" title="image-20231013223036822">
+<p>输入：8 × 24 × 1</p>
+<p>输出：1 × 1 × 2</p>
+<p><strong>评价标准：</strong></p>
+<img src="/2023/07/06/Surface-Electromyography-Image-Driven-Torque-Estimation-of-Multi-DoF-Wrist-Movements/image-20231013223121615.png" class="" title="image-20231013223121615">
+<p>对预测后的力矩进行了一个滑动窗口滤波，滤除了尖刺，更平滑更接近真实的力矩</p>
+<p><strong>与传统的回归器做比较：</strong></p>
+<ul>
+<li>linear regression (LR)  </li>
+<li>support vector regression (SVR)  </li>
+<li>artificial neural network utilizing histogram of oriented gradient (annHOG) as features  </li>
+<li>CNN model with short-time Fourier transform (STFT-CNN)  </li>
+</ul>
+<h1 id="3-Conclusion"><a href="#3-Conclusion" class="headerlink" title="3. Conclusion"></a>3. Conclusion</h1><ul>
+<li>本文提出的方法有最高的相关系数，最小的nRMSE，最好的平滑度</li>
+<li>对CNN提取的特征做主成分分析，发现第一主成分和Fle-Ext的力矩相关；第二主成分和Pro-Sup的力矩相关</li>
+</ul>
+
     </div>
 
     
@@ -330,6 +369,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Introduction"><span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Methods"><span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Conclusion"><span class="nav-text">3. Conclusion</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
