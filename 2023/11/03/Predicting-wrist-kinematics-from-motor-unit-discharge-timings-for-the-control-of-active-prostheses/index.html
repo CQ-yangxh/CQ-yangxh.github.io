@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/03/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
 <meta property="article:published_time" content="2023-11-03T01:52:49.000Z">
-<meta property="article:modified_time" content="2023-11-11T15:49:45.406Z">
+<meta property="article:modified_time" content="2023-11-18T09:43:37.000Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/03/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-11-11 23:49:45" itemprop="dateModified" datetime="2023-11-11T23:49:45+08:00">2023-11-11</time>
+                <time title="Modified: 2023-11-18 17:43:37" itemprop="dateModified" datetime="2023-11-18T17:43:37+08:00">2023-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,6 +263,13 @@
 <li>参考电极和地电极防止在手腕处</li>
 <li>monopolar mode</li>
 <li>5nd band-pass filter: 20-500Hz, zero phase</li>
+</ul>
+<p><strong>实验范式：</strong></p>
+<p>每个自由度下关节角度呈三角形变化，这样能够保证关节角度匀速。同时，两个方向均弯曲，弯曲范围为动作的极限。一个三角形称为一个trials，这样一共就有6个trials。一个run包含其中3个trials（DoF和trial随机选取）。每一个被试执行3次run，每个run斜坡的时长不同，代表着不同的收缩速度，分别是：</p>
+<ul>
+<li>5s，慢速</li>
+<li>2.5s，中速</li>
+<li>1s，高速</li>
 </ul>
 <h1 id="2-Processing"><a href="#2-Processing" class="headerlink" title="2. Processing"></a>2. Processing</h1><h2 id="2-1-TD-feature-extraction"><a href="#2-1-TD-feature-extraction" class="headerlink" title="2.1 TD feature extraction"></a>2.1 TD feature extraction</h2><blockquote>
 <p>The following time-domain features were calculated for each window across all considered channels: root mean square, slope sign changes, zero crossings, and waveform length.</p>
@@ -399,7 +406,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
