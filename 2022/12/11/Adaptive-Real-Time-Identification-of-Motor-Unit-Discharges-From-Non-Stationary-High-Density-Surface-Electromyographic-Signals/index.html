@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20231008210215975.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20230111134956070.png">
 <meta property="article:published_time" content="2022-12-11T07:33:14.000Z">
-<meta property="article:modified_time" content="2023-10-09T13:24:32.102Z">
+<meta property="article:modified_time" content="2023-12-14T07:21:03.000Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="Real-time">
@@ -228,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-09 21:24:32" itemprop="dateModified" datetime="2023-10-09T21:24:32+08:00">2023-10-09</time>
+                <time title="Modified: 2023-12-14 15:21:03" itemprop="dateModified" datetime="2023-12-14T15:21:03+08:00">2023-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -297,6 +297,7 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
 &c_{s_{j}\bar{y}} =c_{s_j\bar{y}}+\ell\cdot\frac1{card(\Psi_j)}\sum_{n_k\in\Psi_j}\triangle\bar{y}(n_k) \\
 &T_{ij}=\frac{w_1T_{ij}+w_2T_{ij}^{^{\prime}}}{w_1+w_2},i=1,2
 \end{aligned}</script><p>这里是对分离向量进行更新，这个更新类似于梯度的更新。</p>
+<p>协方差矩阵表示的是随机变量之间的相关性（注意：相关系数就是根据协方差计算的）。这里在分段后更新了协方差矩阵，相当于加强了这一小段中随机变量的特性</p>
 <p><strong>online估计的滑动窗口：</strong>200 ms</p>
 <font color='red'>一个新的概念有待了解：</font>尖峰间隔变异性
 
@@ -479,7 +480,7 @@ w_j=C_{\bar{y} \bar{y}}^{-1} c_{s_j \bar{y}}</script><p>整个算法流程：</p
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

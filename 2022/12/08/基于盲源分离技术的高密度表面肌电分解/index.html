@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221209151729491.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221211164338861.png">
 <meta property="article:published_time" content="2022-12-08T02:01:27.000Z">
-<meta property="article:modified_time" content="2023-09-29T15:15:35.328Z">
+<meta property="article:modified_time" content="2023-12-10T13:15:49.000Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="博士论文">
 <meta property="article:tag" content="FastICA">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 23:15:35" itemprop="dateModified" datetime="2023-09-29T23:15:35+08:00">2023-09-29</time>
+                <time title="Modified: 2023-12-10 21:15:49" itemprop="dateModified" datetime="2023-12-10T21:15:49+08:00">2023-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +276,9 @@ s_j(t)=\sum_k \delta\left(t-T_j(k)\right)</script><p>表示第 <script type="mat
 <li><p>第二个假设便是<font color="red">每个运动单位在某个通道的波形，在信号持续时间段内是不变的</font>。也就是说这是一个Shift-invariant的系统。第二个假设对于肌电信号来说并不是总成立的。比如在肌肉收缩的过程中肌纤维的长度和运动单位到电极的距离都会发生变化，可能会导致动作电位的形变。因此模型B中可以引入时变的因素从而使得模型更为贴切。但是这同时也会让问题变得更加复杂。就目前来说，肌电信号分解往往只考虑肌肉等长收缩(Isometric Contraction)情况，在这种情况下，肌肉组织并不发生形变，可以认为运动单位动作电位在采集过程中是保持一致的。</p>
 </li>
 </ul>
-<p>表面肌电信号分解最主要的目的就是得到单个运动单位的发放信息和波形信息，<mark>其中发放信息最为重要。</mark>事实上如果得到了准确的运动单位的发放信息，就不难得到其波形信息(在运动单位持续发放时间足够长的情况下)，<font color="red">比如可以通过发放位置的平均波形来作为运动单位动作电位波形的估计(Spike Trigger Average,STA)。</font>FastICA输出的结果虽然不能直接被当成运动单位动作电位序列，但是它是对应于某个运动单位动作电位序列滤波后的结果，因此可以从FastICA的输出中提取出不同运动单位的发放时间信息。<font color="red">比如，可以认为FastICA输出中波形的峰值位置就对应着某运动单位的发放时刻。 </font></p>
+<p>表面肌电信号分解最主要的目的就是得到单个运动单位的发放信息和波形信息，<mark>其中发放信息最为重要。</mark>事实上如果得到了准确的运动单位的发放信息，就不难得到其波形信息(在运动单位持续发放时间足够长的情况下)，<font color="red">比如可以通过发放位置的平均波形来作为运动单位动作电位波形的估计(Spike Trigger Average,STA)。</font></p>
+<p>若是将FastICA直接应用到用卷积模型描述的肌电信号上，效果会十分不好。可以采用扩展矩阵的策略来解决这个问题。事实上，可以将上述卷积混合模型<mark>进行扩展，以达到近似解卷积的效果。</mark>延迟因子往往根据数据的采样率来确定。一般来说，对于采样率为2kHz的表面肌电信号，K的选择在5个采样点到30个采样点之间会比较合适。  </p>
+<p>FastICA输出的结果虽然不能直接被当成运动单位动作电位序列，但是它是对应于某个运动单位动作电位序列滤波后的结果，因此可以从FastICA的输出中提取出不同运动单位的发放时间信息。<font color="red">比如，可以认为FastICA输出中波形的峰值位置就对应着某运动单位的发放时刻。 </font></p>
 <h2 id="1-2-sEMG模拟过程"><a href="#1-2-sEMG模拟过程" class="headerlink" title="1.2 sEMG模拟过程"></a>1.2 sEMG模拟过程</h2><p>运动单位动作电位的波形则由表面肌电模型从单纤维动作电位(SFAP)开始模拟，运动单位的每一根肌纤维在电极处形成的单纤维动作电位进行叠加便是该运动单位在该电极处的运动单位动作电位(MUAP)，运动单位动作电位与该运动单位的发放时间序列卷积，便是运动单位动作电位序列(MUAPT)，这也是肌电分解想要关注的对象。最后所有参与发放的运动单位动作电位序列进行叠加，便得到表面肌电信号。  </p>
 <h2 id="1-3-算法评估"><a href="#1-3-算法评估" class="headerlink" title="1.3 算法评估"></a>1.3 算法评估</h2><img src="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221209151729491.png" class="" title="image-20221209151729491">
 <img src="/2022/12/08/%E5%9F%BA%E4%BA%8E%E7%9B%B2%E6%BA%90%E5%88%86%E7%A6%BB%E6%8A%80%E6%9C%AF%E7%9A%84%E9%AB%98%E5%AF%86%E5%BA%A6%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E5%88%86%E8%A7%A3/image-20221211164338861.png" class="" title="image-20221211164338861">
@@ -380,7 +382,7 @@ s_j(t)=\sum_k \delta\left(t-T_j(k)\right)</script><p>表示第 <script type="mat
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

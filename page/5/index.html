@@ -183,6 +183,494 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/03/09/%E9%A9%AC%E6%B0%8F%E8%B7%9D%E7%A6%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/09/%E9%A9%AC%E6%B0%8F%E8%B7%9D%E7%A6%BB/" class="post-title-link" itemprop="url">马氏距离</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-09 15:54:19" itemprop="dateCreated datePublished" datetime="2023-03-09T15:54:19+08:00">2023-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 23:15:07" itemprop="dateModified" datetime="2023-09-29T23:15:07+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46626607">马氏距离(Mahalanobis Distance) - 知乎 (zhihu.com)</a></p>
+<p>马氏距离（Mahalanobis distance）是一种用于计算两个样本点之间距离的方法。它考虑了各个特征之间的相关性，与欧氏距离不同，马氏距离可以反映出各个特征之间的协方差关系。</p>
+<p>在多元统计分析中，马氏距离常用于评估多个变量之间的相似性或差异性，特别适用于数据集中存在多个相关特征的情况。马氏距离是欧氏距离的一种推广形式(当多维随机变量之间是独立同分布的，那么它们之间的协方差矩阵就是单位矩阵)，可以用来衡量样本点与所在样本总体之间的距离。</p>
+<p>具体地，假设有两个样本点 <script type="math/tex">x</script> 和 <script type="math/tex">y</script>，它们各自有 <script type="math/tex">p</script> 个特征（即 <script type="math/tex">x</script> 和 <script type="math/tex">y</script> 分别为 <script type="math/tex">p</script> 维向量），那么它们之间的马氏距离为：</p>
+<script type="math/tex; mode=display">
+d_{M}(x,y)=\sqrt{(x-y)^{T} S^{-1} (x-y)}</script><p>其中，<script type="math/tex">S</script> 是样本协方差矩阵，可以通过样本数据估计得到。马氏距离具有对称性和非负性，且满足三角不等式，因此可以作为距离度量来进行聚类、分类等任务。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/03/05/%E7%BA%BF%E6%80%A7%E6%9C%80%E5%B0%8F%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/05/%E7%BA%BF%E6%80%A7%E6%9C%80%E5%B0%8F%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1/" class="post-title-link" itemprop="url">线性最小均方误差估计</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-05 22:04:30" itemprop="dateCreated datePublished" datetime="2023-03-05T22:04:30+08:00">2023-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 23:14:04" itemprop="dateModified" datetime="2023-09-29T23:14:04+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/388508562">LMMSE - 知乎 (zhihu.com)</a></p>
+<p>参考书籍：《统计信号处理基础》</p>
+<p>LMMSE（Linear Minimum Mean Squared Error）是一种信号处理方法，用于对输入信号进行估计或恢复。LMMSE方法基于线性估计器，通过最小化误差均方差的方式对信号进行估计。</p>
+<p>在信号处理领域，LMMSE方法常用于恢复被加噪声或失真的信号。假设有一个被噪声污染的信号 <script type="math/tex">y</script>，我们希望得到它的无噪声版本 <script type="math/tex">x</script>。假设 <script type="math/tex">y</script> 和 <script type="math/tex">x</script> 之间存在线性关系，即：<script type="math/tex">y=Hx+n</script>。其中，<script type="math/tex">H</script> 是一个已知的线性变换矩阵，<script type="math/tex">n</script> 是加性高斯噪声。我们可以使用LMMSE方法来估计 <script type="math/tex">x</script>。</p>
+<p>LMMSE方法的基本思想是，首先利用信号和噪声的统计特性，构造一个最小均方误差准则函数，然后通过对准则函数求导的方式，求得最小误差下的估计器。对于上述的线性模型，LMMSE估计器的形式为：</p>
+<script type="math/tex; mode=display">
+\hat{x}=E{x|y}=x+E{H^{T}(HH^{T}+\sigma_{n}^{2}I)^{-1}(y-Hx)}​</script><p>其中，<script type="math/tex">\sigma_n^2</script> 是噪声方差，<script type="math/tex">E{x|y}</script> 表示在已知 <script type="math/tex">y</script> 的情况下对 <script type="math/tex">x</script> 的最小均方误差估计值，即后验均值估计。</p>
+<p>LMMSE方法具有良好的性能和广泛的应用，尤其在通信系统、图像处理、音频处理等领域得到了广泛应用。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/03/05/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/05/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">统计信号处理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-05 20:45:41" itemprop="dateCreated datePublished" datetime="2023-03-05T20:45:41+08:00">2023-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 23:14:36" itemprop="dateModified" datetime="2023-09-29T23:14:36+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E5%8F%B7/" itemprop="url" rel="index"><span itemprop="name">信号</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。</p>
+<p>参考书籍：《Fundamentals of statistical signal processing: Estimation theory》</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/05/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/03/05/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/05/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7/" class="post-title-link" itemprop="url">随机信号</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-05 20:45:29" itemprop="dateCreated datePublished" datetime="2023-03-05T20:45:29+08:00">2023-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 23:14:43" itemprop="dateModified" datetime="2023-09-29T23:14:43+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E5%8F%B7/" itemprop="url" rel="index"><span itemprop="name">信号</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-随机变量"><a href="#1-随机变量" class="headerlink" title="1. 随机变量"></a>1. 随机变量</h1><p>随机变量的每一个随机事件映射到实数轴上是<mark>一个</mark>实数。</p>
+<h2 id="1-1-概率分布函数和概率密度函数"><a href="#1-1-概率分布函数和概率密度函数" class="headerlink" title="1.1 概率分布函数和概率密度函数"></a>1.1 概率分布函数和概率密度函数</h2><p><strong>概率分布函数：</strong>随机变量的概率分布函数 ( probability distribution function) $P_X(x)$ 是所观察的该随机变量 $X$ 小于或等于数值 $x$ 这一事件的概率。它是随机变量所取数值 $x$ 的函数, 即：</p>
+<script type="math/tex; mode=display">
+P_X(x)=P\{X \leqslant x\}</script>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/05/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/" class="post-title-link" itemprop="url">A Novel Muscle Innervation Zone Estimation Method Using Monopolar High Density Surface Electromyography</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-02-28 17:37:11" itemprop="dateCreated datePublished" datetime="2023-02-28T17:37:11+08:00">2023-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-09-29 18:05:17" itemprop="dateModified" datetime="2023-09-29T18:05:17+08:00">2023-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章提出了一种方法能够从HD-EMG中估计神经区域。第二主成分与各通道的时间延迟线性相关，在IZ（innervation zone）附近的通道有最短的时间延迟。当噪声在各个通道独立分布时，这种方法使用单极信号达到了与互相关分析方法使用双极信号相同的效果。但在模拟的特殊通道污染中，基于PCA的方法相比于互相关分析达到了更好的效果。在实验数据中，这两种方法也高度一致。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/28/A-Novel-Muscle-Innervation-Zone-Estimation-Method-Using-Monopolar-High-Density-Surface-Electromyography/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/02/28/%E5%AE%9E%E9%AA%8C%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/28/%E5%AE%9E%E9%AA%8C%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">实验平台搭建教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-02-28 15:04:20" itemprop="dateCreated datePublished" datetime="2023-02-28T15:04:20+08:00">2023-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-03 19:52:25" itemprop="dateModified" datetime="2023-10-03T19:52:25+08:00">2023-10-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">实验</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本教程旨在对实验室delsys实验系统进行详细的阐述，方便同学进行实验。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/28/%E5%AE%9E%E9%AA%8C%E5%B9%B3%E5%8F%B0%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/01/19/Gradient-Convolution-Kernel-Compensation-Applied-to-Surface-Electromyograms/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -214,7 +702,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:06:21" itemprop="dateModified" datetime="2023-09-29T18:06:21+08:00">2023-09-29</time>
+                <time title="Modified: 2023-12-13 11:23:20" itemprop="dateModified" datetime="2023-12-13T11:23:20+08:00">2023-12-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +725,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <ul>
+<li>在第一步中，对未知的混合通道（卷积核）进行补偿</li>
+<li>在第二步中，使用自然梯度算法对估计的源脉冲序列进行盲优化</li>
+</ul>
+<p>注意在卷积模型的表达中，有两种形式，一种是对观测矩阵进行了扩展的，另一种是没有对观测矩阵进行扩展的。</p>
+<ul>
+<li>第一种：</li>
+</ul>
+<script type="math/tex; mode=display">
+\mathbf{x}\left(n\right)=\mathbf{H}\bar{\mathbf{t}}\left(n\right)+\omega\left(n\right)</script><script type="math/tex; mode=display">
+\bar{\mathbf{t}}\left(n\right)=\left[t_{1}\left(n\right),t_{1}\left(n-1\right),...,t_{1}\left(n-L+1\right),...,t_{N}\left(n\right),...,t_N\left(n-L+1\right)]^T\right.</script><ul>
+<li>第二种：</li>
+</ul>
+<script type="math/tex; mode=display">
+\overline{\mathbf{y}}(n)=\mathbf{A}\overline{\mathbf{t}}(n)+\overline{\boldsymbol{\omega}}(n)</script><script type="math/tex; mode=display">
+\begin{aligned}\bar{\mathbf{t}}(n)=[t_1(n),t_1(n-1),\ldots,t_1(n-L-K+2),\ldots,\\t_N(n),\ldots,t_N(n-L-K+2)]^T\end{aligned}</script>
       
     </div>
 
@@ -495,485 +998,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/01/07/%E6%9D%82%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/07/%E6%9D%82%E8%AE%B0/" class="post-title-link" itemprop="url">杂记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-01-07 18:29:36" itemprop="dateCreated datePublished" datetime="2023-01-07T18:29:36+08:00">2023-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-08-14 21:23:57" itemprop="dateModified" datetime="2023-08-14T21:23:57+08:00">2023-08-14</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Motor units with a pulse-to-noise ratio (<a target="_blank" rel="noopener" href="https://journals.physiology.org/doi/full/10.1152/japplphysiol.00135.2018#B14">13</a>) <30 dB and/or with discharges separated by >2 s were discarded from further analysis. The individual motor unit discharge timings were summed to generate a cumulative spike train (CST). </p>
-<p>力的大小主要通过两种途径改变：</p>
-<ul>
-<li>运动单元的放电频率：运动单元的放电频率越高，产生的力越大 </li>
-<li>运动单元的募集数量：募集的运动单元数量越多，产生的力越大</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/01/07/Cumulative-Spike-Train-Outperforms-the-Root-Mean-Square-Metric-in-Muscle-Excitation-Estimation-from-Dynamic-High-Density-EMG/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/07/Cumulative-Spike-Train-Outperforms-the-Root-Mean-Square-Metric-in-Muscle-Excitation-Estimation-from-Dynamic-High-Density-EMG/" class="post-title-link" itemprop="url">Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation from Dynamic High-Density EMG</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-01-07 18:00:47" itemprop="dateCreated datePublished" datetime="2023-01-07T18:00:47+08:00">2023-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:06:02" itemprop="dateModified" datetime="2023-09-29T18:06:02+08:00">2023-09-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通过这篇文章了解CST的性质和计算方法。cumulative MU spike trains (CST) were calculated using 5, 10 and 15 identified MUs 。5、10、15个MU计算的CST比NRMSE的性能好~4、5、6%。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/07/Cumulative-Spike-Train-Outperforms-the-Root-Mean-Square-Metric-in-Muscle-Excitation-Estimation-from-Dynamic-High-Density-EMG/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/01/07/%E5%9F%BA%E4%BA%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E7%9A%84%E8%82%8C%E8%82%89%E5%8A%9B%E4%BC%B0%E8%AE%A1%E6%96%B0%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/07/%E5%9F%BA%E4%BA%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E7%9A%84%E8%82%8C%E8%82%89%E5%8A%9B%E4%BC%B0%E8%AE%A1%E6%96%B0%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">基于运动单元的肌肉力估计新方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-01-07 16:03:29" itemprop="dateCreated datePublished" datetime="2023-01-07T16:03:29+08:00">2023-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 23:15:13" itemprop="dateModified" datetime="2023-09-29T23:15:13+08:00">2023-09-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文献在运动单元分解方面讲解得较为简单易懂，主要是文中基本涉及到了MUST分解、MUAP估计等分解方面的流程，并且在相关部分引用的文献确实能够解答一些疑惑，对运动单元分解的理解有很大的帮助。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/07/%E5%9F%BA%E4%BA%8E%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E7%9A%84%E8%82%8C%E8%82%89%E5%8A%9B%E4%BC%B0%E8%AE%A1%E6%96%B0%E6%96%B9%E6%B3%95/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/" class="post-title-link" itemprop="url">Surface electromyography  physiology, engineering and applications</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-01-04 13:46:54" itemprop="dateCreated datePublished" datetime="2023-01-04T13:46:54+08:00">2023-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:09:08" itemprop="dateModified" datetime="2023-09-29T18:09:08+08:00">2023-09-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>关于肌电最新研究的介绍书籍。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/04/Surface-electromyography-physiology-engineering-and-applications-1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/29/Hyser-database/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/29/Hyser-database/" class="post-title-link" itemprop="url">Hyser database</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-12-29 20:45:38" itemprop="dateCreated datePublished" datetime="2022-12-29T20:45:38+08:00">2022-12-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:06:29" itemprop="dateModified" datetime="2023-09-29T18:06:29+08:00">2023-09-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://physionet.org/content/hd-semg/1.0.0/">Open Access Dataset and Toolbox of High-Density Surface Electromyogram Recordings v1.0.0 (physionet.org)</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/29/Hyser-database/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/" class="post-title-link" itemprop="url">Multichannel Blind Source Separation Using Convolution Kernel Compensation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-12-24 19:46:46" itemprop="dateCreated datePublished" datetime="2022-12-24T19:46:46+08:00">2022-12-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-09-29 18:07:36" itemprop="dateModified" datetime="2023-09-29T18:07:36+08:00">2023-09-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>DEMUSE Tool是提出这个算法的学者开发的matlab工具箱，但是不开源，其官网链接为：<a target="_blank" rel="noopener" href="https://demuse.feri.um.si/">DEMUSE Tool (um.si)</a>。这个网站中对sEMG的产生机理、CKC算法做了非常详细的描述，十分值得一看。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1041,7 +1069,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

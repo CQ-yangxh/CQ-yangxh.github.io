@@ -27,10 +27,12 @@
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
 <meta property="og:description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 <meta property="article:published_time" content="2023-11-29T14:10:54.000Z">
-<meta property="article:modified_time" content="2023-11-30T12:54:45.000Z">
+<meta property="article:modified_time" content="2023-12-14T13:58:59.000Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/">
 
@@ -218,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-11-30 20:54:45" itemprop="dateModified" datetime="2023-11-30T20:54:45+08:00">2023-11-30</time>
+                <time title="Modified: 2023-12-14 21:58:59" itemprop="dateModified" datetime="2023-12-14T21:58:59+08:00">2023-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,10 +253,10 @@
         <p>表面肌电分解最重要的难点是MUAP的叠加。</p>
 <p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
 <span id="more"></span>
-<p>PFP算法的主要步骤：</p>
+<p><strong>PFP算法的主要步骤：</strong></p>
 <ol>
 <li>初始化残差为原始信号，spike train集合为空</li>
-<li>在扩展的残差信号上执行并行FastICA，提取不重复的spike train</li>
+<li>在扩展的残差信号上执行并行FastICA，提取spike train，通过聚类来区分输出中混叠的波形</li>
 <li>对集合中的每一个spike train，将其作为参考信号，在原始信号上执行Constrained FastICA，保存可靠的spike train到集合中</li>
 <li>对每一个通道，原始信号减去集合中所有spike trian的MUAPT（peel-off过程），得到残差信号</li>
 <li>更新残差信号，然后重新执行步骤2</li>
@@ -271,7 +273,7 @@
 <li>设置初始阈值</li>
 <li>将信号按照阈值分成两个部分，分别计算两个部分的均值</li>
 <li>将新的阈值设置为两个均值的算术平均值</li>
-<li>重复步骤2和步骤3知道均值收敛</li>
+<li>重复步骤2和步骤3直到均值收敛</li>
 </ol>
 <p>初始值的设置非常重要，对结果有着非常大的影响，采用类似于Otsu阈值方法来设置初始值，发现这样的初始值离收敛值特别近。同时，这个阈值的收敛还可以用作终止判断条件，如果提取的尖峰序列不再改变，那么当使用该尖峰序列作为参考时，Constrained FastICA的输出将不会改变，因此阈值也将保持不变。</p>
 <p><strong>但是，</strong></p>
@@ -298,6 +300,24 @@
 <li><script type="math/tex">cov_{ISI}</script>：如果MU保持稳定放电，那么<script type="math/tex">cov_{ISI}</script>过大的spike train应该舍弃掉。这个参数能够排除上述4个问题。阈值设置为0.4。</li>
 <li><script type="math/tex">FR</script>：放电频率有一个生理学的上下界，通常是4-50Hz。</li>
 </ul>
+<p><strong>APFP算法的主要步骤：</strong></p>
+<ol>
+<li><p>初始化残差信号为原始表面肌电信号，输入判断参数c1=0.5，c2=0.3，c3=0.4和c4=4。初始化可靠发放时间序列集合<script type="math/tex">\psi</script>和待定发放时间序列集合<script type="math/tex">\psi _1</script>为空集</p>
+</li>
+<li><p>在扩展后的残差信号上运行parallel FastICA</p>
+</li>
+<li><p>对FastICA的每个输出，自动提取发放波形，并将它们通过Valley-seeking Clustering聚类 </p>
+</li>
+<li><p>将第3步中每个聚类后的发放序列作为初始的参考信号，反复执行constrained FastICA直到迭代阈值收敛</p>
+</li>
+<li><p>对第4步中每个提取出来的发放序列，进行下面的判断过程：</p>
+<img src="/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png" class="" title="image-20231201195318336">
+</li>
+<li><p>对原始表面肌电信号的每一个通道，用<script type="math/tex">\psi</script>中所有的运动单位发放时间序列来估计这些运动单位在该通道的动作电位序列波形，接着将这些已经识别出的运动单位动作电位序列从原始信号中剥去，并更新残差信号，返回第2步</p>
+</li>
+<li><p>如果<script type="math/tex">\psi</script>中没有增加任何新的可靠运动单位发放序列，或者程序达到了预设的终止条件，输出<script type="math/tex">\psi</script>并结束程序</p>
+</li>
+</ol>
 
     </div>
 
@@ -316,7 +336,10 @@
     <a href="/2023/11/21/High-yield-decomposition-of-surface-EMG-signals/" rel="prev" title="High-yield decomposition of surface EMG signals">
       <i class="fa fa-chevron-left"></i> High-yield decomposition of surface EMG signals
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/12/06/%E7%99%BD%E5%8C%96/" rel="next" title="白化">
+      白化 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -390,7 +413,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
