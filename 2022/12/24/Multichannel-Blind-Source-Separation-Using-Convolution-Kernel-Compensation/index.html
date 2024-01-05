@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png">
 <meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
-<meta property="article:modified_time" content="2023-12-16T02:13:53.000Z">
+<meta property="article:modified_time" content="2024-01-02T14:00:46.433Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Decomposition">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-16 10:13:53" itemprop="dateModified" datetime="2023-12-16T10:13:53+08:00">2023-12-16</time>
+                <time title="Modified: 2024-01-02 22:00:46" itemprop="dateModified" datetime="2024-01-02T22:00:46+08:00">2024-01-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,7 +266,26 @@
 <script type="math/tex; mode=display">
 \hat{t}_j(n)=\mathbf{\hat{c}}_{t_j\mathbf{x}}^T\mathbf{C}_{\mathbf{x}\mathbf{x}}^{-1}\mathbf{x}(n)</script><p>选取<script type="math/tex">\hat{t}_j(n)</script>中最大峰值的时刻作为可能的第二次发放的时刻，并更新<script type="math/tex">\hat{\mathbf{c}}_{t_j\mathbf{x}}</script>：</p>
 <script type="math/tex; mode=display">
-\mathbf{\hat{c}}_{t_j\mathbf{x}}=\frac{\mathbf{\hat{c}}_{t_j\mathbf{x}}+\mathbf{x}(n_2)}2</script><p>然后按照上述过程不断循环。<font color="red">有一个问题是，如何初始化这个n1呢？</font></p>
+\mathbf{\hat{c}}_{t_j\mathbf{x}}=\frac{\mathbf{\hat{c}}_{t_j\mathbf{x}}+\mathbf{x}(n_2)}2</script><p>然后按照上述过程不断循环。<font color="red">有一个问题是，如何初始化这个n1呢？（已通过激活指数解决）</font></p>
+</li>
+</ul>
+<p><em>2023/12/26</em></p>
+<ul>
+<li><p>对该算法的理解：</p>
+<p>我们知道，分离向量是找到一个时刻，然后相关矩阵的逆矩阵乘以该时刻的<mark>观测值列向量</mark>就得到了分离向量。文章说先是计算激活指数，然后如果第j个MU在n0时刻发放的话，那么<script type="math/tex">s_{n0}(n)=\bar{X}^T(n_0)C_{\overline{X}\overline{X}}^{-1}\bar{X}(n)</script>就是第j个MU的IPT估计，后续只需要通过下述表达式改进这个<mark>观测值列向量</mark>就行：</p>
+<script type="math/tex; mode=display">
+C_{\bar{X}_{sj}}=\frac1{\operatorname{card}(\varphi_n)}\sum\bar{X}(\varphi_n)</script></li>
+</ul>
+<p><em>2023/12/29</em></p>
+<ul>
+<li><p>为什么有这么一个取平均的操作？</p>
+<p>注意到CKC算法的关键是估计相关向量<script type="math/tex">\mathbf{c}_{t_j\mathbf{x}}</script>，但是由于<script type="math/tex">t_j</script>事先是不知道，因此无法直接计算。而<script type="math/tex">\mathbf{c}_{t_j\mathbf{x}}=E(t_j(n)\mathbf{x}(n))</script>这个计算公式表明，<script type="math/tex">\mathbf{c}_{t_j\mathbf{x}}</script>是第<script type="math/tex">j</script>个MU发放时刻<script type="math/tex">t</script>的发放时刻处，观测向量的期望，而期望就是取平均，所有才有了取平均估计相关向量这么一个操作。</p>
+</li>
+</ul>
+<p>2024/1/2</p>
+<ul>
+<li><p>对相关矩阵进行截取操作</p>
+<p>这个操作是为了减小噪声带来的干扰，在SNR=15dB时，截取程度为0%，在SNR为0dB时，截取程度为20%。</p>
 </li>
 </ul>
 <span id="more"></span>
@@ -291,14 +310,15 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 </li>
 <li><p>时间扩展向量中的第j个元素（这个元素可能是n时刻的，也可能是n时刻前的）：<script type="math/tex">\bar{t}_j(n)</script></p>
 </li>
-<li><script type="math/tex; mode=display">\overline{\mathbf{t}}(n) $$中的第j个元素在每个n时刻都取出来构成向量：$$ \overline{\mathbf{t}}_j=\left\{\bar{t}_j(n) ; n=0,1, \ldots\right\}</script></li>
+<li><p>把<script type="math/tex">\overline{\mathbf{t}}(n)</script>中的第j个元素在每个n时刻都取出来构成向量：<script type="math/tex">\overline{\mathbf{t}}_j=\left\{\bar{t}_j(n) ; n=0,1, \ldots\right\}</script></p>
+</li>
 <li><p>全局活跃指数：<script type="math/tex">\gamma=\{\gamma(n) ; n=0,1, \ldots\}</script></p>
 <p><script type="math/tex">n_k</script>时刻不为0，则至少存在一个j，使得<script type="math/tex">\overline{\mathbf{t}}(n_k)</script>中的第j个元素 = 1。即： <script type="math/tex">\gamma\left(n_k\right)>0 \Leftrightarrow \exists j;\bar{t}_j(n) =1</script>。</p>
 </li>
 <li><p>当<script type="math/tex">n_0</script>时刻存在<script type="math/tex">g_0</script>个j时，j的一个集合：<script type="math/tex">G_{n_0}=\left\{j_{n_0, 1}, \ldots, j_{n_0, g_0}\right\} \text {, i.e., } j \in G_{n_0} \Leftrightarrow \bar{t}_j\left(n_0\right)=1</script></p>
 </li>
-<li><p>观测扩展向量：<script type="math/tex">\begin{aligned}\overline{\mathbf{y}}(n)=[y_1(n),y_1(n-1),\ldots,y_1(n-K+1),\ldots,y_M(n),\ldots,y_M(n-K+1)]^T\end{aligned}</script></p>
-</li>
+<li><p>观测扩展向量：</p>
+<script type="math/tex; mode=display">\begin{aligned}\overline{\mathbf{y}}(n)=[y_1(n),y_1(n-1),\ldots,y_1(n-K+1),\ldots,y_M(n),\ldots,y_M(n-K+1)]^T\end{aligned}</script></li>
 </ul>
 <h2 id="1-1-超定情况"><a href="#1-1-超定情况" class="headerlink" title="1.1 超定情况"></a>1.1 超定情况</h2><p>symbols的个数N少于观测的个数M（源的个数少于通道的个数），脉冲序列相关性很弱（比如有少量但确实存在的脉冲重叠）。此外，假设观测值是遍历的，并用扩展观测值的相关矩阵表示。最后，假设扩展因子足够大，且矩阵是满列秩的。</p>
 <p>激活指数（<font color="red">怎么得到的这个表达式？</font>）：</p>
@@ -420,7 +440,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -465,7 +485,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
