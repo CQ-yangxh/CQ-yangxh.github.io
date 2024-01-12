@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png">
 <meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
-<meta property="article:modified_time" content="2024-01-02T14:00:46.433Z">
+<meta property="article:modified_time" content="2024-01-10T13:55:05.103Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Decomposition">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-01-02 22:00:46" itemprop="dateModified" datetime="2024-01-02T22:00:46+08:00">2024-01-02</time>
+                <time title="Modified: 2024-01-10 21:55:05" itemprop="dateModified" datetime="2024-01-10T21:55:05+08:00">2024-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,6 +287,11 @@ C_{\bar{X}_{sj}}=\frac1{\operatorname{card}(\varphi_n)}\sum\bar{X}(\varphi_n)</s
 <li><p>对相关矩阵进行截取操作</p>
 <p>这个操作是为了减小噪声带来的干扰，在SNR=15dB时，截取程度为0%，在SNR为0dB时，截取程度为20%。</p>
 </li>
+</ul>
+<p>2024/1/10</p>
+<ul>
+<li>n0时刻的分离向量分离得到的spike train，只有那些在n0时刻发放的脉冲序列对这个spike train有贡献。其他的脉冲序列在幅值上贡献的非常少。所以一般情况下某个时刻只有一个脉冲序列发放，因此该时刻的分离向量分离得到的spike，幅值较高的都来自于这个脉冲序列。</li>
+<li>两个互补假设：从vn0和vn1做内积得到的spike train中选取脉冲时刻nr，这个nr对应的脉冲序列有两种情况（1）如果Gn0∩Gn1不为空，那么做内积之后的集合代表了同时在n0和n1发放的mu，因此这个mu的脉冲被加强，所以nr也是这个mu的脉冲，所以至少有一个mu在n0和n1和nr发放；（2）如果Gn0∩Gn1为空，那么至少存在两个脉冲，都在nr处发放，其中一个在n0和nr处发放，另一个在n1和nr处发放。</li>
 </ul>
 <span id="more"></span>
 <h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><script type="math/tex; mode=display">
@@ -440,7 +445,7 @@ x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; \quad i=1, \ldots, M<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

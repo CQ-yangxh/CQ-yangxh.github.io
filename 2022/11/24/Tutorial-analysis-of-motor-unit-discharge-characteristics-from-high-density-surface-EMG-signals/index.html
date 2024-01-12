@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png">
 <meta property="article:published_time" content="2022-11-24T13:28:55.000Z">
-<meta property="article:modified_time" content="2023-10-25T03:33:31.364Z">
+<meta property="article:modified_time" content="2024-01-08T09:22:38.547Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="MUAP">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-25 11:33:31" itemprop="dateModified" datetime="2023-10-25T11:33:31+08:00">2023-10-25</time>
+                <time title="Modified: 2024-01-08 17:22:38" itemprop="dateModified" datetime="2024-01-08T17:22:38+08:00">2024-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,7 +295,7 @@
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212204308.png" class="" title="image-20221127212204308">
 <p>从上图的标识可以看到，<font color="red">识别出的尖峰序列（spike trains）是存在高低差的</font>，这需要目视检查去掉一些低于阈值的尖峰来调整盲源分离器（调整后应该就从图b变成图B了），目视检查的流程如下图所示：</p>
 <img src="/2022/11/24/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212445774.png" class="" title="image-20221127212445774">
-<p>注意看左边图之间的对比，B是在A的基础上设置了一个阈值，去掉了低于阈值的尖峰；重构滤波器，再次应用到HD-sEMG信号中，得到了图C；图C中发现漏掉了两个尖峰，于是再手动加上这两个尖峰。这样人工优化分离器可以得到一个稳定的结果<font color="red">（目前还不知道如何根据放电频率来设置阈值）</font>。<mark>请注意，此部分手动选择仅用于分离器的计算，而不用于分解的输出</mark>。在排除信号质量较差的尖峰序列间隔后，应重新计算电机单元滤波器并将其应用于整个EMG信号，以便重新估计（客观地，无需任何人工干预）整个电机单元尖峰序列。</p>
+<p>注意看左边图之间的对比，B是在A的基础上设置了一个阈值，去掉了低于阈值的尖峰；重构滤波器，再次应用到HD-sEMG信号中，得到了图C；图C中发现漏掉了两个尖峰，于是再手动加上这两个尖峰。这样人工优化分离器可以得到一个稳定的结果<font color="red">（目前还不知道如何根据放电频率来设置阈值）</font>。<mark>请注意，此部分手动选择仅用于分离器的计算，而不用于分解的输出</mark>。在排除信号质量较差的尖峰序列间隔后，应重新计算电机单元滤波器并将其应用于整个EMG信号，以便重新估计（客观地，无需任何人工干预）整个运动单元尖峰序列。<mark>目前的BSS算法要求EMG信号至少5s以上。</mark></p>
 <h2 id="2-5-Decomposition-accuracy"><a href="#2-5-Decomposition-accuracy" class="headerlink" title="2.5 Decomposition accuracy"></a>2.5 Decomposition accuracy</h2><p>评价指标：</p>
 <ul>
 <li>直接法：双源法（详细的 iEMG和sEMG分解准确率对比可以参考文献《Decoding the neural drive to muscles from the surface electromyogram》）</li>
@@ -444,7 +444,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -183,6 +183,138 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/10/A-peel-off-convolution-kernel-compensation-method-for-surface-electromyography-decomposition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/10/A-peel-off-convolution-kernel-compensation-method-for-surface-electromyography-decomposition/" class="post-title-link" itemprop="url">A peel-off convolution kernel compensation method for surface electromyography decomposition</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-01-10 11:22:12 / Modified: 18:51:40" itemprop="dateCreated datePublished" datetime="2024-01-10T11:22:12+08:00">2024-01-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章把peel-off策略应用到CKC算法上。CKC算法使用的是梯度下降求解，代价函数为 s^3/3 ，学习率设置为0.1，初始化为激活指数最大的值，并且识别到MU的发放时刻后进行剔除（但是这种剔除只会偶尔有效，所以本文提出了peel-off策略）。本文比较重要的是还介绍了几个评价指标：</p>
+<script type="math/tex; mode=display">
+\mathrm{RoA}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}+\mathrm{FP}} \\
+Sensitivity = \frac{TP}{TP+FN} \\
+\text{Precision}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}</script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/09/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E5%92%8C%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/09/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E5%92%8C%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3/" class="post-title-link" itemprop="url">主成分分析和特征值分解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-01-09 19:57:25 / Modified: 22:00:57" itemprop="dateCreated datePublished" datetime="2024-01-09T19:57:25+08:00">2024-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>第一主成分对应的方差是协方差矩阵的最大特征值，第二主成分对应的方差是协方差矩阵第二大特征值，以此类推。真实采集数据的协方差矩阵的特征值通常会急剧下降，因此通常可以设置一个阈值来划分特征值。这个阈值决定了多少主成分被选取。</p>
+<p>原向量可以划分到两个空间中，分别是信号子空间和噪声子空间。所以协方差矩阵可以表示为：</p>
+<script type="math/tex; mode=display">
+\mathbf{C}_\mathbf{x}=\sum_{i=1}^m\mathbf{a}_i\mathbf{a}_i^T+\sigma^2\mathbf{I}</script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/29/Non-invasive-characterization-of-motor-unit-behaviour-in-pathological-tremor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -692,7 +824,7 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)</script><p>注意相关向量�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-09 21:21:58" itemprop="dateModified" datetime="2023-12-09T21:21:58+08:00">2023-12-09</time>
+                <time title="Modified: 2024-01-07 19:25:41" itemprop="dateModified" datetime="2024-01-07T19:25:41+08:00">2024-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -715,7 +847,7 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)</script><p>注意相关向量�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="为什么要白化"><a href="#为什么要白化" class="headerlink" title="为什么要白化"></a>为什么要白化</h1><p>假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICAICAICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。</p>
+          <h1 id="为什么要白化"><a href="#为什么要白化" class="headerlink" title="为什么要白化"></a>为什么要白化</h1><p>假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/12/06/%E7%99%BD%E5%8C%96/#more" rel="contents">
@@ -820,168 +952,6 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)</script><p>注意相关向量�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/21/High-yield-decomposition-of-surface-EMG-signals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/21/High-yield-decomposition-of-surface-EMG-signals/" class="post-title-link" itemprop="url">High-yield decomposition of surface EMG signals</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-21 11:56:35" itemprop="dateCreated datePublished" datetime="2023-11-21T11:56:35+08:00">2023-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-11-29 22:21:22" itemprop="dateModified" datetime="2023-11-29T22:21:22+08:00">2023-11-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇论文介绍了一种sEMG分解算法，这种方法不是针对高密度肌电的，这篇论文采集了4个通道的肌电信号。信号分解算法首先从sEMG信号中提取尽可能多的MUAP的动作电位“模板”，然后搜索提取的模板相互叠加或具有未识别动作电位的信号区域。该算法在分析这种叠加时考虑了相长和相消干扰效应，并且它要求未识别的动作电位在分解的MUAPT的发射位置处占信号能量的小于25%。我们的分解算法是利用人工智能知识系统子领域中成熟的技术设计的。基于知识的算法已广泛用于生理信号应用，如ECG解释和EEG癫痫检测，以及非生理信号应用，如遥感和雷达信号分类。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/21/High-yield-decomposition-of-surface-EMG-signals/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/21/Hierarchical-control-of-motor-units-in-voluntary-contractions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/21/Hierarchical-control-of-motor-units-in-voluntary-contractions/" class="post-title-link" itemprop="url">Hierarchical control of motor units in voluntary contractions</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-21 11:56:08" itemprop="dateCreated datePublished" datetime="2023-11-21T11:56:08+08:00">2023-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-01 11:05:25" itemprop="dateModified" datetime="2023-12-01T11:05:25+08:00">2023-12-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文主要解决的争议是到底是阈值高的MU有更高的放电频率还是阈值低的MU有更高的放电频率。部分人认为，阈值高、直径大的MU有更短的超极化电位，因此具有更高的放电频率，结合Henneman准则，得到这样一个结论，先募集的MU比后募集的MU放电频率更低。<font color = 'red'>但是，很多学者的研究发现，高兴奋水平下激活的高阈值MU，有着更低的放电频率。</font></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/21/Hierarchical-control-of-motor-units-in-voluntary-contractions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1053,7 +1023,7 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)</script><p>注意相关向量�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
