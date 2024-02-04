@@ -183,6 +183,324 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/07/FastICA%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/07/FastICA%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC/" class="post-title-link" itemprop="url">FastICA算法推导</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-12-07 21:54:37" itemprop="dateCreated datePublished" datetime="2023-12-07T21:54:37+08:00">2023-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-12-09 21:39:31" itemprop="dateModified" datetime="2023-12-09T21:39:31+08:00">2023-12-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133511600">独立成分分析FastICA算法原理 - 知乎 (zhihu.com)</a></p>
+<p>FastICA是如何分离出原向量的呢？我的理解是FastICA需要优化一个目标使得非高斯性最小，假设得到一个分离向量使得非高斯性最小了，那么这个分离向量满足一个方程，通过不动点迭代法（牛顿迭代法）来求取这个方程的根，在迭代法的过程中，得到了FastICA的递推公式，最终收敛得到的根就是最优的分离向量。</p>
+<p>这么看其实白化的目的就是找到一组尽可能不相关的变量，FastICA得到的结果是要强于白化的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/06/%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5%E3%80%81%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E3%80%81%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/06/%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5%E3%80%81%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E3%80%81%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0/" class="post-title-link" itemprop="url">相关矩阵、协方差矩阵、相关系数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-12-06 21:52:00" itemprop="dateCreated datePublished" datetime="2023-12-06T21:52:00+08:00">2023-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-12-12 15:00:48" itemprop="dateModified" datetime="2023-12-12T15:00:48+08:00">2023-12-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考博文：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xq151750111/article/details/121172306">矩阵篇（四）— 实随机向量的相关矩阵、协方差矩阵、相关系数_随机向量的协方差矩阵-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41076797/article/details/112640676">协方差矩阵及其意义_协方差矩阵的意义-CSDN博客</a></li>
+</ul>
+<p>协方差的意义：协方差代表的是随机变量之间的相关性，如果协方差矩阵越向对角线集中，那么表面随机变量之间的相关性越弱。相关系数就与协方差有关，相关系数的计算公式中分子就是两个变量的协方差。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/06/%E7%99%BD%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/06/%E7%99%BD%E5%8C%96/" class="post-title-link" itemprop="url">白化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-12-06 17:17:02" itemprop="dateCreated datePublished" datetime="2023-12-06T17:17:02+08:00">2023-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-07 19:25:41" itemprop="dateModified" datetime="2024-01-07T19:25:41+08:00">2024-01-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="为什么要白化"><a href="#为什么要白化" class="headerlink" title="为什么要白化"></a>为什么要白化</h1><p>假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/06/%E7%99%BD%E5%8C%96/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/" class="post-title-link" itemprop="url">Automatic Implementation of Progressive FastICA Peel-Off for High Density Surface EMG Decomposition</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-11-29 22:10:54" itemprop="dateCreated datePublished" datetime="2023-11-29T22:10:54+08:00">2023-11-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-12-14 21:58:59" itemprop="dateModified" datetime="2023-12-14T21:58:59+08:00">2023-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>表面肌电分解最重要的难点是MUAP的叠加。</p>
+<p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/29/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/21/High-yield-decomposition-of-surface-EMG-signals/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -712,330 +1030,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/10/23/A-Deep-CNN-Framework-for-Neural-Drive-Estimation-From-HD-EMG-Across-Contraction-Intensities-and-Joint-Angles/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/23/A-Deep-CNN-Framework-for-Neural-Drive-Estimation-From-HD-EMG-Across-Contraction-Intensities-and-Joint-Angles/" class="post-title-link" itemprop="url">A Deep CNN Framework for Neural Drive Estimation From HD-EMG Across Contraction Intensities and Joint Angles</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-10-23 22:31:10" itemprop="dateCreated datePublished" datetime="2023-10-23T22:31:10+08:00">2023-10-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-25 17:56:28" itemprop="dateModified" datetime="2023-10-25T17:56:28+08:00">2023-10-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章使用CNN进行估计。这篇文章的思想是，使用CNN进行估计，但是学习的时候不同强度，不同肌纤维长度下的MU都不一样，因此需要解决这个问题。而这篇文章提出的CNN能够在不同条件提取MUAP普遍的特征，因此能够估计不同条件下的神经特征。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/10/23/A-Deep-CNN-Framework-for-Neural-Drive-Estimation-From-HD-EMG-Across-Contraction-Intensities-and-Joint-Angles/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/10/19/Toward-a-generalizable-deep-CNN-for-neural-drive-estimation-across-muscles-and-participants/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/19/Toward-a-generalizable-deep-CNN-for-neural-drive-estimation-across-muscles-and-participants/" class="post-title-link" itemprop="url">Toward a generalizable deep CNN for neural drive estimation across muscles and participants</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-10-19 20:24:36" itemprop="dateCreated datePublished" datetime="2023-10-19T20:24:36+08:00">2023-10-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:57:47" itemprop="dateModified" datetime="2023-10-23T21:57:47+08:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>当前在线估计方法在不同天或者不同人的情况下需要重新离线训练，这限制了在线算法的广泛使用。<font color = "Red">这篇文章主要是为了研究神经驱动在不同session、muscle和participants之间的估计结果。这篇文章的引言部分值得重点关注，同时ANOVA的部分也值得重点关注。</font></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/10/19/Toward-a-generalizable-deep-CNN-for-neural-drive-estimation-across-muscles-and-participants/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/10/16/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/16/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/" class="post-title-link" itemprop="url">Elbow-flexion force estimation during arm posture dynamically changing between pronation and supination</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-10-16 19:09:40" itemprop="dateCreated datePublished" datetime="2023-10-16T19:09:40+08:00">2023-10-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 11:06:10" itemprop="dateModified" datetime="2023-10-23T11:06:10+08:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这篇文章使用NMF分解算法把高密度肌电分解为激活模式和时变系数。并且对动态下的分解算法进行了改善，采用了分段分解的方法。看这篇文章主要是为了学习如何处理非等长收缩的情况。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/10/16/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/10/16/Decomposition-of-surface-EMG-signals-from-cyclic-dynamic-contractions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/10/16/Decomposition-of-surface-EMG-signals-from-cyclic-dynamic-contractions/" class="post-title-link" itemprop="url">Decomposition of surface EMG signals from cyclic dynamic contractions</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-10-16 10:20:42" itemprop="dateCreated datePublished" datetime="2023-10-16T10:20:42+08:00">2023-10-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-11-21 15:40:20" itemprop="dateModified" datetime="2023-11-21T15:40:20+08:00">2023-11-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文采用了机器学习算法和时变MUAP区分法来分解伪静态和动态的肌电信号（<font color='red'>什么是伪静态？</font>）。本报告描述了一种创新的方法，用于分解步态中肘部屈曲/伸展周期性收缩期间以及膝盖和脚踝屈曲/伸展期间获得的sEMG信号。本文对运动单位在循环收缩期间的性能的初步观察表明，在重复的动态收缩期间，运动单元的控制受与等长收缩期间相同的规则控制。运动单位的共同驱动和分级募集特性得到了保留。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/10/16/Decomposition-of-surface-EMG-signals-from-cyclic-dynamic-contractions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1107,14 +1101,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
