@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="包括对全局EMG信号特征的提取与生理学研究中运动单元活动的识别之间的差异的讨论，以及如何获取、检查和分解HDEMG信号的全面指南，以及运动单元放电特征的稳健提取。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="包括对全局EMG信号特征的提取与生理学研究中运动单元活动的识别之间的差异的讨论，以及如何获取、检查和分解HDEMG信号的全面指南，以及运动单元放电特征的稳健提取。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125103049582.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125222351782.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212204308.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212445774.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200045625.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200252345.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200939603.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200953927.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png">
+<meta property="article:published_time" content="2022-11-24T13:28:55.000Z">
+<meta property="article:modified_time" content="2024-02-10T06:10:18.805Z">
+<meta property="article:author" content="Xinhao">
+<meta property="article:tag" content="MUAP">
+<meta property="article:tag" content="MUST">
+<meta property="article:tag" content="Decomposition">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125103049582.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-24 21:28:55" itemprop="dateCreated datePublished" datetime="2022-11-24T21:28:55+08:00">2022-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-10 14:10:18" itemprop="dateModified" datetime="2024-02-10T14:10:18+08:00">2024-02-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Decomposition/" itemprop="url" rel="index"><span itemprop="name">Decomposition</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>包括对全局EMG信号特征的提取与生理学研究中运动单元活动的识别之间的差异的讨论，以及如何获取、检查和分解HDEMG信号的全面指南，以及运动单元放电特征的稳健提取。</p>
+<span id="more"></span>
+<h1 id="1-为什么看这篇文献"><a href="#1-为什么看这篇文献" class="headerlink" title="1. 为什么看这篇文献"></a>1. 为什么看这篇文献</h1><ul>
+<li>了解运动单元分解的详细流程，如何得到放电时间，希望通过本文章对MUAP和MUST有一个更清晰的认识</li>
+</ul>
+<h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2. 笔记"></a>2. 笔记</h1><p>HD-EMG分解是一个半自动过程，这是因为需要对分解的结果进行全面的检查。</p>
+<h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p>运动单元是一个转换器，把突触对神经的输入转换为力，包含<mark>一组</mark>肌肉纤维和<mark>一个</mark>α运动神经元。神经信息由运动单元通过<mark>轴突动作电位</mark>（即为对肌肉的<font color="red">神经驱动</font>，可以近似表示为MUST）传递，轴突动作电位在受神经支配的<mark>肌肉纤维</mark>中引发动作电位（即为<font color="red">运动单元动作电位MUAP</font>），运动单位动作电位的<mark>总和和时间过程</mark>决定了在运动任务期间用放置在皮肤上的电极记录的表面肌电图（EMG）的特征：</p>
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125103049582.png" class="" title="image-20221125103049582">
+<p>上图表明：轴突动作电位和运动单元动作电位之间的一一对应。（<strong>注意</strong>：这里的肌肉应该包含很多运动单元的肌纤维，一个肌纤维只属于一个运动单元，只能接收一个α运动神经元的指令；这里的 MUAPs 已经是经过容积导体后的波形，所以波形的幅值存在差异）。MUAPs 由 MUST 转换而来，但由于容积导体的影响，运动单元动作电位的幅度会变化，并且这些变化并不总是与运动单元的尺寸相关。由于这些效应，肌肉的神经驱动力与 EMG 振幅之间的关联并不总是线性的。对肌肉的神经驱动只能通过运动单元放电时间来估计。</p>
+<p>从表面肌电信号中识别MUAPs能够让我们得知个体运动神经元的放电活动。<mark>基于这种方法，运动神经元是人类唯一可以无创记录的神经细胞。</mark>非侵入式高密度表面肌电图提供了皮肤表面运动单元动作电位的空间采样，通过<mark>盲源分离（BSS）</mark>可以识别运动单元放电时间（在等长收缩任务中）。尽管BSS分解程序是以自动方式执行的，但它们需要用户检查已识别的运动单元尖峰序列。</p>
+<h2 id="2-2-Global-EMG-estimates-vs-Decomposition"><a href="#2-2-Global-EMG-estimates-vs-Decomposition" class="headerlink" title="2.2 Global EMG estimates vs. Decomposition"></a>2.2 Global EMG estimates vs. Decomposition</h2><p>运动单元动作电位的特性取决于许多因素，例如，动作电位振幅和传导速度与肌肉纤维的直径成比例；运动单元动作电位的幅度还取决于受神经支配的肌肉纤维的数量，这与运动单元募集阈值（对应于运动单元第一次放电的自愿发力水平，<font color="red">Estimating motor unit discharge patterns这篇文章中采用pps来表示募集阈值？</font>）相关。然而，这种关联受到容积导体的影响，因此受到肌肉纤维和记录电极之间的距离的影响。这导致募集阈值和运动单位动作电位幅值之间的关联通常较弱(<font color="red">?</font>)，这影响了EMG幅值和神经对肌肉的驱动之间的关系，以及EMG幅值和力之间的关联（<strong>总结就是EMG的幅值和<mark>力</mark>以及<mark>神经驱动</mark>之间的关联受到了影响，Fig 2.显示高阈值的运动单元MUAP幅值并不一定高</strong>）。</p>
+<p>与EMG幅值分析不同，单个运动单元放电时间的识别提供了对肌肉的神经驱动的直接估计。例如，当从梭形肌肉进行记录时，最好将EMG阵列的中心定位在初级神经支配区上方。在其他类型的肌肉（例如，三角肌）中，BSS对电极阵列的位置不太敏感，尽管电极仍需要放置在肌腹上方。</p>
+<h2 id="2-3-HD-sEMG-Acquisition"><a href="#2-3-HD-sEMG-Acquisition" class="headerlink" title="2.3 HD-sEMG Acquisition"></a>2.3 HD-sEMG Acquisition</h2><font color="red">电极的放置位置是需要选择的，并不是随便放。</font>在应用高密度电极网格之前，应将皮肤剃光，轻轻研磨，并用酒精溶液和研磨膏清洁（Piervirgili等人，2014）。盲源分离基于这样的假设：
+
+> 运动单元的动作电位是独立唯一的，电极应放置在使得不同MUAP的幅值差异最大的地方。
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221125222351782.png" class="" title="image-20221125222351782">
+
+上图中的B和C两图对比，可以看到C图的基线处有高水平的噪声。一个通道（小插图中的灰色线）在较低频率下显示的功率高于所有其他通道，这表明该通道信噪比差。HDEMG信号的公认基线噪声水平约为10–40µV RMS，但这一要求可能随收缩强度而变化。可以通过单极显示而非双极来目视检查异常通道。
+
+根据经验经验，在低EMG振幅下，信号噪声应不超过信号功率的一半，以确保可靠分解。除了电极-皮肤和信号放大器的噪声（信号噪声），EMG分解只能识别相对较少的活动运动单元，未识别到的运动单元的活动是分解过程中的额外噪声源，通常也是主要噪声源。
+
+EMG的带通滤波通常在10-20Hz至400-500Hz之间滤波，能保证EMG的大部分功率。带宽越小，不同运动单元的动作电位的相似性越大。然而，较小的带宽确实会降低噪声水平。如果可能，建议使用零相位滤波器，以避免不同运动单元动作电位的可变延迟，并保持运动单元动作电位的能量集中在短时间间隔内。非线性滤波改变了EMG的混合模型，应该避免。在可用于识别具有低信噪比的信道的方法中，一种方法是通过估计网格中每个电极的功率谱密度并将其与基线进行比较来检查信号的质量。在识别出具有高信噪比的电极之后，可以使用滤波技术（例如陷波滤波器）去除潜在的电力线干扰。
+
+## 2.4 Decomposition
+
+流程：
+
+1. 采集HDEMG记录
+2. 通过BSS分离源（运动单元）
+3. 目视检查
+4. 绘制可靠的识别出的运动单元的光栅图
+
+<mark>BSS程序通常通过迭代优化运动单元分离滤波器并将其应用于EMG信号，一次估计一个运动单元尖峰序列（放电时间）。</mark>完整的流程如下：
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212204308.png" class="" title="image-20221127212204308">
+
+从上图的标识可以看到，<font color="red">识别出的尖峰序列（spike trains）是存在高低差的</font>，这需要目视检查去掉一些低于阈值的尖峰来调整盲源分离器（调整后应该就从图b变成图B了），目视检查的流程如下图所示：
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221127212445774.png" class="" title="image-20221127212445774">
+
+注意看左边图之间的对比，B是在A的基础上设置了一个阈值，去掉了低于阈值的尖峰；重构滤波器，再次应用到HD-sEMG信号中，得到了图C；图C中发现漏掉了两个尖峰，于是再手动加上这两个尖峰。这样人工优化分离器可以得到一个稳定的结果<font color="red">（目前还不知道如何根据放电频率来设置阈值）</font>。<mark>请注意，此部分手动选择仅用于分离器的计算，而不用于分解的输出</mark>。在排除信号质量较差的尖峰序列间隔后，应重新计算电机单元滤波器并将其应用于整个EMG信号，以便重新估计（客观地，无需任何人工干预）整个运动单元尖峰序列。<mark>目前的BSS算法要求EMG信号至少5s以上。</mark>
+
+## 2.5 Decomposition accuracy
+
+评价指标：
+
+- 直接法：双源法（详细的 iEMG和sEMG分解准确率对比可以参考文献《Decoding the neural drive to muscles from the surface electromyogram》）
+- 间接法：
+  - PNR
+  - silhoutette distance
+  - sta后MUAP的比较
+
+所有这些测量都是渐近的，并随着尖峰序列中识别的尖峰的数量增加其精度。因此，它们不应用于评估少于30个尖峰的尖峰序列的准确性（Holobar等人，2014）或评估尖峰序列中每个单个尖峰的准确性。
+
+由于运动单元动作电位形状在等长收缩期间可能发生变化，因此在尖峰触发平均值中应使用相对较少的运动单元放电时间。我们根据经验观察到，3–5秒（约30–100个峰值）足以在持续和快速等长收缩期间稳健地提取运动动作电位波形。
+
+## 2.6 Motor unit properties
+
+根据所识别的运动单元的放电时间，可以识别参与的运动单元的特性。一个关键特性是募集阈值，其对应于第一个运动单元动作电位发生时的力。由运动神经元（肌肉单位）支配的肌肉纤维产生的力以延迟发生，该延迟取决于轴突传导速度和肌肉纤维的性质（主动和被动）。为了获得募集和解除募集阈值的可靠估计，受试者必须练习进行缓慢的线性斜坡收缩。
+
+用于估计募集阈值和测量运动单元放电特性的一种常用方法是梯形力轨迹，控制力的增加和减少率（5–20%MVC/s）至中等平台力（最大力的35–70%）。鉴于目前HD-EMG分解在跨募集阈值均匀采样运动单位方面的局限性，最佳方法是根据测试肌肉和收缩类型使用一系列目标力（最大力的30至70–90%）。
+
+可以从运动单元放电时间中提取的另一个信息是根据募集和解除募集时的放电率估计运动神经元持续内向电流<mark>（persistent inward currents）</mark>的强度。从运动单元动作电位波形的形状，还可以提取其他生理信息。该信息包括电机单元波形的分析，如振幅和传导速度（参见第1-2段和图2）。通过对运动单元放电时间和动作电位波形的分析，可以同时分析神经和外周特性。例如，不同肌肉的运动单元募集阈值和运动单位传导速度之间的强关联。
+
+## 2.7 Motor unit tracking
+
+只有在干预前后能够识别出相同的运动单元时，才能在纵向研究期间（如康复干预后）比较运动单元特性。HD-EMG记录的一个优点是它们通常提供运动单元动作电位的高空间分辨率。对于大型电极网格，两个运动单元在所有通道中显示完全相同的动作电位波形的可能性很小，<mark>这意味着当网格在不同的任务中放置在相似位置时，可以在多个任务中跟踪运动单元，这可以用于跨日跨周的研究当中</mark>。当多个运动单元彼此之间具有高互相关（偶尔发生）时，应将这些运动单元从跟踪中移除。
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200045625.png" class="" title="image-20221129200045625">
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200252345.png" class="" title="image-20221129200252345">
+
+对运动单位的追踪是通过比较运动单位动作电位实现的，一旦某个运动单位被追踪，那么就可以比较在两个session中的放电特性（discharge characteristics）：
+
+- discharge rate
+- recruitment threshold
+
+运动单元募集速度表示连续运动单元之间第一次放电时间的间隔（<font color="red">这个不是很懂，相当于是第一个放电时间竖线之间的间隔？但按照募集的顺序，有的后募集但是在图上体现出放电时间早于先募集的是怎么回事？</font>）
+
+## 2.8 Influencing factors in motor unit decomposition:  
+
+分解算法对以下三个因素很敏感：
+
+- the muscles investigated：
+- the volume conductor properties of the specific subject
+- the contraction intensity：当胫骨前肌的力从35%增加到70%时，识别到的MU数目减少了30%。但是从2.9的结果看，并不是只要强度增加，识别到的MU数目就减少。
+
+同时皮下脂肪厚的被试更可能识别出较少的MUs，这是因为容积导体会使得不同MU信号的带宽减小。
+还没有足够数据来表明性别之间识别出的MU存在差别。
+
+## 2.9 Conclusions
+
+不同肌肉能够识别到的运动单元的数量：
+
+<img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200939603.png" class="" title="image-20221129200939603"> <img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129200953927.png" class="" title="image-20221129200953927">
+
+# 3. 文章得到了哪些结论
+
+- 动作电位振幅和传导速度，其与肌肉纤维的直径成比例
+- 运动单元动作电位的幅度还取决于受神经支配的肌肉纤维的数量，这与运动单元募集阈值相关
+- 分解的输出结果受肌肉、被试的容积导体性质、以及收缩强度限制。这些限制主要是因为记录电极与肌肉单元之间的距离和肌纤维动作电位的重叠。通常，<mark>随着收缩力的增加，通过分解能够识别的运动单元的数量会减少（<font color="red">只是能够识别的减少了，实际上募集的MU更多了。</font>）</mark>。比如，以胫骨前肌来说，这是一种可靠的分解肌肉（Del Vecchio和Farina，2019；Negro等人，2016a），<font color="red">我们观察到当目标力从最大力的35%增加到70%时，可以识别的运动单元数量减少了30%</font>。同样，对于皮下层较厚的受试者，识别的运动单元数量也有减少的趋势。这些趋势是由于当容积导体减少信号带宽时，不同运动单元的动作电位波形中的辨别信息减少
+- <mark>spike trains</mark>和<mark>discharge times</mark>还是有区别的，spike trains包含了放电的时间，但同时其幅值还代表了权重，但这个权重应该是没有意义的。discharge times对应的是raster
+
+# 4. 文章有哪些疑问
+
+- 互相关图？CST是用来干嘛的，25ms的汉宁窗干嘛的？搞清楚下面几张图：
+
+  <img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195300583.png" class="" title="image-20221129195300583"> <img src="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/image-20221129195313224.png" class="" title="image-20221129195313224.png">
+
+- 是不是  <font color="red">虽然识别出来的尖峰幅值存在不同，高低表示MUAP的权重，但这是因为MUAP受传播、容积导体等影响后的结果，而神经驱动理论上来说每一次动作电位的幅值应该是一样的，因此我们估计神经驱动只需要关注放电的时间，所以这才是后面的图中所有竖线都一样长的原因？</font>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MUAP/" rel="tag"># MUAP</a>
+              <a href="/tags/MUST/" rel="tag"># MUST</a>
+              <a href="/tags/Decomposition/" rel="tag"># Decomposition</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/21/%E8%AE%BA%E6%96%87/Characteristic/Estimating-motor-unit-discharge-patterns-from-high-density-surface-electromyogram/" rel="prev" title="Estimating motor unit discharge patterns from high-density surface electromyogram">
+      <i class="fa fa-chevron-left"></i> Estimating motor unit discharge patterns from high-density surface electromyogram
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/" rel="next" title="Analysis of motor units with high-density surface electromyography">
+      Analysis of motor units with high-density surface electromyography <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9C%8B%E8%BF%99%E7%AF%87%E6%96%87%E7%8C%AE"><span class="nav-text">1. 为什么看这篇文献</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%AC%94%E8%AE%B0"><span class="nav-text">2. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Introduction"><span class="nav-text">2.1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Global-EMG-estimates-vs-Decomposition"><span class="nav-text">2.2 Global EMG estimates vs. Decomposition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-HD-sEMG-Acquisition"><span class="nav-text">2.3 HD-sEMG Acquisition</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
