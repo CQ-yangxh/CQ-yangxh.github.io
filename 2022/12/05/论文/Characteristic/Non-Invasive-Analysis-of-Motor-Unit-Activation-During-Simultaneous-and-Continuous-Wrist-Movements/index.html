@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png">
 <meta property="article:published_time" content="2022-12-05T11:37:47.000Z">
-<meta property="article:modified_time" content="2024-02-10T01:34:03.460Z">
+<meta property="article:modified_time" content="2024-02-10T12:37:41.747Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="CST">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 09:34:03" itemprop="dateModified" datetime="2024-02-10T09:34:03+08:00">2024-02-10</time>
+                <time title="Modified: 2024-02-10 20:37:41" itemprop="dateModified" datetime="2024-02-10T20:37:41+08:00">2024-02-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,10 +276,9 @@
 <p><strong>表面肌电的两类分解算法</strong>：</p>
 <ul>
 <li>Blind source separation</li>
-<li><p>Template matching</p>
-<p><strong>Data-driven和EMG-driven的区别：</strong></p>
-</li>
+<li>Template matching</li>
 </ul>
+<p><strong>Data-driven 和 EMG-driven 的区别</strong>：</p>
 <p>​    （1）Data-driven是一个黑箱模型，是model-free的，这里的model指代的是关节运动之类的运动学模型。Data-driven是直接将EMG映射到力/力矩、速度、角位移上，优点是训练完之后，模型的计算速度快。</p>
 <p>​    （2）EMG-driven的全称是EMG-driven musculoskeletal model，EMG只是参与计算肌肉活性，通过Hill模型，使用肌肉活性和肌腱长度作为输入来计算个体肌肉力，其核心还是骨骼肌模型（肌肉-肌腱模型、关节运动学模型）。肌肉活性的计算公式如下：</p>
 <script type="math/tex; mode=display">
@@ -303,8 +302,10 @@ a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-
 <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png" class="">
 <p>​    注：session2中两个动作的曲线有重叠部分</p>
 <ol>
-<li>通道数：使用3 * 64=192个电极进行 HD-EMG 的采集。</li>
-<li>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</li>
+<li><p>通道数：使用 3 * 64=192 个电极进行 HD-EMG 的采集。</p>
+</li>
+<li><p>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</p>
+</li>
 </ol>
 <h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对session1的动作先进行了级联，级联后进行训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
 <p>session2的task对应session1的哪个MUST分离矩阵呢？——session2包含哪两个动作就用哪两个动作级联。</p>
@@ -324,8 +325,9 @@ y_i=\sum_{m=1}^{M_i} a_{i m} x_{i m}+b_i</script></li>
 <li><p>表征神经对肌肉的共同输入</p>
 <ul>
 <li>PCA：从全部 MUST 池中得到的主成分，用主成分表征。PCA：从全部 MUST 池中得到的主成分，用主成分表征。</li>
-<li>CST：将 MUST 池划分成两组，对应两个动作，每组中分别得到的 CST，用 CST 的频率作为特征。选取了 300 ms 宽、100 ms 步长的滑动窗口，使用一元线性回归来拟合弯矩和 CST 的放电频率。<script type="math/tex; mode=display">
-y_i=a_i x_i+b_i</script>CST 的实时放电率与力曲线非常的接近：<br><img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png" class="" title="image-20230419170121928"> 如何从 MUST 得到 CST 的参考文献：<blockquote>
+<li>CST：将 MUST 池划分成两组，对应两个动作，每组中分别得到的 CST，用 CST 的频率作为特征。选取了 300 ms 宽、100 ms 步长的滑动窗口，使用一元线性回归来拟合弯矩和 CST 的放电频率。<pre><code>  $$y_i=a_i x_i+b_i$$
+</code></pre>   CST 的实时放电率与力曲线非常的接近：   <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png" class="" title="image-20230419170121928"> 
+   如何从 MUST 得到 CST 的参考文献：<blockquote>
 <p>Central nervous system modulates the neuromechanical delay in a broad range for the control of muscle force</p>
 </blockquote>
 </li>
@@ -485,7 +487,7 @@ y_i=a_i x_i+b_i</script>CST 的实时放电率与力曲线非常的接近：<br>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
