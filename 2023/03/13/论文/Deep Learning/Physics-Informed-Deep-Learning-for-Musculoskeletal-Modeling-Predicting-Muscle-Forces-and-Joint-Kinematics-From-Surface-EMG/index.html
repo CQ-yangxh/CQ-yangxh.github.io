@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/03/13/%E8%AE%BA%E6%96%87/Deep%20Learning/Physics-Informed-Deep-Learning-for-Musculoskeletal-Modeling-Predicting-Muscle-Forces-and-Joint-Kinematics-From-Surface-EMG/image-20230314171029166.png">
 <meta property="article:published_time" content="2023-03-13T13:37:55.000Z">
-<meta property="article:modified_time" content="2024-02-10T13:18:49.022Z">
+<meta property="article:modified_time" content="2024-02-12T07:55:38.091Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="TNSRE">
 <meta property="article:tag" content="Deep-Learning">
@@ -223,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 21:18:49" itemprop="dateModified" datetime="2024-02-10T21:18:49+08:00">2024-02-10</time>
+                <time title="Modified: 2024-02-12 15:55:38" itemprop="dateModified" datetime="2024-02-12T15:55:38+08:00">2024-02-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,7 +266,7 @@
 <li>静态优化元素</li>
 </ul>
 <p>EMG能够通过最优化关节弯矩的估计，把肌肉肌腱参数标定为独立的属性（如：肌腱松弛长度、最佳肌纤维长度）。EMG同时也改善了关节力矩的估计。尽管EMG驱动的模型克服了静态优化的局限并且已经可以实现，但是是耗时的，有着较高的延迟。</p>
-<p>为了解决高延迟，数据驱动模型（<font color="red">Data-driven和EMG-driven不是一个东西？</font>）被尝试着用来简历运动变量和神经肌肉状态之间的联系，比如，从EMG到关节运动参数和肌力。这种方法是不耗时的。一些学者的工作：</p>
+<p>为了解决高延迟，数据驱动模型（<font color="red">Data-driven 和 EMG-driven 不是一个东西？</font>）被尝试着用来建立运动变量和神经肌肉状态之间的联系，比如，从 EMG 到关节运动参数和肌力。这种方法是不耗时的。一些学者的工作：</p>
 <ul>
 <li>使用LSTM通过HD-sEMG估计grasping forces</li>
 <li>使用CNN-Attention通过sEMG估计连续手指运动参数</li>
@@ -304,10 +304,10 @@
 <li>batchnorm</li>
 <li>dropout</li>
 </ul>
-<p>隐藏节点个数为128</p>
 </li>
-<li><p>一个回归块</p>
+<li><p>隐藏节点个数为128</p>
 </li>
+<li>一个回归块</li>
 </ul>
 <p>在模型训练阶段，批量大小设置为1，CNN通过动量随机梯度下降训练。此外，最大迭代次数为1200，初始学习率设置为0.01，丢弃率为0.3。</p>
 <p>CNN的回归块输出得到肌力和关节运动学预测。</p>

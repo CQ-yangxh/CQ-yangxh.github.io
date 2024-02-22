@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/09/%E8%AE%BA%E6%96%87/Dynamic/Decoding-motor-unit-activity-from-forearm-muscles-Perspectives-for-myoelectric-control/image-20231111113201558.png">
 <meta property="article:published_time" content="2023-11-09T13:56:39.000Z">
-<meta property="article:modified_time" content="2024-02-10T06:32:20.391Z">
+<meta property="article:modified_time" content="2024-02-22T03:14:14.621Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/09/%E8%AE%BA%E6%96%87/Dynamic/Decoding-motor-unit-activity-from-forearm-muscles-Perspectives-for-myoelectric-control/image-20231111113201558.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 14:32:20" itemprop="dateModified" datetime="2024-02-10T14:32:20+08:00">2024-02-10</time>
+                <time title="Modified: 2024-02-22 11:14:14" itemprop="dateModified" datetime="2024-02-22T11:14:14+08:00">2024-02-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,13 +276,19 @@
 <p>For control applications, the EMG decomposition needs to be real-time and accurate in non-stationary conditions</p>
 </blockquote>
 <ul>
-<li>EMG分解算法目前只适用于等长收缩（持续的力或者缓慢变化的力）</li>
+<li>EMG 分解算法目前只适用于等长收缩（在恒定不变的力或者缓慢变化的力）</li>
 </ul>
 <blockquote>
 <p>EMG decomposition methods have so far been proven applicable only in isometric contractions at constant or slow varying force.</p>
 </blockquote>
-<h1 id="2-Methods"><a href="#2-Methods" class="headerlink" title="2. Methods"></a>2. Methods</h1><p><strong>被试</strong>：7个正常人 A1-A7，2个残疾人 D1-D2</p>
-<p><strong>电极片</strong>：3个电极片用于正常人中的5个人，剩下的用2个电极片</p>
+<ul>
+<li>SIL 能够评估分解的有效程度</li>
+</ul>
+<blockquote>
+<p>It was previously shown, using concurrent intramuscular and surface EMG recordings, that SIL values are linearly related to decomposition accuracy.</p>
+<h1 id="2-Methods"><a href="#2-Methods" class="headerlink" title="2. Methods"></a>2. Methods</h1></blockquote>
+<p><strong>被试</strong>：7个正常人 A1-A7，2个残疾人 D1-D2</p>
+<p><strong>电极片</strong>：<mark>3个电极片用于正常人中的5个人，剩下的用2个电极片</mark></p>
 <p><strong>预处理</strong>：带通滤波3-900Hz，采样2048Hz，分辨率是12bit</p>
 <p><strong>传感器安装位置</strong>：</p>
 <ul>
@@ -294,9 +300,11 @@
 <blockquote>
 <p>One motor task consisted of an agonist and an antagonist movement with 5 s rest in between. The performed motor tasks were flexion and extension corresponding to horizontal arrow movements, ulnar and radial deviation corresponding to vertical arrow movements, and pronation and supination corresponding to arrow rotation (Fig. 2)</p>
 </blockquote>
+<p><mark>数据预处理</mark>：3-900 Hz 带通滤波</p>
 <h1 id="3-Processing"><a href="#3-Processing" class="headerlink" title="3. Processing"></a>3. Processing</h1><p>MUAP波形用来匹配同一个MU：通过比较两个MU的MUAP之间的标准化互相关系数。该函数对MUAP波形中的时间滞后和MUAP幅度的变化是稳健的。如果标准化互相关系数的最大值大于0.8就认为两个MU是一样的。</p>
 <p>有些运动神经元属于一个收缩肌，但是能在多个DoF中识别到，比如桡侧腕屈肌中的运动单位起到腕关节屈曲和桡侧偏斜的主动肌作用。只在一个动作中检测到的运动单位被分类为“maximally discriminative”。</p>
 <p>记录了每个MU第一次放电时的关节角度，这是能够被EMG分解算法检测到的第一个事件，是非常有意义的。首先，提供了能够进行MU分解的关节角范围；其次，因为MU是随着力缓慢募集的，所以还能够用于比例控制。</p>
+<p>如果一个 mu 90%的 spikes 都在一个动作期间发放，那么就认为这个 mu 对应这个动作。</p>
 <h1 id="4-Results"><a href="#4-Results" class="headerlink" title="4. Results"></a>4. Results</h1><ul>
 <li><mark>尽管收缩具有非等长性质，但可以确定每个运动任务&gt;15个运动单位。这种高产率分解对于四肢正常的受试者和四肢缺陷的受试对象都是可能的，这表明基于运动单位尖峰序列的肌电控制是可行的。</mark></li>
 <li>每个运动任务平均识别出16±7个运动单位，平均ISR值为24.7±12.7%。在识别出的运动单位中，12±6个与主动肌肉动作有关，6±5个运动单位所有重复中都存在。平均SIL值为0.86±0.05，这与识别放电时间的估计准确度&gt;85%相对应（<font color='red'>为什么？Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation</font>）。</li>

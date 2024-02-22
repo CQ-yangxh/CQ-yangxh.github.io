@@ -628,7 +628,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-08 15:12:32" itemprop="dateModified" datetime="2024-02-08T15:12:32+08:00">2024-02-08</time>
+                <time title="Modified: 2024-02-18 21:39:02" itemprop="dateModified" datetime="2024-02-18T21:39:02+08:00">2024-02-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -651,11 +651,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>第一主成分对应的方差是协方差矩阵的最大特征值，第二主成分对应的方差是协方差矩阵第二大特征值，以此类推。真实采集数据的协方差矩阵的特征值通常会急剧下降，因此通常可以设置一个阈值来划分特征值。这个阈值决定了多少主成分被选取。</p>
-<p>原向量可以划分到两个空间中，分别是信号子空间和噪声子空间。所以协方差矩阵可以表示为：</p>
-<script type="math/tex; mode=display">
-\mathbf{C}_\mathbf{x}=\sum_{i=1}^m\mathbf{a}_i\mathbf{a}_i^T+\sigma^2\mathbf{I}</script><p>CKC算法中的噪声阈值之前计算一直存在问题，文章说选取最小的特征值作为噪声方差，但是根本筛选不掉噪声。后来阅读的时候发现eigenvalue后面加了个s，查阅了书籍发现，对原始信号进行主成分分析，取方差最大的方向作为第一主成分，对协方差矩阵进行特征值分解的时候，最大的特征值就是第一主成分的方差，第二大的特征值是第二主成分的方差，依此类推。当进行到第几个主成分的时候依然是有效信号呢？《Independent Component Analysis (Aapo Hyvarinen)》中说，高斯噪声是各向同性的，也就是说噪声在各个方向上的方差是一样的，所以当特征值小到一定程度的时候，会保持不变，这个时候就是噪声，把这些特征值加起来就得到了噪声阈值对应的方差。在处理实际测量数据时，协方差矩阵的特征值序列通常会急剧下降。这意味着随着特征值的编号增加，其数值会越来越小。可以设定一个阈值，低于该阈值的特征值对应的主成分（Principal Components）贡献相对较小，对数据集的解释力或压缩效果不显著。因此，这个阈值就决定了我们应该保留多少个主成分用于后续的数据分析、降维或其他处理过程。</p>
-
+          <p>第一主成分对应的方差是协方差矩阵的最大特征值，第二主成分对应的方差是协方差矩阵第二大特征值，以此类推。真实采集数据的协方差矩阵的特征值通常会急剧下降，因此通常可以设置一个阈值来划分特征值。这个阈值决定了多少主成分被选取。<br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/01/09/%E6%95%B0%E5%AD%A6/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E5%92%8C%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
