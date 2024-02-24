@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="RNN讲解：【循环神经网络】5分钟搞懂RNN，3D动画深入浅出_哔哩哔哩_bilibili  李宏毅推导：26.循环神经网络RNN（II）_哔哩哔哩_bilibili  matlab代码分析：(49条消息) 基于MATLAB的LSTM神经网络时序预测（完整代码+范例数据文件）_lstm matlab_Tooto_ttt的博客-CSDN博客  lstm交替步长：lstm原理+timesteps理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNN与LSTM">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="RNN讲解：【循环神经网络】5分钟搞懂RNN，3D动画深入浅出_哔哩哔哩_bilibili  李宏毅推导：26.循环神经网络RNN（II）_哔哩哔哩_bilibili  matlab代码分析：(49条消息) 基于MATLAB的LSTM神经网络时序预测（完整代码+范例数据文件）_lstm matlab_Tooto_ttt的博客-CSDN博客  lstm交替步长：lstm原理+timesteps理解">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512101328525.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523165438853.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512102505189.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512102949179.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523172713953.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523201850973.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230712205839798.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/v2-72cf098084ed6a1ac68798b6b81f784c_720w.webp">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/classifysequencedatausinglstmnetworksexample_02_zh_CN.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/lstmflow.png">
+<meta property="article:published_time" content="2023-05-12T02:07:30.000Z">
+<meta property="article:modified_time" content="2024-02-09T15:42:50.392Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512101328525.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>RNN与LSTM | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RNN与LSTM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-05-12 10:07:30" itemprop="dateCreated datePublished" datetime="2023-05-12T10:07:30+08:00">2023-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-09 23:42:50" itemprop="dateModified" datetime="2024-02-09T23:42:50+08:00">2024-02-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p><strong>RNN讲解：</strong><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1z5411f7Bm/?spm_id_from=333.337.search-card.all.click&amp;vd_source=f9284418e385ee0855b280e1ab5cb560">【循环神经网络】5分钟搞懂RNN，3D动画深入浅出_哔哩哔哩_bilibili</a></p>
+</li>
+<li><p><strong>李宏毅推导：</strong><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ux411S7Yk?p=26&amp;vd_source=f9284418e385ee0855b280e1ab5cb560">26.循环神经网络RNN（II）_哔哩哔哩_bilibili</a></p>
+</li>
+<li><p><strong>matlab代码分析：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_56146217/article/details/123577068">(49条消息) 基于MATLAB的LSTM神经网络时序预测（完整代码+范例数据文件）_lstm matlab_Tooto_ttt的博客-CSDN博客</a></p>
+</li>
+<li><p><strong>lstm交替步长：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/henielh/article/details/106956131?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D">lstm原理+timesteps理解+实操+时间序列多变量_jiekclek的博客-CSDN博客</a></p>
+</li>
+</ul>
+<span id="more"></span>
+<p>RNN对两个时刻的隐藏层进行了连接，使得神经网络具有记忆功能。</p>
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512101328525.png" class="">
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523165438853.png" class="" title="image-20230523165438853">
+<p><strong>LSTM 讲解</strong>：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Z34y1k7mc/?spm_id_from=333.788&amp;vd_source=f9284418e385ee0855b280e1ab5cb560">【LSTM长短期记忆网络】3D模型一目了然，带你领略算法背后的逻辑</a></p>
+<p>LSTM相较于RNN增加了一条新的时间链：</p>
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512102505189.png" class="" title="image-20230512102505189">
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230512102949179.png" class="" title="image-20230512102949179">
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523172713953.png" class="" title="image-20230523172713953">
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230523201850973.png" class="" title="image-20230523201850973">
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/image-20230712205839798.png" class="" title="image-20230712205839798">
+<p>实际上，LSTM的网络是这样的：</p>
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/v2-72cf098084ed6a1ac68798b6b81f784c_720w.webp" class="" title="img">
+<p>上面的图表示包含2个隐含层的LSTM网络，在T=1时刻看，它是一个普通的BP网络，在T=2时刻看也是一个普通的BP网络，只是沿时间轴展开后，T=1训练的隐含层信息H,C会被传递到下一个时刻T=2，如下图所示。上图中向右的五个长长的箭头，说的也是隐含层状态在时间轴上的传递。</p>
+<h1 id="使用深度学习进行时间序列预测"><a href="#使用深度学习进行时间序列预测" class="headerlink" title="使用深度学习进行时间序列预测"></a>使用深度学习进行时间序列预测</h1><p>此示例说明如何使用长期短期记忆 (LSTM) 网络预测时间序列数据。</p>
+<p>LSTM 网络是一种循环神经网络 (RNN)，它通过遍历时间步并更新 RNN 状态来处理输入数据。RNN 状态包含在所有先前时间步中记住的信息。您可以使用 LSTM 神经网络，通过将先前的时间步作为输入来预测时间序列或序列的后续值。要为时间序列预测训练 LSTM 神经网络，请训练具有序列输出的回归 LSTM 神经网络，其中响应（目标）是将值移位了一个时间步的训练序列。也就是说，在输入序列的每个时间步，LSTM 神经网络都学习预测下一个时间步的值。</p>
+<p>有两种预测方法：开环预测和闭环预测。</p>
+<ul>
+<li>开环预测仅使用输入数据预测序列中的下一个时间步。对后续时间步进行预测时，需要从数据源中收集真实值并将其用作输入。例如，假设您要使用时间步 1 到 <em>t</em>−1 中收集的数据来预测序列的时间步 <em>t</em> 的值。要对时间步 <em>t</em>+1 进行预测，请等到记录下时间步 <em>t</em> 的真实值，并将其用作输入进行下一次预测。在进行下一次预测之前，如果有可以提供给 RNN 的真实值，则请使用开环预测。</li>
+<li>闭环预测通过使用先前的预测作为输入来预测序列中的后续时间步。在这种情况下，模型不需要真实值便可进行预测。例如，假设您要仅使用在时间步 1 至 <em>t</em>−1 中收集的数据来预测序列的时间步 <em>t</em> 至 <em>t</em>+<em>k</em> 的值。要对时间步 <em>i</em> 进行预测，请使用时间步 <em>i</em>−1 的预测值作为输入。使用闭环预测来预测多个后续时间步，或在进行下一次预测之前没有真实值可提供给 RNN 时使用闭环预测。</li>
+</ul>
+<h3 id="指定训练数据"><a href="#指定训练数据" class="headerlink" title="指定训练数据"></a>指定训练数据</h3><p>首先，你需要将所有数据分成三个部分(当然可以不要验证集，一般论文里我们是返回验证集上的最优模型)：训练集、验证集和测试集，也就是把3000行数据分成三部分，一般是622或者712，这里以622为例，也就是说训练集中有1800条数据，验证集和测试集各600条数据。</p>
+<p>然后你需要对训练集中的数据进行归一化，例如最大最小值归一化，然后假设你使用前100个数据预测接下来10个数据(比如你可以用前100个数据的300个特征预测接下来10个数据的某一个或者某几个特征，例如你可以用前100个时刻的ABCDE特征预测接下来10个时刻的A特征或者10个时刻的ABC特征，这里以10个A特征为例)，那么此时你构建的第1个样本应该为(X=1…100，Y=101…110)，第二个样本为(X=2…101，Y=102…111)，最后一个样本为(X=1691…1790 Y=1791…1800)。</p>
+<p>这样，你的训练集中一个包含了1691个样本，然后你就可以进一步进行分批处理。分批处理前你可以打乱这1691个样本，这种打乱是不会对LSTM的训练造成影响的，<mark>因为每个样本的内部是有序的</mark>，LSTM处理的是这100个数据间的时序关系。但是如果你用sgd或者<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=minibatch&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A2581549999}">minibatch</a>，一般来讲靠前的batch会对<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=模型梯度&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A2581549999}">模型梯度</a>造成更大影响，为了公平起见，可以选择打乱数据。</p>
+<p>打乱数据后就可以开始进行批次处理，比如batch_size=100，也就是将1691个样本每100个分为一组，这样你一共可以得到17个batch的数据，除了最后一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=bacth&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A2581549999}">bacth</a>的X为(batch_size=91,seq_len=100, input_size=5)，Y为(batch=91, output_size=1)以外，其他16个batch的X为(batch_size=100,seq_len=100, input_size=5)，Y为(batch=100, output_size=1)。</p>
+<h3 id="准备要填充的数据"><a href="#准备要填充的数据" class="headerlink" title="准备要填充的数据"></a>准备要填充的数据</h3><p>在训练过程中，默认情况下，软件将训练数据拆分成小批量并填充序列，使它们具有相同的长度。过多填充会对网络性能产生负面影响。</p>
+<p>为了防止训练过程添加过多填充，您可以按序列长度对训练数据进行排序，并选择合适的小批量大小，以使同一小批量中的序列长度相近。下图显示了对数据进行排序之前和之后填充序列的效果。</p>
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/classifysequencedatausinglstmnetworksexample_02_zh_CN.png" class="" title="img">
+<h3 id="定义-LSTM-神经网络架构"><a href="#定义-LSTM-神经网络架构" class="headerlink" title="定义 LSTM 神经网络架构"></a>定义 LSTM 神经网络架构</h3><p>创建一个 LSTM 回归神经网络。</p>
+<ul>
+<li>使用输入大小与输入数据的通道数匹配的序列输入层。</li>
+<li>接下来，使用一个具有 128 个隐藏单元的 LSTM 层。隐藏单元的数量确定该层学习了多少信息。使用更多隐藏单元可以产生更准确的结果，但也更有可能导致训练数据过拟合。</li>
+<li>要输出通道数与输入数据相同的序列，请包含一个输出大小与输入数据通道数匹配的全连接层。</li>
+<li>最后，包括一个回归层。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">layers = [</span><br><span class="line">    sequenceInputLayer(numChannels)</span><br><span class="line">    lstmLayer(128)</span><br><span class="line">    fullyConnectedLayer(numChannels)</span><br><span class="line">    regressionLayer];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>批归一化在每一层中用于减少内部协变量移位。</li>
+<li>Dropout使神经元以一定概率丢失，以防止每个隐藏层后面的过拟合问题。</li>
+</ul>
+<h3 id="LSTM-层架构"><a href="#LSTM-层架构" class="headerlink" title="LSTM 层架构"></a>LSTM 层架构</h3><p>下图说明具有 C 个长度为 S 的特征（通道）的时序 X 通过 LSTM 层的流程。在图中，<strong>h</strong>t 和 <strong>c</strong>t分别表示在时间步 t 的输出（也称为<em>隐藏状态</em>）和 <em>单元状态</em>。</p>
+<img src="/2023/05/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/RNN%E4%B8%8ELSTM/lstmflow.png" class="" title="img">
+<p>第一个 LSTM 模块使用网络的初始状态和序列的第一个时间步来计算第一个输出和更新后的单元状态。在时间步 t 上，该模块使用网络的当前状态 (<strong>c</strong>t−1,<strong>h</strong>t−1) 和序列的下一个时间步来计算输出和更新后的单元状态 <strong>c</strong>t。</p>
+<p>该层的状态由<em>隐藏状态</em>（也称为<em>输出状态</em>）和<em>单元状态</em>组成。时间步 t 处的隐藏状态包含该时间步的 LSTM 层的输出。单元状态包含从前面的时间步中获得的信息。在每个时间步，该层都会在单元状态中添加或删除信息。该层使用不同的门控制这些更新。</p>
+<h3 id="指定训练选项"><a href="#指定训练选项" class="headerlink" title="指定训练选项"></a>指定训练选项</h3><p>指定训练选项。</p>
+<ul>
+<li>使用 Adam 优化进行训练。</li>
+<li>进行 200 轮训练。对于较大的数据集，您可能不需要像良好拟合那样进行这么多轮训练。</li>
+<li>在每个小批量中，对序列进行左填充，使它们具有相同的长度。左填充可以防止 RNN 预测序列末尾的填充值。</li>
+<li>每轮训练都会打乱数据。</li>
+<li>在绘图中显示训练进度。</li>
+<li><p>禁用详细输出。</p>
+</li>
+<li><p>matlab中在对LSTM进行训练时需要明确是sequence to sequence还是sequence to last。前者是在每一个时间步都进行预测，后者是只在最后一个时间步进行预测，详细请参考matlab文档说明。EMG-force的回归主要用到sequence to sequence。</p>
+</li>
+</ul>
+<hr>
+<p><strong>一些评论：</strong></p>
+<blockquote>
+<p>——看了不少LSTM简单实例，发现都是滚动预测。宣称预测后三年数据，其实每次只能预测后一个月的数据，我称之为假 · 预测。</p>
+<p>​    ——您好，用神经网络做预测的时候，目前大多是都只预测下一个时间步的，如果需要长时预测（例如预测未来3s的车辆轨迹），那就需要滚动预测或者迭    代了。您有不同的见解挺好的，可以麻烦提供新的思路以做讨论吗，谢谢！</p>
+<p>​        ——可以看看seq2seq、注意力机制还有transformer之类的，我看的李沐和李宏毅的讲解。虽然我目前还是做的滚动预测，不过可以一次输出多个时间        步然后再滚动。遇到的问题就是这种复杂模型因为各种原因不一定有效果，比如数据量不够，只能说是值得一试。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/" rel="prev" title="A convolutional neural network to identify motor units from high-density surface electromyography signals in real time">
+      <i class="fa fa-chevron-left"></i> A convolutional neural network to identify motor units from high-density surface electromyography signals in real time
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%94%9F%E7%89%A9%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="next" title="生物神经网络">
+      生物神经网络 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E8%A1%8C%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B"><span class="nav-text">使用深度学习进行时间序列预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="nav-text">指定训练数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%A6%81%E5%A1%AB%E5%85%85%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-text">准备要填充的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-LSTM-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-text">定义 LSTM 神经网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSTM-%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-text">LSTM 层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E8%AE%AD%E7%BB%83%E9%80%89%E9%A1%B9"><span class="nav-text">指定训练选项</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

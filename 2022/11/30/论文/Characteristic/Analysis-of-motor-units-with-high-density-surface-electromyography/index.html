@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="这篇文章主要介绍了高密度肌电和侵入式肌电的对比，高密度肌电的必要性，空间滤波和空间采样等等。文章中引出了关于肌电的两种混合模型：1. 线性瞬时混合模型；2.卷积混合模型。这在以前阅读的文章中没有详细提及。文章还引出了获得MUAP的两种方法：1.直接获得；2.STA方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Analysis of motor units with high-density surface electromyography">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="这篇文章主要介绍了高密度肌电和侵入式肌电的对比，高密度肌电的必要性，空间滤波和空间采样等等。文章中引出了关于肌电的两种混合模型：1. 线性瞬时混合模型；2.卷积混合模型。这在以前阅读的文章中没有详细提及。文章还引出了获得MUAP的两种方法：1.直接获得；2.STA方法。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231100101926.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221207174512694.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231112044143.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231143704490.png">
+<meta property="article:published_time" content="2022-11-30T08:42:53.000Z">
+<meta property="article:modified_time" content="2024-02-09T16:40:53.822Z">
+<meta property="article:author" content="Xinhao">
+<meta property="article:tag" content="MUAP">
+<meta property="article:tag" content="STA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231100101926.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Analysis of motor units with high-density surface electromyography | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Analysis of motor units with high-density surface electromyography
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-30 16:42:53" itemprop="dateCreated datePublished" datetime="2022-11-30T16:42:53+08:00">2022-11-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-10 00:40:53" itemprop="dateModified" datetime="2024-02-10T00:40:53+08:00">2024-02-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Characteristic/" itemprop="url" rel="index"><span itemprop="name">Characteristic</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要介绍了高密度肌电和侵入式肌电的对比，高密度肌电的必要性，空间滤波和空间采样等等。文章中引出了关于肌电的两种混合模型：1. 线性瞬时混合模型；2.卷积混合模型。这在以前阅读的文章中没有详细提及。文章还引出了获得MUAP的两种方法：1.直接获得；2.STA方法。</p>
+<span id="more"></span>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1. 笔记"></a>1. 笔记</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p>植入式电极受容积导体的影响小，表面电极受的影响大。由于电信号在组织的扩散作用导致了低通滤波的效果，以及采集电极的限制，表面肌电信号中检测到的不同运动单元的动作电位比较相似，如下图所示：</p>
+<img src="/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231100101926.png" class="" title="image-20221231100101926">
+<p>同时受干扰的表面肌电信号也包含更多的源（因为这个原因，20年前，表面肌电信号被作为经典的干扰信号进行分析，所以叫做<em>interference signal / interfercence EMG</em>，采用的是全局变量如RMS等，没有对神经特征进行分析，得到的结论往往不一定正确）。</p>
+<p>表面肌电信号运动单元分解并不能取代植入式电极的检测，而是在很多场景下提供了一种非侵入式的分析方法，同时相比于植入式电极，能够分析运动单元的性质，能同时检测多个运动单元。</p>
+<ul>
+<li><p><strong>空间滤波 spatial filtering</strong>：空间滤波抵消了容积导体的低通滤波效应，并减少对记录信号有显著贡献的运动单元的数量，还提高了对运动单元动作电位的辨别能力。这是通过高通空间滤波器来实现的，该滤波器增强了肌肉内不同深度的运动单元产生的动作电位之间的振幅差异（二维滤波器，例如拉普拉斯滤波器）。</p>
+</li>
+<li><p><strong>空间采样 spatial sampling</strong>：在多个位置记录表面肌电增强了区分单独运动单元动作电位的能力。</p>
+</li>
+</ul>
+<h2 id="1-2-EMG采集技术"><a href="#1-2-EMG采集技术" class="headerlink" title="1.2 EMG采集技术"></a>1.2 EMG采集技术</h2><p><strong>如果记录网格与肌纤维方向一致，则在传播过程中电位幅值在空间分布上保持类似的形状，尽管传播方向上组织的均匀性可能会发生变化。</strong></p>
+<img src="/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221207174512694.png" class="" title="image-20221207174512694">
+<p>神经支配区域、肌纤维膜的平均特征，如动作电位传播速度通常不需要运动单元分解，从表面肌电图分析即可得到。然而，这种方法通常在具有复杂纤维结构的肌肉中失败。脊髓的神经输出和肌电图振幅之间的联系取决于信号产生的许多内在因素，如运动单元电位的正相位和负相位之间的抵消程度。</p>
+<p><strong>高密度的必要性</strong>：仅用几个电极记录动作电位时，表面动作电位差异显著的运动单元数量很少。尽管在某些特殊情况下，运动单元活动只能通过少数表面肌电图通道识别。</p>
+<img src="/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231112044143.png" class="" title="image-20221231112044143">
+<p>以a图为例，尽凭一个电极或者仅凭中间这一列是无法区分出这两个运动电位的。（这张图是怎么的来的呢？同时采集表面肌电信号和侵入式肌电信号，侵入式肌电是比较准确的，把侵入式肌电检测到的运动单元动作电位作为触发事件，通过STA方法得到表面运动单元动作电位）。</p>
+<h2 id="1-3-分解"><a href="#1-3-分解" class="headerlink" title="1.3 分解"></a>1.3 分解</h2><p>模板匹配技术已被提出用于高密度表面肌电图的分解。使用这种方法，动作电位从信号中连续检测出来，并通过将其形状与表示一组运动单元的模板电位相匹配来进行分类，以类似于肌内肌电图分解的方式。这些方法很少分离在时间上重叠的不同运动单元的动作电位，因此往往只能提供不完整的运动单元放电模式。</p>
+<p>模板匹配方法的局限性推动了基于盲源分离和高阶统计量的运动单元识别技术的发展。盲源分离方法不依赖于动作电位形状的先验估计，对动作电位的叠加不敏感，是目前最有希望解决表面肌电图分解问题的方法。因此，该技术可以提供完整的单个运动单元放电模式的解码。</p>
+<p>盲源分离方法将单个运动单元的贡献建模为统计上独立(或至少弱相关)的信号。然而，除了统计独立性之外，该方法不假设电机单元放电模式的任何其他性质，因此也可以应用于<mark>不规则的脉冲间隔条件</mark>。</p>
+<p>为了分离源，提出了两种表面肌电混合过程的数学模型:</p>
+<ul>
+<li>根据<strong>线性瞬时混合模型</strong>(Garcıá et al, 2005;Nakamura et al, 2004a,b)，将单个运动单元的动作电位按未知因素进行幅值缩放，并求和得到观测到的表面肌电信号。利用该模型，可以有效地解决源分离问题；然而，该模型的局限性在于它没有考虑到不同记录位置的动作电位形状的差异，这是由于容积导体和动作电位传播的卷积效应造成的。</li>
+<li>另一方面，<strong>卷积混合模型</strong>(Holobar和Zazula, 2004)将每个电机单元的放电序列表示为离散的二进制源信号，即狄拉克delta函数的和。运动单元动作电位被建模为有限长度因果滤波器的未知脉冲响应，可以是任意形状。因此，基于卷积混合模型的分解技术不依赖于底层肌肉结构，相对于基于瞬时混合模型的方法具有更好的性能。</li>
+</ul>
+<p>在卷积分解方法中，卷积核补偿(CKC)方法(Holobar and Zazula, 2007)在不识别底层混合过程的情况下估计单个电机单元的放电模式，从而大大减少了计算时间(Holobar and Zazula, 2004, 2007)。图6显示了当应用于等长、可变力的拇短外展肌收缩过程中记录的信号时，该方法所进行的分解。CKC方法已在模拟和实验条件下对若干肌肉进行了<mark>中等收缩水平</mark>的测试，并已被证明可以提供大量运动单元的放电模式，其精度可与肌内肌电图分解相媲美。</p>
+<img src="/2022/11/30/%E8%AE%BA%E6%96%87/Characteristic/Analysis-of-motor-units-with-high-density-surface-electromyography/image-20221231143704490.png" class="" title="image-20221231143704490">
+<h2 id="1-4-肌纤维属性分析"><a href="#1-4-肌纤维属性分析" class="headerlink" title="1.4 肌纤维属性分析"></a>1.4 肌纤维属性分析</h2><p>通过电极网格检测到的运动单元动作电位的空间表示，有可能识别神经支配区和肌腱末梢、纤维长度的位置和纤维取向。</p>
+<p><strong>获得 MUAP 的两种方法</strong>：当通过完全分解识别主动运动单元的放电模式时，表面运动单元电位的空间表示可以直接从<font color="red">分割阶段</font>获得，也可以通过使用识别的发放序列作为触发器对干扰肌电图进行<font color="red">STA</font>获得。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MUAP/" rel="tag"># MUAP</a>
+              <a href="/tags/STA/" rel="tag"># STA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/24/%E8%AE%BA%E6%96%87/Decomposition/Tutorial-analysis-of-motor-unit-discharge-characteristics-from-high-density-surface-EMG-signals/" rel="prev" title="Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals">
+      <i class="fa fa-chevron-left"></i> Tutorial analysis of motor unit discharge characteristics from high density surface EMG signals
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/30/%E8%AE%BA%E6%96%87/Decomposition/%E5%9F%BA%E4%BA%8E%E7%BB%8F%E9%AA%8C%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%A1%A8%E9%9D%A2%E8%82%8C%E7%94%B5%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3%E6%96%B9%E6%B3%95%E7%A0%94%E7%A9%B6/" rel="next" title="基于经验模板的表面肌电运动单元动作电位序列分解方法研究">
+      基于经验模板的表面肌电运动单元动作电位序列分解方法研究 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1. 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%BC%95%E8%A8%80"><span class="nav-text">1.1 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-EMG%E9%87%87%E9%9B%86%E6%8A%80%E6%9C%AF"><span class="nav-text">1.2 EMG采集技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%88%86%E8%A7%A3"><span class="nav-text">1.3 分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%82%8C%E7%BA%A4%E7%BB%B4%E5%B1%9E%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-text">1.4 肌纤维属性分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
