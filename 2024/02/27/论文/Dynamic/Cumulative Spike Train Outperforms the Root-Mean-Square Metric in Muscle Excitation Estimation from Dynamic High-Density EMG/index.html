@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="提出了一种新的动态hdEMG卷积数据模型，以及用于评估MU识别准确性和分析动态肌肉收缩中MU动作电位（MUAP）变化对MU识别的影响的脉压比（PNR）指标。我们在不同的动态收缩速度下，对来自肱二头肌、股外侧肌和股直肌的信号测试了所提出的方法。 当考虑MU发射时间的预先存在的知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU发射频率相对恒定。棘间距的标准偏">
+  <meta name="description" content="尽管平均校正值（ARV）和均方根值（RMS）随着募集的运动单元（MU）的数量及其发射率单调增加。它们不区分这些激活模式和运动单元动作电位（MUAP）的影响。这在动态肌肉收缩中变得有问题，因为肌肉的几何变化会导致 MUAP 形状的变化。因此，在 RMS 和 ARV 指标中，MUAP 的变化很容易被误认为是肌肉兴奋模式的变化。据我们所知，MUAP 变化对 ARV 或 RMS 指标的影响尚未系统量">
 <meta property="og:type" content="article">
-<meta property="og:title" content="On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms">
-<meta property="og:url" content="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/index.html">
+<meta property="og:title" content="Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG">
+<meta property="og:url" content="https://cq-yangxh.github.io/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="提出了一种新的动态hdEMG卷积数据模型，以及用于评估MU识别准确性和分析动态肌肉收缩中MU动作电位（MUAP）变化对MU识别的影响的脉压比（PNR）指标。我们在不同的动态收缩速度下，对来自肱二头肌、股外侧肌和股直肌的信号测试了所提出的方法。 当考虑MU发射时间的预先存在的知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU发射频率相对恒定。棘间距的标准偏">
+<meta property="og:description" content="尽管平均校正值（ARV）和均方根值（RMS）随着募集的运动单元（MU）的数量及其发射率单调增加。它们不区分这些激活模式和运动单元动作电位（MUAP）的影响。这在动态肌肉收缩中变得有问题，因为肌肉的几何变化会导致 MUAP 形状的变化。因此，在 RMS 和 ARV 指标中，MUAP 的变化很容易被误认为是肌肉兴奋模式的变化。据我们所知，MUAP 变化对 ARV 或 RMS 指标的影响尚未系统量">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-02-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-02-28T13:37:28.101Z">
+<meta property="article:published_time" content="2024-02-27T03:43:14.000Z">
+<meta property="article:modified_time" content="2024-02-27T09:26:16.091Z">
 <meta property="article:author" content="Xinhao">
+<meta property="article:tag" content="动态">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/">
+<link rel="canonical" href="https://cq-yangxh.github.io/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/">
 
 
 <script id="page-configurations">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title>On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms | Xinhao's notebook</title>
+  <title>Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG | Xinhao's notebook</title>
   
 
 
@@ -188,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -201,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms
+          Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG
         </h1>
 
         <div class="post-meta">
@@ -210,16 +211,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2024-02-23 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-23T00:00:00+08:00">2024-02-23</time>
+              <time title="Created: 2024-02-27 11:43:14 / Modified: 17:26:16" itemprop="dateCreated datePublished" datetime="2024-02-27T11:43:14+08:00">2024-02-27</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-28 21:37:28" itemprop="dateModified" datetime="2024-02-28T21:37:28+08:00">2024-02-28</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -252,37 +247,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>提出了一种新的动态hdEMG卷积数据模型，以及用于评估MU识别准确性和分析动态肌肉收缩中MU动作电位（MUAP）变化对MU识别的影响的脉压比（PNR）指标。我们在不同的动态收缩速度下，对来自肱二头肌、股外侧肌和股直肌的信号测试了所提出的方法。</p>
-<p>当考虑MU发射时间的预先存在的知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU发射频率相对恒定。棘间距的标准偏差在平均棘间距的10%到30%之间[5]。不幸的是，这不适用于病理情况或快速肌肉收缩的情况，在这些情况下，这种额外知识的实施会大大降低MU尖峰分割的准确性。</p>
-<span id="more"></span>
-<ol type="1">
-<li><strong>什么是等长收缩</strong>：the geometry of the recorded muscle
-does not change significantly [5]. This guaranties relatively stationary
-MUAPs that can be identified either by template matching or blind-source
-separation (BSS) EMG decomposition methods.</li>
-<li><strong>动态收缩的情况</strong>：In dynamic muscle contractions,
-muscle fibers shorten and slide below the skin surface (and below the
-electrode array), causing the changes in detected MUAPs.</li>
-<li><strong>动态和静态的区别</strong>：在一个恒等的收缩水平下，MU的发放频率是保持不变的，
-<span class="math inline">\(ISI\)</span>
-的标准差只有10%-30%。但是这在肌肉快速收缩或者病态的情况下是不成立的</li>
-</ol>
-<p><strong>高密度肌电的建模</strong>： <span class="math display">\[
-\mathbf{y}(n)=\overline{\mathbf{H}}\overline{\mathbf{t}}(n)+\Delta\mathbf{H}(n)\bar{\mathbf{t}}(n)+\mathbf{~}\mathbf{\omega}(n)
-\]</span> 这个模型是等长收缩模型的推广，在等长收缩中，<span
-class="math inline">\(\Delta \mathbf{H}(n)\)</span> 这一项代表的是 <span
-class="math inline">\(\overline{\mathbf{H}}\)</span> 和真实的 <span
-class="math inline">\(\mathbf{H}\)</span>
-之间的差异。这个差异在动态收缩中是随时间变化的，但是在等长收缩中，可以视为误差项。</p>
-<p><strong>动态下的衡量指标是什么</strong>：PNR does not assume or favor
-any MUfiring patter and can, thus, be used equally good in pathological
-or any other condition with highly irregular MU firing patterns.</p>
-<p>目前在实验条件下还不可能验证动态表面肌电分解。即，与等距收缩不同，在动态条件下，表面肌电和侵入式肌电同时采集和分解的双源验证方法是不可能的。因此本文采用合成肌电进行分解，合成的高密度表面肌电信号根据圆柱形体积导体模型产生。</p>
-<p>当考虑 MU
-发射时间的先验知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU
-发射频率相对恒定。脉冲间距的标准偏差在平均棘间距的 10% 到 30%
-之间。不幸的是，这不适用于病理情况或快速肌肉收缩的情况，在这些情况下，<mark>这种额外知识的实施会大大降低
-MU 尖峰分割的准确性。</mark></p>
+        <p>尽管平均校正值（ARV）和均方根值（RMS）随着募集的运动单元（MU）的数量及其发射率单调增加。它们不区分这些激活模式和运动单元动作电位（MUAP）的影响。这在动态肌肉收缩中变得有问题，因为肌肉的几何变化会导致
+MUAP 形状的变化。因此，<mark>在 RMS 和 ARV 指标中，MUAP
+的变化很容易被误认为是肌肉兴奋模式的变化</mark>。据我们所知，MUAP 变化对
+ARV 或 RMS 指标的影响尚未系统量化。</p>
+<p>更先进的肌肉兴奋技术建立在通过分解 hdEMG 信号直接识别 MU
+发放序列的基础上。这些技术将 MUAP
+与兴奋模式完全分离，但在很大程度上仅在等长肌肉收缩上进行了测试。没有详细研究动态条件，主要是由于缺乏可靠的动态
+hdEMG 分解技术。</p>
+<p><mark>我们量化了 MUAP 对基于 RMS 的 hdEMG
+肌肉兴奋估计的负面影响</mark>。RMS
+度量在等距和动态条件下均产生14%的NRMSE（图1和图2）。即使只有5个已识别的
+MU，基于 CKC 的 CST 也显著优于 RMS 度量。NRMSE 随着识别的 MU
+的数量而进一步降低。</p>
 
     </div>
 
@@ -291,6 +268,9 @@ MU 尖峰分割的准确性。</mark></p>
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E6%80%81/" rel="tag"># 动态</a>
+          </div>
 
         
 
@@ -298,13 +278,10 @@ MU 尖峰分割的准确性。</mark></p>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/A%20new%20method%20for%20high-density%20surface%20electromyography%20decomposition%20in%20dynamic%20muscle%20contraction/" rel="prev" title="A new method for high-density surface electromyography decomposition in dynamic muscle contraction">
-      <i class="fa fa-chevron-left"></i> A new method for high-density surface electromyography decomposition in dynamic muscle contraction
+    <a href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/" rel="prev" title="On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms">
+      <i class="fa fa-chevron-left"></i> On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/" rel="next" title="Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG">
-      Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     

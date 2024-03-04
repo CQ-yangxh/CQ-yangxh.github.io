@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Decomposition-of-surface-EMG-signals-from-cyclic-dynamic-contractions/image-20231121112159661.png">
 <meta property="article:published_time" content="2023-10-16T02:20:42.000Z">
-<meta property="article:modified_time" content="2024-02-22T11:43:16.868Z">
+<meta property="article:modified_time" content="2024-03-01T04:10:29.877Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="动态">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-22 19:43:16" itemprop="dateModified" datetime="2024-02-22T19:43:16+08:00">2024-02-22</time>
+                <time title="Modified: 2024-03-01 12:10:29" itemprop="dateModified" datetime="2024-03-01T12:10:29+08:00">2024-03-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,7 +280,7 @@
 <li>跟踪不同收缩角度上MUAP形状的演变</li>
 <li>当关节角度从一个平台变化到下一个平台时，提供增量募集识别能力</li>
 </ol>
-<p>针对问题一，我们通过实现更自适应的MUAP匹配标准来修改分类器以考虑可能随着收缩角的变化而发生的MUAP形状改变。具体来说，我们定义了n维接受域，其基于未受污染的MUAP形状参数的局部特征来识别相同运动单位的MUAP。每个运动单位的接受域用每个增加的未受污染的MUAP的分类来更新，以说明MUAP形状参数的变化，这些变化可能作为时间和收缩角的函数而发生。</p>
+<p>针对问题一，我们通过实现更自适应的MUAP匹配标准来修改分类器以考虑可能随着收缩角的变化而发生的MUAP形状改变。具体来说，我们定义了n维接受域，其基于未受污染的MUAP形状参数的局部特征来识别相同运动单位的MUAP。<mark>每个运动单位的接受域用每个增加的未受污染的MUAP的分类来更新，以说明MUAP形状参数的变化，这些变化可能作为时间和收缩角的函数而发生。</mark></p>
 <p>针对问题二，通过增加迭代搜索程序来解决增量募集识别问题——一次处理一个子集的MUAP，直到剩余sEMG信号的平均能量满足自适应阈值。</p>
 <p><strong>单循环力曲线</strong>：</p>
 <p>该算法主要解决intracycle问题，也就是之前提到的动态收缩条件下存在的前两个问题。统计分类器中的机器学习的算法被结合到之前用于阶梯形力曲线的分类器中。具体来说，我们通过对尖峰到尖峰的连续性进行详细检查来评估MUAP形状的参数变化。然后指定最近邻分类器来基于这些MUAP形状参数来区分循环内的形状变化。</p>

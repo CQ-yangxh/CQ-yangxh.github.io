@@ -185,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -199,7 +199,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/" class="post-title-link" itemprop="url">On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms</a>
+            <a href="/2024/02/27/%E8%AE%BA%E6%96%87/Dynamic/Cumulative%20Spike%20Train%20Outperforms%20the%20Root-Mean-Square%20Metric%20in%20Muscle%20Excitation%20Estimation%20from%20Dynamic%20High-Density%20EMG/" class="post-title-link" itemprop="url">Cumulative Spike Train Outperforms the Root-Mean-Square Metric in Muscle Excitation Estimation  from Dynamic High-Density EMG</a>
         </h2>
 
         <div class="post-meta">
@@ -210,7 +210,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-02-23 00:00:00 / Modified: 21:57:39" itemprop="dateCreated datePublished" datetime="2024-02-23T00:00:00+08:00">2024-02-23</time>
+              <time title="Created: 2024-02-27 11:43:14 / Modified: 17:26:16" itemprop="dateCreated datePublished" datetime="2024-02-27T11:43:14+08:00">2024-02-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,24 +237,106 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>什么是等长收缩</strong>：the geometry of the recorded muscle
-does not change significantly [5]. This guaranties relatively stationary
-MUAPs that can be identified either by template matching or blind-source
-separation (BSS) EMG decomposition methods.</p>
-<p><strong>动态收缩的情况</strong>：In dynamic muscle contractions,
-muscle fibers shorten and slide below the skin surface (and below the
-electrode array), causing the changes in detected MUAPs.</p>
-<p><strong>高密度肌电的建模</strong>： <span class="math display">\[
-\mathbf{y}(n)=\overline{\mathbf{H}}\overline{\mathbf{t}}(n)+\Delta\mathbf{H}(n)\bar{\mathbf{t}}(n)+\mathbf{~}\mathbf{\omega}(n)
-\]</span> 这个模型是等长收缩模型的推广，在等长收缩中，<span
-class="math inline">\(\Delta \mathbf{H}(n)\)</span> 这一项代表的是 <span
-class="math inline">\(\overline{\mathbf{H}}\)</span> 和真实的 <span
-class="math inline">\(\mathbf{H}\)</span>
-之间的差异。这个差异在动态收缩中是随时间变化的，但是在等长收缩中，可以视为误差项。</p>
-<p><strong>动态下的衡量指标是什么</strong>：PNR does not assume or favor
-any MUfiring patter and can, thus, be used equally good in pathological
-or any other condition with highly irregular MU firing patterns.</p>
+          <p>尽管平均校正值（ARV）和均方根值（RMS）随着募集的运动单元（MU）的数量及其发射率单调增加。它们不区分这些激活模式和运动单元动作电位（MUAP）的影响。这在动态肌肉收缩中变得有问题，因为肌肉的几何变化会导致
+MUAP 形状的变化。因此，<mark>在 RMS 和 ARV 指标中，MUAP
+的变化很容易被误认为是肌肉兴奋模式的变化</mark>。据我们所知，MUAP 变化对
+ARV 或 RMS 指标的影响尚未系统量化。</p>
+<p>更先进的肌肉兴奋技术建立在通过分解 hdEMG 信号直接识别 MU
+发放序列的基础上。这些技术将 MUAP
+与兴奋模式完全分离，但在很大程度上仅在等长肌肉收缩上进行了测试。没有详细研究动态条件，主要是由于缺乏可靠的动态
+hdEMG 分解技术。</p>
+<p><mark>我们量化了 MUAP 对基于 RMS 的 hdEMG
+肌肉兴奋估计的负面影响</mark>。RMS
+度量在等距和动态条件下均产生14%的NRMSE（图1和图2）。即使只有5个已识别的
+MU，基于 CKC 的 CST 也显著优于 RMS 度量。NRMSE 随着识别的 MU
+的数量而进一步降低。</p>
 
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/" class="post-title-link" itemprop="url">On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-02-23 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-23T00:00:00+08:00">2024-02-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-28 21:37:28" itemprop="dateModified" datetime="2024-02-28T21:37:28+08:00">2024-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>提出了一种新的动态hdEMG卷积数据模型，以及用于评估MU识别准确性和分析动态肌肉收缩中MU动作电位（MUAP）变化对MU识别的影响的脉压比（PNR）指标。我们在不同的动态收缩速度下，对来自肱二头肌、股外侧肌和股直肌的信号测试了所提出的方法。</p>
+<p>当考虑MU发射时间的预先存在的知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU发射频率相对恒定。棘间距的标准偏差在平均棘间距的10%到30%之间[5]。不幸的是，这不适用于病理情况或快速肌肉收缩的情况，在这些情况下，这种额外知识的实施会大大降低MU尖峰分割的准确性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -387,10 +469,16 @@ Glaser 等[7]还提出了基于 MU
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-02-22 00:00:00 / Modified: 19:50:33" itemprop="dateCreated datePublished" datetime="2024-02-22T00:00:00+08:00">2024-02-22</time>
+              <time title="Created: 2024-02-22 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-22T00:00:00+08:00">2024-02-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-03-01 12:10:00" itemprop="dateModified" datetime="2024-03-01T12:10:00+08:00">2024-03-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -416,12 +504,15 @@ Glaser 等[7]还提出了基于 MU
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>注意本文对 <span class="math inline">\(H(n)\)</span>
-进行了重新建模，前提条件是：<mark>快速且温和的动态收缩中</mark>。 <span
-class="math display">\[
-\mathbf{y}(n)=\bar{\mathbf{H}\mathbf{t}}\left(n\right)+\Delta\mathbf{H}(n)\bar{\mathbf{t}}\left(n\right)+\omega\left(n\right)
-\]</span></p>
-
+          有东西被加密了, 请输入密码查看.
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -910,91 +1001,6 @@ class="math display">\[
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/09/%E6%95%B0%E5%AD%A6/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E5%92%8C%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/29/%E8%AE%BA%E6%96%87/Decomposition/Non-invasive-characterization-of-motor-unit-behaviour-in-pathological-tremor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/29/%E8%AE%BA%E6%96%87/Decomposition/Non-invasive-characterization-of-motor-unit-behaviour-in-pathological-tremor/" class="post-title-link" itemprop="url">Non-invasive characterization of motor unit  behaviour in pathological tremor</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-12-29 15:42:03" itemprop="dateCreated datePublished" datetime="2023-12-29T15:42:03+08:00">2023-12-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 14:47:38" itemprop="dateModified" datetime="2024-02-10T14:47:38+08:00">2024-02-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Decomposition/" itemprop="url" rel="index"><span itemprop="name">Decomposition</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/29/%E8%AE%BA%E6%96%87/Decomposition/Non-invasive-characterization-of-motor-unit-behaviour-in-pathological-tremor/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

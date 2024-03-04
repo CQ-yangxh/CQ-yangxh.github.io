@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/%E8%AE%BA%E6%96%87/Dynamic/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20231008210215975.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/11/%E8%AE%BA%E6%96%87/Dynamic/Adaptive-Real-Time-Identification-of-Motor-Unit-Discharges-From-Non-Stationary-High-Density-Surface-Electromyographic-Signals/image-20230111134956070.png">
 <meta property="article:published_time" content="2022-12-11T07:33:14.000Z">
-<meta property="article:modified_time" content="2024-02-23T03:59:55.792Z">
+<meta property="article:modified_time" content="2024-02-28T03:58:14.888Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="上交">
@@ -228,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-23 11:59:55" itemprop="dateModified" datetime="2024-02-23T11:59:55+08:00">2024-02-23</time>
+                <time title="Modified: 2024-02-28 11:58:14" itemprop="dateModified" datetime="2024-02-28T11:58:14+08:00">2024-02-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -390,8 +390,12 @@ r}\right)}{E\left(\left.\widehat{s}_j(n)\right|_{\widehat{s}_j(n)&lt;r}\right)}\
 在等长收缩中是恒定的，但在非等长收缩下随时间变化，这需要相应的分离向量更新。动态非等长收缩中，电极与肌肉的相对位置发生变化，导致MUAP的变化以及混合模式的变化</p>
 <h1 id="问题">2. 问题</h1>
 <ul>
-<li><p>滑动窗口的步长是多少，这篇文章是怎么执行滑动窗口的 &gt;
-文章说延迟250ms，那么推算步长应该是200ms，窗口不重叠</p></li>
+<li>滑动窗口的步长是多少，这篇文章是怎么执行滑动窗口的</li>
+</ul>
+<blockquote>
+<p>文章说延迟250ms，那么推算步长应该是200ms，窗口不重叠</p>
+</blockquote>
+<ul>
 <li><p>滑动窗口是200ms，但是muap的长度一般就100ms了，是不是窗口里面一个MU只能识别出1个或者0个discharge</p></li>
 <li><p>这种方法只适用于分解出训练中出现的MU？</p></li>
 <li><p>使用持续兴奋的数据集得到的分离向量，用在兴奋变化的数据集上，这样吗？</p></li>
