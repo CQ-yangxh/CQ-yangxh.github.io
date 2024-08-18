@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— radial">
+  <meta name="description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— ra">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— radial">
+<meta property="og:description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— ra">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
 <meta property="article:published_time" content="2023-11-03T01:52:49.000Z">
-<meta property="article:modified_time" content="2024-02-10T06:33:53.542Z">
+<meta property="article:modified_time" content="2024-04-10T13:52:53.440Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 14:33:53" itemprop="dateModified" datetime="2024-02-10T14:33:53+08:00">2024-02-10</time>
+                <time title="Modified: 2024-04-10 21:52:53" itemprop="dateModified" datetime="2024-04-10T21:52:53+08:00">2024-04-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,9 +260,12 @@
 <li>pronation——supination</li>
 <li>adduction——abduction（ulnar deviation—— radial deviation）</li>
 </ul>
-<p>这篇文章先通过训练集得到spike到neural input的函数，然后把MUAPT和residual EMG当作neural feature，然后对neural feature降维，然后通过线性回归来估计力矩。这篇文章的实验范式重点参考。</p>
+<p>这篇文章先通过训练集得到spike到neural
+input的函数，然后把MUAPT和residual EMG当作neural feature，然后对neural
+feature降维，然后通过线性回归来估计力矩。这篇文章的实验范式重点参考。</p>
 <span id="more"></span>
-<h1 id="1-Method"><a href="#1-Method" class="headerlink" title="1. Method"></a>1. Method</h1><ul>
+<h1 id="method">1. Method</h1>
+<ul>
 <li>两到三片高密度肌电电极，8×8，10 inter-electrode distance</li>
 <li>参考电极和地电极防止在手腕处</li>
 <li>monopolar mode</li>
@@ -275,34 +278,52 @@
 <li>2.5s，中速</li>
 <li>1s，高速</li>
 </ul>
-<h1 id="2-Processing"><a href="#2-Processing" class="headerlink" title="2. Processing"></a>2. Processing</h1><h2 id="2-1-TD-feature-extraction"><a href="#2-1-TD-feature-extraction" class="headerlink" title="2.1 TD feature extraction"></a>2.1 TD feature extraction</h2><blockquote>
-<p>The following time-domain features were calculated for each window across all considered channels: root mean square, slope sign changes, zero crossings, and waveform length.</p>
+<h1 id="processing">2. Processing</h1>
+<h2 id="td-feature-extraction">2.1 TD feature extraction</h2>
+<blockquote>
+<p>The following time-domain features were calculated for each window
+across all considered channels: root mean square, slope sign changes,
+zero crossings, and waveform length.</p>
 </blockquote>
-<h2 id="2-2-neural-feature-extraction"><a href="#2-2-neural-feature-extraction" class="headerlink" title="2.2 neural feature extraction"></a>2.2 neural feature extraction</h2><ul>
+<h2 id="neural-feature-extraction">2.2 neural feature extraction</h2>
+<ul>
 <li><font color = "red">为了识别在一个以上DoF的任务中活动的运动单位，通过互相关对运动单位动作电位的波形进行比较。如果两个动作电位的波形的互相关系数＞0.8，那么认为是由同一个运动单位产生的。</font></li>
 <li>分解高密度肌电信号的时候也是分段分解的，滑动窗口宽度为100ms，重叠10ms。</li>
-<li><font color = "red">重构的EMG信号与原始的EMG信号之间的差异部分也被用来提取信息，这与之前的想法一致。</font>
-
-</li>
+<li><font color = "red">重构的EMG信号与原始的EMG信号之间的差异部分也被用来提取信息，这与之前的想法一致。</font></li>
 </ul>
-<h2 id="2-3-model-based-dimensionality-reduction"><a href="#2-3-model-based-dimensionality-reduction" class="headerlink" title="2.3 model-based dimensionality reduction"></a>2.3 model-based dimensionality reduction</h2><p>肌电信号的分解是存在错误的，这些错误不能被人工检查出来。另一方面，运动神经元之间的活动是存在相关性的，这种相关性可以用来弥补分解的错误。同一池或协同肌肉中的运动神经元共享相对较大比例的突触输入。因此，每个运动单位的放电时间不仅携带关于肌肉力量的信息，而且还与其他运动单元的活动相关，<mark>可以利用这个特性来降低特征维度</mark>。如何来提取这种共同的突触输入呢？</p>
+<h2 id="model-based-dimensionality-reduction">2.3 model-based
+dimensionality reduction</h2>
+<p>肌电信号的分解是存在错误的，这些错误不能被人工检查出来。另一方面，运动神经元之间的活动是存在相关性的，这种相关性可以用来弥补分解的错误。同一池或协同肌肉中的运动神经元共享相对较大比例的突触输入。因此，每个运动单位的放电时间不仅携带关于肌肉力量的信息，而且还与其他运动单元的活动相关，<mark>可以利用这个特性来降低特征维度</mark>。如何来提取这种共同的突触输入呢？</p>
 <ul>
-<li>首先每个神经元从中枢神经系统接收到的输入与尖峰队列的关系可以用一个函数表示：<script type="math/tex">\alpha_{ij}=g_{ij}(x_{ij})</script>。使用鲁棒回归对 spike train 和关节角度来确定函数 $g$。<mark>之所以能这样确定是因为神经输入 $\alpha$ 与关节角度有关，因此可以通过手腕关节角度来得到神经输入。</mark></li>
+<li>首先每个神经元从中枢神经系统接收到的输入与尖峰队列的关系可以用一个函数表示：<span
+class="math display">\[ \alpha_{ij}=g_{ij}(x_{ij})
+\]</span>。使用鲁棒回归对 spike train 和关节角度来确定函数 <span
+class="math inline">\(g\)</span>。<mark>之所以能这样确定是因为神经输入
+<span class="math inline">\(\alpha\)</span>
+与关节角度有关，因此可以通过手腕关节角度来得到神经输入。</mark></li>
 <li>在估计时，每个MU被分组到最相关的自由度中，在这个自由度下估计神经的输入。</li>
-<li>在每个自由度下，得到运动神经元池中所有神经元的上述输入后，结合前一个窗口的共同输入（用于平滑）用来提取一个共同的输入$\alpha_{i}^{r}$。</li>
+<li>在每个自由度下，得到运动神经元池中所有神经元的上述输入后，结合前一个窗口的共同输入（用于平滑）用来提取一个共同的输入<span
+class="math inline">\(\alpha_{i}^{r}\)</span>。（因为每个MU接收到的信息不同，同时还有分解误差，所以不能直接相加，而需要一个专门的方法，最终选用了中位数这个方法）</li>
 <li>这篇文章中的<mark>神经特征</mark>：（1）提取出的共同输入；（2）残留信号的时频域特征。</li>
 <li>神经特征用于最简单的线性回归，回归后的力矩分解到3个自由度上。</li>
 </ul>
-<h2 id="2-4-comparison-between-features"><a href="#2-4-comparison-between-features" class="headerlink" title="2.4 comparison between features"></a>2.4 comparison between features</h2><ul>
+<h2 id="comparison-between-features">2.4 comparison between
+features</h2>
+<ul>
 <li>neural feature this paper proposed</li>
 <li>time-domain feature</li>
-<li>AM1：discharge spike count and EMG residual without model-based dimensionality reduction</li>
-<li>AM2：only DSC without model-based dimensionality reduction and without the residual EMG features</li>
+<li>AM1：discharge spike count and EMG residual without model-based
+dimensionality reduction</li>
+<li>AM2：only DSC without model-based dimensionality reduction and
+without the residual EMG features</li>
 </ul>
-<h1 id="3-Results"><a href="#3-Results" class="headerlink" title="3. Results"></a>3. Results</h1><p>神经特征和时频域特征得到的决定系数之间是有显著统计差.的，神经特征回归的决定系数为0.77，时频域特征回归的决定系数为0.7。</p>
+<h1 id="results">3. Results</h1>
+<p>神经特征和时频域特征得到的决定系数之间是有显著统计差.的，神经特征回归的决定系数为0.77，时频域特征回归的决定系数为0.7。</p>
 <p><strong>一些重要结论：</strong></p>
 <ul>
-<li>与ramp duration有关，ramp duration越短，动作速度越快，收缩强度越大，募集的MU越多，识别到的spike trains越多，但是文章说这个没有显著的统计学差异，因为可能受其他因素影响</li>
+<li>与ramp duration有关，ramp
+duration越短，动作速度越快，收缩强度越大，募集的MU越多，识别到的spike
+trains越多，但是文章说这个没有显著的统计学差异，因为可能受其他因素影响</li>
 <li>只有少数MU在多个自由度中被识别到，这就是说绝大多数MU都只与单一的自由度有关，MU是与动作相关联的。这一点从上交的论文中也能看出来</li>
 </ul>
 <img src="/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png" class="" title="image-20231109115844912">
@@ -311,7 +332,8 @@
 <li>所提出的方法以及AM1优于TD的观察结果表明，<mark>尖峰序列确实携带了传统特征无法提取的额外信息</mark>，即使对于如此高的信道数量也是如此</li>
 <li>分解算法识别出的MU都是阈值高的，因为阈值高的MU有更高的能量，这对分解和波形比较有利</li>
 </ul>
-<h1 id="4-Limitations"><a href="#4-Limitations" class="headerlink" title="4. Limitations"></a>4. Limitations</h1><ul>
+<h1 id="limitations">4. Limitations</h1>
+<ul>
 <li>分解算法主要用于低、中力下的等长收缩，对动态收缩只部分有效</li>
 </ul>
 
@@ -394,7 +416,9 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Method"><span class="nav-text">1. Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Processing"><span class="nav-text">2. Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-TD-feature-extraction"><span class="nav-text">2.1 TD feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-neural-feature-extraction"><span class="nav-text">2.2 neural feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-model-based-dimensionality-reduction"><span class="nav-text">2.3 model-based dimensionality reduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-comparison-between-features"><span class="nav-text">2.4 comparison between features</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Results"><span class="nav-text">3. Results</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Limitations"><span class="nav-text">4. Limitations</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#method"><span class="nav-text">1. Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#processing"><span class="nav-text">2. Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#td-feature-extraction"><span class="nav-text">2.1 TD feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#neural-feature-extraction"><span class="nav-text">2.2 neural feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model-based-dimensionality-reduction"><span class="nav-text">2.3 model-based
+dimensionality reduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comparison-between-features"><span class="nav-text">2.4 comparison between
+features</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#results"><span class="nav-text">3. Results</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#limitations"><span class="nav-text">4. Limitations</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -410,7 +434,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
