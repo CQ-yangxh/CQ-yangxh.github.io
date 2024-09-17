@@ -20,18 +20,20 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="有东西被加密了, 请输入密码查看.">
+  <meta name="description" content="这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="有东西被加密了, 请输入密码查看.">
+<meta property="og:description" content="这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png">
 <meta property="article:published_time" content="2022-12-05T12:12:19.000Z">
-<meta property="article:modified_time" content="2024-03-12T09:18:02.360Z">
+<meta property="article:modified_time" content="2024-09-17T03:40:05.166Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Decomposition">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/">
 
@@ -219,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-03-12 17:18:02" itemprop="dateModified" datetime="2024-03-12T17:18:02+08:00">2024-03-12</time>
+                <time title="Modified: 2024-09-17 11:40:05" itemprop="dateModified" datetime="2024-09-17T11:40:05+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,18 +255,133 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="d42c21b20aaf24375443fa90ad67a9a5052350210ba297739c26c0d024be0724">7fd9246b87aac9fc2c65909e0fe3eed0bbd94379fcd1b9f5ae22447cbc0c0cc0bb1632dfde940bcb056be2c7bcb3fbdafde9a5148fef07b346b8d5e880ebebea496f18a76c8bb696ba09e50200338012a26b5559e15e24a3715b3ccb69a6a0d7f635fd83e87a777c6048b32de1a45cbe8f06deccd4db412bf8de80eeef4ed8ea4834fd8a11443ddeadf1b974b4a39c870c1e174b7db44bd25102d41941d1b90a12b1e8e32c47d8622d3baa20856ea8bef2e46c03f9a1220232f8245e01bf62385218a762ab819b631d4b5517c381d3e928775c6152a099f976aee4decd257d4b70d6acd278d549a28745d8ddb9f640221a48f7b5e154859f045a2a59beebae7caf0bd0b3a56e41e3a136c6236bb0efa671092b6e63ef37a1d0f063c23223740a774db611754151a1697367d9f8c311b92e7d35963c2f53922c1578b0607c038b4e7caa68bc4a59851da765a4fe8644a14faa09e7b021700a5ebb88bd8d0622b46b2e2e71f6d09ea7aa7b5dfc67814d0e360d2b0f2851b2d5963c45230c1178c71a12cc899ba1e3bbc0ca06d8b82a66728bfab9783a2b667c260d8f5f2570008aee3c9e4db7c6dd8f72be5d32520496a52f36e258a5b0d63c1ad49fb5612e316954cb0eefcc476384bc7b6f79c3c3e902c349a352f7711a1fa3179b9aea3152ecf8041a698f79b5de00093f37e20cbe27260dd2102a6fcc81e8236f2f6d0997959147041befcc502f7ab9632b7b5de5feb9b21ccb34d3864b47b6f98c3789ab743e192874d85fdcd5dfb7b362885c6c124dca1cb8aac55d2e7c33158493c55c8c2a1b19db01d80214bba49739ee4b2ee70b85f37943ae37426e3e40721b7ed3e7ca7235a42a5488bcbbbff9ea7a1a7ccf1309eb7ba039450087bca21f7882c68ff5286d86d0290f5c94055e96f19d5f413847b37008a10ac5296cc8a892b622ebb0240780fd62578e6dd555ed1b18475186bc9d1779c7c165e688a56aaf2215caa9ffe523aec9188243e716d12e551ea424c4d064fe2a0ba3b46576e8906f4d52797a9d208695c156cb65e8e69163c1940ba6abf02d2577b36e4662280a74746433067bf92d35d8939a720e2b5d5643bd48a90972c06a157ae3014fb68f4cd706df3a81de7b6f8fbdccdcf943cbe48007c0f247a0e1b0f81efeb91fd7b903ff90dc05fb632fbc39af3953c4f2dcbdbe2a923fd749ba742831bfe1b9a3234bca35e52d21eb3c986c257d8d811d110ff04ffcb2c4749d6e0407f59dec3e8095c21acd5abaedd5c5e5f52082b3cddd9cc5293e82364acce3dd9c202787b6c8d3913e0b1b2c25a42332ccb6a0917b9f1db52a14818122c4bcada555092b26e495ad32da0bc8c2b11738bbd30fbd0e48777ccc255c6243550e02b375575c32620f39b58130d06ff6e49bdb2aa3080f0a8a545163c413ead45dc4baccbaad9fe231b5d766e85eedcefce38ca73cd695a29d2f9a80f56f1d716a3aadb3659846d576669b27d4269ec4db3dd3013586f3d4ae9b84990b2414c99bed78227efce3fbb07d2598017fc84e882adbfdc3e6d6f1550caef60ece96778d1fe69662d2f7ca6d6cd86bd79d109e0a52eebdbe71bd7b91d382c61aad32dccada15c75335413df32144a150bedc940fe35ba2f923300a399deaa14319a54c9a5d86639e487031967ef0a715bf0a18e742ec29480bb0bccee979fe9fc41fa337ab9863ea28798a2dc139d3b060b939332f787d56976339751a8f087623c3968d05fc42d1797b235d603fde1a408be0f76989727fe9112402010a8ef36d1883337aed363dace8b401479aa830963f25c0ec3802cb0cddd64c2075ec9bc800c5dd61b4691b5f3d7c2dffc366316b90aae09690bdd36bd73740c170239cc32e60c214322f603e48cd9d1dabcf97487cf471565d9df25173b7c62527fabcd3931dc6aeb983a9c7d6fece01a4cee72e5367554cfb749e20bab5701c054be6c325bdabd69bbb3f30115c0646491dc874d170006c30c91bcd801ace5bade3741dd5856426b3bb50ca6ba13db7e0c2ce1c50c69896e59ddc17a269266221c407748df6d73a2a36697c036b3ae0ebb7fd1af99f026a773705d0dd70cb6b22d5f70c14892f01ff972d243dab2d0c2cbd6068f5ad255da8f78ee1ae73c8aac26c355c7d55b6a40ea321613d37f96f0de47a1a3e280ec269bce367a8d948f619b8aea45bc73baf4217888f67fb8a0ce2f9978e9d8cdc7177aceb97f35b100934972d92db0181a7a89ffda85bae94227aa1aa0ef3ad81f32a725f255e4f8f62eaebf73555f537f27392118acb984eb2a85ed4ce9ce7d39f97a5187360d21c315a825c9a2b0fb911464c2df045dec2e6bc10a610edc95680de9b919a8d08c490b72a498944930fe92621de7987138c1852b45207c74a8053838062d7c403b8d8e758a93cea41ffc8834b87dec25148af625e4333f2e6359fba714ab6f1ce564c286fcbe01c6ca2c73fe1d02f4fa9bbf79c8c89aa5f6fef5f9499e6b41a1eb8a8b02d409d0a9039ee42f5f8706359f52a812992596554d8b824b98c77a0f2d94ef5ec2f6ffd0fac4873c569e3b90dce2e230de44241cc1337d0028f7397295fdaffd19f9e4e372b0843e451a62e6908a8641e9f683c32f1535e0ace752ce4f4b174e57004f653ff86239b34942aeb542b950e550cf7ad8ce9162da2a6f9b3a01b14a14e52b88b8104b69ffaa535b01cd7100146ff0bb296fa67446dd9e2f2f297146a0984d4f6c57ccafe97363212aaa3339461580b2d2f9f3a9f08c5cd2a2fa45e2b1c496e7a673a773167bb5f1189b70a295995b08e24a167b01dba41be85a6f69a145cf6171a75c1280942aff66a1182fae4c1f18ce691ed09c7bb943b2c74e31b0a5b545ff779f77a25b86644187db9793ea126b63b807b643ef9408022b27b5e32aeddcc51fa46f3e44ffe9359167ad9387da20c79ba8a3f8c98b797b9e60321578aa07e9446db63272248af9c0799ba890bd32671f3f3398c0cb349d7637062f17ed46ca0246822f99378feef7fb4a95873a710ae1c848d2b3d633dcaf98a4cf08a2ec2b183a108c6050611f29e292cc66419809305d13653d8c2df69f9647bb2062861c4747308f475f9ae9d576fd4d29bd39cc8486cf89915ea6b40fe135f11d59aea300647d319086895d74d890d5308c7c80526ba7f3a51dff25c96c1da1ad83234d7d3ee3b594c9bce40347d196e631024235ed500715df7131cc9ef939434d74b328e6c5db04bb44775fe747841f8ae4eae02e810a2a553176290da437b7f6a000653456a2b8f2f05730d977fc685047064e9151d7497bf49eed18cfada687f3273c44f63fc46e9455a211cc54bac30245ee2e93da024704578dc3530edaee73c29737571c3b62ac9fdeef032d3b1a4ac73395341db910bef44bcb0c0bda55e2d32869df1784ed7e35f6ba39f2c7e9fc87b984742ffd172bb0e4232ffae1b452ecd04cf990eeef3bef2904bd3cbbd582e240b669935b9500d18e127972610bea199c2c49dd30c241c4f2d706c5e9907206f5f39c36b82489bda5ab831cff64abaa282607d3e06e77fcf36a6f622943f01e1865b32c95e46e3e2029aba8e1ac77357f2d8e479f5da4971c1270d70aa4153b20df15c9e17bab3f81ae5f1b68e27841b0c59caae52acac6c35cc41d82214313a75bcaaa319daa5f7f0334cfe77070085476ff49898a9002301886d217355c115a6c1ff82fc7f5ef7ac1c320624453b3c80b8ebb6b6d010c612fb3b5e91832f7fa4cd2d5b210ec5d713de1a82a4494492ca0d5441b786022dee306ee4012ec1997ab881a6b50cb4f3cffbc4080dfd7701281b90adb382ca78d7c4150f0f8cc4f4ba7ed3450294a48d343022b16cf20c9e7f7b13c11996489b60dd506c83d83ae1971c00fdfeb11ab3f3953dae6dcb719cc581d47c338f1b57326eaceadc6f17e0f5221154a3131c3b2028e1d8d2308dafc5824072d2b9fcd20f3e2f9e6b5df457a20f292c2d6df8829ad5c0fe388f11c69786890dce62481999b14ec65d124358fba33f74c4f9aeceed577859d8dc7ef4926fca74a54e8a911ce2cd152e4c01fd13924e56766f531e2004e4d06c0f7f6f48b4d522f5f5e15a106d54d38539f5d82c44752c0ca422f60b8de6912a55e70460db6648da0ccdef8672b4054fe026ec5d7286f0c21cd1c5ac5beecde3e4f5c59917499b4eb08750434eaa1a6caff114f7120e418ed141f8aa8b308126e1ab32875e90b5610e46a81bc0e7cc4ae76d6e65428d42e64ded51aa1a1ef70a49802c6d73ab4e891da49ebf1ad1bc8f29396c96afcb18ab3417cf68a493dc5e4831b6ccc0069953153e80565d120bdbebf0fc63dd951b1fda6c6b472780bbc3fdf0d89c2160677855150cf5ae17d36ed7c9cde7b69d7a8c96bb1121b38c061ccf8acc409676ac6d1a9a7c39ca3c9cd06342bf30a87da5153f259568c3abf39ef0aee730155ae11340e7af748189c27180a31f60655f8a54be9e946a3221360c33de0507aab3733c1bdb6e873cad8d2edddd95532058f22c60e6c4d1b4d1e44105186adf043f36ff6f3138d9ba0b75d0abda3767fc3a35fb91a4b28c510f6b0316af8be0c2ac87f7952933989733b3c85e1e839f38dbe5dc2f418ab9d8a0a3869f125ad6701973e5a3b8d156d54ec3ac7372739195a2f8d895d768efb8667838c49435d1f434cb345a3eeef27d6f60a44243075209c8316de31ffee3f3075d9c6f8951ad936b4744a174a0e9d405e1fbb91c3de126a6c22de60d4f808ab0b7d1ca3b18ef29e6abbab322608df3da78db14b423a9c9b7a9e4a1d50d1215a2f32599acbe1cf187486d9851f003332adfe88cc3b2896cee6233fdf108ccee15d730a4763124cad04c9c59e8dce7a22bbfdb1cb6140d05a4bc398134165b500b525c7221404652535b36767089e1fb1d024e0b79ec7183d16cb5ef2a280957e5f987b988eddc3e31d8301b6f8eb4c8b1999ab6926a883385d13622ffa58ec7f3b1369ae9879c44865d939ad852a41b2accc59a32351cb9a9240c2e3ff4de48a2a6e0a89127a6be7c6b1476f91013616938b269f1fa208b3dadb0417f6b45575ce8c9063ff39ddec76f6b44aee1315bd4993d116d605f4a725ec90e546579d6f1d9c6c1cf5b253dbc3cbb547d9268edfca92a95109ee6db79531c41e7b753b8f3eee354375c9f328aa6880d5005d0e8c5d0ba318916824bc4989fd5fbc2c8d51f74ed785b3d8fecbc8ea39f2b61f6270dfa01497931c8e318545501c07c251d509940157cfecd17ed3aa8741923405f63ea64376da3c85c28039bea1304956dae17ffd6197e773fb0f990864d15e334729945e92860682399965670d3bf543b9b9526fd6da07903682719cccfe5b1de97ee5e90aaf88a70696b8408413b709d814e507ee39c811f2bace190986eb5c0d8c0cb473b8d57b9df4d829056f90f84b99c23a7ff1ccf00ced2552836b80f10ae8a727dad415dde5b853034484175d9ec08e6ea711e8a8d6ed5830ad5e9cfdcb094115d3c57c73eabebde42db1ef1083bd266336e72d57870024dd86b2c4abc35362813624b4f74af7e81943885062a95fc9743b7cb749822225e5e5e3462fe2966abc6c5ab1aeebb5f9819324e3befd7d509120485f1e9553f9de9777522ce1b1d8069bb9cd55a2329920e1ebc50c132460ec19ac7caad9a9e23e6153e2aed5afaba73f339da1fecccd19b89523bfd810a3eed23d632853c880d267703e3b74afbc1a4290189ae6815b4dbf083fadcac1a29a24214f994b7ec71b715897ac8854d005996b762fbb7a21a58392b5f2b84a5b628dcdf7c53e39e8b1003c10302501326705b31f38ba4cb2416a13fafbfe8a9cf510859b70853a90672c10a48af89f08ebc72ef1f647eae5426b829e1818b39411aca431a84c4a88f82c63d5d88abd40fbe4ec16a321cafc563d63e663b2e5be2fbaf5edd76d64e7c331278584699226394042b9606ca7e59e704292ff668c2d667f63332e0a3d3178316f2d532d1158b19fde32d4dead0f5d96383e2a41e4b2c819e96cd0e96c2ccaa7827191b1284dcda586f02c2502130c104d2b46a1d65ea7ec8b8058f93c78bb6607596b2179769418e263976999455646f39a7e30d2ca527bf627c9036f159563ac997b7154c55745c7f69b2b7b45a38898934a816b0303fe5e5bc93a7839bcb9d6384cc6753b0e1aad71acf227f54ef2f8a0f55f9903e362cb103f857a08ea9cd270cb06c81ad407802f0ca250288dab7976e528c758306268080e9249684d30f75d8515932996849be64112302631f3adf678558aa94cc6251a6e570b304d80cc5f397eb34d0730f7289cca85a07213872575f629ef49f49fe6b5193d0f5736ae1d369809dc751f34bc7d198e0b07c6c1dcce385558e1ed1805ddf5eb1bebe28f6b624df91283dd02ecae5a84c8d705a8314b741e56c063d29b860cf5cf992dc8c8e08ef37891fe119c7266b7163b9489f6bbfa38512f465ed5ccbe594cbf4662dbcf92dd692f3c802c52696e6fb405b7b590b73a6fbbf871f254a410e8589319ec6b3a3d72e4fa219f90fb92e158fcc73682c2c344a61b765c6f11bb739c69dc83647cfa5fe77490a7fb26f4750cc001d2aab1ec1d911c35a2c1ed2642fa8fa6a936e036fc5adff215c6f1d5d9e08a0a2d00c1a54343d5d5679cc9c06b5848ba37b3607522d22c69711ced6b2bab635a72c352fb8c28440874dcdc319d5b1e77cff991d4dc2e83c8245fed80d295ffb6abfca4e8151bdc4c7d7ed53fc8bb1e6b23f0b743d69f31a666b3ca9149dcf634d27ee96b1cc0f7b449048a6c2c2dd6ecc345fecae1470cc30429cb84de6e498c7101078ec1090921c736619ccdabf9b431dc1a12d60b75ed2b97a1f79708de7153cb670bf6aeb4fe5e915f369ea362a0bcae02b3c45430f3158ef7c533e911e8793c43b0f8496bbf1ffb71121efcc910b1fd1649d35ba9c088bd634c6668e7cf6f91098064a54c9a6b2ad373c87d3ab22a589e93d2e3c2ea121397a62ee41fad8ff1351d9ddd1936cc7c0f17b34933d7d759b5c6e068c346a22b01e5501fa2c00fc399fa273101f669b55ae1cb7a23645b051271be68a0cabd536957f4952ddbbe5bdba54cc31415d4bec41be79e9e8e8a064758e1e10aaca34493da7a4de15956dfc6572a3a8e28a7e1896e6152f54488dab527bcc86dcc8d929b5c8d49ed5f4acb2de2753be1985d7c146da671343f26dd088f656dc489cc2ed09319adb38f8763455aad0c63dfd8b273100f00a56ff79fb6d3313f38c0eb58086848f119b11022e797bdccf91ea7315274be6d160db8d716a16e18a8cbb1c190bc1e3b5915de4b10e8ce818532aba09c1f40f7b6783fe5b8a9d105ac06901833e9a7fe9654b81795bf1c75ba0f29a258bacb6d4c325890ef4ee684add1b5d06f127000b6e26c75a7a464e9fef735ddca9121244cf78143b81133c34040ccca5593b8b92072e6bef55e7a06085f13d1f402aa6db176177e782667a7f5d6758d833e2a64ebac7134e63a0ed0c872a2d20a6f15f2bb6572309a9d326edbb52334876c7010088a71835515ae7f694c29b378fe5b950caeb4dd2d462665e12686a076b21c4318f62967db17c1d63111ee3ba692ccad3c744a431e4e345ee75f45a1252419fb8e1f1e3970ad82d77fd022acbbed80eaba3bc5d99ff0437f54be4e80a61cbb7f84343c45c14c01a9d0676f6cadcbee9df10b989ea9c5756d81ee90f176bd5a31686523c67d972c76f312dfe83ae23ae5bb22d53b65993d719416289ec6d629707352ffb6c4163b5f32fb2b5ceb0ff91a67ac9d9e884bb7c500c2c89f0b5fd65a1bc83d6c279d9a80253128d82888809cebcec23091e0b2b77243c7ce33d9945f5891a29ab27b9856816fdba0f124404a163728546198e0372c62f35f8c05ad66c48054df4ea969d3b25ab2c45bc7ae3cbedca3b703d05606bc65ae392f307ecae147233fadb039b80430ea23cebc52ce8518bb6c48f6f42e2ba2a040ae39711aeb33a6c439a622f2365c33ba74ab0aa723c0dba2f24cd3991d5ad4a06ac327e8c85f53942575ef2dfc662049876866ef46a4c613be58f4472d1d421d13202fd14461efe46b82bd82d6abf14d7736c6dd3017eb08272d92aca8472a9d0a815f93ca5696c0e89452821b784052273ded2fce7f7b27576022d78054f3ceac1f151711aad041e91e9b837f2a7d2e9d863c745cc9f659725f0f4bf7eb69181b512ab47fb63e828141dd0686766033aa714409102bc290477fb19f87e4d88af4ccb8427d1e119cc298be947b711fdc6d0bf0b948e0fdd61f85b3d3454060d743707f7bd10a7b04e72e4c9eadc0df558513a9015b9843e15c4c834acef300b47050af344cefcc2bc1fe396e5b806e8087372eb18d39dc23bafc47e6e673665eabac22164cd6fb6bdfa710e4270051613dd229341ab673e94ca2ece9bf333dc317df6f4cfa780f2c7ec73131a4c3de2e78c1ecc7b9481446e42b83b12d570d7977b24c88b29ff5480859840299839ee170c003480825acd345bb81660c5a83c679b0be0b10269711d649220baa52dfc6868a9c8010020fc965b88b3a20d46db9db97e3784e75bd0d0c926362981194d1a4cfa340b561667452d2868031cea7a5f6eeb96bf3733ff703271d135e75651413a677ae5d580cc193ba5fd15b9cf4e332b264c03b73710b7613859b49673481f17d1293a5cbe5173de1e7cd45d923d1191bf4352679890e74a4fb6b4c5dbe328eb72075f53a1772503041373963e2d09466d4bfb98d7f2f89b7c089ab60937c03f88b0353c27aa32fe661a3403dbeb082fb114f260927402ae0c16cbb67ec29c69bdcf7d6dafc9760c6378fdbcae2b8f50b2fbd2a8330edb3a5ad4c2514d0bd368dbfd7348af80d12083b842d01331da0359d0fc2a779b95d831266ff35cbe56bcbfb59f725e893e710f4feb0d408e0943abec788d751c63cfa4738f875786f499128bdd464a8aacf243a90d7bf2f667fbfc59313f0c52fa55d92cf5bf70f27b586c9056ea40ff7d892b592a1751dc9a4ea9e1e402be9a89b7e960cb446cb95054126a7e16eb80379dbe4f893abebe203e223fecefbf4db12ab8a480b2f5bec98906cb1a9df17938a3599569f8444a1bb47958ae62303912afa6e672fa4842b1dd39252c1baacf9043e6d7732a52b3b0a4403cba248abc99430301a195c04267774b70e948162ffa11e1a3562cc97d925a4393b9576f71c91ca306969972ada3618b0696568cf2f8b4f54e7939ff548ef5705ba18d34114fb39e06c9deeac277f046c6c614f06844756a0bf0ff2629fe4749ae5bb40e2a1e491526adb7615b46f2b61b240a639b4b4a4702efee4c4deacb15c993bc85ad1dd30d0bd8a8bb8edb25d152079c62e9ed1cc29961667d43439b1840f9be0fcfd53fde9936e22e13d283d1329b264653e9706fdfb0b08c9acb23a41a2d345dd5c2f6a3068cdc9879bcb34a31ee8e0deaec3dddd8be38a89ccb5638f794d7c87ea90eb221ffa2f326986a0f6a2dc508bc24dfe9afa374c2e6d47a7b2ca474f75622b25f51f9dd5051c6672ff535b4896891426a1635e07618bafa34ab7d89e3704453499eef535bd4da13ac86f659660a2188a6e80ff3ec5fed0d0176ed504a56e8a4b5c8e844b639f3f7b22c235d0d24573087cef8d09b8bc854e3ff8c3bd6b4368481492cb005f3165c5459f7730b7dcaf610eb566b8286d2336f6abff984e398e56ef005acc487e7327fe4da8cd5ad5d5392c9831e5e523b9430a6669b423b3915893c6318d86b371142e8137901f9dd3397cc1dda390479a7186b1ac1347540a3c9b0bb1a5e4832aad616ff5606ae1468056eb101f636086ed8810266935e2a6f952f5510248bd05426a0f387e6864b0c590312b81a2c101bda0b12117ab22040cc80b4ad9829f0b48f4072a7deac251745af7fd200760ea922da49e189b70f0d3e8f294884f7347ed968a4a73e7f68efd49f70bab7a1eaa2901e1b0bda210231abc4948a6e0658fd39f7a18a84ba972e7a5912242ffaa1ad33b6d826750f0deea11b2596d3427c71bb83393c4d7b73e80cdbdaae764835eb73a4dd3dd1604cae49a971dc927bc6498991bc69512a41ffaad340c429959711e0f8a6c87a78ab3a680fffed0d2431a201b6f73774409a902cc1fcd41c91a1dd0f365141f35bc4023071621e8dca6de7b905dba660970b13ce87ae97c27904567092cfad25cdd9c928f80b31b910de2faaa3565f02ddb74dba7087ed989307aad48eca1d23b18cceedb8b2d311c678a3b6e7008f89ffe7c37ee9bcde2c69734914fdffff5d3675aed612d3337f94f1cdf265746c17686bc571b574af32c635c2ee004ea4145e3efa5084718f0e9e762463cf6cc6e1426db6698b9a65ff06597b6885a2a5d02d092d762b20a13746472573065b1eb2638f6befd0e46de78bf0347cf24fbfe0d3abd817680e7281dbb52a133001d5c607f065a3aa2d3591492a80afdef57f208b5215a6cf63494a3a0dead2ec28f8bad068a29bc9972f4283eef50465a00a168dcbea98eed8472e4bf2bc6f49a5f745e2f8b55b5185ac815bc798fe6a79e69bd40c781a599dfeb6294c71481adb39888487a2459638778b441ddfd4f9c81fb8c9000efa9285efe248365eeee5a1f193c2bff7e964507b026db4aaca3fd95e0a8485699fda5bc3aebf0f8205facbfb9d72b3d35ab31b2a624dfe8fc809833ef3ac5243f00179a88f34f6276d5bf4f318fd7e0a302bd459a83445aab43900d9545e7092e2112e75a8e9b6d1e534bcb1c56ff3aab29b39b265a059fc35d2b823dc07275d38d16644bd06be29070e74ea3c2d81f6637faa417edb635e7291a33209025a72456d9645737446def7ac71996bd2fa27412a68d93bb3c7aa771440674cd40c5d4d8df836bfc0dd5da859991d332082abc65a59450438b1e6481e0929b826b0dfca0a9618d3292febc851738e7693dd1bbc5b133dc95a6d69b05953c04780e9a212db02464544cb5eeb07d38a91750b0f3dbc99ba4bc1c463edd3423294b82d96aeca65ef213797d6c5f19c7c6caed72928ed3677b140cb422a9a332453ebf2e1a6ba5f69d22587a5ddcdda389b817ec07f77a93bbf1621638c2b3e4bca7dbc645185e0f38c456fa7bec6f8413dfce037e91a0163927dd88dbaa32534b7763a233184414c2eaa323fe61a7598f33e444aaa927543a133bf65aee838c120ad00551f276dfa9d061caf55d08def2ea3e328392acf14e8877c87c84ec740d3dd38959447e30ab1363a173e83202b5b698912f2d901111ac6c4654831b165bfe7b3e0620e6e22b6dcd92ca8ea889e63fb03c5a28f7c070cb93ed2ed2ce8abe7c7d0649561f7df31a417a4dbf62506b398910860aa892d77dc04b5336e1cdfc6ffff1e6febd76ceb09d99a473bb800aea8b41a4628495db9675a953e21301678d2ca075f3dcc4d4b517bed3ead6c7428c702c27da4aa46f4308a6380834cae84c7d5ff231625718cfa52bde04d4276ec65df59a39b78dc64d54c0a695b356e4ac73e54840d24388e18c106e5d5fddd6844ca75fe6f73bdc417a6661e3b27aa42bad1e64d1ab218df2e81d3868f658d9f45146e3c7ae749281a0973f408b8e8f18cb6173c826b1dc9de56632b75d09e70a2897d969c0a95b5dc1321830e24fb178dcb368fab1d65e8b698bbbff3007161fe7f35329eed7c4507f6ac4c2ebfc8c5d1b2c954e71e4a14173b45d45658bb6ffd539ee919195c5e54f86f6c06e39851b6cfd02ddc7b17216ca33d9206453734244d48e4369e6cebea4c20b35485bdbb1ea2a76e41d3a217331946a12c7241bcb12812d8f753b2ecc682bd892edc88fa779daa4278df282b6ede48e1b1ee67b5688ba3850a5b78d97883a9f96b342d279d8fa92c808c293e26a555019e8f3c263453612739ad25de2ea30ec525d67d008161d6eb5eab1ef63c3fae5c0a1c2c7c09ceb26a8308eff70a9eafc84addf0dce19eb0e1a580500e3526b03ef34c6f866bb929fbae1e1d78be4a976db3b1dbd88d204c33745d0046d24ac905e480b7a2cd6c79aab3104be3a0c94b6ed82720a0ef9e29d5b016e695607edd254ea6dd7eb349922c7cb39045afb97d277f300c4582151855f1e93fc706d21d5c0f5be0b8005c715b4e5e1d467d14b4faa79fba9780086820a48a4f14cac857b81d2c4ef8761048be59bb3100dd6155af534582a00747e7b6e7d569689af47027d180f74b6b0aab26607841f8bda45456879aaeefa7ac5862df038ce911b372f411fb05d2819c70befff64c6cd7a212bd49d4b0223e5428d2a2c1dde280eb795e8ab26207551ade13482aa5fbe1a567a3509ebe73144f40cec3a1c5fad4fdf43a1e5f528b89f9b58c4516f0dddb13cba38c52a07a14a27c65af2560e6b1eb325be7edb91aa11be329b12851f2f98b7c885600915ba88977472f09a8bd3e4d7506d4349c41d0e226097f1b1ed1a64e4e213fc0cabc206f2d473710f19bff3823037bfef98e1d3551ffb476bc65236424961d95a5a1f03cd1fc737154c6ea929f6e9c248fd66d8d53125a699cde09ea8b5e93d0fc4ae4b8b4d01f6d03751a14a38f7ae8bdae2607addfc08f24daf956cb982ac085e9832b2b93d70600ab194dc907a429de743048267be1d9f65565fe786d2c043260351c5089941b7859e0afa545e419c425b31b97683c91871c6823e36c28afd4d2dae2f7ddbdfd1f2f98dcd203d4d72fa97424680129d3aa8fd6e59b0f2d29b774d3069ec5ba1b08299f30d4dd30be9ee5249361ad2bded4ea63b1fbc005fda96fb5d14938b82e1621528a25221be11a121a9e52870a21a778570a3d5ae047c18fa852ce563e75833f1d0849e68a0426861ae1c400e350c2ba621b2074399d0fe4f6a4570bafbc49cf76f2068208d1167d23f15f0a68e76e4c1775541491f23810825aed18759bb06804e1bcd8fcb1f05f51aecf23b86274a6fdf8c728b37d2a285de798c0321507ad9326b14624c9baa7b6ab37a12b3388bb07f7b80414eda875e8eed9b1fbf53b0e047c663d04f30401bdc2e386abe3b182f72c5e24df562f769aadc2cacdd8f030e422448567ecd213d0bd906c3bb1d9ccaec72b7bf7c951252c42f2fb4c492254dc68bba6765a468d3b627f160e16518128d1f6edb8ac0ffcaed6152ab93c6626a277799ce088e99c902072b326b266fd78ca374101d5f8fcb0fd84b5af03e56d0e3c8cc788a6946b288f242e50d326aaa81ddf725962df69ccea2ced222e1e5951b021484ebbd9371bdef998d4a3c4a93c8a93111cda4ed20a5f092a51e5f7b3dd4c2eedd35a27b81860743957df3782cfcc961de2efbc894e601192b68178164bbdb179a02fe926c6c530e58e2336b471160f51a462f59a342e01ecdbe6ff8f034eda2776a56a2bf767167af5e913eb01562db6a3607a3613f1bfe53198e65fc253ad40548fe2c963d88b09aecbc2a121751fbec02c6ed7a6739b2ddca84d7f0c83d67663559c2663f4160667b2c0d95f5b6ee0aeb5918759f9ba9f191896b9de405f101d7d46f293bad55e4ffe1c6ecbc02b3ad1620d048dd9a26010819d4ee2f6ab2e7148a75224253677087955c8eeb53d8e3a2710e84d0d7ee9fa1b131cbe751ebd4b5a49bf54b95af2287358338b2c626da6b563f46b073e24612da20fa3e6d13a6e53f337284a377909333cf9b6382e1f48dfc127b617f422263c16abc9299628795e4b4fe73e</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+        <p>这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。</p>
+<span id="more"></span>
+<h1 id="笔记">1.笔记</h1>
+<p>卷积混合可以表示成扩展向量的线性瞬时混合模型。</p>
+<p>卷积混合模型： <span class="math display">\[
+\underline{\underline{x}}(k)=\sum_{l=0}^{L-1}
+\underline{\underline{H}}(l)
+\underline{\underline{s}}(k-l)+\underline{\underline{n}}(k) \\
+x_i(k)=\sum_{l=0}^{L-1} \sum_{j=1}^n h_{i j}(l) s_j(k-l)+n_i(k) \\
+\underline{\underline{x}}(k) =
+\left[\begin{array}{c}
+x_1(k) \\
+x_2(k) \\
+\vdots \\
+x_m(k)
+\end{array}\right]
+\]</span> 扩展后的线性瞬时混合模型： <span class="math display">\[
+\begin{aligned}
+&amp;
+\underline{\underline{\tilde{x}}}(k)=\underline{\underline{\tilde{H}}}
+\underline{\underline{\tilde{s}}}(k)+\underline{\underline{\tilde{n}}}(k)
+\\
+&amp; \underline{\underline{\tilde{s}}}(k)=\left[\tilde{s}_1(k),
+\tilde{s}_2(k), \ldots, \tilde{s}_n(k)\right]^T \\
+&amp; \underline{\underline{\tilde{x}}}(k)=\left[\tilde{x}_1(k),
+\tilde{x}_2(k), \ldots, \tilde{x}_m(k)\right]^T \\
+&amp; \underline{\underline{\tilde{n}}}(k)=\left[\tilde{n}_1(k),
+\tilde{n}_2(k), \ldots, \tilde{n}_m(k)\right]^T \\
+&amp; \tilde{h}_{i j}= {\left[\begin{array}{cccccc}
+h_{i j}[0] &amp; \cdots &amp; h_{i j}[L-1] &amp; 0 &amp; \cdots &amp; 0
+\\
+0 &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+0 &amp; \cdots &amp; 0 &amp; h_{i j}[0] &amp; \cdots &amp; h_{i j}[L-1]
+\end{array}\right] } \\
+&amp; \underline{\underline{\tilde{H}}}= {\left[\begin{array}{ccc}
+\tilde{h}_{11} &amp; \cdots &amp; \tilde{h}_{1 n} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\tilde{h}_{m 1} &amp; \cdots &amp; \tilde{h}_{m n}
+\end{array}\right] }
+\end{aligned}
+\]</span> 对上述符号的理解就是： <span class="math display">\[
+\left.\underline{\underline{\tilde{H}}}=\left[\begin{array}{cccc}MUAP_{1,1}(t)&amp;MUAP_{1,2}(t)&amp;\cdots&amp;MUAP_{1,NR}(t)\\\vdots&amp;\vdots&amp;\vdots&amp;\vdots\\MUAP_{NM,1}(t)&amp;MUAP_{NM,2}(t)&amp;\cdots&amp;MUAP_{NM,NR}(t)\end{array}\right.\right]
+\]</span> <mark>注意，这里的MUAPT是扩展后的MUAPT！</mark></p>
+<p>这种分离方法的前提是，<mark>需要满足一个条件：</mark><span
+class="math inline">\(R \geqslant(n / m)
+L\)</span>。因此MUAP相对较长的话需要扩展的多一点来满足上述条件。</p>
+<blockquote>
+<p>Currently, the only sufficiently validated method for testing the
+accuracy of EMG decomposition in the absence of a gold standard provided
+by expert decomposition, is the comparison of the decomposition results
+of two or more EMG signal sets that share some common sources (discharge
+timings) (De Luca et al 2006, Holobar et al 2010, Holobar and Farina
+2014), but also have a number of different sources and different action
+potential shapes.</p>
+</blockquote>
+<p>算法有效性的一种评价方法就是比较分解两套或者多套EMG数据的结果，这些数据必须包含共同的源。</p>
+<h2 id="为什么要扩展">1.1 为什么要扩展？</h2>
+<p>为了增大观测数和源数之间的比例。</p>
+<blockquote>
+<p>In order to increase the ratio between the number of observations and
+the number of sources and, thus, conditionality of the described mixing
+process, the observations are also usually extended, adding R delayed
+versions of each observation.</p>
+</blockquote>
+<p>扩展要满足一个要求才能用最小二乘法求解： <span
+class="math display">\[
+R\geqslant(n/m)L
+\]</span>
+上式中R是扩展的参数，n是源的个数，m是观测的通道数，L是MUAP的长度，这在调参的时候需要注意。</p>
+<p>由于源的大多数样本为零，因此可以作为尖峰队列这种特定结构，并且在对源扩展了之后也保持了稀疏性。直观地说，这是由于具有相关激发的源的总和总是不如单个源稀疏，除非激发完全一致（可能性非常小）。</p>
+<p>扩展系数与识别到的MU数目之间的关系：</p>
+<img src="/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png" class="" title="image-20230901214955664">
+<h2 id="如何执行分离向量的初始化">1.2 如何执行分离向量的初始化？</h2>
+<p>对白化后的矩阵，取一列观测向量，先求和，再求平方，峰值最大处可以视为肌肉的激活程度最高，出现运动单元放电的可能性最大，取该列向量来初始化分离向量。</p>
+<h2 id="为什么要执行白化">1.3 为什么要执行白化？</h2>
+<p>现实世界中的独立信号往往都是非高斯的，而非高斯信号线性混合后的混迭信号会比源信号更趋近于高斯分布（中心极限定理）。因此可以说“非高斯就是独立的”。为此，算法的目标就由直接度量独立性转变为度量输出的非高斯性，也即是需要使得输出的概率密度距离高斯分布最远。Aapo
+HyVarinen当时提出使用峭度或者负熵来作为非高斯性度量。<font color = "red">信息论指出，在方差一定的情况下，高斯变量具有最大的熵，因此负熵的值恒非负，当且仅当p(y)为高斯分布时候其值为0。因此负熵的值越大则意味着该变量的非高斯性就越强。</font>白化的详细原理参考笔记：<a
+href="白化.md">白化学习笔记</a></p>
+<h2 id="如何执行白化">1.4 如何执行白化？</h2>
+<p>本文中的白化步骤为：</p>
+<ul>
+<li>对扩展后的矩阵计算协方差</li>
+<li>对协方差矩阵进行特征值分解</li>
+<li>计算特征值中最小一半的平均值</li>
+<li>将小于平均值的特征值替换成平均值</li>
+<li>根据公式得到白化矩阵</li>
+</ul>
+<p>正则化过程是为了减小求解的数值不稳定性（基于假设噪声的方差等于最小一半特征值的均值）。这个值太小会引入部分噪声，影响估计；这个值太大会导致一些源信号被忽略掉。</p>
+<p>The coefficient of variation of inter-spike intervals
+(CVoISI)描述的是相邻脉冲之间的时间间隔的变异系数，这个值应该越小越好。50%以上的MU应该剔除。计算cv时，先对MUST取差分得到间隔，然后用间隔的标准差初一间隔的均值。</p>
+<p>Rate of
+Agreement是指采用两种方法分解，并将结果比较，根据计算公式可以看到，这个值是属于0-1的，越接近1说明两种方法的吻合度越高，分解结果也越可信。当RoA大于30%就可以认为是同一个MU。当two
+source
+method不可行时，由于SIL于RoA具有高度的线性关系，因此可以通过计算归一化的SIL来检验分解的有效性。</p>
+<p>SIL计算公式： <span class="math display">\[
+\begin{aligned}
+&amp; \text{silhouete score}=\frac{b-a}{max(a,b)}\\
+&amp; a=inter-cluster\;sum\;of\;point-to-centroid\;distances\\
+&amp; b=intra-cluster\;sum\;of\;point-to-centroid\;distances\\
+\end{aligned}
+\]</span> SIL称为轮廓系数，由簇内不相似度a(i) ，簇间不相似度b(i)
+计算得来，反应的是聚类的效果，SIL计算代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">intra_sums = sum(<span class="built_in">abs</span>(noise_cluster - noise_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - peak_centroid));</span><br><span class="line">inter_sums = sum(<span class="built_in">abs</span>(noise_cluster - peak_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - noise_centroid));</span><br><span class="line"></span><br><span class="line">sil = (inter_sums - intra_sums)/<span class="built_in">max</span>([intra_sums inter_sums]);</span><br></pre></td></tr></table></figure>
+<p>contrast
+function既可以衡量独立性，也可以衡量稀疏性，同一脉冲序列的两个不同延迟的线性混合总是比原始脉冲序列更密集。稀疏度是放电速率的函数：放电速率越大，源的稀疏度越低。</p>
+<p>人神经的不应期决定了最小的放电间隔（对应放电频率为30-40 pps）</p>
+<h2 id="聚类评估">1.5 聚类评估</h2>
+<p>本文中将聚类的SIL阈值设置为了0.9。本文中认为SIL虽然与PNR的定义不同，但是都是可靠的，并且SIL能够直接用于RoA的计算。</p>
+<h2 id="伪代码">1.6 伪代码</h2>
+<ul>
+<li>最外层for循环，m次，m为观测通道数
+<ul>
+<li>第一个while循环，fast ICA</li>
+<li>第二个while循环，CKC，这个循环是为了移除错误的尖峰</li>
+</ul></li>
+</ul>
+<p>也就是说分解的源最多就是观测的通道数，但这几乎不可能。（有文章是把这个for循环的m次设置成大于通道数的）</p>
+<h1 id="算法改进">2. 算法改进</h1>
+<blockquote>
+<p>Any other criteria for stopping the second iteration would also be
+acceptable. For example, it would be possible to apply the SIL measure
+to this second iteration (note that this measure would also increase
+with the number of iterations, being an efficient criterion for
+determining convergence).</p>
+</blockquote>
+
     </div>
 
     
@@ -347,6 +464,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A9%E5%B1%95"><span class="nav-text">1.1 为什么要扩展？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E5%90%91%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1.2 如何执行分离向量的初始化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96"><span class="nav-text">1.3 为什么要执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96"><span class="nav-text">1.4 如何执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E7%B1%BB%E8%AF%84%E4%BC%B0"><span class="nav-text">1.5 聚类评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-text">1.6 伪代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B"><span class="nav-text">2. 算法改进</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -362,7 +480,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -375,7 +493,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

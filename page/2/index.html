@@ -185,6 +185,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/10/%E8%AE%BA%E6%96%87/Decomposition/A-peel-off-convolution-kernel-compensation-method-for-surface-electromyography-decomposition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/10/%E8%AE%BA%E6%96%87/Decomposition/A-peel-off-convolution-kernel-compensation-method-for-surface-electromyography-decomposition/" class="post-title-link" itemprop="url">A peel-off convolution kernel compensation method for surface electromyography decomposition</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-10 11:22:12" itemprop="dateCreated datePublished" datetime="2024-01-10T11:22:12+08:00">2024-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-10 10:11:45" itemprop="dateModified" datetime="2024-02-10T10:11:45+08:00">2024-02-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Decomposition/" itemprop="url" rel="index"><span itemprop="name">Decomposition</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章把peel-off策略应用到CKC算法上。CKC算法使用的是梯度下降求解，代价函数为 s^3/3 ，学习率设置为0.1，初始化为激活指数最大的值，并且识别到MU的发放时刻后进行剔除（但是这种剔除只会偶尔有效，所以本文提出了peel-off策略）。本文比较重要的是还介绍了几个评价指标：</p>
+<script type="math/tex; mode=display">
+\mathrm{RoA}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}+\mathrm{FP}}</script><script type="math/tex; mode=display">
+\mathrm{Sensitivity} = \frac{\mathrm{TP}}{\mathrm{TP+FN}} \\</script><script type="math/tex; mode=display">
+\text{Precision}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}</script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/09/%E6%95%B0%E5%AD%A6/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E5%92%8C%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -297,7 +378,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-08-18 16:08:17" itemprop="dateModified" datetime="2024-08-18T16:08:17+08:00">2024-08-18</time>
+                <time title="Modified: 2024-09-17 11:40:11" itemprop="dateModified" datetime="2024-09-17T11:40:11+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -324,15 +405,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          有东西被加密了, 请输入密码查看.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/29/%E8%AE%BA%E6%96%87/Decomposition/Non-invasive-characterization-of-motor-unit-behaviour-in-pathological-tremor/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <p>这篇文章介绍了 gCKC 算法的代价函数：</p>
+<p><span class="math display">\[
+F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)
+\]</span></p>
+<p>注意相关向量更新后要归一化。</p>
+
       
     </div>
 
@@ -794,7 +872,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-04-04 20:13:18" itemprop="dateModified" datetime="2024-04-04T20:13:18+08:00">2024-04-04</time>
+                <time title="Modified: 2024-09-17 11:39:56" itemprop="dateModified" datetime="2024-09-17T11:39:56+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -821,7 +899,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          有东西被加密了, 请输入密码查看.
+          <p>表面肌电分解最重要的难点是MUAP的叠加。</p>
+<p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel
+off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained
+FastICA用于评估每个spike
+train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/#more" rel="contents">
@@ -929,91 +1011,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/21/%E8%AE%BA%E6%96%87/Control/Hierarchical-control-of-motor-units-in-voluntary-contractions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/21/%E8%AE%BA%E6%96%87/Control/Hierarchical-control-of-motor-units-in-voluntary-contractions/" class="post-title-link" itemprop="url">Hierarchical control of motor units in voluntary contractions</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-11-21 11:56:08" itemprop="dateCreated datePublished" datetime="2023-11-21T11:56:08+08:00">2023-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 10:10:45" itemprop="dateModified" datetime="2024-02-10T10:10:45+08:00">2024-02-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Control/" itemprop="url" rel="index"><span itemprop="name">Control</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文主要解决的争议是到底是阈值高的MU有更高的放电频率还是阈值低的MU有更高的放电频率。部分人认为，阈值高、直径大的MU有更短的超极化电位，因此具有更高的放电频率，结合Henneman准则，得到这样一个结论，先募集的MU比后募集的MU放电频率更低。<font color = 'red'>但是，很多学者的研究发现，高兴奋水平下激活的高阈值MU，有着更低的放电频率。</font></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/21/%E8%AE%BA%E6%96%87/Control/Hierarchical-control-of-motor-units-in-voluntary-contractions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1085,7 +1082,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1098,7 +1095,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

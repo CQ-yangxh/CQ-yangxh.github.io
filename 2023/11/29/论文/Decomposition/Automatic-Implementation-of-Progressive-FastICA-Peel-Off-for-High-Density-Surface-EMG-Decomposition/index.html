@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="有东西被加密了, 请输入密码查看.">
+  <meta name="description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike tr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Automatic Implementation of Progressive FastICA Peel-Off for High Density Surface EMG Decomposition">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="有东西被加密了, 请输入密码查看.">
+<meta property="og:description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike tr">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 <meta property="article:published_time" content="2023-11-29T14:10:54.000Z">
-<meta property="article:modified_time" content="2024-04-04T12:13:18.334Z">
+<meta property="article:modified_time" content="2024-09-17T03:39:56.222Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/">
 
@@ -218,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-04-04 20:13:18" itemprop="dateModified" datetime="2024-04-04T20:13:18+08:00">2024-04-04</time>
+                <time title="Modified: 2024-09-17 11:39:56" itemprop="dateModified" datetime="2024-09-17T11:39:56+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,18 +254,104 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="ebc598d401aa84251eac4f16e12c2fad9047ff6106d3344fc9f4184fbf2cc398">7fd9246b87aac9fc2c65909e0fe3eed0fa32d0e7c6a67629137a3e3373c384c8328fd3c448f3e664b03df772c4acb122fe92c245032a73b4baf6f03e6d0c4fa80cec7b65e8e33294c5ec6ef507105746f23a3a458b33b5a776508f577b0884ce40d7828029b7c23ed3835bc0f50d1e37d42f2dac6e3255483538b3c9ac2f1681e0a8ab27d49c6b9716e3ce9364fb116792f0ec8155e3248538064bc934f166b8ed874e83098e9796ffbcde9292551591cfc353383c41137e0a63a95bafb1de6c603876662832bb7ab8cc7202ff6fbaedfaf676a9bede2595ffb832c2e0f0220ea424c423069494c6173c7bb6dd210667485daee17ec1c42adebb8c7717a914a682c0f1ef3cdf4954cf8035a740b2dfcbe60ace36cec3599084ab7d801c22cd0bac14346804d6c27962c2ca7c062e8fefefca904fcd8050d762c9ff958cf7a06d8c778079bbc3e27c9e05accf27c4dc1c41cba9b1f2fd7de2c7e7d4e6266a4952cb0547be2eee9910e6b97f98a22b4b85dfe86ae2786b15c07e02a3bfbb01518a1d1bd930dfc5f319366a846e5c1890037ce13f37a9562934a97297b4e0049396b9070b5aecf4825af6a28addbfe4cb0df518724cf2812769b4b566810cf03a7ee649b4c3b907415470c6d491888f817990f7a00b07c09ce52b3b2c8abb9560064519ab747e4a30d3fc7e008e7dd1833d3d1e0fe4a2647d56a5b5dcc1b0a0da3d753a9d69801f102a14f1231be4c0010c865e0561a9b405452decdee797c485cd50c137bf8e6777181976f9fe1d5207cd345d908a584978defbaa5c9617ee88748cc140a151cba900733d4e180e40649756ffc80d259e32fdf9b4ecf1d18fcb5913711b350d61334934d7d59df7d6c4914cb8b41e59f286919c87a95111640b9b09af58c4cb0cce6fead9b52804878cb281e8905819a1bedf5cd6a64c6919cb307322b1710a30fe2058d620e4e281ec46863573da9f302f06fbfba31532506a205a42ce4d9519f545299eac8ce1a788ea201040d41726229999543167abd055f5144c555de5c14406fd984678ade5c2cfd0ac19d92dec16dba8349246198a5e345742cf3df4a22edc9c8379414aaf150fbd670b535d650bf4bc3453af58fc28e8d2daeda7237a1b0de508a77ae0d0a0146beb5ade49946e33dc23a08daf1399ffe157c812bb00f7f1fb62b48b3fe99291f44c9c9739f9e0175d72faa538b42da88945bfdbefa67be0b359d01645debbf474db42d26d241ce278f5a4bd0df96030fe19df0a890f942d813727626943ed58812d396b3ecab77dcda5757119cdb85aee74e9385d936262dc12799649f505aeb886d35aca0df3a3603d4da6f4e5af9cdb3884cf1678ad7fc8cbff37b94f146a0211d460a2ddda29668c380a1df06be213c513955d8ba24b699657e7bed1a139eaa2e08cdd8f001aaca47b44dc52561a7831c6dcac95590d2fba8b927ac051e7431781a5ea3ea27041a549ddb18e2d35f659f14936af23b27df98480c3ea4e2ff8531207e9e025715526d88fbbf5bd332b44b30d774c9304068a93c3e388c83e097cc572432d49752dfe3ed9bab5f6a946f50d477cb08165dd8fadc4151103f865ab891a12bf3170aa78072287f579c131fd07f3f17f6d0db1a29c8bb0c20406e23ee910bb17e344d7a936cf1a0ca9c25f8ca8855614d2c432b37277700147358383fb5d35df15172604fc211265f648f6194fd370144bc36312d167e044c62791c1800255d45da12c5cabe90f8fd4fcb23af3e90d756aa25c80f7f14636f7a62fffd0384d22fa285746dc276d37f786f5c4b07d9725b0657311a6ddadda5cc1582004577bf6550a7be5cd0cf8156efc5d977f549e5b87bb9df27969eef849f887f9a7df451907940aa3f6fd7fdc6eb947db4ca0bd4a7bf225862feacd2a9b5d4bb509a9a844556d44eabeb422b9db1ae3da5208d984cd48f6a6e15c617b81383d6ae2c2eb3a18a9f33c3c8adb2cb51eef61a0b0d1ecc7afa0c1998a3230cc06c14065149dcadd743865344d4fae2047db0384432de9fd7cbe708ec867eab68c62021bf1b1b187bca4f3bf9eb87a4787b0499018ae27c0adb9980d38a6458b4f4bad657626496bb582c1640077fb7e8b357a993feea3e5f94d3e14b3f31635fb1132d961edd6a34d3d1444302b99e59da24031eb87dde9a57a4c07fbe5d30e77c4536556de98639b70238556fa91f472755b825fb3c8e56ed2417407754dfe3c55729adfc92de679b5baa92a771a94881acfa43acb970cd31a67c4861b829a10739b2b34dee45e41969b0152c111aa1536e311391fee58edd31e296a75c55f4fd5745330e3df3f311071c27a08a1a4f0f143242029e71fc9a55e078b568beccbc764fbe2c6dc9f61f7270342c421bf4077893b4156c9c89fb4b504bdff178d23ba4ed50ce14cdd4725039e14817ca0f83135304663bce4860ead0518c31963eb25488944ca5a6b2aff37ee879cf7a55288f8e2ef3ef046798a6a491722c06bbe020d85a044565e9da3ac14b5a43f471a0bfcf4cfc29e520b307cce1f446978c17f29804eeed19636683d8130bf8c290eedbcddae95d3904b8f53bf8a3267ac354c944f3c5ca2f84d0a8c6003e461594dca1ed87cdecd6d9427d85431987606dfbc18ead94cda9bec7c290ba296aaeba9c943624cbcb5a53f758a92ea8a2d135322f1eca5ed1417b5c65e9efce911854a819c6a58d5d1f8967a394983d9903e39f16217c627e1ad350207b0debc743fcd4bcabf6019c080433d48fba6faf398efdfb493fa78880eaa912ac9a76b2588b0c8a436a6b008adb45fabe5732d1111117f1988747908e0da0f9a7151d762fa6d67d7eff2c91ded209fb6bd1ed0017cf6f2fff37bdaeeb3f04034df358cb7bcb9947c9dbe3172f37ecc8c2b7152ba09d17ec2e8b284b8025289a4cc86709acf6167e9327157edd5599b915e88cb915765f2e2930d44f6956f15fb7fd84efdedc3d4cc8cc7402a3797a415b48e58f31cb40d358854d2c7dbf5da7b1bfca3cc03ba4cd0daade900c61b4a3cd69e2338f54d29e498ed61ea1a777ee31b5cdbf9261e6bda0e809c06239eeb5a4461e5095a82786433e5820793578f3fc94b087b3063192e8cd2b88f6aa56d367fc53ae0bc2c50366f336165f1266ebaec19984b2a0cd576e258d1ac050b8ebc294a84eb725e6bd4096a08f6dd93ee779cbbec4b74a6f47f9cd6683dfe8596655e7f944c9dd8fb716967e95ed47e3dbba2c74e67f7a2bf7ce3a25cb2b5e4c55db8b6a1f527bea7d35068e36e1321764d438e79ed30c71d89af18a7c670fd7338157dab6677c4fff6bbe6d03badcd9f6b9551719fe1e7fdfb34ccdf3fdaa3919645bbbecd702412564f431e75bc60d19be36d0bee714ff9f8fde9fe25c8774177bb8802ad0e494d4be1bd3b2605ed383073a3a42f7a9e9fccbfd7901265a7526f4ac5f1db820de60483d4d3ef3104b5233ff3204a4b3882aae6b454460c4cb03b77c5cf61526855d2c3f3521b08ccaf119f2679ccc59519100cfe381f6d25e11a9aaf8a8eda6690afe4286051cc6c01661a6601306b3519ad90466845d8269d22e72006d765ea9788ebd654c92d6a0e3183d44c26aeb86d80196f85d1fc77f9938d5011703a42a9daea452b514bb598ed955017cb66bf93c3cd20a0009d9147bd9163707dfa42837aeff5d1c919bbc0e6bb9d5e59b9c0ea43008d5a87343dd629785235fb316e483bb0a1756715ea211b216a2fe0e1396f84cf500fb176257cbc6fe157a7c845fbe7c9fb927770e39e8f2cfd36ad36549aefb1b882ea4b05c9f2fabbf8ba9d4043b6fac885aeb264c1a4672f5e1e00ab39e95a95c31c16eec98cb1838c91f40a84c90bcc08350e21e524c9b42a49e2cee1d294b6f6189a4cc6b1e13a048e399430895a206b4598580053329510188b202b49883f1ee77ed454bdf0f6740f7877ef2687fd983083b27dbc3373c10d2e572de53326e45d4b3fe032998095919fa5a8a0fbf46f893dde147223204493a35fc8ed00e6cbcea5f06a311b514c838024224bb5eb067826e9464fbd29eceba9234729245e5aa5dc22c38edc721e3ca17ae70fc271d0da99afa89c0850540940b8192fc184fbcd6d0cc8e9ac0a7a0094ae3a50a6cd3ddfe084aa6489f6f1bfc852967b88f82e7f00d7a3ae46991061cb6d9522a05778cf733cdabc8a664b023a3dbffb0245aef9b4ce67edbafedb87aa8b17859a3af3457d8c294548770c142adadc8619b818b4c195668305ac7fa8ecf5d9a050da52a1259c696c7d2bdcd07c945b2809a42b5c093d66ed1521961729c620dd812e11c397dd0db0d46d4d59a3743fd78c4e0690d7d18dbbf331048a29a3d037ea91e42adff2c910b658264baa032a94f26589e5a1c597540d6437f8b18b81f8ac2b47bf2c9d55aa659c7373c9569aad89a9d7ff81ade0c168f92ea625f52898e0f48313c9df1d136c002f9f23c13c556ee3c27eec9608fb2d878cad2ef5991ff0ab95e8edfb7388456993a737cf2c1c3a323110f25048d6c654533159829a6a6bf05e890492091cdd5b900d83c0a225e0ecc726f7c37b97faea0096b90cd2cef2480463ef044729c775b010147a03d425dad168d3e900df27ceee8e2de1caea75664959caea791b63e892430bda417472292444ead7828dad11cbc633016be5a5ef22c5bc75f0e379a860ea08ac9cbba16cea505682c3d4e9a7e7fbde3b317a0c1da7512f22b10333076bc4ca6f9c538f6ab428d9beb457954fa234854d19a6407f0446d642ce24c52af92bcfe4686aad407e0524838912eeba3a20e2a5e9d1142ef2aeda9b43a11d99af77cad290df44a75c86ed4cb650fb47f6e506fc4bad0c5a551d6dd285e9b96a9412d845fb5a9172d46b6a0788086a35f64d4cdbdf0d3dbdef977e8b56d1c682209b98f638214f847da953b3da1a158522abec9262135c07fcbcec09e7d9a1b507373d752aefa93e2a5a2a4f22b480ef1c9a9bcef324f05ef459fab8ff168c644acf481c659b83e3795d11bd0b6cc4c73cfd25e3e57a31cd0f8f46b07afce747f6a6c05a595f9b62c8c1759d4ac7c29ba7c3793a21f36740e1ecc03ee7236bc70577edfc9773bac14d3a8587dce1a2cd8109912e2f36594216562f0f8133c666082b5853e897e1a67337adaa67b1336152d00651e7641391344b184561a23ecd3524db97e5505f4c8bdd82f39c7f3da58dc0b6a5b08e3060e03219964eba2bb990a27bfb306d7d842ac338973e91f83dbf4a16b661e0288e627dfa405c198e451b67fdad7a8bd44ef038b549266ed49c761d1c25a8036b9275b36ebe59954874f14e8df41ea27f1dbc9ed8a29b76a9c9bf552a6d87a80290ae279bd65e7d16a00defb3eb100da95267ec71c15777b2bab58b9667b8121c9a08e13966d77be799c44f9abad470299b03d55427494759a9ea1d8fdd706cfeddcb712e35f4af2a06f5fee98d615e47ece9e6458244be4a0c12752c6cdcd227ec6b8a6868725760e0dfbb02353047f277edba1627ff2c0092b5a338959e9948968bb36eb499f4ccdf7b6e79d7c4ccd4461ba242fb247afe46f786f309d3c017dbde0394596e3f0cf9ce9e6371e0ae8592cd7a58df9c7083e3cf293b96b4bb23f6eb60449b4dac448cc5dd090fb5fa383b283e99709acff363a66454331775f4fb5bf6d0943df37daa3e4d76e37477ec66d5dfa117c1c4e8e6418e83e2e7c8215a02fbb15a7da8f1ef0bdcebd9130ae455a2df21c388894448fddaaa300c5548e12070f9cfdf6e7a8ef3d0660a5c0b130235046d1f9f21020624fdc7fb5b21d6a8664612afb56dfd82bc05f695af3392ad1f45930fa62a76431c744e2893992b0e73bfc73ce72bc45e7620760929c3446eda961410cadfeeca5130c7aea4a6af6dd3123d8fe68d64fd9ad5dac4caa542b0819979cde134a2ec514fdf24f6cfc9991d2a5a3bd62fa6f9a9f2e29d1d13b4c1caa00f0b199a59823e57af1d5e675a96ecf006f32795c69319194b9239c8dcecb8c8808a0a889a687a9c46c42d1d6768ed9ab1dae422e1f9d2d9ee253c070d2c743190289eb78e15b0538ab98ac8474b7b69b5205d7612bddf668ef9f0b417c9a5bab68f1bdd78fb456a0d48f6e4d4457b013960a436976bf7697bab087374e0c5c1fdd882e361b1bac984b2dc2c0edce5b76dd69fefe01ba1cd6f4aea0baa9a0d852a822a68030b27db574ab01aa85db590f3221e09c1a999bfda81be54de63caf25bbbdcabd5c9dc279b32f222cc856ef66521534b4a20a0864ac74ddcdc35cf1958b7acbc3e746bbc878bd4a04b5332d2e95276e3f5a0bbd755fcf2c9e35fc16a912e9f70d71a5ee149b94c19cfcad657193737b2f41aae9a6d41a239b9d16b23b7abb73f2ac7868839609fc4e9ba8bec32508ea33f62848a68cc6d1caf9fe5225ca19f84ccd359aaf0d8bfed54c400fdbd86e162709f3b98e8feb7bf663f97284f8623dcab6037ff807d323a582d50206b5874c5c9f1825ac4cdb1f050dcff477c7bcaba17b20a34e3c55742e921be248e77182273c3e3fac5cbc68f4dbe8259f98d0113558f5b949a885ef13950c99421c1cfa08ddf585a302f4d3c8e28a18fbe5cac69a66eb1e31a3eceb367a5c2e5f01d415ced094e2b6a604c3b104b435b8867980bb1bde81883e9a224eba019fefd1bedeb760fc7f4164840ad991c8318cdbcdde4cdd618f634fbb7109036603c15ea130bd0ef74c47844510bf57d28927051db87d118747d3c0613669d80dca59638c69a273d605874b758a29dcd9ed27818de15f0182ee17b1b6d9d838167df1cd7859caa42437409405c193eb95d43430ff6b9ed9a4be7ded0ea61a9a44ac379fabf29bf91591a2b62ceced81068ded1414bc19d396eba35bee4c5bcf3e6556fe6769441be0e0640749ca583fd20d90acae6c7672d7d26aed1b5b5060aa49e92f6739524660d70748812fafcb9e97bddc64933d9b9074b323d5420688c4b6b3761a55c66f0b17380b1e27145dc2041230f08895a0f7b36cc227d61b635135251d1438299bdb5d96307befa28658b5c3e17469bcf523198baa73984f0404fd9197a1424db4728affd72972503fa2b1df911d2102ec504b831f58e7ff79ff1105ffc44848908bc2a5cf0abac338f6aadabf3a212f1f60033a6607562ec1e7bd8638a57ce7b05cef9d26f2b337e4d4f1aaeefb5be3a8cfa8965eefd1c3c260d59e462c71e3a7c8bf9ac04fb5d095ee1842b2848553735477a90954b3801377b86c5ab394f65e550486234cd2f1fadb40a3e558ef318edf45d43841bb580470ccad386690ae7d2af6663470c841faeb7788ac1285de93db4b677c0c386985984a1f080e57a03b7cc508615eeca92c06d27db744fbd7f6b4f63a66b01ee0dfea7499d4a8f8875655a04a0fe2d56a13ae976bd0c17f4e251e88af4a9df8226c1a24527dd3a36c737837959612f648e9a9ee60d6de6903316250fa505c3536bde7d667cd662bffbba5826438f2eb2ce5219c55a5e3777e9353cb773f15ada8124a82f06821d6994d9f19507f1182e2941682f06e98df63f3d1e4bb02762c6c255844910fd063582fd74cdfe77326aaecf2e7be117de131f5acca0294b8b7025f6eccf4b91c6e4d8722a9c708a31873ed0d3f690f23422596829663dd66fef55e39aa6de8e2ab5981245ff8dbac2434f65339b141272330eeb4a9aae26927be42df6f3f47e489485314cfb3a728713acdad4cfd735de36bb3c52c219b235c6a1b3cd345a1a461457b519bbb0244e51aa67b8b9e627c8f5cbfdc8d838b3b2b5f2896413b66fa1a9be2673a43c7a49d3fb2258aca9cba247636b974155a3e2e3630be625d4f6c82a07cb2b03d005ef9b43574881a16182e767271231ac32382165a74554640daf5dabc82aace92781eb5637d20c51bb5259227accc09f651649a2fc3b52d3a421c022088897586200156d944401ffd2c5f2b3c83f824bc1417c912a2bc519f12ba02cf0578d8c9000631bfc7080aba763abbf414879c1a50b7493051ddf6c561db294748390e780afb8b1f9db4aeadff5d3fe62b60868dc4f6fdeb1610fa3bfc808439d03febe960c97fd27a44206e9e66c02f04b81cb0f6499cca5106bcd681626fa4dddd7efc1ba835415db291b0bdea28103f81a652785abafcb1adcfd1dffc3ada4e8205c8df47a5dc4009c156426c2c91e350434c99819fee06327f326691495dabaf903d26fa3202405fb21662cd4341a28c893e9af77452e2c3ccb03e517ba59446fbd3119c23b08733ec7350a50b73d3f367b69e59e29dcb01cb7309d2ba906a740fba73abc44a50664e4509876efbb3412afc7448fc3c1882eaa563ce3a69b7be98ae54025e25820387d451c4c80b4dc3123c45b7c3358212d03fad98b42ac9667f4d6e10746af7d1516f99d7ce68d2a17214dca5670f3f9474b49709d7a33c7d17014bae65fc888870f1414ae83cb38bc00cdff423e9f1a24af9cbf00527a6097d691bb1694fa5941517f0aebb8f917334ec04e6f95cce75ab56ae8403286313ad38f6418e24348cb14fb7ec8c59e9bdff8ac7740589b5dfadf9038f72ca21332c45107ba022b6f17cfe120cf065da8a76d9ca799d01aac93cd9e9e17f1e281440c8a38cb1fa47e729ba8d36bc2cf9fb7da1d3f24db7cc643dde2e480e946673e2eb494eef1ee6c73aba927019553713e4719e9846801c97e0fbb6b20cccfdd89e44278dc87cc210bef12eb27436fe2366ea6b1e9a18908a4d2b65fb31678691065d37083dfc5f088d5370e456c595da313de4505a666c587a2263ab563ac3e51d774c603cab4c5fb42bb46f10df8da8a3f73dcaf9a943113cc41568b886a6689d40d209547c18cea08fb892db8ed272e011936accbfcf5a33f198893a8f268936b741c8913ca5f91624c16b76f91842df41c39e23061f4224a827c0b3c45a77a1a35477d37719f2d2f0871743861f2a66cb372df3585d700068aae05c17ae5b580f5f1d6c3c402d100cdedbb832753ab3a29953ecccba2441b17da9c844a0c9d4de609c167ba258363673da1cc97a04d9b41b6100ed3954fbcbd716b6a8089a5aeec5b7092c104121a56c11d177b215c9bf61218bc07767ecf4583b6cb5d5c9181d90ae1a52509d9cde745a3a6430d085e82f52c78d617713050d4a5c9fa8d3104134394a4d3cf08ee01d593db2ee1a4aee3511eb7dcd10026ee7976e0d189b071aaa4ba74fc013f9b9da9ef89b74bb61105a366285c0fa707fa198d858dfb83fa41f08f75a30a877960752a693318448f21d03e2aed1166928de0ca4e38e002c25096df6582915bb5778b23cec60cf93208e171e598f99f7a3746639ed9405c1d1c018518d4fd1bc04be42f8a20c521d719efc73139b566c801ce750bd9511cdd55f1b40b65dda2eb869cfc90882d5e7adb4158bc34a0715637b62844a897bd0edb7cd4c9c13746594a06a5f4093d6bb55a18c3baa5044cf17e40293608e3c0a09c95cd3e6cc06adb8ce8071bdfc638df2711b76eb6cdc920fb4d14a4156e3fa988b80216afda5aa279df232b89c67e2a287823227cb39511881086b0d886758f0acfa8d1834b7b22e63dbde7e77d5ee1fd61460568672029351256deeca226f7bee41f5f8d43d58480743230c6cc2f304630269c2cdb53c2b61251113592d9add22d45428a497d260b5bdf7e04f21bec62d0a025a755bdbd7de4a6624d2666f1625bdaac09f1e54eb8ea882b0838ddd20588f4d508f8d472186c0fe397e9893a0bad7cc71e72487b3c05136733fcea085d7c5f97cdea8baa61e1b11ba2d85950a3fef403b132394c1f116840408ba2372d4f5bf77b53ddda164f9315b71cc7dace43d3afc793e20727778dcc81b13c6bd0fb60ac019ac0932f01d9c05b551f534ea16785642f30d0d1c18264de969773268823a0bb500f715b514307d99d601d4a0cbedef1d6c438555dffadb1432fecfb11c8719218a0dea28fb5e4450f803343f51487d88a083780eb37cc341cc5d13d694f4340c202318b3b1956e056d46ff22636c455da5d745cb9a92f26e927968ee23824d6dfc0af2d9b9c69135d6d1399e405c42f44b6fd79a1db66fa7cdff24ec8d6c3b39dc0f355880fcd25c2709a414cd7719c4eaa1acaee311b0f25bb8983b0456ec789778d42054a2d6f1b0b9ba234deccd21fb0fb9d3650aad38a481609d50d2f94fa431be4906670c4e5f90e664d05f5e648b89472020143ab12b79b60e49789c36b46871cc3ea64b8441e6515d661134ab4e82fd2ef872bce72645564b6e7b5121e04d731154f41f58de06c27835e78bf84be95c2c08dd4c76c75d54271245160108529c24757b6b4a8330a4604c8c036bec9774ca5070311fba6352cf0e2959620b2d345978ccde55f566b96501bf6be74b35e6eefa932c83daa16cfc22a5997eabe763ccb60b58cd9cfed65522b1eda060a943d6b8929d3c1df7a15ec632d6ee94e59e1f4d1246b96dee467f84cad34aa55dfef41ddc6d12537350348cf5c5e2f385cc200570037cddea902895eac33f0110feaa4b8e9b9b09ec13e21625c4786e94c877809cb144f5b9c5bb43c2f3797f4cf556185aaee6f52cdfb3982709b72cb5d72f70fc4dfc3597a06bc1ebd214b3349a77674c16343cf34f3566d09f60a9d993a82e352e3a026b61f40df2c441e6d0c7167ac423915a6790d2b1537d896f875633338c75b18959d22d90cec336ae4d31876df2f9431a80eedc01c5ead2db95af559873edc4d653b64db0571cbe30cb6cdfa319306b9946a329f1910ab430aa26ab0968c81d2ee05486a0fffe81327f33a562340246df825b4ac0d8c6443021e97fa8893d54dd9c7837dda80fad8a84d201600c3e31ccb7a42df25b1b775b7ae9fb77465b4b6fe3a0725942655fee7671574acddc9e6070ab123f41a125d20d22cbad49184479dc6f3d163af85a521dfefff8a09dba92338ff</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+        <p>表面肌电分解最重要的难点是MUAP的叠加。</p>
+<p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel
+off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained
+FastICA用于评估每个spike
+train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
+<span id="more"></span>
+<p><strong>PFP算法的主要步骤：</strong></p>
+<ol type="1">
+<li>初始化残差为原始信号，spike train集合为空</li>
+<li>在扩展的残差信号上执行并行FastICA，提取spike
+train，通过聚类来区分输出中混叠的波形</li>
+<li>对集合中的每一个spike
+train，将其作为参考信号，在原始信号上执行Constrained
+FastICA，保存可靠的spike train到集合中</li>
+<li>对每一个通道，原始信号减去集合中所有spike
+trian的MUAPT（peel-off过程），得到残差信号</li>
+<li>更新残差信号，然后重新执行步骤2</li>
+<li>没有新的spike train或者到达终止条件时停止</li>
+</ol>
+<p>自动化的两个困难：</p>
+<ul>
+<li>如何克服FastICA的符号不确定性，如何设置合适的阈值</li>
+<li>如何确定Constrained FastICA的输出是一个可靠的MU</li>
+</ul>
+<p>针对第一个问题，通过非线性能量算子，能够把FastICA的输出转变成更清晰的正尖峰序列。但是NEO过程会导致spike偏移，虽然不影响spike
+train的识别，但是会影响MUAP的估计精度，所以本文不选择NEO，而是计算3阶标准矩Skewness，通过skew能够把<mark>FastICA的输出变成right-skewed（positive
+skew，即偏向正）。</mark></p>
+<p>针对第二个问题，通过迭代算法来确定阈值，迭代算法的过程如下：</p>
+<ol type="1">
+<li>设置初始阈值</li>
+<li>将信号按照阈值分成两个部分，分别计算两个部分的均值</li>
+<li>将新的阈值设置为两个均值的算术平均值</li>
+<li>重复步骤2和步骤3直到均值收敛</li>
+</ol>
+<p>初始值的设置非常重要，对结果有着非常大的影响，采用类似于Otsu阈值方法来设置初始值，发现这样的初始值离收敛值特别近。同时，这个阈值的收敛还可以用作终止判断条件，如果提取的尖峰序列不再改变，那么当使用该尖峰序列作为参考时，Constrained
+FastICA的输出将不会改变，因此阈值也将保持不变。</p>
+<p><strong>但是，</strong></p>
+<p>上述两个问题的解决，只能在FastICA输出是高信噪比的稀疏序列下有较好的效果，但有的时候FastICA的输出有非常低的信噪比。尽管理想情况下FastICA可以突出只属于一个运动单元的稀疏尖峰序列并抑制其他运动单元的尖峰，<mark>但实践中的另一种可能的情况是来自FastICA输出的尖峰不只属于一个运动单位，尤其是当处理具有非常严重的MUAP叠加或高运动单元同步水平的EMG信号时（这就是为什么要设置聚类）。</mark></p>
+<p><mark>一定要明确</mark>：FastICA估计出来的是一个带尖峰的信号，通过设置阈值来得到spike
+train。如果两个重叠的spike幅值接近，就很难区分出来，所以本文利用spikes的形态特征，通过聚类来区分。</p>
+<p>聚类需要满足以下要求：</p>
+<ul>
+<li>无监督的</li>
+<li>能够处理各种分布。spike的特征倾向于椭圆形的，K-means等处理球形分布的算法就不适用</li>
+<li>低复杂度</li>
+</ul>
+<p>基于上述要求选择了valley-seeking
+聚类算法。聚类之后同一个cluster中的spikes有很大概率是来自同一个MU的，把同一个cluster中的spikes作为caonstrained
+fastica的初始spike
+train，使其收敛到相应的MU。因此，在执行valley-seeking聚类时，我们应该将false
+positive的发生率降至最低，即我们更愿意保证聚类中的大多数尖峰是正确的，而不是识别所有尖峰。</p>
+<p><strong>虽然</strong>，Constrained FastICA
+能够有一个高信噪比的输出，<strong>但是</strong>，这个算法不能保证 spike
+都来自于一个运动单元，并且存在如下问题：</p>
+<ol type="1">
+<li>输出可能不是一个稀疏序列，而是一个白噪声序列，这说明已经没有新的MU了</li>
+<li>输出包含少量零散的尖峰，这些尖峰通常有着较大的间隔</li>
+<li>出现一个单峰，这是由于FastICA过拟合的现象</li>
+<li>输出依然是几个MU的混叠，如果这种MU不能被valley-seeking分解出来，那么就应该舍弃他们</li>
+</ol>
+<p>为了解决上述4个问题，一些限制性参数被提出来根据MU的发放特性，参数如下：
+- <span class="math inline">\(\xi\)</span>：Constrained FastICA
+的输出与参考尖峰序列之间的相关系数。此参数是 Constrained FastICA
+中的受约束条件。为了保证 Constrained FastICA 的收敛性，<span
+class="math inline">\(\xi\)</span>
+被设置为在该过程中逐渐减小。这可能导致较小的 <span
+class="math inline">\(\xi\)</span>，并因此损害相关性约束的重要性。因此，我们应该丢弃
+<span class="math inline">\(\xi\)</span>
+太小的尖峰序列。该参数可以有效地排除上述情况（1）和情况（4）。阈值设置为0.5。
+- <span
+class="math inline">\(cov_{amp}\)</span>：如果spikes属于同一个MU，那么它的幅值应该保持一致，变异系数应该特别小。因此如果一个spike
+train的这个参数过大，那么就应该舍弃。阈值设置为0.3。 - <span
+class="math inline">\(cov_{ISI}\)</span>：如果 MU 保持稳定放电，那么
+<span class="math inline">\(cov_{ISI}\)</span> 过大的 spike train
+应该舍弃掉。这个参数能够排除上述4个问题。阈值设置为0.4。 - <span
+class="math inline">\(FR\)</span>：放电频率有一个生理学的上下界，通常是4-50Hz。</p>
+<p><strong>APFP算法的主要步骤：</strong></p>
+<ol type="1">
+<li>初始化残差信号为原始表面肌电信号，输入判断参数 c 1=0.5，c 2=0.3，c
+3=0.4 和 c 4=4。初始化可靠发放时间序列集合 <span
+class="math inline">\(\psi\)</span> 和待定发放时间序列集合 <span
+class="math inline">\(\psi _1\)</span> 为空集</li>
+<li>在扩展后的残差信号上运行parallel FastICA</li>
+<li>对FastICA的每个输出，自动提取发放波形，并将它们通过Valley-seeking
+Clustering聚类</li>
+<li>将第3步中每个聚类后的发放序列作为初始的参考信号，反复执行constrained
+FastICA直到迭代阈值收敛</li>
+<li>对第4步中每个提取出来的发放序列，进行下面的判断过程：
+<img src="/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png" class="" title="image-20231201195318336"></li>
+<li>对原始表面肌电信号的每一个通道，用 <span
+class="math inline">\(\psi\)</span>
+中所有的运动单位发放时间序列来估计这些运动单位在该通道的动作电位序列波形，接着将这些已经识别出的运动单位动作电位序列从原始信号中剥去，并更新残差信号，返回第
+2 步</li>
+<li>如果 <span class="math inline">\(\psi\)</span>
+中没有增加任何新的可靠运动单位发放序列，或者程序达到了预设的终止条件，输出
+<span class="math inline">\(\psi\)</span> 并结束程序</li>
+</ol>
+
     </div>
 
     
@@ -358,7 +446,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -371,7 +459,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
