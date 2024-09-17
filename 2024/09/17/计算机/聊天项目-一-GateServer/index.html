@@ -20,13 +20,15 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="1. Main函数的初始化 GateServer 既作为服务器，又作为客户端：  作为聊天客户端的网关服务器 作为gRPC的客户端，gRPC的客户端比较简单，不需要在 Main 函数中进行初始化  邮箱验证服务 状态查询服务   Main 函数中需要连接 Reids 服务器和 MySQL 服务器： 12MysqlMgr::GetInstance();RedisMgr::Ge">
+<meta property="og:type" content="article">
 <meta property="og:title" content="聊天项目(一) GateServer">
 <meta property="og:url" content="https://cq-yangxh.github.io/2024/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%80-GateServer/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="1. Main函数的初始化 GateServer 既作为服务器，又作为客户端：  作为聊天客户端的网关服务器 作为gRPC的客户端，gRPC的客户端比较简单，不需要在 Main 函数中进行初始化  邮箱验证服务 状态查询服务   Main 函数中需要连接 Reids 服务器和 MySQL 服务器： 12MysqlMgr::GetInstance();RedisMgr::Ge">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-17T03:37:10.000Z">
-<meta property="article:modified_time" content="2024-09-17T03:41:10.287Z">
+<meta property="article:modified_time" content="2024-09-17T13:50:27.713Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="C++聊天项目">
 <meta name="twitter:card" content="summary">
@@ -211,7 +213,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-09-17 11:37:10 / Modified: 11:41:10" itemprop="dateCreated datePublished" datetime="2024-09-17T11:37:10+08:00">2024-09-17</time>
+              <time title="Created: 2024-09-17 11:37:10 / Modified: 21:50:27" itemprop="dateCreated datePublished" datetime="2024-09-17T11:37:10+08:00">2024-09-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,7 +243,111 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="main函数的初始化">1. Main函数的初始化</h1>
+<p>GateServer 既作为服务器，又作为客户端：</p>
+<ul>
+<li>作为聊天客户端的网关服务器</li>
+<li>作为gRPC的客户端，gRPC的客户端比较简单，不需要在 Main
+函数中进行初始化
+<ul>
+<li>邮箱验证服务</li>
+<li>状态查询服务</li>
+</ul></li>
+</ul>
+<p>Main 函数中需要连接 Reids 服务器和 MySQL 服务器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MysqlMgr::<span class="built_in">GetInstance</span>();</span><br><span class="line">RedisMgr::<span class="built_in">GetInstance</span>();</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>Main 函数中需要实现上下文的初始化和服务器的优雅关闭：</p>
+<ul>
+<li>需要一个上下文服务来轮询事件，只负责关闭信号和
+acceptor（注意并没有从服务池里面取）：
+<code>net::io_context ioc</code></li>
+<li>需要设置信号来优雅关闭服务器：<code>boost::asio::signals_set signals(ioc, SIGINT, SIGTERM)</code>
+以及 <code>signals.async_wait()</code></li>
+</ul>
+<p>Main 函数中开启服务器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">make_shared</span>&lt;CServer&gt;(ioc, gate_port)-&gt;<span class="built_in">Start</span>();</span><br><span class="line"><span class="comment">//在 Start 里面由于会执行异步的监听函数，所以会注册一个事件循环</span></span><br><span class="line"><span class="comment">//所以 ioc 不会退出</span></span><br><span class="line">ioc.<span class="built_in">run</span>();</span><br></pre></td></tr></table></figure>
+<h1 id="cserver的执行逻辑">2. CServer的执行逻辑</h1>
+<p>CServer 一共就只有两个函数，一个是构造函数用于初始化 acceptor 这个
+socket，一个是 Start 函数用于监听并把连接丢给一个新的 CSession的成员变量
+socket，在一个新的线程中进行通信。</p>
+<p>CServer 在初始化的时候会初始化一个 acceptor 来监听连接。 acceptor
+会在指定端口监听连接，要通过绑定端点来实现，任意 IP
+地址的连接都能够监听：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CServer::CServer(boost::asio::io_context &amp;ioc, unsigned short&amp; port):_ioc(ioc), _acceptor(ioc, endpoint(ip::v4, port))&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>要在 Start 函数中监听连接，并通过 acceptor
+把新来的连接派发给不同的上下文，这些都交给 CSession 类来管理（包含
+socket），因此需要在 CServer 的函数中创建一个 CSession 对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CServer::<span class="built_in">Start</span>()&#123;</span><br><span class="line">	<span class="comment">//从池中取一个上下文，这是一个服务池，本质上是一个线程池，每一个线程都跑一个服务</span></span><br><span class="line">	<span class="keyword">auto</span>&amp; ioc = AsioIOServicePool::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">GetIOService</span>();</span><br><span class="line">	<span class="comment">//创建一个连接对象管理连接</span></span><br><span class="line">	shared_ptr&lt;CSession&gt; new_con = <span class="built_in">make_shared</span>&lt;CSession&gt;(ioc);</span><br><span class="line">	<span class="comment">//通过 lambda 表达式注册回调函数</span></span><br><span class="line">	<span class="comment">//self 很关键，在值捕获的时候能够使智能指针的引用技术加 1，所以能够实现伪闭包的操作</span></span><br><span class="line">	<span class="keyword">auto</span> self = <span class="built_in">shared_from_this</span>(); <span class="comment">// 需要在定义类的时候继承 enabled_shared_from_this</span></span><br><span class="line">	_acceptor.<span class="built_in">async_wait</span>(new_con-&gt;socket, [self, new_con](ec)&#123;</span><br><span class="line">		<span class="comment">//这个 new_con 运行在一个单独的线程中，因为它的上下文 ioc 是在一个线程池中创建的</span></span><br><span class="line">		new_con-&gt;<span class="built_in">Start</span>();</span><br><span class="line">		<span class="comment">//继续监听连接</span></span><br><span class="line">		self-&gt;<span class="built_in">Start</span>();</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>std::make_shared</code> 直接创建并返回一个
+<code>std::shared_ptr</code> 对象，相较于 <code>new</code>
+，其拥有更高的效率，只涉及到一次分配（分配 <code>T</code>
+类型的内存），而 <code>new</code> 需要分配两次，（一次分配
+<code>T</code> 类型的内存，一次分配 <code>shared_ptr</code>
+的内存）。</p>
+</blockquote>
+<h1 id="csession的执行逻辑">3. CSession的执行逻辑</h1>
+<p>网关服务器是在 CSession 中和客户端进行 HTTP 通信的，而在建立 CSession
+连接之前是通过 TCP 进行通信的。CSession 的成员函数：</p>
+<ul>
+<li>Start</li>
+<li>PreParseGetParam</li>
+<li>HandReq</li>
+<li>WriteResponse</li>
+<li>CheckDeadline</li>
+</ul>
+<h2 id="http-接收">3.1 HTTP 接收</h2>
+<p>因为客户端发送的是数据是基于 HTTP 协议的，所以不需要像后面对 TCP
+进行手动的切包操作，而是直接使用 beast 库进行读取就可以了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> self = <span class="built_in">shared_from_this</span>();</span><br><span class="line"><span class="comment">// 一定要传入 request 参数，这样就能够把客户端的请求放到 request 中</span></span><br><span class="line">http::<span class="built_in">async_read</span>(_socket, _buffer, _request, [self]()&#123;</span><br><span class="line">    <span class="comment">//数据的处理调用</span></span><br><span class="line">    self-&gt;<span class="built_in">HandleReq</span>();</span><br><span class="line">    self-&gt;<span class="built_in">CheckDeadline</span>();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="http-的解析和注册函数调用">3.2 HTTP 的解析和注册函数调用</h2>
+<p>读到数据之后需要在 HandleReq 中初步处理 HTTP
+请求，然后会解析出请求类别，并在回调函数中进行数据的处理。HandleReq
+的解析过程中，需要一边解析一边设置响应报文的 <code>状态行</code>
+，<code>消息头</code>， 和 <code>消息体</code>
+。要如何处理呢？主要是根据 HTTP 的 <code>method</code>
+来进行解析，解析完之后交给逻辑类进行处理（这里不需要再为逻辑类单独创建线程了，因为本来服务就是跑在多个线程的）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSession::HandleReq</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//设置版本</span></span><br><span class="line">	_response.<span class="built_in">version</span>(_request.<span class="built_in">version</span>());</span><br><span class="line">	<span class="comment">//设置为短链接</span></span><br><span class="line">	_response.<span class="built_in">keep_alive</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::get)&#123;</span><br><span class="line">        <span class="comment">//!!!! HTTP URL 的解析 !!!</span></span><br><span class="line">        <span class="built_in">PreParseGetParam</span>();</span><br><span class="line">        <span class="comment">//交给逻辑类中的 HandleGet 处理</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandleGet</span>(_get_url, <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="comment">//设置响应报文的状态</span></span><br><span class="line">        _response.<span class="built_in">result</span>(http::status::ok); <span class="comment">// 设置状态码为200 OK</span></span><br><span class="line">        _response.<span class="built_in">set</span>(http::field::server, <span class="string">&quot;GateServer&quot;</span>); <span class="comment">// 设置服务器头为GateServer</span></span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::post)&#123;</span><br><span class="line">        <span class="comment">//直接从逻辑类取函数就行了，不需要解析 URL</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandlePost</span>(_request.<span class="built_in">target</span>(), <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要设置响应报文的几个状态，记住：</p>
+<ul>
+<li>设置版本</li>
+<li>设置为短链接</li>
+<li>设置状态码：200 ok</li>
+<li>设置服务器头，也就是 Host</li>
+</ul>
+<p>注意：这里只有当 get 请求的时候才会调用 URL 解析函数，而 post
+请求的时候直接调用回调函数就可以了。 这个聊天项目中的 request.target()
+就是 URI ，并且没有设置参数，返回？前的字符串就得到了 URL 。HTTP
+的路由解析函数：</p>
+<blockquote>
+<p>什么是URI？什么又是URL？</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. 提取URI：</span><br><span class="line">   - 从HTTP请求中获取目标URI（_request.target()）。</span><br><span class="line">2. 查找查询字符串起始位置：</span><br><span class="line">   - 使用find方法找到查询字符串开始的位置（即?的位置）。</span><br><span class="line">3. 分离路径与查询字符串：</span><br><span class="line">   - 如果没有查询字符串（即没有?），则整个URI作为路径存储到_get_url中。</span><br><span class="line">   - 如果存在查询字符串，则分割URI为路径部分和查询字符串部分，并分别存储到_get_url和query_string变量中。</span><br><span class="line">4. 解析查询字符串：</span><br><span class="line">   - 使用find方法查找&amp;字符的位置，这标志着一个键值对的结束。</span><br><span class="line">   - 每次循环中，从当前查询字符串中截取出一个键值对。</span><br><span class="line">   - 使用find方法找到等号（=）的位置，将键值对分割成键和值两部分。</span><br><span class="line">   - 对键和值进行URL解码（假设有一个UrlDecode函数）。</span><br><span class="line">   - 将解码后的键值对存储到_get_params哈希表中。</span><br><span class="line">   - 移除已处理过的键值对及其后面的&amp;字符，继续处理剩余的查询字符串。</span><br><span class="line">5. 处理最后一个键值对：</span><br><span class="line">   - 如果查询字符串中没有&amp;字符，则认为这是最后一个键值对，对其进行相同的处理。</span><br></pre></td></tr></table></figure>
+<h2 id="http-注册的回调函数">3.3 HTTP 注册的回调函数</h2>
+<p>需要根据 HTTP
+的路由来判断客户端的请求类别，这些请求的执行函数需要提前在逻辑类的初始化函数中注册，这样才能够调用。包含以下请求：</p>
+<ul>
+<li>"/get_varifycode"</li>
+<li>"/user_register"</li>
+<li>"/reset_pwd"</li>
+<li>"/user_login"</li>
+</ul>
+<p>以下是这4个回调函数的具体代码逻辑。</p>
+<h3 id="get_varifycode">3.3.1 get_varifycode</h3>
+<h3 id="user_register">3.3.2 user_register</h3>
+<h3 id="reset_pwd">3.3.3 reset_pwd</h3>
+<h3 id="user_login">3.3.4 user_login</h3>
+<h1 id="逻辑类的函数">4. 逻辑类的函数</h1>
+<p>逻辑类的构造函数中会注册上述四个请求的回调函数，除此之外还包含4个成员函数：</p>
+<ul>
+<li>RegGet：通过 insert 操作把路由和相对应的回调函数插入到 Get
+哈希表中</li>
+<li>RegPost：通过 insert 操作把路由和相对应的回调函数插入到 Post
+哈希表中</li>
+<li>HandleGet：直接通过 key 从 Get 哈希表中取出回调函数来执行</li>
+<li>HandlePost：直接通过 key 从 Post 哈希表中取出回调函数来执行</li>
+</ul>
 
     </div>
 
@@ -322,6 +428,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1. Main函数的初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cserver%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">2. CServer的执行逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#csession%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">3. CSession的执行逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%8E%A5%E6%94%B6"><span class="nav-text">3.1 HTTP 接收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E7%9A%84%E8%A7%A3%E6%9E%90%E5%92%8C%E6%B3%A8%E5%86%8C%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-text">3.2 HTTP 的解析和注册函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%B3%A8%E5%86%8C%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-text">3.3 HTTP 注册的回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get_varifycode"><span class="nav-text">3.3.1 get_varifycode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_register"><span class="nav-text">3.3.2 user_register</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset_pwd"><span class="nav-text">3.3.3 reset_pwd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_login"><span class="nav-text">3.3.4 user_login</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%B1%BB%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4. 逻辑类的函数</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
