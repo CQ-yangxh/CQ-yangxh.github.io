@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="有东西被加密了, 请输入密码查看.">
+  <meta name="description" content="为什么要白化 假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="白化">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="有东西被加密了, 请输入密码查看.">
+<meta property="og:description" content="为什么要白化 假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230611.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230720.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/image-20231206181244836.png">
 <meta property="article:published_time" content="2023-12-06T09:17:02.000Z">
-<meta property="article:modified_time" content="2024-02-22T09:26:40.620Z">
+<meta property="article:modified_time" content="2024-09-17T03:45:38.657Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230611.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/">
 
@@ -218,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-22 17:26:40" itemprop="dateModified" datetime="2024-02-22T17:26:40+08:00">2024-02-22</time>
+                <time title="Modified: 2024-09-17 11:45:38" itemprop="dateModified" datetime="2024-09-17T11:45:38+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,18 +252,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="08fdb3d3da2f8651ec4dbd758fc5b7554a30fd22ae7db4c720da08c2b8975ee2">7fd9246b87aac9fc2c65909e0fe3eed0b08f637980003746b9e83b72c556e95a3ecc82891ffe6ccd85160b2d9566b6fef76cdcd116544d4288cf7cff233f38e31b0da5ca2b1ca8c29e7446c03e37407d09b66355f6353504e5f508615495b3dc44e89c33727f6e63d906d2c8c9582e9586e70704e3e03690802b12457e362fc8f1d74673289b208c95dd0deb223b49a73b91fc879b79cdce0bb0db4b7ca94af6ca51ab5edcc6d746ebfc21a1aa978f5d80905cab014d28d9e99c49ef9113983c00d9c3ebc91adc6dcdcac5e608265eb8761d11c9818e1bf40cafc1e682682831a91111de2579d3658881f9206e8285178ebcc4d781db9b512eb08e0abb53ab9df3e30c02d5f19e078bdbcb71dccc536fae4fda03a0a3b78f95e7b38db71c270902ba006cb111f0bef79dd8843a5874fea9aa20058cba91a1d4e4c4ce6a6e9be0bddff3b93781af6d44ec0f18f8c420c149df8fbfd11067471197342b55bf098e0c94f6d6fc0294d988065f666e5453dc9a3ba4bbe91eb02708173b631b7f85afd9429b28aec7f8271fda2334767cb4979950fcc339d9dd8204e907c7bbc9a4cf8dc7073ad8952e6639c7806bec820c25a2ff6e3f64a7852bffc806cb022e818a5fda635c7768aec90d36d85075a409b099cd91c3e6762d6ba3269ceb027bccf0cc78d24222857c4afa62e7322cf11cbfd4d94c41fe5816a28fe3df70c1798f7d4da76cb4f9b84633b4d4d6f00a7fe86627f39a4631aa413f387341fc791612e9549bbfd1d6afac56d16a01ad4d0df8493d99d74f67aaba85b2696f7744977d61aa4ea9d255798f46cb4ab554965ecdc3f3cf5eb6642b910abf622ed271d1e88583d8c65cfe98a647f56a137557de63171a1e8c13a0a3e9e658e66d618444457d04a54788acbf160217a999e630b5158dcb7a56ae3566980cb20a1129ace4f1d7186209983e8a331f841603355b0a2ba81324d161d7c049fdd374c29e046fd43eef9ddb05522f7a1a02c4706fb0ee9798680dbd5c89ac8e967db22eb2879e1408f68a7a671d10f952a296ec41bbdf8436255e0a9a9b73e9f8edb52a39f3c40fe49a5a2aa4b546ff34c3d3221f6da29f1326dfa75babb6d5ebc4198cb1a8ff0fc978260159f3793dc51a7f2200815e30b932dec9d5acc629aa4caf0e64c5e2f16046fff3961ca650f651f37b867be1bc1356259a1716a850815f8bdcb00b29da543698620a6dc8b7b567445a407924f547e3cc4a06327e56d63afb6f7b1f84053746ed1d20ebd17cacf0e958456926979d8d012de3676b8e17161ac7431d6f3fa799b9e35a179968477a56d0d62152d16ea6c8a66cb64661cf4ff4ccff290e12b4dd6789d98f052f59d57dee9adf73bd675643a3fa47ae94385abefd86a6f7fe55280695963faa5d6c5413efcd54fe7d6f7b87312976f6ac9ba12fb4c7757658125e01293ac1c79b47386ca144814fd0ca74750cf5423ccfa28b9122125a0eed96adb4122675b3447dd50e904c389b6dfb3d39d025fb998b58fabd0ba50c2d03d558c56b76565380007b74fef7785df8e6399264608fa6fb680c074ccebb02d99b636f2a8e89ef5c153df33676bcf2a328e830d9fc8710d2aade36484deec7843ea649469debe36164800cc1c24928fcd166c4e89fbf78b25c626ce916997b987696e3d2c462e69211a4fce944c9771c2af630cc13b6a89ab0f40707018e5ea489b528048eff1aa7a29c47cad6057d25a03f2b2a17b017fcf821d54bcc564df6201ff21d024ea7ae09200ae1c66dfb9907e7b31b368c25b484ca60efa139e6235fffe01e5dc39be216fe1061f9ab58c478684986811cb0523dbc4af7bce86b304d8ba9956175f0bfb5ea7b986dece38429f8d0e871dfb93b6224ecad6c91a2a0cce623751e5e59332e161b51268e55426830c85845ec394dfdba88c10ff1f8f57168984c8623cb62432cb3348f2d4dcd34f3f3a3983fbd1f4d4a9fb913533629fc2469ce7f9589b8b89986221a222bd52a09558e93de76248148a3bba7596b8dbd7f3e9ba42db6e134fcc0bed0de900c492e72718bf18cb902dcbb58243e6699ff6880402e7a695d69fbbd075f83e2ca82106eb388512f0c9da7712cf3d8853f76d9affcb062b47848b76ee93ca1db1457da3e02069bfbfd927c1b4ba3015570d19348b6993572971d8fd7cf912f069da979405c17d7c982d5aa67130185ad17750a5b53e2313068f2934b0c745af450db8d96c8f7140f0dd2a0403a34995ff26abf67afdfa248550562a4dc9489a5ca6bfbfc6aef599cc37be21135d264d1d9aed79c0e264946d12e3b4f79767d12645165f2031c0918f5252ec1b42200aedb40ca384d0a443bb03553e3bb8eab168086f2c0acab713e397e10677653dd3fbd4dee20185ed56e570d10032a34e261912eec886b566d6aa610918e246d20804ec36ce84b2c8ff38459e974daf5a615b7a136c4fb1e42031bebf62fc5f5185ea8b887f9f67e1c36cd423cb7c45bbf57900279ac18f854caf5180b5642b708182d35f4fe37735b5005f31e9ad3e56a488771e16c90d025339b38a8e127a64283650b13b2e6ba312381d333b95435adc10ab0b203e6aafa271780a91c584a02b5f5093d79ad22805f3ac5c2285291810467f74472dcb92495bb943ab7ceaed903c012032d20dcecf78982270900b7579ccc5f39add2407937024555050d8b40c357fbf7eaca2b2508bd699df36eb6709cec93f3a16c9983ac67636caf190a63cb6bcbca606a0fb20510d4cd99204350a2de741bc53f74fc7b6277a04079cbea14b6a63e9660eaa2df4fddfb48958358a7ba9efc7bccd735d7fb5912454cfb1003be392fbd031b0203e00adf87514c041322b5ee8fdd9f798262e1e95d4f71460021e1cea00f81387c1cde3cccb58d87458c3511be7d2c82e0e3149a81cbe1752c332e4f17d1baff2eb33203f805c4a575ee54748925fd741ba0e760ad889a041f26b6d900209e0169b53ef1c5d0f4b69945c25c0b1fd93c7862cd61be5f59dded7f8ceebe55e9de3da9e57a668fb105a3a94e883fd76b6104632f4d2c86da9772bf45c65ac7b005e1259c0dcf62482c04afc1a1d4794f46db31671ceb25b7199c9cfe7e65e2cab75d73df0c32ca35e7af680f9134b747835af077ad8cb0feb2bc5e1352f29e680147d65e671581bf6e6a13c8f4ad5c0433935145a0b34c2fcbcf9361db46e9e947e69eeafcb095e8568c3d91a4243999bea91f10fcfa996b59568ad67f03b035c8e9f5036ed8cde413192b4613e50c6c92e52add2af7ffeb7b55de93c5752523a174dad956bb4519c0f9bf8e0cab84cb3330492dcf9158103bdaa4e3d46edcab4549f1ef697a86d94e46798e50a1bac59a5bc58d0a45aa6fb58ac5de046ebddfc4dba2f88690d215e2e906b9071c84039840ed231eedeb0fc0d6cdd713de543444c6385b02fcbb6deac77f5ed91b5a3e1e7daa5be734e3630103e2f9ec3d5451acb97d2d5d6af290e6ee48378c8492f1bb008b8f5e6165e6715762c6e6f2eb297655827613da66ce0dd1b032039b518ec035ebfa8e632dbddde3d83ff7759c3efe075498227908a6d7d7ded0c93c8a5f0ced5d1dd98ecb13c95b1cfe04fb2e679ccbb0bd288ac6b6d1bd28b5be8285c652a5e5ff4ae89e35b49ab3b3accae2a90c156f2db7f7fa17d4230c8a23258be6a065a7c5f2f07cd134b2e2e6ccf862126583e8e5d46c1ae52033228c7acf63684eaff192b7200107936a1bc2ec41ece854a7350d8c3bc6322f95064abc5b621bedd017cb28d08c18bb695b3f0b656bd0cf8327f451c4e5c51c6685a9726499638746ed8e196123e9ff0f908c863b4924af46fa2db462d2fcd7f123997df9811fb9bf2ca89e37f88da95267d59160186cc07f17f28ebf22e6df6a63a9155fd35c5c4f2169eabc8154ed1fb4802d8ff6a832c2da7a0dcd394014c7139ab2b3076a43d01d99425a891507f84a0966c0859ac5f5ec7da10d76daac8758622fb17c079bbef6bebbfbbedca5b5ccf3df821c3264a95fb2b3e221ca362276d1d80546d159cc4d5625338320ae7b10fe9209944387559700395ca06151997311d87687a8d425b7d3ad4fb59139de06cbc2e9461c467a771a5467905452a3be3ae102af0566b6aae9d0e65835451b6e5d310dceeaaf9e5bf0f261b4a9cbc3ba40c2ef3822cfd12cb2fe7680a8b536bef3f0af9c60f882dfdbced97131a0a924ba736f083f94b196768db8219067bfddcfc5cc07cfaef002285ca0932e3513ef1dfb21958a5ae10cd531c1eb485ab08cfa137c1262a3de2e6751dfd2bb48b3d1eb46fed760c09247c57ebc5a5b8296f509c4afc615183af5c445d3082c561f523b07669b6169ec60c236f0bb67650c9017370b5f9596060648a8d5b75254c537131c549d4bcef6827ea1d20bfac56604da1a699ac0f134afdefceef142e28b4f907fa27c5f7742f717e5505f5d3ac722966830e5578334e0638dcfdffc1a5914fb91e15a16e6bd4d5c4d17d4f35abad07150e57c83450bbe44405b14d05e0393a5038c572fde124ab96cb987899d96801a5143852f73dd01f4156b479c0729e4954123f18586b56dcc2f0fb47f60261419143917e470f63841c95200fd11e8186a95108b5b0e16eede35e7a4beb7b80432eb1cd0c7aa057df6c43c30eaa8402aa6f4d4493e02eca0d1c7430db7c5af655df7df9e610d48bdc2351995ec503ce9ecf86b27902a92265ccc152e13d7b71cbf902343279df8b9ca8c1b8138194c9edd90fd4808d836b74514f1563d1f1f4df2d4864ef2878fa7110878206eec2b5c0e41b1bcf45374eb580e5bb402672ed9471c9ac45cc58f6b3c6a1335705577d99cbfe63a7b5f823699fc89a2cc793a6c17c8f2330575cfdd0b94f6d298b16dba16653ed2329dd0f2e67759dd1d1a0e97b09199b443aab12c4d38c39e7235cfe16b2f72fc92484ee59d8843dd93022cf6ad9809eef4f0bb22c92893f9a8a3c930c8dfe5691d50f12fbe1f7a298fcd1bcff8c7040b4c43cc1900ca79ed6c02f6cc1182e800e64ba330d1f4bda0091e009e2c802e497587440dc4c298113ad9863f90a18f92346ca416101638a770cdf58a9263576a8747f2bd93cf7a3a9cac127e489e9ad095230815ebd6907821c2d4a5dbb5bae84725a7d68de94a4390b5a257026669abf25c6fb5d4be85f8c1876e77e3c0864f9971a139fbc2f26741d3055768b80c486b28f9e44bfc67185420f3e637c68fcde3eaa21988e09a68a18864c49d6e36d982b07a1248e0686b42d449f806521b5f78f311cbc74c921ec77386692d8934efbef83fa0045e0469ffadf062a1f61ce4b5a35f5f7e7fb047965846b3da02ec7307a15ef292009e38d106b4931c7d56352fbe7fd0cd4b63bb239f6d8c1d8f4f25694bb962e9866f1216436f7d608cd400c97d334a87d40c760ec9d0c8150d4b40f3fbb1090bf0f139e653204eaebfda6749edd445bf34641fdb210ca08e957e661abac5267dd9e4d1eb0511ffcabb1af5fb977a95fceaffc62dec1ccdf481b07545428b42579230aaf243f12c108e099bc4e043e64de88092f6d1a3a256d457b0781850398e50a4f69b7a06494899c80c871b34effa46aa9d5a527f8f1c38c471573a4c3f31e4492d3f637519884cc0149ad057673fdfd1cb96d566ca2331cef5840305977d33640d485ce1e6c949cd5a64cf7465f42af6087a39197944d60ca2d2276707e8fe239a174688a85f3013e4e0d71c5fbcd5feb970dfda66ce8b3fdc8219213b9bceea825f78021044c75be9390626cf07da2e1e5ed4ab3d83311a292e24b934edc20a3a75d4cfdfb3c35b49fa760fe8c91aa1d3ab58f1ec3dd9abf181274e3bb3567385be5c1dc3709a2cf6a2175794ba185344d8b8e3e2e5ddb0d0c6bdbab49a39f1def776cf86b09f0097c6847d800a7402d549f7d2db60ce82b4ed6e8a7f303c7cc462ea11e21434ba9ad91454ab99138dff1eab541347852247780584e6b79145b8b70abfb6bb514e3570af87eded24786bd3fc7809ecd6988b4adbf4babed253cc57a50390a5ac8ed3df3bed394021567e2d58ce732316be8fec41218957d7a41f112423c13da6a85fd203434b9276ce791a9e26eaf20191d533bf75c4fbaaf7e033ad97d4d79ed5fdbc334d9bd2ac4d571e0f64005a06dc8ef237d2435851a42d81b856a87b93ac1f957a5c45620d46ed4289ec959c88ff50613dd06397787a6623337a7a31a51cc7cd45d3b2edfcdfd07226d704bebc040e0371549e326e411df09e89f86ecf98df07a6920229be2e3fe59f40b8007379031a31fe877e5f493af6eebeb0fdd1f0fe2118fade0075bf2d1f1479defd76da07f28db50ec4103bd574cea66ac50a9caf72f3a1fea785e90d0447b99940ce619cc92f2f28d3b176b350cca6aa2ef3712fe155546ca42183c7d7def2527714a873b58c3b0089f4777d37bdeb79233288904e47716d127023a829d62a4408cfa687ee36a4eca846a06f81e60cb6aacc59e6a5f47caf025b75c48d4275a258f27c38d829a68f9f911739e3b3ff7993f561e827b211320079e4eca43714003032935d84f8a586bd05bafe9828bad657e702f6f0cfbc331aec598a7fc7b14365407e05dc41536c6deecfcd7dd0b9a946be4f73c6cd371386888dff9965e98c48f47ef26ce5f1fc42763182cc241b544914508f2cd7c8bbe9be03963d612bae36e6ddc4a987bdf722839b99ddfc087553133788bd3eafda98bd0e02c781f059cbba9af45906e34fe1db77b19efb2e20e49c32050a36badd0f91f70ac9963bc5e4d860d624cda389fa25ae3304dc999b2fed0042c03bf4f4be3f09acbc6de80301aa1d33fc4cfb164de375c31b8a054e798420009af8686a0b7b9e6b530120c2ed9d568381a504dbcf55f0f170017bfc687bbc48f44d46a2b7552cd2dcc070c0454d567417ad1074755955d36d73fd4e6b2e4bbac430adc2b4de50d1c65fae9157c1ec9ee5c11559d4c33f515da4d24e73704924bea7d792331197d5e35c3117af94c063a1cb9d000c08dec633b72e39cc1dd5a49452fd46443e5aae0b9115ed9c4c9ac922469396bbb663f7625e5bcb54ae486fa2230366a41e7560f3ea316cfd52a990abd1a3361b0275c8639c634fad910d9bd22c8601da81bac4f7f38b48428983969fb302d5240ae207428467bf5e4b02782f843a37e6f0a6b1b31d8827e8dcb3c5991fe99aae302e8682e4678a0eb7b70fdfeef35fbc950fc13fdd4f9aa4d3bf7bc0ca7f37b154fc63c64832ff5e42b3d59b578278ed4ad7b866246395ebefc591603e37c29236f093a7d8b718f2879bed06666af894a35eadeee9c918cc019d234be12ce1cfa5d1b5822d98f0e753114c84a99c520f948b179e772ea6358ccc8fedb98c145e80d38f84d976ab21bf846a0dedd4f8b24e0d61ea9f124fc76e4fb338f7207e9eba169edcddc2bf0d942a676ec63614ac50a164c3a17d5f176fd9cc9b2c3013a48624b6945491720ddc2500091c30aecaa2c6c3eb4351c6be8103c85a8e126198276faff8aa17766f929e4b321f7860e240d4a156b55c79c8fa8660569abf5462496ab7e59ed50193ab6aaeddc0869a6a8568386fefefacdf446338870553aa7158a1265f0c33569d4053cd2e4ba5a6c633189a8fa0826ce7dd5bf6999213df342597adc55b04d1b044e7b11b73096dd98ad374c11bdc334ef6addbb1f44a090143830603ff040689a5f737006c54199f423ad2c84d3fe08ac9f6d7139072c4666c20b70f5e35f3bf898f6b52e40ec2cd5b89b70fab0b3c468403131c62e352a6a686f9c409d27f7dbd530d202d52da8371c5af0c40269ad164b8dac56f2509a2e7a18692fe1c8536c898179b5c9763e06d225a66af6ca531205c40da0abfdec2c9509144facaad380b29f43c07d38ec96b55e46b041a5853c32f4c7de3af491be9185485ef4aa11365ef32de47fbae4577f146c6185cacf0811675745bf347c192b6af48e4f857003cf852e9c39ec861aea8377741d64fa77517ece5eaf61170d26b9f2dc3103f6e09c87f98784e7ed21cca438a965930a16364e2d2a04862fbbe3b8bad477c11b5cc91425250aad39627451c717bcc0b8896e5e7184d5173b22a5560fe1f637fcdac724ba87f135e98e262eed62703695ae2f547739fadd43c4c4b298b305b5ccba06c7dc034084136b5c662ef8d7e77640a58752ea4b33fa295886b04de4f5c02ae61a3be82141c4d22d48e99fdda4c448cdc4d80a239b98b10701193fc426d90eaf742e93563c1bd023e12dd04b8dbfcedc77adde1f170eef35de845a618858e24fa82a66889bae9b9692380987c8e58d13c26e4e5b8bfee846f272dca6ca6a24dbfb69c27a31b06d125951301b9bd33ba931c0b228127985ebae264ed7acff738fb173db0ab5e8d6464d30a6ed91f9abb1697caeb7407f94ab3049f2a15dc2fb4f5d366e22c22a2f96dfef9ca0c303d65360924354459e464a6bff98de67d8d7783fbba4c5bc4a64265174e224048bcfeb433497bd489d2cad3d2f1d2082c8e202557417e0515faafe1b30aa3659af57ee0bb0c5197e4ee8ca31d16261fd6920f85ab4120569c0d3a57065d1a455ff3a5b964cf0134bde4adeba4ac5529cade5d53d622b7a676db3e9e8edcb7b1192c8a4d9765a09e533f740679f436e73716f8d6b4a9d6cc6ca376409970958cb1df5d79210c0d08c5509c2fbfea16a086296740823465c05827e54656195759304ccd3c32b6804c64260a5f53904b5ef0b203ba2be4d2968227cf170fdbedc1a27f7f91da5f6fb6b1aba10baa135ea437245f4741a389061f4b09810c1e3f96f2ba9b668e0d3d1f518d9b3a73a8749683332676be05225d8bebaae48a5de99781e5f0621d9d5c513532b465eeaf6824dc9f355fd0541f4237b8c272032eb4adcd9a1b6201b3e7e3b1514c9730e7be0a34874b1af2f497f8957e86954b09fe3aa0493124e42ae05d412463430c469d8a18ef97ac5d97e83b48d4a009442e628885e031159bc795f149a1066efbce1708ffb19bb94e72eec9abaea1290d67752de5fca7e7c1098d5e87b3358b9ba5ee00e91cf3c505d8143a7303170b8860167174908bca046dc1c680db3dc77f140a94bb33da2199d63795afbdc0623df5d15bc6c00d60fc7154da65e74d046e93e9f41cf392d202f8aaf4cfc9588db681855b8430fdd16f3fc92c8d6b0548bc38d5c85709a288be98a056e9db7e7897b461bcd0d5ee90ab2d1a626b915b3cb9f03de51692627af1a65eab42577eb24fdf8f532d5badf15d02732c67df60e9c8f09e2525191a7925d22b06347261920d98a8503f28484a71f320cc071d477dac5a75fb25c9c9773ef9bdbce59f83a166c938c43897ce058720fef56748eb9747bc83319eae3caeefb1cff8b56d88782830d796c9dbabdb3de6495fb0193020c9f3f56383eb</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+        <h1 id="为什么要白化">为什么要白化</h1>
+<p>假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。</p>
+<span id="more"></span>
+<p>一些容易与白化变换混淆的概念包括：去相关化、标准化、有色变换。去相关化仅仅使得各个分量之间不相关，而对于整体的方差没有进行考虑。标准化使得整体的方差为1但是没有考虑相关性。有色变换是使得一个白色随机序列根据设计好的相关性矩阵变成一个要求的有色序列。</p>
+<p>为什么在白化变换中一定要求白化后的方差为1呢？举个例子，在信号处理中，一个随机信号u通过一个放大率为100的线性放大器得到另一个随机变量w，从方差的角度看其方差变为原来的10000倍，看起来是另一个与u完全不同的信号，但是实际上只是数值按比例放大，比如采用了不同的计量单位来量化同一个物理信号，两个看似不同的信号却描述了同一个物理现象。为了避免这种情况，最好在白化变换中将信号的整体方差也归一化为1，这样就可以避免类似的问题。</p>
+<p>白化的两种方式：</p>
+<ul>
+<li>PCA白化</li>
+<li>ZCA白化</li>
+</ul>
+<h1 id="白化的定义">白化的定义</h1>
+<p>“白化”这个词最早来源于信号处理领域，跟其中最常见的一种噪声——白噪声有很大的联系。在信号处理理论中，白噪声指的是一种在不同频率都有相同功率的随机信号，即其功率谱密度为常数，功率与频率无关。“白噪声”这个名字来源于白光，白光包含了光谱中所有的颜色，其功率谱密度也呈平坦状，类似地，“白噪声”这种噪声中包含了所有频率的噪声，因此被冠上了“白”的称号。其他不满足该功率谱密度特性的噪声也被称为有色噪声，类似于非白光的其他颜色光。</p>
+<p>简单来说，白色的定性就是均值为0，不相关。明白了白色的内涵之后，“白化”的概念也就很容易理解了，对于一个随机向量，如果它是白化的，那么它满足两个条件：</p>
+<p>（1）各分量零均值且方差为1</p>
+<p>（2）各分量不相关</p>
+<p>通过上面两个条件限制，可以发现白化向量的协方差矩阵为单位矩阵。白化变换的定义为：<strong>白化</strong>变换或<strong>球面</strong>变换是一种线性变换，它将具有已知协方差矩阵的随机变量向量转换为一组新变量组成的向量，使得新的向量协方差矩阵为一个<mark>单位矩阵</mark>。（白化强于不相关的地方在于白化后矩阵的特征方差是1。）</p>
+<p>对于零均值这个条件，只需要把原始向量减去均值就可以了： <span
+class="math display">\[
+\tilde{x}=x-\frac{1}{n}\sum^n_{i=1}x_i
+\]</span> 针对第二个条件，假设<span
+class="math inline">\(X\)</span>是一个均值为0的随机向量，其协方差矩阵为<span
+class="math inline">\(C_x\)</span>，那么白化变换就需要得到一个变换矩阵<span
+class="math inline">\(W\)</span>，使得 <span class="math display">\[
+Y=WX
+\]</span> 为白化向量。我们知道<span
+class="math inline">\(X\)</span>的自协方差矩阵的表达式为： <span
+class="math display">\[
+\boldsymbol{C_x}=Cov(\boldsymbol{x},\boldsymbol{x})\stackrel{def}{=}E\{[\boldsymbol{x}(\xi)-\boldsymbol{\mu_x}][\boldsymbol{x}(\xi)-\boldsymbol{\mu_x}]^T\}=\begin{bmatrix}c_{11}&amp;\cdots&amp;c_{1m}\\\vdots&amp;\ddots&amp;\cdots\\c_{m1}&amp;\cdots&amp;c_{mm}\end{bmatrix}
+\]</span> 那么<span class="math inline">\(Y\)</span> 的协方差矩阵为
+<span class="math inline">\(\Sigma=WC_x
+W^{T}\)</span>。（这个直接把<span
+class="math inline">\(Y\)</span>与<span
+class="math inline">\(X\)</span>的关系代入上式就可以得到），所以要使得<span
+class="math inline">\(WC_x
+W^{T}=E\)</span>。白化变换的关键就是求出满足上述条件的变换矩阵<span
+class="math inline">\(W\)</span>，求解方法不唯一。设 <span
+class="math inline">\(C_x=U\Lambda U^T\)</span>为 <span
+class="math inline">\(C_x\)</span> 的特征值分解，其中 <span
+class="math inline">\(U\)</span> 是正交矩阵（正交阵是指满足<span
+class="math inline">\(AA^T=E\)</span>或者<span
+class="math inline">\(A^TA=E\)</span>的<span
+class="math inline">\(n\)</span>阶方阵<span
+class="math inline">\(A\)</span>），那么 <span
+class="math inline">\(W=R\Lambda^{-1/2}U^T\)</span>
+都是满足条件的白化变换矩阵，其中 <span class="math inline">\(R\)</span>
+为任意正交矩阵。特别地，我们称 <span class="math display">\[
+W=\Lambda^{-1/2}U^T
+\]</span> 为PCA变换，称 <span class="math display">\[
+W=U\Lambda^{-1/2}U^T
+\]</span> 为ZCA变换或马氏变换。</p>
+<h1 id="参考文献">参考文献</h1>
+<p><a
+target="_blank" rel="noopener" href="https://wangjs-jacky.github.io/2020/02/22/白化（Whitening）/#二维高维分布randn">白化（Whitening）
+| Jacky's blogs (wangjs-jacky.github.io)</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_37872766/article/details/102957235">Whiten
+process——数据的白化处理-CSDN博客</a></p>
+<h2 id="二维均匀分布rand">二维均匀分布：<code>rand</code></h2>
+<h2 id="二维高维分二维高斯分布randn"><a
+target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/wangjs-jacky/testpic/img_temp/20200221230611.png"><img src="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230611.png" class="" title="img"></a>二维高维分二维高斯分布：<code>randn</code></h2>
+<p><a
+target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/wangjs-jacky/testpic/img_temp/20200221230720.png"><img src="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230720.png" class="" title="img"></a></p>
+<blockquote>
+<p>注：这里的 PCA白化和
+ZCA白化看上去一样其实是不一样的，PCA的数据在维度方向是无关的，相当于原数据发生了一个旋转，ZCA则与原数据没有发生旋转，从第一个图可以发现这种旋转方式。下图可以反映这种变换。</p>
+</blockquote>
+<img src="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/image-20231206181244836.png" class="" title="image-20231206181244836">
+
     </div>
 
     
@@ -339,6 +399,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%99%BD%E5%8C%96"><span class="nav-text">为什么要白化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BD%E5%8C%96%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">白化的定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83rand"><span class="nav-text">二维均匀分布：rand</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E9%AB%98%E7%BB%B4%E5%88%86%E4%BA%8C%E7%BB%B4%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83randn"><span class="nav-text">二维高维分二维高斯分布：randn</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
