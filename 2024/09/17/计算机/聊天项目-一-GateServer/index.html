@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. Main函数的初始化 GateServer 既作为服务器，又作为客户端：  作为聊天客户端的网关服务器 作为gRPC的客户端，gRPC的客户端比较简单，不需要在 Main 函数中进行初始化  邮箱验证服务 状态查询服务   Main 函数中需要连接 Reids 服务器和 MySQL 服务器： 12MysqlMgr::GetInstance();RedisMgr::Ge">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-17T03:37:10.000Z">
-<meta property="article:modified_time" content="2024-09-17T13:50:27.713Z">
+<meta property="article:modified_time" content="2024-09-18T06:22:10.011Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="C++聊天项目">
 <meta name="twitter:card" content="summary">
@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-09-17 11:37:10 / Modified: 21:50:27" itemprop="dateCreated datePublished" datetime="2024-09-17T11:37:10+08:00">2024-09-17</time>
+              <time title="Created: 2024-09-17 11:37:10" itemprop="dateCreated datePublished" datetime="2024-09-17T11:37:10+08:00">2024-09-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-18 14:22:10" itemprop="dateModified" datetime="2024-09-18T14:22:10+08:00">2024-09-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -299,8 +305,15 @@ socket），因此需要在 CServer 的函数中创建一个 CSession 对象：<
 </ul>
 <h2 id="http-接收">3.1 HTTP 接收</h2>
 <p>因为客户端发送的是数据是基于 HTTP 协议的，所以不需要像后面对 TCP
-进行手动的切包操作，而是直接使用 beast 库进行读取就可以了：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> self = <span class="built_in">shared_from_this</span>();</span><br><span class="line"><span class="comment">// 一定要传入 request 参数，这样就能够把客户端的请求放到 request 中</span></span><br><span class="line">http::<span class="built_in">async_read</span>(_socket, _buffer, _request, [self]()&#123;</span><br><span class="line">    <span class="comment">//数据的处理调用</span></span><br><span class="line">    self-&gt;<span class="built_in">HandleReq</span>();</span><br><span class="line">    self-&gt;<span class="built_in">CheckDeadline</span>();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+进行手动的切包操作，而是直接使用 beast 库进行读取就可以了。beast
+库提供了两个类，一个类是
+<code>http::request&lt;heetp::dynamic_body&gt;</code>,
+一个类是<code>http::response&lt;http::dynamic_body&gt;</code>
+，分别是请求报文和响应报文。<strong>而数据存放在哪呢</strong>？HTTP
+协议有请求行/状态行、消息头/消息体，而数据就包含在消息体中。<strong>如何获取到数据呢</strong>？通过成员变量的方式直接获取
+requst.body().data()。<strong>data的数据是什么格式呢</strong>？data的数据是一块
+buffer ，转成字符串之后是一个 json 对象序列化后的字符串。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSession::Start</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">auto</span> self = <span class="built_in">shared_from_this</span>();</span><br><span class="line">	http::<span class="built_in">async_read</span>(_socket, _buffer, _request, [self](beast::error_code ec,</span><br><span class="line">		std::<span class="type">size_t</span> bytes_transferred) &#123;</span><br><span class="line">            <span class="comment">//处理读到的数据</span></span><br><span class="line">            boost::<span class="built_in">ignore_unused</span>(bytes_transferred);</span><br><span class="line">            self-&gt;<span class="built_in">HandleReq</span>();</span><br><span class="line">            self-&gt;<span class="built_in">CheckDeadline</span>();</span><br><span class="line">		&#125;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="http-的解析和注册函数调用">3.2 HTTP 的解析和注册函数调用</h2>
 <p>读到数据之后需要在 HandleReq 中初步处理 HTTP
 请求，然后会解析出请求类别，并在回调函数中进行数据的处理。HandleReq
@@ -308,13 +321,15 @@ socket），因此需要在 CServer 的函数中创建一个 CSession 对象：<
 ，<code>消息头</code>， 和 <code>消息体</code>
 。要如何处理呢？主要是根据 HTTP 的 <code>method</code>
 来进行解析，解析完之后交给逻辑类进行处理（这里不需要再为逻辑类单独创建线程了，因为本来服务就是跑在多个线程的）：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSession::HandleReq</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//设置版本</span></span><br><span class="line">	_response.<span class="built_in">version</span>(_request.<span class="built_in">version</span>());</span><br><span class="line">	<span class="comment">//设置为短链接</span></span><br><span class="line">	_response.<span class="built_in">keep_alive</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::get)&#123;</span><br><span class="line">        <span class="comment">//!!!! HTTP URL 的解析 !!!</span></span><br><span class="line">        <span class="built_in">PreParseGetParam</span>();</span><br><span class="line">        <span class="comment">//交给逻辑类中的 HandleGet 处理</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandleGet</span>(_get_url, <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="comment">//设置响应报文的状态</span></span><br><span class="line">        _response.<span class="built_in">result</span>(http::status::ok); <span class="comment">// 设置状态码为200 OK</span></span><br><span class="line">        _response.<span class="built_in">set</span>(http::field::server, <span class="string">&quot;GateServer&quot;</span>); <span class="comment">// 设置服务器头为GateServer</span></span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::post)&#123;</span><br><span class="line">        <span class="comment">//直接从逻辑类取函数就行了，不需要解析 URL</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandlePost</span>(_request.<span class="built_in">target</span>(), <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSession::HandleReq</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//设置版本</span></span><br><span class="line">	_response.<span class="built_in">version</span>(_request.<span class="built_in">version</span>());</span><br><span class="line">	<span class="comment">//设置为短链接</span></span><br><span class="line">	_response.<span class="built_in">keep_alive</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::get)&#123;</span><br><span class="line">        <span class="comment">//!!!! HTTP URL 的解析 !!!</span></span><br><span class="line">        <span class="built_in">PreParseGetParam</span>();</span><br><span class="line">        <span class="comment">//交给逻辑类中的 HandleGet 处理</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandleGet</span>(_get_url, <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="comment">//设置响应报文的状态</span></span><br><span class="line">        _response.<span class="built_in">result</span>(http::status::ok); <span class="comment">// 设置状态码为200 OK</span></span><br><span class="line">        _response.<span class="built_in">set</span>(http::field::server, <span class="string">&quot;GateServer&quot;</span>); <span class="comment">// 设置服务器头为GateServer</span></span><br><span class="line">        <span class="comment">//!!! HTTP !!!的接收和响应一定是都在 CSession 中完成的</span></span><br><span class="line">        <span class="comment">//不要在逻辑类中取调用这个 WriteResponse</span></span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(_requeset.<span class="built_in">method</span>() == http::verb::post)&#123;</span><br><span class="line">        <span class="comment">//直接从逻辑类取函数就行了，不需要解析 URL</span></span><br><span class="line">        <span class="type">bool</span> success = LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HandlePost</span>(_request.<span class="built_in">target</span>(), <span class="built_in">shared_from_this</span>());</span><br><span class="line">        <span class="built_in">WriteResponse</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里需要设置响应报文的几个状态，记住：</p>
 <ul>
 <li>设置版本</li>
 <li>设置为短链接</li>
 <li>设置状态码：200 ok</li>
 <li>设置服务器头，也就是 Host</li>
+<li>设置错误码：如 gRPC是否调用成功</li>
+<li>设置内容长度（在调用 http::async_write 之前才统计长度）</li>
 </ul>
 <p>注意：这里只有当 get 请求的时候才会调用 URL 解析函数，而 post
 请求的时候直接调用回调函数就可以了。 这个聊天项目中的 request.target()
@@ -335,7 +350,95 @@ socket），因此需要在 CServer 的函数中创建一个 CSession 对象：<
 </ul>
 <p>以下是这4个回调函数的具体代码逻辑。</p>
 <h3 id="get_varifycode">3.3.1 get_varifycode</h3>
+<p>GateServer 作为客户端向 gRPC 服务端发送获取验证码的请求，包含且仅包含
+GetVerifyCode 这个函数。</p>
+<p>首先是解析 json 字符串，需要把请求的 json 对象解析到新的 json
+对象，这需要用到 reader 这个类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//设置content type字段</span><br><span class="line">connecion-&gt;_response.set(http::field::content_type, &quot;text/json&quot;);</span><br><span class="line">//发序列化</span><br><span class="line">Json::Value root;</span><br><span class="line">Json::Reader reader;</span><br><span class="line">Json::Value src_root;</span><br><span class="line">auto body_str = boost::beast::buffers_to_string(connection-&gt;_request.body().data());</span><br><span class="line">reader.parse(body_str, src_root);</span><br></pre></td></tr></table></figure>
+<p>如何把 json 序列化后的字符串写进 response 中？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::string jsonstr = root.toStyledString();</span><br><span class="line">beast::ostream(connection-&gt;_response.body()) &lt;&lt; jsonstr;</span><br></pre></td></tr></table></figure>
+<p>当解析出了 src_root 之后，src_root 中会包含 email 键，那么就通过调用
+gRPC
+服务去向这个邮箱发送验证码。gRPC客户端远程调用的步骤是什么？首先，调用的过程是很简单的，直接通过客户端的单例去调用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Getresponse rsp = VerifyGrpcClient-&gt;<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">GetVerifyCode</span>(email);</span><br></pre></td></tr></table></figure>
+<p><strong>要如何实现这个gRPC的单例呢？</strong></p>
+<p>gRPC 的底层本质是基于 TCP 的传输协议，类似于
+HTTP。因此，发送的时候也需要一些必要的对象，以下是服务端需要的一些对象：</p>
+<ul>
+<li>通过 builder 来构建和开始 gRPC 服务——&gt;io_context</li>
+<li>通过 channel 来封装连接——&gt;socket</li>
+<li>通过 stub 来建立连接——&gt;endpoint</li>
+</ul>
+<p>由于前面存在多个线程在跑 io_context
+，因此可能存在多个客户端注册的情况，为了满足高并发的要求，客户端就需要通过连接池来取
+stub ，从而向服务端发起连接。整个这个 VerifyGrpcClient
+只有一个函数，这个函数中要初始化 gRPC 的各种变量，来远程调用
+GetVerifyCode 服务，比如，肯定要把 request
+的相关参数进行设置，这样服务端才知道是什么请求。除此之外，在
+VerifyGrpcClient 的构造函数中，还需要 new 一个连接池。只需要记住，gRPC
+客户端只要两个变量来构建：</p>
+<ul>
+<li>ClientContext：用来查询调用是否完成，异步非阻塞</li>
+<li>Stub</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GetVarifyRsp GetVarifyCode(std::string email) &#123;</span><br><span class="line">    ClientContext context;</span><br><span class="line">    GetVarifyRsp reply;</span><br><span class="line">    GetVarifyReq request;</span><br><span class="line">    request.set_email(email);</span><br><span class="line">    auto stub = pool_-&gt;getConnection();</span><br><span class="line">    Status status = stub-&gt;GetVarifyCode(&amp;context, request, &amp;reply);</span><br><span class="line"></span><br><span class="line">    if (status.ok()) &#123;</span><br><span class="line">   		//一定要还回去连接，采用了移动构造</span><br><span class="line">        pool_-&gt;returnConnection(std::move(stub));</span><br><span class="line">        return reply;</span><br><span class="line">	&#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        pool_-&gt;returnConnection(std::move(stub));</span><br><span class="line">        reply.set_error(ErrorCodes::RPCFailed);</span><br><span class="line">        return reply;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回了这个 GetVarifyRsp 中包含了一些变量，这些变量是在 proto
+文件中定义的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">service VarifyService &#123;</span><br><span class="line">  <span class="function">rpc <span class="title">GetVarifyCode</span> <span class="params">(GetVarifyReq)</span> <span class="title">returns</span> <span class="params">(GetVarifyRsp)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetVarifyReq &#123;</span><br><span class="line">  string email = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetVarifyRsp &#123;</span><br><span class="line">  int32 error = <span class="number">1</span>;</span><br><span class="line">  string email = <span class="number">2</span>;</span><br><span class="line">  string code = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：返回的 rsp 包含了3种信息，分别是 error，email，code。但是只有
+error 写进了 HTTP 的响应报文中，在 CSession 中通过 WriteResponse
+来发送回去。</p>
+</blockquote>
+<p><strong>连接池如何构造呢？</strong></p>
+<p>在 VerifyGrpcClient 的构造函数中，需要 new
+一个连接池，初始化连接池需要3个参数，包括：<code>pool_size</code>,
+<code>host</code>, <code>port</code> 。host 和 port 是 gRPC 服务器的 IP
+和 端口。这样就能在 gRPC 的构造函数中创建多个连向 server 的
+channel，从而能够满足多个 stub 连接的需求。</p>
+<p>连接池的主要有3个函数：</p>
+<ul>
+<li>构造函数</li>
+<li>std::unique_ptr&lt; VarifyService::Stub &gt;
+getConnection()：从队列里取 stub ，如果队列为空就条件变量阻塞</li>
+<li>void returnConnection(std::unique_ptr&lt; VarifyService::Stub &gt;
+context)：往队列里返回 stub，同时唤醒一个条件变量</li>
+</ul>
+<blockquote>
+<p>注意：stub 都是放在 _connections
+这个队列中来管理的，用一个的时候就移动出去使用，用完之后再移动回来。所以有可能这个队列是空的，需要使用条件变量阻塞，而一旦有一个
+stub 还回去了，就要唤醒一个条件变量。</p>
+</blockquote>
 <h3 id="user_register">3.3.2 user_register</h3>
+<p><strong>注册用户的逻辑是什么？</strong></p>
+<p>首先回顾注册界面包含哪些变量：</p>
+<ul>
+<li>用户名：name</li>
+<li>邮箱：email</li>
+<li>密码：pwd</li>
+<li>确认密码：confirm</li>
+<li>验证码：verify_code</li>
+</ul>
+<p>所以首先是先从 HTTP 的 body_str
+中==解析出这些相关信息==，然后开始判断：</p>
+<ol type="1">
+<li>如果 pwd != confirm，返回一个 ERROR 的响应报文。</li>
+<li>从 Redis
+中查找验证码是否合理。这个函数的参数包括2个：<code>email</code>,
+<code>verify_code</code> ，返回一个 bool 值，并且这个 <code>email</code>
+对应的验证码赋值给了 <code>verify_code</code>
+这个变量，然后需要判断这个验证码和。</li>
+<li>从 Mysql 中查找用户是否存在。这里直接调用了 MysqlMgr的 RegUser
+函数，这个函数的参数包括4个：<code>name</code>, <code>email</code>,
+<code>pwd</code>, <code>icon</code>。返回一个 int 型的 uid
+值，如果为0或者-1就是存在，返回一个带 ERROR 的 HTTP
+响应报文；如果不存在则会在 RegUser 函数中进行注册，并返回其 uid。</li>
+</ol>
+<p>上述检查都通过后，返回一个错误码为 0 的 HTTP
+响应报文给客户端，其他的信息可添加可不添加。所有的信息都是在 root 这个
+json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给客户端。</p>
+<p>这中间涉及到 Redis 数据库和 Mysql
+数据库的操作。下面对这两个数据库的操作进行分析。首先，它们都是通过一个管理类来进行数据的操作的，在管理类中，封装了上层服务器调用的函数，把面向过程的操作封装到了一个管理类里，这种叫做数据访问对象设计模式。</p>
 <h3 id="reset_pwd">3.3.3 reset_pwd</h3>
 <h3 id="user_login">3.3.4 user_login</h3>
 <h1 id="逻辑类的函数">4. 逻辑类的函数</h1>
