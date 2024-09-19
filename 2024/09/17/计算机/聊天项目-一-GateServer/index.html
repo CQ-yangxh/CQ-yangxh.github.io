@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. Main函数的初始化 GateServer 既作为服务器，又作为客户端：  作为聊天客户端的网关服务器 作为gRPC的客户端，gRPC的客户端比较简单，不需要在 Main 函数中进行初始化  邮箱验证服务 状态查询服务   Main 函数中需要连接 Reids 服务器和 MySQL 服务器： 12MysqlMgr::GetInstance();RedisMgr::Ge">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-17T03:37:10.000Z">
-<meta property="article:modified_time" content="2024-09-18T06:22:10.011Z">
+<meta property="article:modified_time" content="2024-09-18T08:21:55.151Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="C++聊天项目">
 <meta name="twitter:card" content="summary">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-18 14:22:10" itemprop="dateModified" datetime="2024-09-18T14:22:10+08:00">2024-09-18</time>
+                <time title="Modified: 2024-09-18 16:21:55" itemprop="dateModified" datetime="2024-09-18T16:21:55+08:00">2024-09-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -341,7 +341,7 @@ buffer ，转成字符串之后是一个 json 对象序列化后的字符串。<
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. 提取URI：</span><br><span class="line">   - 从HTTP请求中获取目标URI（_request.target()）。</span><br><span class="line">2. 查找查询字符串起始位置：</span><br><span class="line">   - 使用find方法找到查询字符串开始的位置（即?的位置）。</span><br><span class="line">3. 分离路径与查询字符串：</span><br><span class="line">   - 如果没有查询字符串（即没有?），则整个URI作为路径存储到_get_url中。</span><br><span class="line">   - 如果存在查询字符串，则分割URI为路径部分和查询字符串部分，并分别存储到_get_url和query_string变量中。</span><br><span class="line">4. 解析查询字符串：</span><br><span class="line">   - 使用find方法查找&amp;字符的位置，这标志着一个键值对的结束。</span><br><span class="line">   - 每次循环中，从当前查询字符串中截取出一个键值对。</span><br><span class="line">   - 使用find方法找到等号（=）的位置，将键值对分割成键和值两部分。</span><br><span class="line">   - 对键和值进行URL解码（假设有一个UrlDecode函数）。</span><br><span class="line">   - 将解码后的键值对存储到_get_params哈希表中。</span><br><span class="line">   - 移除已处理过的键值对及其后面的&amp;字符，继续处理剩余的查询字符串。</span><br><span class="line">5. 处理最后一个键值对：</span><br><span class="line">   - 如果查询字符串中没有&amp;字符，则认为这是最后一个键值对，对其进行相同的处理。</span><br></pre></td></tr></table></figure>
 <h2 id="http-注册的回调函数">3.3 HTTP 注册的回调函数</h2>
 <p>需要根据 HTTP
-的路由来判断客户端的请求类别，这些请求的执行函数需要提前在逻辑类的初始化函数中注册，这样才能够调用。包含以下请求：</p>
+的路由来判断客户端的请求类别，这些请求的执行函数需要提前在逻辑类的初始化函数中注册（怎么注册呢？通过哈希表来存储这些{请求，函数}键值对），这样才能够调用。包含以下请求：</p>
 <ul>
 <li>"/get_varifycode"</li>
 <li>"/user_register"</li>
@@ -381,7 +381,7 @@ VerifyGrpcClient 的构造函数中，还需要 new 一个连接池。只需要�
 <li>ClientContext：用来查询调用是否完成，异步非阻塞</li>
 <li>Stub</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GetVarifyRsp GetVarifyCode(std::string email) &#123;</span><br><span class="line">    ClientContext context;</span><br><span class="line">    GetVarifyRsp reply;</span><br><span class="line">    GetVarifyReq request;</span><br><span class="line">    request.set_email(email);</span><br><span class="line">    auto stub = pool_-&gt;getConnection();</span><br><span class="line">    Status status = stub-&gt;GetVarifyCode(&amp;context, request, &amp;reply);</span><br><span class="line"></span><br><span class="line">    if (status.ok()) &#123;</span><br><span class="line">   		//一定要还回去连接，采用了移动构造</span><br><span class="line">        pool_-&gt;returnConnection(std::move(stub));</span><br><span class="line">        return reply;</span><br><span class="line">	&#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        pool_-&gt;returnConnection(std::move(stub));</span><br><span class="line">        reply.set_error(ErrorCodes::RPCFailed);</span><br><span class="line">        return reply;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">GetVarifyRsp <span class="title">GetVarifyCode</span><span class="params">(std::string email)</span> </span>&#123;</span><br><span class="line">    ClientContext context;</span><br><span class="line">    GetVarifyRsp reply;</span><br><span class="line">    GetVarifyReq request;</span><br><span class="line">    request.<span class="built_in">set_email</span>(email);</span><br><span class="line">    <span class="keyword">auto</span> stub = pool_-&gt;<span class="built_in">getConnection</span>();</span><br><span class="line">    Status status = stub-&gt;<span class="built_in">GetVarifyCode</span>(&amp;context, request, &amp;reply);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">   		<span class="comment">//一定要还回去连接，采用了移动构造</span></span><br><span class="line">        pool_-&gt;<span class="built_in">returnConnection</span>(std::<span class="built_in">move</span>(stub));</span><br><span class="line">        <span class="keyword">return</span> reply;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        pool_-&gt;<span class="built_in">returnConnection</span>(std::<span class="built_in">move</span>(stub));</span><br><span class="line">        reply.<span class="built_in">set_error</span>(ErrorCodes::RPCFailed);</span><br><span class="line">        <span class="keyword">return</span> reply;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>返回了这个 GetVarifyRsp 中包含了一些变量，这些变量是在 proto
 文件中定义的：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">service VarifyService &#123;</span><br><span class="line">  <span class="function">rpc <span class="title">GetVarifyCode</span> <span class="params">(GetVarifyReq)</span> <span class="title">returns</span> <span class="params">(GetVarifyRsp)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetVarifyReq &#123;</span><br><span class="line">  string email = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetVarifyRsp &#123;</span><br><span class="line">  int32 error = <span class="number">1</span>;</span><br><span class="line">  string email = <span class="number">2</span>;</span><br><span class="line">  string code = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -420,15 +420,17 @@ stub 还回去了，就要唤醒一个条件变量。</p>
 <li>验证码：verify_code</li>
 </ul>
 <p>所以首先是先从 HTTP 的 body_str
-中==解析出这些相关信息==，然后开始判断：</p>
+中解析出这些相关信息，然后开始判断：</p>
 <ol type="1">
 <li>如果 pwd != confirm，返回一个 ERROR 的响应报文。</li>
 <li>从 Redis
 中查找验证码是否合理。这个函数的参数包括2个：<code>email</code>,
-<code>verify_code</code> ，返回一个 bool 值，并且这个 <code>email</code>
-对应的验证码赋值给了 <code>verify_code</code>
-这个变量，然后需要判断这个验证码和。</li>
-<li>从 Mysql 中查找用户是否存在。这里直接调用了 MysqlMgr的 RegUser
+<code>verify_code</code> ，返回一个 bool
+值，代表发送成功或者失败，并且这个 <code>email</code>
+对应的验证码赋值给了 <code>verify_code</code> 这个变量。然后需要判断这个
+<code>verify_code</code> 和用户填的验证码
+<code>src_root["verifycode"]</code> 是否相等。</li>
+<li>从 Mysql 中查找用户是否存在。这里直接调用了 MysqlMgr 的 RegUser
 函数，这个函数的参数包括4个：<code>name</code>, <code>email</code>,
 <code>pwd</code>, <code>icon</code>。返回一个 int 型的 uid
 值，如果为0或者-1就是存在，返回一个带 ERROR 的 HTTP
@@ -439,8 +441,55 @@ stub 还回去了，就要唤醒一个条件变量。</p>
 json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给客户端。</p>
 <p>这中间涉及到 Redis 数据库和 Mysql
 数据库的操作。下面对这两个数据库的操作进行分析。首先，它们都是通过一个管理类来进行数据的操作的，在管理类中，封装了上层服务器调用的函数，把面向过程的操作封装到了一个管理类里，这种叫做数据访问对象设计模式。</p>
+<ul>
+<li><p>Redis操作：</p></li>
+<li><p>Mysql操作：</p></li>
+</ul>
 <h3 id="reset_pwd">3.3.3 reset_pwd</h3>
+<p><strong>重置密码的逻辑是什么？</strong></p>
+<p>首先回顾重置界面包含哪些变量：</p>
+<ul>
+<li>用户名：name</li>
+<li>邮箱：email</li>
+<li>更新的密码：pwd</li>
+</ul>
+<p>所以首先是先从 HTTP 的 body_str
+中解析出这些相关信息，然后开始判断：</p>
+<ol type="1">
+<li>从 Redis 中查找验证码是否合理。这个函数的参数包括2个：
+<code>email</code>, <code>verify_code</code> ，返回一个 bool
+值，代表发送成功或者失败，并且这个 <code>email</code>
+对应的验证码赋值给了 <code>verify_code</code> 这个变量。然后需要判断这个
+<code>verify_code</code> 和用户填的验证码
+<code>src_root["verifycode"]</code> 是否相等。</li>
+<li>从 Mysql 中查找用户名和邮箱是否匹配。这个函数的参数包括2个：
+<code>email</code>, <code>name</code> ，返回一个 bool
+值，代表是否匹配。</li>
+<li>更新 Mysql 中的密码为最新的密码。这个函数的参数包括2个：
+<code>name</code>, <code>pwd</code> 。</li>
+</ol>
+<p>上述检查都通过后，返回一个错误码为 0 的 HTTP
+响应报文给客户端，其他的信息可添加可不添加。所有的信息都是在 root 这个
+json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给客户端。</p>
 <h3 id="user_login">3.3.4 user_login</h3>
+<p><strong>重置密码的逻辑是什么？</strong></p>
+<p>首先回顾用户登录包含哪些变量：</p>
+<ul>
+<li>邮箱</li>
+<li>密码</li>
+</ul>
+<p>所以首先是先从 HTTP 的 body_str
+中解析出这些相关信息，然后开始判断：</p>
+<ol type="1">
+<li>用户名和密码是否匹配，在 Mysql
+中进行查询，并且把查询到的其他信息赋值给
+UserInfo。这里用到了一个管理用户信息的数据结构 UserInfo，包含
+<code>name</code>, <code>pwd</code>, <code>email</code>,
+<code>uid</code> 。</li>
+<li>调用 gRPC 服务获取 TPC 服务器。然后返回的 rsp 中包含了在 proto
+文件中定义的消息，包括 <code>host</code>, <code>port</code>,
+<code>token</code>, <code>error</code> 。</li>
+</ol>
 <h1 id="逻辑类的函数">4. 逻辑类的函数</h1>
 <p>逻辑类的构造函数中会注册上述四个请求的回调函数，除此之外还包含4个成员函数：</p>
 <ul>
@@ -451,6 +500,26 @@ json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给
 <li>HandleGet：直接通过 key 从 Get 哈希表中取出回调函数来执行</li>
 <li>HandlePost：直接通过 key 从 Post 哈希表中取出回调函数来执行</li>
 </ul>
+<h1 id="总结">5. 总结</h1>
+<p><strong>各有哪些地方用到了 Redis 和
+Mysql，存储的数据是什么？</strong></p>
+<p>首先注意，一定是在请求的调用中才会使用到数据库，而回顾有哪几个请求？</p>
+<ol type="1">
+<li>获取验证码：通过 gRPC 服务调用 Node.js
+来完成验证码的发送，不需要从数据库中读取数据</li>
+<li>用户注册：需要去通过邮箱查询验证码对不对，因为在请求发送验证码的时候只用到了
+email，所以只需要通过邮箱去匹配，这里用到了
+Redis。验证码正确之后还需要判断用户是否存在，避免重复注册，这里就需要用到
+name、email、pwd、icon 四个变量，这个是存储在 Mysql 中的。</li>
+<li>用户登录：用户靠邮箱和密码登录，只需要从 Mysql
+中判断邮箱、密码是否匹配就可以了。</li>
+<li>密码重置：密码重置需要接收验证码，所以这里会用到 Redis
+查询验证码是否有效。然后回检查用户名和邮箱是否匹配，这个是通过 Mysql
+进行查询的，然后再在 Mysql 中更新密码。</li>
+</ol>
+<p>总结来说，在验证码的收发方面，用到了 Redis，主要存储 email 和
+verifycode。而在用户信息方面使用了 Mysql，主要存储了
+name、email、pwd、uid。</p>
 
     </div>
 
@@ -472,7 +541,10 @@ json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给
     <a href="/2024/04/11/%E8%AE%BA%E6%96%87/Control/Man-machine-interface-based-on-the-discharge-timings-of-spinal-motor-neurons-after-targeted-muscle-reinnervation/" rel="prev" title="Man/machine interface based on the discharge timings of spinal motor neurons after targeted muscle reinnervation">
       <i class="fa fa-chevron-left"></i> Man/machine interface based on the discharge timings of spinal motor neurons after targeted muscle reinnervation
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%BA%8C-StatusServer/" rel="next" title="聊天项目(二) StatusServer">
+      聊天项目(二) StatusServer <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -531,7 +603,7 @@ json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1. Main函数的初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cserver%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">2. CServer的执行逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#csession%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">3. CSession的执行逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%8E%A5%E6%94%B6"><span class="nav-text">3.1 HTTP 接收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E7%9A%84%E8%A7%A3%E6%9E%90%E5%92%8C%E6%B3%A8%E5%86%8C%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-text">3.2 HTTP 的解析和注册函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%B3%A8%E5%86%8C%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-text">3.3 HTTP 注册的回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get_varifycode"><span class="nav-text">3.3.1 get_varifycode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_register"><span class="nav-text">3.3.2 user_register</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset_pwd"><span class="nav-text">3.3.3 reset_pwd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_login"><span class="nav-text">3.3.4 user_login</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%B1%BB%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4. 逻辑类的函数</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1. Main函数的初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cserver%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">2. CServer的执行逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#csession%E7%9A%84%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">3. CSession的执行逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%8E%A5%E6%94%B6"><span class="nav-text">3.1 HTTP 接收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E7%9A%84%E8%A7%A3%E6%9E%90%E5%92%8C%E6%B3%A8%E5%86%8C%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-text">3.2 HTTP 的解析和注册函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-%E6%B3%A8%E5%86%8C%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-text">3.3 HTTP 注册的回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get_varifycode"><span class="nav-text">3.3.1 get_varifycode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_register"><span class="nav-text">3.3.2 user_register</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset_pwd"><span class="nav-text">3.3.3 reset_pwd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user_login"><span class="nav-text">3.3.4 user_login</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%B1%BB%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4. 逻辑类的函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">5. 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -547,7 +619,7 @@ json 对象中的，序列化之后写入到 HTTP 的 body 中，然后发送给
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

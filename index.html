@@ -185,6 +185,176 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%BA%8C-StatusServer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%BA%8C-StatusServer/" class="post-title-link" itemprop="url">聊天项目(二) StatusServer</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-09-18 15:46:28" itemprop="dateCreated datePublished" datetime="2024-09-18T15:46:28+08:00">2024-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-19 10:26:56" itemprop="dateModified" datetime="2024-09-19T10:26:56+08:00">2024-09-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="main函数的初始化">1. Main函数的初始化</h1>
+<p>StatusServer 主要用作 GateServer 的 gRPC 服务器以及 ChatServer 的
+gRPC 的客户端。</p>
+<p><strong>主函数是如何初始化 gRPC 服务器的？</strong></p>
+<p>在主函数里面，只需要启动 gRPC
+的服务端就可以了。作为服务端，肯定是要一直处于监听状态，那么就需要一个上下文和一个监听端点：</p>
+<ul>
+<li><p>这里的端点就是服务器自己设定的端口号，在 init 文件初始化的
+50052，而 IP 是所有地址的 IP 都可以监听，所以是 0.0.0.0，这样 IP 和 Port
+组成了一个地址（端点）传给这个 builder。</p></li>
+<li><p>这里的上下文和客户端的 ClientContext 有区别，用的是 builder
+来开始和监听服务的。而服务的具体实现需要通过一个类来实例化，这个实例包含了
+proto 文件中定义的 rpc 接口。</p></li>
+</ul>
+<p>首先来看如何实现这个服务接口的。StatusServer 定义了两个 gRPC
+接口：</p>
+<ul>
+<li>GetChatServer</li>
+<li>Login</li>
+</ul>
+<p>它们在 proto
+文件中的定义如下所示，每一个都会定义一个请求消息和响应消息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service StatusService &#123;</span><br><span class="line">	rpc GetChatServer (GetChatServerReq) returns (GetChatServerRsp) &#123;&#125;</span><br><span class="line">	rpc Login(LoginReq) returns(LoginRsp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetChatServerReq &#123;</span><br><span class="line">  int32 uid = 1;</span><br><span class="line">&#125;</span><br><span class="line">message GetChatServerRsp &#123;</span><br><span class="line">  int32 error = 1;</span><br><span class="line">  string host = 2;</span><br><span class="line">  string port = 3;</span><br><span class="line">  string token = 4;</span><br><span class="line">&#125;</span><br><span class="line">message LoginReq&#123;</span><br><span class="line">	int32 uid = 1;</span><br><span class="line">	string token= 2;</span><br><span class="line">&#125;</span><br><span class="line">message LoginRsp &#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 uid = 2;</span><br><span class="line">	string token = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>知道上述两个接口之后，就要定义一个类 StatusServiceImpl 来从 gRPC
+生成的 StatusService::Service 中继承，实现两个接口函数：</p>
+<ul>
+<li>GetChatServer</li>
+<li>Login</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">StatusServiceImpl</span> <span class="keyword">final</span> : <span class="keyword">public</span> StatusService::Service</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">StatusServiceImpl</span>();</span><br><span class="line">	<span class="function">Status <span class="title">GetChatServer</span><span class="params">(ServerContext* context, <span class="type">const</span> GetChatServerReq* request, GetChatServerRsp* reply)</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="function">Status <span class="title">Login</span><span class="params">(ServerContext* context, <span class="type">const</span> LoginReq* request, LoginRsp* reply)</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">insertToken</span><span class="params">(<span class="type">int</span> uid, std::string token)</span></span>;</span><br><span class="line">	<span class="function">ChatServer <span class="title">getChatServer</span><span class="params">()</span></span>;</span><br><span class="line">	std::unordered_map&lt;std::string, ChatServer&gt; _servers;</span><br><span class="line">	std::mutex _server_mtx;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>回到主函数，我们用 grpc::Server 定义了一个 Server，并且通过 builder
+将其绑定到指定的端点以及注册相应的服务（一个 StatusServiceImpl
+对象），这样启动了 gRPC 服务器之后客户端就能够远程调用了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">server_address</span><span class="params">(cfg[<span class="string">&quot;StatusServer&quot;</span>][<span class="string">&quot;Host&quot;</span>]+<span class="string">&quot;:&quot;</span>+ cfg[<span class="string">&quot;StatusServer&quot;</span>][<span class="string">&quot;Port&quot;</span>])</span></span>;</span><br><span class="line">StatusServiceImpl service;</span><br><span class="line"></span><br><span class="line">grpc::ServerBuilder builder;</span><br><span class="line"><span class="comment">// 监听端口和添加服务</span></span><br><span class="line">builder.<span class="built_in">AddListeningPort</span>(server_address, grpc::<span class="built_in">InsecureServerCredentials</span>());</span><br><span class="line">builder.<span class="built_in">RegisterService</span>(&amp;service);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建并启动gRPC服务器</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;grpc::Server&gt; <span class="title">server</span><span class="params">(builder.BuildAndStart())</span></span>;</span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;Server listening on &quot;</span> &lt;&lt; server_address &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
+<p><strong>主函数是如何优雅退出的？</strong></p>
+<p>状态服务器的优雅退出和网关服务器是一样的，都需要通过 asio
+库定义一个上下文和一个信号组，信号组需要处于一个异步非阻塞监听的状态，而上下文用于轮询信号是否产生：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">boost::asio::io_context ioc;</span><br><span class="line">boost::asio::signal_set signals(ioc, SIGINT, SIGTERM);</span><br><span class="line">signals.async_wait([&amp;server, &amp;io_context]()&#123;</span><br><span class="line">	server-&gt;shutdown();</span><br><span class="line">	ioc.stop();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：如果没有调用 ioc.stop()，那么主函数会一直阻塞在 ioc.run()
+中，而调用了 ioc.stop()
+之后，就不会再去轮询事件了，由于使用了伪闭包的技术，那么在各个线程的程序执行完之后，主线程的智能指针引用计数为
+0，那么服务器可以优雅退出。</p>
+</blockquote>
+<p>StatusServer 的 ioc.run() 和 GateServer 中的不太一样，GateServer 中的
+ioc.run() 是在主线程中执行的，而 StatusServer 中把主线程的轮询分配给了
+gRPC 服务器，所以单独启了一个线程给 ioc 来跑监听 signals：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 在单独的线程中运行io_context</span><br><span class="line">std::thread([&amp;io_context]() &#123; io_context.run(); &#125;).detach();</span><br><span class="line"></span><br><span class="line">// 等待服务器关闭</span><br><span class="line">server-&gt;Wait();</span><br></pre></td></tr></table></figure>
+<h1 id="grpc服务的重写">2. gRPC服务的重写</h1>
+<p>StatusServer 有两个 gRPC 服务：</p>
+<ul>
+<li>GetChatServer</li>
+<li>Login</li>
+</ul>
+<p>记住，gRPC 请求的参数和返回的参数都是定义在 proto 文件中的，所有的
+response 消息都有一个 error：</p>
+<ul>
+<li>GetChatServer 的 request 参数：
+<ul>
+<li>uid</li>
+</ul></li>
+<li>GetChatServer 的 response 是一个 ChatServer 对象，包含以下参数：
+<ul>
+<li>host</li>
+<li>port</li>
+<li>token</li>
+<li>error</li>
+</ul></li>
+<li>Login 的 request 参数：
+<ul>
+<li>uid</li>
+<li>token</li>
+</ul></li>
+<li>Login 的 response 参数：
+<ul>
+<li>uid</li>
+<li>token</li>
+<li>error</li>
+</ul></li>
+</ul>
+<p>如何来访问这些变量呢？通过成员函数的方式来访问，比如，GetChatServerRsp.host()。</p>
+<h2 id="getchatserver">2.1 GetChatServer</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Status StatusServiceImpl::GetChatServer(ServerContext* context, const GetChatServerReq* request, GetChatServerRsp* reply)</span><br><span class="line">&#123;</span><br><span class="line">	std::string prefix(&quot;llfc status server has received :  &quot;);</span><br><span class="line">	const auto&amp; server = getChatServer();</span><br><span class="line">	reply-&gt;set_host(server.host);</span><br><span class="line">	reply-&gt;set_port(server.port);</span><br><span class="line">	reply-&gt;set_error(ErrorCodes::Success);</span><br><span class="line">	reply-&gt;set_token(generate_unique_string());</span><br><span class="line">	insertToken(request-&gt;uid(), reply-&gt;token());</span><br><span class="line">	return Status::OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：GetChatServer 是 gRPC
+定义的接口函数，这个接口函数调用了自定义的一个 getChatServer
+函数，用于获取可用的 server 的信息，并且把这些信息写入了 gRPC 的
+response 中，这个 response 包含了 proto
+文件中定义的4个参数，分别是<code>host</code>, <code>port</code>,
+<code>token</code>, <code>error</code>。</p>
+</blockquote>
+<p><strong>那么这个 getChatServer 如何实现呢？</strong></p>
+<p>首先，在 StatusServiceImpl 的构造函数中，会从 config.ini 中解析出两台
+TCP 服务器的 IP 和 Port 以及服务器 name：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">for (auto&amp; word : words) &#123;</span><br><span class="line">		if (cfg[word][&quot;Name&quot;].empty()) &#123;</span><br><span class="line">			continue;</span><br><span class="line">		&#125;</span><br><span class="line">		//定义了一个 ChatServer 对象，里面包含了 host name port con_count</span><br><span class="line">		//然后把这个 server 和名字作为键值对存储到 ServiceImpl 这个对象的哈希表 _servers 中</span><br><span class="line">		//server 名字作为键，server 对象作为值</span><br><span class="line">		ChatServer server;</span><br><span class="line">		server.port = cfg[word][&quot;Port&quot;];</span><br><span class="line">		server.host = cfg[word][&quot;Host&quot;];</span><br><span class="line">		server.name = cfg[word][&quot;Name&quot;];</span><br><span class="line">		_servers[server.name] = server;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>然后 getChatServer 就是要获取到连接数最小的 server。server
+的连接数都是存在 Redis 中的，<strong>为什么存在 Redis 中</strong>？因为
+ChatServer 的连接数只有自己才能更新，而 StatusServer 不知道当前
+ChatServer 中有多少个连接数，所以 ChatServer 需要向 Redis
+中写入自己连接数，这样 StatusServer 直接就能够通过访问 Redis
+基于服务器的名字来获取 连接数。使用 for 循环遍历 _servers
+哈希表，去最小的一个 server：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用范围基于for循环</span></span><br><span class="line"><span class="keyword">for</span> ( <span class="keyword">auto</span>&amp; server : _servers) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (server.second.name == minServer.name) &#123;</span><br><span class="line">		<span class="keyword">continue</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//从 Redis 中获取服务器的连接数</span></span><br><span class="line">	<span class="keyword">auto</span> count_str = RedisMgr::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HGet</span>(LOGIN_COUNT, server.second.name);</span><br><span class="line">	<span class="keyword">if</span> (count_str.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">		server.second.con_count = INT_MAX;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		server.second.con_count = std::<span class="built_in">stoi</span>(count_str);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (server.second.con_count &lt; minServer.con_count) &#123;</span><br><span class="line">		minServer = server.second;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> minServer;</span><br></pre></td></tr></table></figure>
+<h2 id="login">2.2 Login</h2>
+<p>Login 这个 gRPC 接口函数是用于登录的 token
+验证的。这里先暂时不管。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%80-GateServer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,7 +386,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-18 14:22:10" itemprop="dateModified" datetime="2024-09-18T14:22:10+08:00">2024-09-18</time>
+                <time title="Modified: 2024-09-18 16:21:55" itemprop="dateModified" datetime="2024-09-18T16:21:55+08:00">2024-09-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -959,85 +1129,6 @@ spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/12/%E8%AE%BA%E6%96%87/Decomposition/Surface-EMG-Decomposition-Based-on-K-means-Clustering-and-Convolution-Kernel-Compensation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/12/%E8%AE%BA%E6%96%87/Decomposition/Surface-EMG-Decomposition-Based-on-K-means-Clustering-and-Convolution-Kernel-Compensation/" class="post-title-link" itemprop="url">Surface EMG Decomposition Based on K-means Clustering and Convolution Kernel Compensation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-01-12 17:13:58" itemprop="dateCreated datePublished" datetime="2024-01-12T17:13:58+08:00">2024-01-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 14:08:13" itemprop="dateModified" datetime="2024-02-10T14:08:13+08:00">2024-02-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Decomposition/" itemprop="url" rel="index"><span itemprop="name">Decomposition</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这种算法一定要注意参数的设置，如果h设置过大，可能把一些不同mu的spike都均值化了。</p>
-<p>在高信噪比和低收缩强度的情况下，不需要迭代的过程，聚完类就能得到一个好的发放时刻。但是对高收缩力情况下的复杂emg信号，就需要这个迭代过程来改善spike train。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1109,7 +1200,7 @@ spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
