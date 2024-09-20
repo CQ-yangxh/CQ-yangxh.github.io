@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. Main函数的初始化 StatusServer 主要用作 GateServer 的 gRPC 服务器以及 ChatServer 的 gRPC 的客户端。 主函数是如何初始化 gRPC 服务器的？ 在主函数里面，只需要启动 gRPC 的服务端就可以了。作为服务端，肯定是要一直处于监听状态，那么就需要一个上下文和一个监听端点：  这里的端点就是服务器自己设定的端口号，在 init">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-18T07:46:28.000Z">
-<meta property="article:modified_time" content="2024-09-19T02:26:56.339Z">
+<meta property="article:modified_time" content="2024-09-20T08:20:07.935Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 
@@ -218,8 +218,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-19 10:26:56" itemprop="dateModified" datetime="2024-09-19T10:26:56+08:00">2024-09-19</time>
+                <time title="Modified: 2024-09-20 16:20:07" itemprop="dateModified" datetime="2024-09-20T16:20:07+08:00">2024-09-20</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -259,6 +268,7 @@ proto 文件中定义的 rpc 接口。</p></li>
 <li>GetChatServer</li>
 <li>Login</li>
 </ul>
+<span id="more"></span>
 <p>它们在 proto
 文件中的定义如下所示，每一个都会定义一个请求消息和响应消息：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service StatusService &#123;</span><br><span class="line">	rpc GetChatServer (GetChatServerReq) returns (GetChatServerRsp) &#123;&#125;</span><br><span class="line">	rpc Login(LoginReq) returns(LoginRsp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GetChatServerReq &#123;</span><br><span class="line">  int32 uid = 1;</span><br><span class="line">&#125;</span><br><span class="line">message GetChatServerRsp &#123;</span><br><span class="line">  int32 error = 1;</span><br><span class="line">  string host = 2;</span><br><span class="line">  string port = 3;</span><br><span class="line">  string token = 4;</span><br><span class="line">&#125;</span><br><span class="line">message LoginReq&#123;</span><br><span class="line">	int32 uid = 1;</span><br><span class="line">	string token= 2;</span><br><span class="line">&#125;</span><br><span class="line">message LoginRsp &#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 uid = 2;</span><br><span class="line">	string token = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -363,7 +373,10 @@ ChatServer 中有多少个连接数，所以 ChatServer 需要向 Redis
     <a href="/2024/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%80-GateServer/" rel="prev" title="聊天项目(一) GateServer">
       <i class="fa fa-chevron-left"></i> 聊天项目(一) GateServer
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%89-ChatServer/" rel="next" title="聊天项目(三) ChatServer">
+      聊天项目(三) ChatServer <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -438,7 +451,7 @@ ChatServer 中有多少个连接数，所以 ChatServer 需要向 Redis
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
