@@ -185,6 +185,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">Cpp八股笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-10-05 14:51:44 / Modified: 15:22:09" itemprop="dateCreated datePublished" datetime="2024-10-05T14:51:44+08:00">2024-10-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="shared_ptr-的底层原理">1. Shared_ptr 的底层原理</h2>
+<p><code>std::shared_ptr</code> 是 C++
+标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个
+<code>shared_ptr</code> 指向同一个对象。当最后一个
+<code>shared_ptr</code> 被销毁或重置时，对象也会被删除。</p>
+<h3 id="内部结构">内部结构</h3>
+<p><code>std::shared_ptr</code> 的底层实现通常包括以下几个关键组件：</p>
+<ol type="1">
+<li><strong>控制块（Control Block）</strong>：
+<ul>
+<li>控制块通常是一个独立的对象，它负责管理对象的引用计数和弱引用计数。</li>
+<li>引用计数（<code>use_count</code>）记录了多少个
+<code>shared_ptr</code> 指向同一个对象。</li>
+<li>弱引用计数（<code>weak_count</code>）记录了多少个
+<code>std::weak_ptr</code> 持有对该对象的引用。</li>
+</ul></li>
+<li><strong>存储机制</strong>：
+<ul>
+<li><code>std::shared_ptr</code> 包含一个指向控制块的指针。</li>
+<li>控制块包含一个指向实际对象的指针。</li>
+<li>控制块还包含一个指向删除器函数的指针（可选）。</li>
+</ul></li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%89-ChatServer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,8 +304,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-20 21:52:11" itemprop="dateModified" datetime="2024-09-20T21:52:11+08:00">2024-09-20</time>
+                <time title="Modified: 2024-09-20 21:53:32" itemprop="dateModified" datetime="2024-09-20T21:53:32+08:00">2024-09-20</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+            </span>
 
           
 
@@ -971,95 +1068,6 @@ spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/15/%E5%AE%9E%E9%AA%8C/%E7%BC%96%E7%A0%81%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/15/%E5%AE%9E%E9%AA%8C/%E7%BC%96%E7%A0%81%E5%99%A8/" class="post-title-link" itemprop="url">编码器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-01-15 22:17:28" itemprop="dateCreated datePublished" datetime="2024-01-15T22:17:28+08:00">2024-01-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-08 15:12:32" itemprop="dateModified" datetime="2024-02-08T15:12:32+08:00">2024-02-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AE%9E%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">实验</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>编码器的A相、B相和Z相是增量式旋转编码器中常见的信号输出端：</p>
-<ol>
-<li><strong>A相</strong> 和 <strong>B相</strong>：<ul>
-<li>A相和B相通常是两个正交（即相差90度相位）的脉冲信号通道。</li>
-<li>当编码器轴转动时，A相和B相会按照特定的顺序依次产生脉冲，由于它们的相位差为90度，通过检测这两个信号的超前或滞后关系，可以确定旋转的方向。</li>
-<li>例如，当编码器顺时针旋转时，A相通常会先于B相变化；逆时针旋转时，则B相会先于A相变化。</li>
-</ul>
-</li>
-<li><strong>Z相</strong>（也称为索引脉冲或零位脉冲）：<ul>
-<li>Z相是一个每旋转一圈才出现一次的脉冲信号，它不随转速改变而频率变化，而是固定在机械结构上的一个特定位置发出。</li>
-<li>这个脉冲用于指示特定的位置参考点，如圆周上的零度位置，或者用于系统复位和绝对位置校准。</li>
-<li>在一些控制系统中，可以通过检测Z相信号来精确地知道设备转了多少圈，并且可以在每个周期的起始点进行计数器清零或其他同步操作。</li>
-</ul>
-</li>
-</ol>
-<p>综上所述，A相和B相主要用于测量转速和旋转方向，而Z相则提供了一个绝对位置的参考标记。这三相信号共同工作，使得控制系统的闭环控制更加准确和可靠。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1131,7 +1139,7 @@ spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -185,6 +185,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/15/%E5%AE%9E%E9%AA%8C/%E7%BC%96%E7%A0%81%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/15/%E5%AE%9E%E9%AA%8C/%E7%BC%96%E7%A0%81%E5%99%A8/" class="post-title-link" itemprop="url">编码器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-15 22:17:28" itemprop="dateCreated datePublished" datetime="2024-01-15T22:17:28+08:00">2024-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-08 15:12:32" itemprop="dateModified" datetime="2024-02-08T15:12:32+08:00">2024-02-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">实验</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>编码器的A相、B相和Z相是增量式旋转编码器中常见的信号输出端：</p>
+<ol>
+<li><strong>A相</strong> 和 <strong>B相</strong>：<ul>
+<li>A相和B相通常是两个正交（即相差90度相位）的脉冲信号通道。</li>
+<li>当编码器轴转动时，A相和B相会按照特定的顺序依次产生脉冲，由于它们的相位差为90度，通过检测这两个信号的超前或滞后关系，可以确定旋转的方向。</li>
+<li>例如，当编码器顺时针旋转时，A相通常会先于B相变化；逆时针旋转时，则B相会先于A相变化。</li>
+</ul>
+</li>
+<li><strong>Z相</strong>（也称为索引脉冲或零位脉冲）：<ul>
+<li>Z相是一个每旋转一圈才出现一次的脉冲信号，它不随转速改变而频率变化，而是固定在机械结构上的一个特定位置发出。</li>
+<li>这个脉冲用于指示特定的位置参考点，如圆周上的零度位置，或者用于系统复位和绝对位置校准。</li>
+<li>在一些控制系统中，可以通过检测Z相信号来精确地知道设备转了多少圈，并且可以在每个周期的起始点进行计数器清零或其他同步操作。</li>
+</ul>
+</li>
+</ol>
+<p>综上所述，A相和B相主要用于测量转速和旋转方向，而Z相则提供了一个绝对位置的参考标记。这三相信号共同工作，使得控制系统的闭环控制更加准确和可靠。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/15/%E5%AE%9E%E9%AA%8C/%E5%8D%95%E7%89%87%E6%9C%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -912,88 +1001,6 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/" class="post-title-link" itemprop="url">白化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-12-06 17:17:02" itemprop="dateCreated datePublished" datetime="2023-12-06T17:17:02+08:00">2023-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:45:38" itemprop="dateModified" datetime="2024-09-17T11:45:38+08:00">2024-09-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="为什么要白化">为什么要白化</h1>
-<p>假设训练数据是图像，由于图像中相邻像素之间具有很强的相关性，所以用于训练时输入是冗余的。白化的目的就是降低输入的冗余性。比如在独立成分分析（ICA）中，对数据做白化预处理可以去除各观测信号之间的相关性，从而简化了后续独立分量的提取过程，而且，通常情况下，数据进行白化处理与不对数据进行白化处理相比，算法的收敛性较好。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1065,7 +1072,7 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
