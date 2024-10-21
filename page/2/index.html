@@ -185,6 +185,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/19/%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%8D%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/19/%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%8D%A1/" class="post-title-link" itemprop="url">数据采集卡</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-19 15:11:25" itemprop="dateCreated datePublished" datetime="2024-01-19T15:11:25+08:00">2024-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-09 17:55:12" itemprop="dateModified" datetime="2024-02-09T17:55:12+08:00">2024-02-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">实验</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-单双通道"><a href="#1-单双通道" class="headerlink" title="1 单双通道"></a>1 单双通道</h1><ul>
+<li>单通道：当采样通道总数量（nSampChanCount）等于 1 时，通道组内只有一个通道配置信息，即为单通道采集。  </li>
+<li>多通道：当采样通道总数量大于 1 时，通道组内有多个通道配置信息，则为多通道采集。如果用户使能 2、 0、 1 通道，则数据排列方式：<br>通道 2 数据 0、通道 0 数据 0、通道 1 数据 0<br>通道 2 数据 1、通道 0 数据 1、通道 1 数据 1<br>通道 2 数据 2、通道 0 数据 2、通道 1 数据 2 </li>
+</ul>
+<h1 id="2-参数选择"><a href="#2-参数选择" class="headerlink" title="2 参数选择"></a>2 参数选择</h1><h2 id="2-1-nSampChanCount"><a href="#2-1-nSampChanCount" class="headerlink" title="2.1 nSampChanCount"></a>2.1 nSampChanCount</h2><p>采样通道数量 (Sample Channel Count)，进入采样过程的通道个数，取值范围[1, 8]。即决定了 CHParam[]通道组阵列中有效单元的个数。若 nSampChanCount=1, 则表示仅 CHParam[0]单元决定的物理通道号有效; 若 nSampChanCount=2，则表示仅 CHParam[0]、CHParam[1]两个单元决定的物理通道号有效; 若 nSampChanCount=3，则表示仅 CHParam[0]、CHParam[1]、CHParam[2]三个单元决定的物理通道号有效，依次类推。</p>
+<h2 id="2-2-nSampsPerChan"><a href="#2-2-nSampsPerChan" class="headerlink" title="2.2 nSampsPerChan"></a>2.2 nSampsPerChan</h2><p><strong>连续采样模式:</strong> 决定着触发采样事件 hSampEvent 时的点数条件。</p>
+<p>比如指定该参数值为 1024点，则每采样到不小于 1024 点时就会触发采样事件 hSampEvent，它也决定着每次调用 AI ReadAnalog()或 AIreadBinary()时能最快返回的点数边界 (<mark>请注意:是不小于 nSampsPerChan，意思是不可能正好等于 nSampsPerChan 时就能得到事件通知，而是通常在超过 nSampsPerChan 时才能得到事件通知</mark>)。即该参数的取值大小决定着每两次读到数据的时间间隔，也就是实时响应度。点数越小，实时响应就越高，反之越低。但不能为了一味的追求实时响应度就将该参数的值设得很小，这个还要看采样速率的高低，<mark>如果采样速率很高，而 nSampsPerChan 的值很小，则可能造成任务负担过重而发生缓冲区溢出，以致造成丢点现象的发生。</mark>建议实时响应度不低于 20 个毫秒是比较合适的。比如每通道采样速率为 100Ksps，即10微秒一个点，则 nSampsPerChan 不小于 2000 个点是比较合适的。该参数的取值范围为[2, 1024 * 1024]，具体还要受制于系统可用内存和采样通道数。</p>
+<h2 id="2-3-nReadSampsPerChan"><a href="#2-3-nReadSampsPerChan" class="headerlink" title="2.3 nReadSampsPerChan"></a>2.3 nReadSampsPerChan</h2><p>在有限点和连续采样模式中，它指定该次从设备的当前可读数据位置读取的数据点数（单位: 点）。注意此参数的值如大于当前的可读数点 nAvailSampsPerChan 则会继续等待直到至少有 nReadSampsPerChan 个点可读后读函数才会返回。等待期间，如果所等时间超过 fTimeout 指定时间也会返回，并置超时错误码。</p>
+<p>在连续采样过程中，如果要保持连续不丢点，此参数应尽可能接近于甚至等于当前的可读点数（nAvailSampsPerChan），但不能大于 AIParam.nSampsPerChan。当然此参数值也不能大于 fAnlgArray 的缓冲区长度，所以为避免出错，所开辟的缓冲区不能小于 nReadSampsPerChan * AIParam.nSampChanCount。</p>
+<p><mark>和nSampsPerChan相比一个是需要读的一个实际采的。而实际读到的点数在pSampsPerChanRead。</mark></p>
+<blockquote>
+<p>这个告诉我们，要关注数据采集卡的底层，采样分析发现，数据采集卡是 2 的幂次方个数目采集存储的。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/01/15/%E5%AE%9E%E9%AA%8C/%E7%BC%96%E7%A0%81%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -922,85 +1008,6 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5%E3%80%81%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E3%80%81%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5%E3%80%81%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E3%80%81%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0/" class="post-title-link" itemprop="url">相关矩阵、协方差矩阵、相关系数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-12-06 21:52:00" itemprop="dateCreated datePublished" datetime="2023-12-06T21:52:00+08:00">2023-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-12-12 15:00:48" itemprop="dateModified" datetime="2023-12-12T15:00:48+08:00">2023-12-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>参考博文：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xq151750111/article/details/121172306">矩阵篇（四）— 实随机向量的相关矩阵、协方差矩阵、相关系数_随机向量的协方差矩阵-CSDN博客</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41076797/article/details/112640676">协方差矩阵及其意义_协方差矩阵的意义-CSDN博客</a></li>
-</ul>
-<p>协方差的意义：协方差代表的是随机变量之间的相关性，如果协方差矩阵越向对角线集中，那么表面随机变量之间的相关性越弱。相关系数就与协方差有关，相关系数的计算公式中分子就是两个变量的协方差。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1072,7 +1079,7 @@ F(t) = 2\cdot atan(t)-2\cdot t+t\cdot\log(1+t^2)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
