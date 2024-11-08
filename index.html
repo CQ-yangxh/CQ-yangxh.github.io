@@ -185,6 +185,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/11/02/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/02/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">简历项目总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-02 14:49:45" itemprop="dateCreated datePublished" datetime="2024-11-02T14:49:45+08:00">2024-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-08 17:20:04" itemprop="dateModified" datetime="2024-11-08T17:20:04+08:00">2024-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="qt上位机">1. Qt上位机</h1>
+<p>分为两个线程，分别是采集线程和绘制线程。</p>
+<h2 id="采集线程">1.1 采集线程</h2>
+<p>采集线程面向过程，从buffer（C风格数组）中读取数据，并写入txt文本文件中。数据采集卡需要读取三个通道，分别代表编码器的
+A 相，编码器的 B
+相，以及同步信号。缓冲区的数据是同一时刻三个通道的数据是相邻的。然后通过
+A 相和 B 相的脉冲数计算转过的角度，A 相在 B 相前角度就是正，A 相在 B
+相后角度就是负。记录当前时间与开始时间的差值，作为绘制的 x
+坐标，记录当前的角度，作为 y 坐标。这个 x 坐标和 y 坐标是 samplingForce
+这个对象的成员变量。</p>
+<p>ui 线程通过访问这个 samplingForce
+的类成员来获取绘制的点。这中间涉及到线程安全问题以及面向对象的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/11/02/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -208,9 +300,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-10-10 17:33:24 / Modified: 17:55:24" itemprop="dateCreated datePublished" datetime="2024-10-10T17:33:24+08:00">2024-10-10</time>
+              <time title="Created: 2024-10-10 17:33:24" itemprop="dateCreated datePublished" datetime="2024-10-10T17:33:24+08:00">2024-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-08 17:20:45" itemprop="dateModified" datetime="2024-11-08T17:20:45+08:00">2024-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
             </span>
 
           
@@ -225,23 +332,11 @@
 
       
           <p>好友列表：</p>
-<figure>
-<img src="聊天项目（四）-Database/image-20241010173444602.png"
-alt="image-20241010173444602" />
-<figcaption aria-hidden="true">image-20241010173444602</figcaption>
-</figure>
+<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010173444602.png" class="" title="image-20241010173444602">
 <p>好友列表中的索引：</p>
-<figure>
-<img src="聊天项目（四）-Database/image-20241010173531982.png"
-alt="image-20241010173531982" />
-<figcaption aria-hidden="true">image-20241010173531982</figcaption>
-</figure>
+<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010173531982.png" class="" title="image-20241010173531982">
 <p>好友申请列表：</p>
-<figure>
-<img src="聊天项目（四）-Database/image-20241010174240607.png"
-alt="image-20241010174240607" />
-<figcaption aria-hidden="true">image-20241010174240607</figcaption>
-</figure>
+<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010174240607.png" class="" title="image-20241010174240607">
 <p>user 表：</p>
 <img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010175523349.png" class="" title="image-20241010175523349">
 
@@ -983,98 +1078,6 @@ Glaser 等[7]还提出了基于 MU
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/" class="post-title-link" itemprop="url">Motor Unit Identification From High-Density Surface Electromyograms in Repeated Dynamic Muscle Contractions</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-02-22 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-22T00:00:00+08:00">2024-02-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:40:47" itemprop="dateModified" datetime="2024-09-17T11:40:47+08:00">2024-09-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文引入了MUAP变化的MU特异性测量，该测量可以直接在已识别的MU
-spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何外部测量。PNR同样适用于动态下的分解效果评估。<mark>所引入的方法对MUAP变化和肌肉收缩速度表现出相当大的稳健性。</mark></p>
-<p>由于EMG混合过程的复杂性，通常由卷积多输入多输出系统建模，个体MU发放模式的识别在很大程度上<mark>仅限于等长肌肉收缩</mark>，其中肌肉和周围组织的几何形状不会发生显著变化。在这种条件下，由电极获取的MU动作电位（MUAP）是相对稳定的，并且主要的EMG非平稳性来自MU的募集和放电速率调制。在动态收缩中，MUAP
-形状改变的两个因素：</p>
-<ul>
-<li>肌肉缩短会影响动作电位在肌肉连接处终止的潜伏期，从而导致MUAP成分不传导；</li>
-<li>肌肉纤维和摄取电极之间的距离随着肌肉缩短而变化。这两个因素都会影响检测到的MUAP形状。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1146,7 +1149,7 @@ spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
