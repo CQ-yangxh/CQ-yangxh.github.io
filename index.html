@@ -185,6 +185,245 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/11/17/%E8%AE%BA%E6%96%87/Dynamic/Enhanced-Dynamic-Surface-EMG-Decomposition-Using-the-Non-Negative-Matrix-Factorization-and-Three-Dimensional-Motor-Unit-Localization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/17/%E8%AE%BA%E6%96%87/Dynamic/Enhanced-Dynamic-Surface-EMG-Decomposition-Using-the-Non-Negative-Matrix-Factorization-and-Three-Dimensional-Motor-Unit-Localization/" class="post-title-link" itemprop="url">Enhanced Dynamic Surface EMG Decomposition Using the Non-Negative Matrix Factorization and Three-Dimensional Motor Unit Localization</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-17 20:15:07" itemprop="dateCreated datePublished" datetime="2024-11-17T20:15:07+08:00">2024-11-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-12-12 14:51:52" itemprop="dateModified" datetime="2024-12-12T14:51:52+08:00">2024-12-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Reliable EMG decomposition technique is very importance for
+understanding the neurophysiology, diagnosis and tracking the progress
+of motor neuron diseases or neuromuscular disorders [11], [26], [29]. In
+this article, a novel sEMG decomposition algorithm specifically suitable
+for dynamic contraction was proposed. By combining the NMF and LMMSE,
+the EFT was firstly extracted from the eigenvector matrix. Then the
+firing instants of each EFT were classified into MUs according to their
+specific 3D space positions.</p>
+<h1 id="introduction">Introduction</h1>
+<ul>
+<li>The EFT was firstly extracted using LMMSE from the eigenvector
+matrix constructed using the non-negative matrix factorization (NMF).
+Then the firing instants of EFT were classified into MUs according to
+their three-dimensional (3D) space position. The performance of this
+approach was evaluated on simulated and experimentally collected sEMG
+signal. In the simulation, the number of decomposedMU and the true
+positiverate(TPR)were employed as performance metrics of the proposed
+approach; while for the experimental data, due to the lack of ground
+truth, <mark>the two-source method and decompose-
+synthesize-decomposecompare (DSDC) method were adopted. </mark></li>
+</ul>
+<p>如何在实验数据上对提出的算法进行验证？</p>
+<ul>
+<li><p>双源法：In the two-source approach, the even and odd numbered
+electrodes were classified into two groups. The motor units decomposed
+based on the two sets of measurements were compared in terms of firing
+instants. The principle of two-source method was that the more the same
+firing instants were found in two groups of signals, the better the
+effectiveness of the algorithm was.</p>
+<blockquote>
+<p>B. Mambrito and D. Luca, “A technique for the detection,
+decompositionand analysis of the EMG signal”</p>
+</blockquote></li>
+<li><p>DSDC：In this approach, the collected sEMG signals was firstly
+decomposed into EFT from which the MUAP was constructed. Then the
+summation of all of the MUAPs was added Gaussian noise to simulate the
+noise-contaminated signal. Finally, the performance of the decomposition
+algorithm was evaluated by how well the MUs extracted from experimental
+sEMG signals match the MUs exacted from the synthesized signals. The
+principle of DSDC verificationwas that thereconstructed and
+decomposition firing instants were the same as possible.</p>
+<blockquote>
+<p>C. Zhang et al., “Three dimensional innervation zone imaging in
+spastic muscles of stroke survivors”</p>
+<p>D. Luca and P. Contessa, “Hierarchical control of motor units in
+voluntarycontractions”</p>
+</blockquote></li>
+</ul>
+<h1 id="algorithm">Algorithm</h1>
+<ol type="1">
+<li>首先是对信号矩阵进行 NMF 分解，得到矩阵 W</li>
+<li>利用 W 和 LMMSE 对 EFT 进行估计</li>
+<li>重复得到新的 EFT</li>
+<li>利用 3DSP 对 EFT 进行分类，得到 MUAPT（包含两个步骤）</li>
+</ol>
+<h1 id="questions">Questions</h1>
+<ul>
+<li><p>NMF要求观测矩阵非负： $ {x}^T=W_{n r}*V_{r Lm} $
+，那么这个观测矩阵是如何保证非负的呢？</p></li>
+<li><p>最小二乘法如何利用托普利兹矩阵求解波形？</p>
+<blockquote>
+<p>toeplitz: T = toeplitz(c,r) - 托普利茨矩阵。此 MATLAB
+函数返回非对称托普利茨矩阵，其中 c 作为第一列，r 作为第一行。如果 c 和 r
+的首个元素不同，toeplitz 将发出警告并使用列元素作为对角线。</p>
+</blockquote></li>
+</ul>
+<h1 id="最小二乘法求解波形">最小二乘法求解波形</h1>
+<p>优化目标的解析解： <span class="math display">\[
+A_{(q)}^*=(\widehat{S}^T\widehat{S})^{-1}\widehat{S}^Tx_k
+\]</span> 其中 <span class="math inline">\(\widehat{S}\)</span>
+是托普利兹矩阵，托普利兹矩阵能够把卷积转换成线性相乘，所以托普利兹矩阵满足：
+<span class="math display">\[
+\widehat{S}A_{(q)}=A_{(q)}*S_{(q)}
+\]</span> 所以求一个发放序列的波形的代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">S; <span class="comment">% the firing trains extracted from Mu.MUpulse (MU index X samples)</span></span><br><span class="line">[n,T] = <span class="built_in">size</span>(S);</span><br><span class="line">yanchi = <span class="built_in">fix</span>(<span class="number">0.4</span>*wavelength); <span class="comment">% 把 wavelength 乘以系数之后向零取整</span></span><br><span class="line">xt = <span class="built_in">zeros</span>(n*wavelength,T); <span class="comment">% n*wavelength X samples</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">1</span>:n</span><br><span class="line">    xt((<span class="built_in">j</span><span class="number">-1</span>)*wavelength+<span class="number">1</span>:<span class="built_in">j</span>*wavelength,:) = <span class="built_in">toeplitz</span>([S(<span class="built_in">j</span>,(yanchi+<span class="number">1</span>):<span class="number">-1</span>:<span class="number">1</span>),<span class="built_in">zeros</span>(<span class="number">1</span>,(wavelength-yanchi<span class="number">-1</span>))],</span><br><span class="line">    [S(<span class="built_in">j</span>,(yanchi+<span class="number">1</span>):<span class="keyword">end</span>),<span class="built_in">zeros</span>(<span class="number">1</span>,yanchi)]);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">CC = pinv(xt&#x27;);</span><br><span class="line">W = CC*x&#x27;;</span><br></pre></td></tr></table></figure>
+<p><strong>这个延迟因子该如何确定？</strong> 开源代码中取的 0.4，</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/11/08/%E8%AE%BA%E6%96%87/Dynamic/Robust-Identification-of-Motor-Unit-Discharges-From-High-Density-Surface-EMG-in-Dynamic-Muscle-Contractions-of-the-Tibialis-Anterior/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/08/%E8%AE%BA%E6%96%87/Dynamic/Robust-Identification-of-Motor-Unit-Discharges-From-High-Density-Surface-EMG-in-Dynamic-Muscle-Contractions-of-the-Tibialis-Anterior/" class="post-title-link" itemprop="url">Robust Identification of Motor Unit Discharges From High-Density Surface EMG in Dynamic Muscle Contractions of the Tibialis Anterior</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-08 17:23:46" itemprop="dateCreated datePublished" datetime="2024-11-08T17:23:46+08:00">2024-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-12-12 14:51:52" itemprop="dateModified" datetime="2024-12-12T14:51:52+08:00">2024-12-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据如何分段">数据如何分段</h1>
+<ul>
+<li>The recorded signals were divided into 4 s long segments, which can
+be regarded as semi-isometric contraction, <mark>with 50 %
+overlapping</mark> and concatenated the segments from the five trials at
+a same timing.</li>
+<li>怎么匹配不同区间上的mu？通过重叠部分。如果匹配程度＞90那么就说明是同一个mu</li>
+<li>如何获取整个区间上的波形？通过插值来获取这个MUAP的动态变化，获得更高的分辨率</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/11/02/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -900,188 +1139,10 @@ MU，基于 CKC 的 CST 也显著优于 RMS 度量。NRMSE 随着识别的 MU
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/" class="post-title-link" itemprop="url">On the Impact of Spike Segmentation on Motor Unit Identification in Dynamic Surface Electromyograms</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-02-23 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-23T00:00:00+08:00">2024-02-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:40:50" itemprop="dateModified" datetime="2024-09-17T11:40:50+08:00">2024-09-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>总结就是：先选一段信号区间用于估计初始参数，然后再在各个区间上改进参数。</p>
-<p>提出了一种新的动态hdEMG卷积数据模型，以及用于评估MU识别准确性和分析动态肌肉收缩中MU动作电位（MUAP）变化对MU识别的影响的脉压比（PNR）指标。我们在不同的动态收缩速度下，对来自肱二头肌、股外侧肌和股直肌的信号测试了所提出的方法。</p>
-<p>当考虑MU发射时间的预先存在的知识时，可以显著提高尖峰分割方法的鲁棒性。例如，在处于相对恒定收缩水平的健康人体肌肉中，MU发射频率相对恒定。棘间距的标准偏差在平均棘间距的10%到30%之间[5]。不幸的是，这不适用于病理情况或快速肌肉收缩的情况，在这些情况下，这种额外知识的实施会大大降低MU尖峰分割的准确性。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/02/23/%E8%AE%BA%E6%96%87/Dynamic/On%20the%20Impact%20of%20Spike%20Segmentation%20on%20Motor%20Unit%20Identification%20in%20Dynamic%20Surface%20Electromyograms/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/A%20new%20method%20for%20high-density%20surface%20electromyography%20decomposition%20in%20dynamic%20muscle%20contraction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Xinhao">
-      <meta itemprop="description" content="无限进步">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xinhao's notebook">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/A%20new%20method%20for%20high-density%20surface%20electromyography%20decomposition%20in%20dynamic%20muscle%20contraction/" class="post-title-link" itemprop="url">A new method for high-density surface electromyography decomposition in dynamic muscle contraction</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-02-22 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-22T00:00:00+08:00">2024-02-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:40:39" itemprop="dateModified" datetime="2024-09-17T11:40:39+08:00">2024-09-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>目前分解的主流方法有两种，这两种方法主要应用于静态收缩（肌肉恒力收缩）或者肌力缓慢变化的情况：</p>
-<ul>
-<li>基于模板匹配的模式识别方法</li>
-<li>盲源分离方法</li>
-</ul>
-<p>动态收缩时，由于电机相对位置的变化以及肌纤维长度的改变，导致 MUAP
-发生变化。目前有少数学者对肌肉动态收缩 sEMG 信号进行了研究，Glaser
-等[6]提出卷积核分解方法，该方法将 sEMG
-信号分段，采用线性函数得到发放时刻，但是发放时刻分类仍然存在问题。
-Glaser 等[7]还提出了基于 MU
-波形非传输分量的分解算法，但由于传输分量与非传输分量的分离存在难度，实现比较困难。DeLuca
-等[8]使用机器学习算法分解 sEMG 信号，但是 MU
-波形变化影响因素众多，难以预测，所以识别仍然较困难。</p>
-<p><strong>带通滤波频带范围</strong>：10-500 Hz</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1149,7 +1210,7 @@ Glaser 等[7]还提出了基于 MU
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
