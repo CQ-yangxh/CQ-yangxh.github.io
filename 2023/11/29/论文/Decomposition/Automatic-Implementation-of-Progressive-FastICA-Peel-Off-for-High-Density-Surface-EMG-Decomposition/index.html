@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 <meta property="article:published_time" content="2023-11-29T14:10:54.000Z">
-<meta property="article:modified_time" content="2024-09-17T03:39:56.222Z">
+<meta property="article:modified_time" content="2025-01-15T12:17:00.866Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:39:56" itemprop="dateModified" datetime="2024-09-17T11:39:56+08:00">2024-09-17</time>
+                <time title="Modified: 2025-01-15 20:17:00" itemprop="dateModified" datetime="2025-01-15T20:17:00+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -315,21 +315,21 @@ positive的发生率降至最低，即我们更愿意保证聚类中的大多数
 <li>输出依然是几个MU的混叠，如果这种MU不能被valley-seeking分解出来，那么就应该舍弃他们</li>
 </ol>
 <p>为了解决上述4个问题，一些限制性参数被提出来根据MU的发放特性，参数如下：
-- <span class="math inline">\(\xi\)</span>：Constrained FastICA
+- <span class="math display">\[\xi\]</span>：Constrained FastICA
 的输出与参考尖峰序列之间的相关系数。此参数是 Constrained FastICA
 中的受约束条件。为了保证 Constrained FastICA 的收敛性，<span
-class="math inline">\(\xi\)</span>
+class="math display">\[\xi\]</span>
 被设置为在该过程中逐渐减小。这可能导致较小的 <span
-class="math inline">\(\xi\)</span>，并因此损害相关性约束的重要性。因此，我们应该丢弃
-<span class="math inline">\(\xi\)</span>
+class="math display">\[\xi\]</span>，并因此损害相关性约束的重要性。因此，我们应该丢弃
+<span class="math display">\[\xi\]</span>
 太小的尖峰序列。该参数可以有效地排除上述情况（1）和情况（4）。阈值设置为0.5。
 - <span
-class="math inline">\(cov_{amp}\)</span>：如果spikes属于同一个MU，那么它的幅值应该保持一致，变异系数应该特别小。因此如果一个spike
+class="math display">\[cov_{amp}\]</span>：如果spikes属于同一个MU，那么它的幅值应该保持一致，变异系数应该特别小。因此如果一个spike
 train的这个参数过大，那么就应该舍弃。阈值设置为0.3。 - <span
-class="math inline">\(cov_{ISI}\)</span>：如果 MU 保持稳定放电，那么
-<span class="math inline">\(cov_{ISI}\)</span> 过大的 spike train
+class="math display">\[cov_{ISI}\]</span>：如果 MU 保持稳定放电，那么
+<span class="math display">\[cov_{ISI}\]</span> 过大的 spike train
 应该舍弃掉。这个参数能够排除上述4个问题。阈值设置为0.4。 - <span
-class="math inline">\(FR\)</span>：放电频率有一个生理学的上下界，通常是4-50Hz。</p>
+class="math display">\[FR\]</span>：放电频率有一个生理学的上下界，通常是4-50Hz。</p>
 <p><strong>APFP算法的主要步骤：</strong></p>
 <ol type="1">
 <li>初始化残差信号为原始表面肌电信号，输入判断参数 c 1=0.5，c 2=0.3，c
@@ -491,7 +491,7 @@ class="math inline">\(\psi\)</span>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

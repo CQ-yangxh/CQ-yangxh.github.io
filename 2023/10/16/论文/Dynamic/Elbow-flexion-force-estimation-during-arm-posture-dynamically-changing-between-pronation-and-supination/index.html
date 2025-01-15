@@ -27,14 +27,12 @@
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
 <meta property="og:description" content="这篇文章使用NMF分解算法把高密度肌电分解为激活模式和时变系数。并且对动态下的分解算法进行了改善，采用了分段分解的方法。看这篇文章主要是为了学习如何处理非等长收缩的情况。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231018092354173.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231018095013998.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231019000541389.png">
 <meta property="article:published_time" content="2023-10-16T11:09:40.000Z">
-<meta property="article:modified_time" content="2024-02-22T11:43:27.458Z">
+<meta property="article:modified_time" content="2025-01-15T12:29:15.036Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231018092354173.png">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231019000541389.png">
 
 <link rel="canonical" href="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/">
 
@@ -222,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-22 19:43:27" itemprop="dateModified" datetime="2024-02-22T19:43:27+08:00">2024-02-22</time>
+                <time title="Modified: 2025-01-15 20:29:15" itemprop="dateModified" datetime="2025-01-15T20:29:15+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,12 +283,35 @@ targeted force level was held for 2s<br />
 <li>总任务时常为40s</li>
 </ul></li>
 </ol>
-<p><strong>非负矩阵分解</strong>：</p>
-<img src="/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231018092354173.png" class="" title="image-20231018092354173">
+<p><strong>非负矩阵分解</strong>： <span class="math display">\[
+M^{m \times n} = W^{m \times s} \cdot C^{s \times n}
+\]</span></p>
+<p><span class="math display">\[
+M =
+\begin{bmatrix}
+M_1(t) \\
+\vdots \\
+M_m(t)
+\end{bmatrix}, \quad
+W =
+\begin{bmatrix}
+W_{11} &amp; \cdots &amp; W_{s1} \\
+\vdots &amp; \ddots &amp; \vdots \\
+W_{1m} &amp; \cdots &amp; W_{sm}
+\end{bmatrix}, \quad
+C =
+\begin{bmatrix}
+C_1(t) \\
+\vdots \\
+C_s(t)
+\end{bmatrix}
+\]</span></p>
 <p>上式中，M是标准化后的高密度肌电包络线（m个通道，n个采样），W的每一列代表一个激活模式（activation
 pattern，一共有s个激活模式），每个激活模式有m个权重因子；C的每一行代表时变的系数向量，时变系数的面积定义为相应激活模式的激活强度。</p>
-<img src="/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231018095013998.png" class="" title="image-20231018095013998">
-<p>只有VAF＞0.95重建的M才能较好地反映原始的M，所以VAF的阈值设置为0.95。</p>
+<p><span class="math display">\[
+\text{VAF} = 1 - \frac{\sum_{i,j} (M - M^r)_{ij}^2}{\sum_{i,j} M_{ij}^2}
+\]</span>
+只有VAF＞0.95重建的M才能较好地反映原始的M，所以VAF的阈值设置为0.95。</p>
 <h1 id="data-processing">2. Data Processing</h1>
 <p><strong>静态等长收缩：</strong></p>
 <p>主激活模式：激活强度最高的激活模式</p>
@@ -461,7 +482,7 @@ of the 1000th points (the starting point to estimate)</p>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

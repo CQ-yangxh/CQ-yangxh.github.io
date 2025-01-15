@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230720.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/image-20231206181244836.png">
 <meta property="article:published_time" content="2023-12-06T09:17:02.000Z">
-<meta property="article:modified_time" content="2024-09-17T03:45:38.657Z">
+<meta property="article:modified_time" content="2025-01-15T12:50:38.893Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/12/06/%E6%95%B0%E5%AD%A6/%E7%99%BD%E5%8C%96/20200221230611.png">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:45:38" itemprop="dateModified" datetime="2024-09-17T11:45:38+08:00">2024-09-17</time>
+                <time title="Modified: 2025-01-15 20:50:38" itemprop="dateModified" datetime="2025-01-15T20:50:38+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -271,32 +271,31 @@
 <p>对于零均值这个条件，只需要把原始向量减去均值就可以了： <span
 class="math display">\[
 \tilde{x}=x-\frac{1}{n}\sum^n_{i=1}x_i
-\]</span> 针对第二个条件，假设<span
-class="math inline">\(X\)</span>是一个均值为0的随机向量，其协方差矩阵为<span
-class="math inline">\(C_x\)</span>，那么白化变换就需要得到一个变换矩阵<span
-class="math inline">\(W\)</span>，使得 <span class="math display">\[
-Y=WX
-\]</span> 为白化向量。我们知道<span
-class="math inline">\(X\)</span>的自协方差矩阵的表达式为： <span
+\]</span> 针对第二个条件，假设 <span class="math display">\[X\]</span>
+是一个均值为0的随机向量，其协方差矩阵为 <span
+class="math display">\[C_x\]</span>，那么白化变换就需要得到一个变换矩阵
+<span class="math display">\[W\]</span>，使得 <span
 class="math display">\[
+Y=WX
+\]</span> 为白化向量。我们知道 <span class="math display">\[X\]</span>
+的自协方差矩阵的表达式为： <span class="math display">\[
 \boldsymbol{C_x}=Cov(\boldsymbol{x},\boldsymbol{x})\stackrel{def}{=}E\{[\boldsymbol{x}(\xi)-\boldsymbol{\mu_x}][\boldsymbol{x}(\xi)-\boldsymbol{\mu_x}]^T\}=\begin{bmatrix}c_{11}&amp;\cdots&amp;c_{1m}\\\vdots&amp;\ddots&amp;\cdots\\c_{m1}&amp;\cdots&amp;c_{mm}\end{bmatrix}
-\]</span> 那么<span class="math inline">\(Y\)</span> 的协方差矩阵为
-<span class="math inline">\(\Sigma=WC_x
-W^{T}\)</span>。（这个直接把<span
-class="math inline">\(Y\)</span>与<span
-class="math inline">\(X\)</span>的关系代入上式就可以得到），所以要使得<span
-class="math inline">\(WC_x
-W^{T}=E\)</span>。白化变换的关键就是求出满足上述条件的变换矩阵<span
-class="math inline">\(W\)</span>，求解方法不唯一。设 <span
-class="math inline">\(C_x=U\Lambda U^T\)</span>为 <span
-class="math inline">\(C_x\)</span> 的特征值分解，其中 <span
-class="math inline">\(U\)</span> 是正交矩阵（正交阵是指满足<span
-class="math inline">\(AA^T=E\)</span>或者<span
-class="math inline">\(A^TA=E\)</span>的<span
-class="math inline">\(n\)</span>阶方阵<span
-class="math inline">\(A\)</span>），那么 <span
-class="math inline">\(W=R\Lambda^{-1/2}U^T\)</span>
-都是满足条件的白化变换矩阵，其中 <span class="math inline">\(R\)</span>
+\]</span> 那么 <span class="math display">\[Y\]</span> 的协方差矩阵为
+<span class="math display">\[\Sigma=WC_x W^{T}\]</span>。（这个直接把
+<span class="math display">\[Y\]</span> 与 <span
+class="math display">\[X\]</span> 的关系代入上式就可以得到），所以要使得
+<span class="math display">\[WC_x
+W^{T}=E\]</span>。白化变换的关键就是求出满足上述条件的变换矩阵 <span
+class="math display">\[W\]</span>，求解方法不唯一。设 <span
+class="math display">\[C_x=U\Lambda U^T\]</span> 为 <span
+class="math display">\[C_x\]</span> 的特征值分解，其中 <span
+class="math display">\[U\]</span> 是正交矩阵（正交阵是指满足 <span
+class="math display">\[AA^T=E\]</span> 或者 <span
+class="math display">\[A^TA=E\]</span> 的 <span
+class="math display">\[n\]</span> 阶方阵 <span
+class="math display">\[A\]</span>），那么 <span
+class="math display">\[W=R\Lambda^{-1/2}U^T\]</span>
+都是满足条件的白化变换矩阵，其中 <span class="math display">\[R\]</span>
 为任意正交矩阵。特别地，我们称 <span class="math display">\[
 W=\Lambda^{-1/2}U^T
 \]</span> 为PCA变换，称 <span class="math display">\[
@@ -460,7 +459,7 @@ ZCA白化看上去一样其实是不一样的，PCA的数据在维度方向是�
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

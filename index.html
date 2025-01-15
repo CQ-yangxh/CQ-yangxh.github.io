@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-12-12 14:51:52" itemprop="dateModified" datetime="2024-12-12T14:51:52+08:00">2024-12-12</time>
+                <time title="Modified: 2025-01-15 17:34:08" itemprop="dateModified" datetime="2025-01-15T17:34:08+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,75 +251,14 @@ for dynamic contraction was proposed. By combining the NMF and LMMSE,
 the EFT was firstly extracted from the eigenvector matrix. Then the
 firing instants of each EFT were classified into MUs according to their
 specific 3D space positions.</p>
-<h1 id="introduction">Introduction</h1>
-<ul>
-<li>The EFT was firstly extracted using LMMSE from the eigenvector
-matrix constructed using the non-negative matrix factorization (NMF).
-Then the firing instants of EFT were classified into MUs according to
-their three-dimensional (3D) space position. The performance of this
-approach was evaluated on simulated and experimentally collected sEMG
-signal. In the simulation, the number of decomposedMU and the true
-positiverate(TPR)were employed as performance metrics of the proposed
-approach; while for the experimental data, due to the lack of ground
-truth, <mark>the two-source method and decompose-
-synthesize-decomposecompare (DSDC) method were adopted. </mark></li>
-</ul>
-<p>如何在实验数据上对提出的算法进行验证？</p>
-<ul>
-<li><p>双源法：In the two-source approach, the even and odd numbered
-electrodes were classified into two groups. The motor units decomposed
-based on the two sets of measurements were compared in terms of firing
-instants. The principle of two-source method was that the more the same
-firing instants were found in two groups of signals, the better the
-effectiveness of the algorithm was.</p>
-<blockquote>
-<p>B. Mambrito and D. Luca, “A technique for the detection,
-decompositionand analysis of the EMG signal”</p>
-</blockquote></li>
-<li><p>DSDC：In this approach, the collected sEMG signals was firstly
-decomposed into EFT from which the MUAP was constructed. Then the
-summation of all of the MUAPs was added Gaussian noise to simulate the
-noise-contaminated signal. Finally, the performance of the decomposition
-algorithm was evaluated by how well the MUs extracted from experimental
-sEMG signals match the MUs exacted from the synthesized signals. The
-principle of DSDC verificationwas that thereconstructed and
-decomposition firing instants were the same as possible.</p>
-<blockquote>
-<p>C. Zhang et al., “Three dimensional innervation zone imaging in
-spastic muscles of stroke survivors”</p>
-<p>D. Luca and P. Contessa, “Hierarchical control of motor units in
-voluntarycontractions”</p>
-</blockquote></li>
-</ul>
-<h1 id="algorithm">Algorithm</h1>
-<ol type="1">
-<li>首先是对信号矩阵进行 NMF 分解，得到矩阵 W</li>
-<li>利用 W 和 LMMSE 对 EFT 进行估计</li>
-<li>重复得到新的 EFT</li>
-<li>利用 3DSP 对 EFT 进行分类，得到 MUAPT（包含两个步骤）</li>
-</ol>
-<h1 id="questions">Questions</h1>
-<ul>
-<li><p>NMF要求观测矩阵非负： $ {x}^T=W_{n r}*V_{r Lm} $
-，那么这个观测矩阵是如何保证非负的呢？</p></li>
-<li><p>最小二乘法如何利用托普利兹矩阵求解波形？</p>
-<blockquote>
-<p>toeplitz: T = toeplitz(c,r) - 托普利茨矩阵。此 MATLAB
-函数返回非对称托普利茨矩阵，其中 c 作为第一列，r 作为第一行。如果 c 和 r
-的首个元素不同，toeplitz 将发出警告并使用列元素作为对角线。</p>
-</blockquote></li>
-</ul>
-<h1 id="最小二乘法求解波形">最小二乘法求解波形</h1>
-<p>优化目标的解析解： <span class="math display">\[
-A_{(q)}^*=(\widehat{S}^T\widehat{S})^{-1}\widehat{S}^Tx_k
-\]</span> 其中 <span class="math inline">\(\widehat{S}\)</span>
-是托普利兹矩阵，托普利兹矩阵能够把卷积转换成线性相乘，所以托普利兹矩阵满足：
-<span class="math display">\[
-\widehat{S}A_{(q)}=A_{(q)}*S_{(q)}
-\]</span> 所以求一个发放序列的波形的代码如下：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">S; <span class="comment">% the firing trains extracted from Mu.MUpulse (MU index X samples)</span></span><br><span class="line">[n,T] = <span class="built_in">size</span>(S);</span><br><span class="line">yanchi = <span class="built_in">fix</span>(<span class="number">0.4</span>*wavelength); <span class="comment">% 把 wavelength 乘以系数之后向零取整</span></span><br><span class="line">xt = <span class="built_in">zeros</span>(n*wavelength,T); <span class="comment">% n*wavelength X samples</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">1</span>:n</span><br><span class="line">    xt((<span class="built_in">j</span><span class="number">-1</span>)*wavelength+<span class="number">1</span>:<span class="built_in">j</span>*wavelength,:) = <span class="built_in">toeplitz</span>([S(<span class="built_in">j</span>,(yanchi+<span class="number">1</span>):<span class="number">-1</span>:<span class="number">1</span>),<span class="built_in">zeros</span>(<span class="number">1</span>,(wavelength-yanchi<span class="number">-1</span>))],</span><br><span class="line">    [S(<span class="built_in">j</span>,(yanchi+<span class="number">1</span>):<span class="keyword">end</span>),<span class="built_in">zeros</span>(<span class="number">1</span>,yanchi)]);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">CC = pinv(xt&#x27;);</span><br><span class="line">W = CC*x&#x27;;</span><br></pre></td></tr></table></figure>
-<p><strong>这个延迟因子该如何确定？</strong> 开源代码中取的 0.4，</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/11/17/%E8%AE%BA%E6%96%87/Dynamic/Enhanced-Dynamic-Surface-EMG-Decomposition-Using-the-Non-Negative-Matrix-Factorization-and-Three-Dimensional-Motor-Unit-Localization/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -547,7 +486,7 @@ A 相和 B 相的脉冲数计算转过的角度，A 相在 B 相前角度就是�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-08 17:20:45" itemprop="dateModified" datetime="2024-11-08T17:20:45+08:00">2024-11-08</time>
+                <time title="Modified: 2025-01-15 17:39:09" itemprop="dateModified" datetime="2025-01-15T17:39:09+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -572,13 +511,14 @@ A 相和 B 相的脉冲数计算转过的角度，A 相在 B 相前角度就是�
       
           <p>好友列表：</p>
 <img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010173444602.png" class="" title="image-20241010173444602">
-<p>好友列表中的索引：</p>
-<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010173531982.png" class="" title="image-20241010173531982">
-<p>好友申请列表：</p>
-<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010174240607.png" class="" title="image-20241010174240607">
-<p>user 表：</p>
-<img src="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/image-20241010175523349.png" class="" title="image-20241010175523349">
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/10/10/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E5%9B%9B-Database/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -628,7 +568,7 @@ A 相和 B 相的脉冲数计算转过的角度，A 相在 B 相前角度就是�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-10-08 11:07:43" itemprop="dateModified" datetime="2024-10-08T11:07:43+08:00">2024-10-08</time>
+                <time title="Modified: 2025-01-01 18:00:04" itemprop="dateModified" datetime="2025-01-01T18:00:04+08:00">2025-01-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -818,7 +758,7 @@ ioc.run() 单独跑在一个线程里的，这次让 gRPC
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-20 16:20:07" itemprop="dateModified" datetime="2024-09-20T16:20:07+08:00">2024-09-20</time>
+                <time title="Modified: 2025-01-15 17:37:05" itemprop="dateModified" datetime="2025-01-15T17:37:05+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -918,7 +858,7 @@ proto 文件中定义的 rpc 接口。</p></li>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-18 16:21:55" itemprop="dateModified" datetime="2024-09-18T16:21:55+08:00">2024-09-18</time>
+                <time title="Modified: 2024-12-28 14:22:49" itemprop="dateModified" datetime="2024-12-28T14:22:49+08:00">2024-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -951,6 +891,7 @@ proto 文件中定义的 rpc 接口。</p></li>
 <li>邮箱验证服务</li>
 <li>状态查询服务</li>
 </ul></li>
+<li>作为验证服务的客户端</li>
 </ul>
 <p>Main 函数中需要连接 Reids 服务器和 MySQL 服务器：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MysqlMgr::<span class="built_in">GetInstance</span>();</span><br><span class="line">RedisMgr::<span class="built_in">GetInstance</span>();</span><br></pre></td></tr></table></figure>
@@ -1255,7 +1196,7 @@ MU，基于 CKC 的 CST 也显著优于 RMS 度量。NRMSE 随着识别的 MU
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

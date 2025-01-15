@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204750539.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240226215147388.png">
 <meta property="article:published_time" content="2024-02-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-09-17T03:40:47.305Z">
+<meta property="article:modified_time" content="2025-01-15T12:41:12.453Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204647387.png">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:40:47" itemprop="dateModified" datetime="2024-09-17T11:40:47+08:00">2024-09-17</time>
+                <time title="Modified: 2025-01-15 20:41:12" itemprop="dateModified" datetime="2025-01-15T20:41:12+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,7 +300,7 @@ recruitment and firing rates modulation.</p>
 的募集和发放频率的调制。如果连发放频率和募集都是恒定的，那么就说收缩是完全静态的。</p>
 <h1 id="hdemg的动态建模">hdEMG的动态建模</h1>
 <p>在<code>等长非疲劳性</code>肌肉收缩中，可以假设混合矩阵 <span
-class="math inline">\(\mathbf{H}(n)\)</span>
+class="math display">\[\mathbf{H}(n)\]</span>
 是静止的。在这种情况下，经典的 hdEMG 分解技术，如 CKC，可以应用于整个
 hdEMG
 信号。在<mark>缓慢的动态肌肉收缩</mark>和<mark>长时间的等长收缩</mark>中，由于几何变形或肌肉疲劳，MUAP
@@ -310,10 +310,10 @@ class="math inline">\(\mathbf{H}(n)\)</span>
 分解技术需要独立地应用于每个信号历元。在典型的设置中，<mark>信号区间重叠
 50%</mark>，以支持从不同的 hdEMG 区间识别的 MU
 尖峰序列的不同片段能够有效合并。在<mark>中等和快速的动态收缩</mark>中，<span
-class="math inline">\(\mathbf{H}(n)\)</span>
+class="math display">\[\mathbf{H}(n)\]</span>
 变得非平稳，但在某种意义上仍然遵循局部性原理，即它逐渐变化，并且这些变化可以用<mark>连续函数</mark>来建模。</p>
-<p>注意本文对 <span class="math inline">\(H(n)\)</span> 进行了重新建模：
-<span class="math display">\[
+<p>注意本文对 <span class="math display">\[H(n)\]</span>
+进行了重新建模： <span class="math display">\[
 \begin{gathered}
 \text{y(n)}
 =\bar{\mathbf{H}}\bar{\mathbf{t}}\left(n\right)+\Delta\mathbf{H}(n)\bar{\mathbf{t}}\left(n\right)+\boldsymbol{\omega}\left(n\right)
@@ -322,28 +322,28 @@ class="math inline">\(\mathbf{H}(n)\)</span>
 \end{gathered}
 \]</span></p>
 <p>这里的 <span
-class="math inline">\(\Delta\mathbf{H}\left(n\right)\mathbf{\bar{t}}\left(n\right)\)</span>
-可以视作模型误差，<span class="math inline">\(\bar{\mathbf{H}}\)</span>
-是 <span class="math inline">\(\mathbf{H}(n)\)</span>
-在区间内的平均。<u>在重复非疲劳实验中，<span
-class="math inline">\(\Delta\mathbf{H}\)</span> 和 <span
-class="math inline">\(\mathbf{H}\)</span> 是重复的，但是 <span
-class="math inline">\(\mathbf{z}(n)\)</span> 不是重复的，因为还取决于
-<span class="math inline">\(\bar{\mathbf{t}(n)}\)</span></u>
-。但是结果表明 <span class="math inline">\(\mathbf{z}(n)\)</span>
+class="math display">\[\Delta\mathbf{H}\left(n\right)\mathbf{\bar{t}}\left(n\right)\]</span>
+可以视作模型误差，<span class="math display">\[\bar{\mathbf{H}}\]</span>
+是 <span class="math display">\[\mathbf{H}(n)\]</span>
+在区间内的平均。在重复非疲劳实验中，<span
+class="math display">\[\Delta\mathbf{H}\]</span> 和 <span
+class="math display">\[\mathbf{H}\]</span> 是重复的，但是 <span
+class="math display">\[\mathbf{z}(n)\]</span> 不是重复的，因为还取决于
+<span class="math display">\[\bar{\mathbf{t}(n)}\]</span> 。但是结果表明
+<span class="math display">\[\mathbf{z}(n)\]</span>
 的相关矩阵能部分反应周期重复性。</p>
 <h1 id="must的估计">MUST的估计</h1>
 <p>总结一下估计方法：分为<mark>区间内和区间外</mark>，区间内是寻找 PNR
-值接近的区间（<font color = 'red'>本质是寻找 <span
-class="math inline">\(\mathbf{H}\)</span> 接近的区间，<span
-class="math inline">\(\mathbf{H}\)</span> 代表的是 MUAP，<span
-class="math inline">\(\mathbf{H}\)</span> 接近说明 MUAP 接近，也就是说
+值接近的区间（<strong>本质是寻找 <span
+class="math display">\[\mathbf{H}\]</span> 接近的区间，<span
+class="math display">\[\mathbf{H}\]</span> 代表的是 MUAP，<span
+class="math display">\[\mathbf{H}\]</span> 接近说明 MUAP 接近，也就是说
 MUAP
-近似没有改变</font>），然后重新求解参数。也就是说，只要把区间选的足够小，那么就可以把
+近似没有改变</strong>），然后重新求解参数。也就是说，只要把区间选的足够小，那么就可以把
 hdEMG 视为静态的。</p>
 <h2 id="区间内估计">区间内估计</h2>
 <ol type="1">
-<li>第 <span class="math inline">\(j\)</span> 个 MU 的 spike train
+<li>第 <span class="math display">\[j\]</span> 个 MU 的 spike train
 的估计等式为：</li>
 </ol>
 <p><span class="math display">\[
@@ -351,23 +351,24 @@ hdEMG 视为静态的。</p>
 \]</span></p>
 <ol start="2" type="1">
 <li>在区间[a1, a2]上，通过梯度下降法得到 <span
-class="math inline">\(\mathbf{c}_{t_j\boldsymbol{y}}\)</span> ，进而估计
-<span class="math inline">\(\hat{t_j}\left(n_a\right)\)</span></li>
+class="math display">\[\mathbf{c}_{t_j\boldsymbol{y}}\]</span>
+，进而估计 <span
+class="math display">\[\hat{t_j}\left(n_a\right)\]</span></li>
 <li>重求 <span
-class="math inline">\(\mathbf{c}_{t_j\boldsymbol{y}}\)</span> 为 <span
-class="math inline">\(\begin{aligned}\mathbf{c}_{t_j\boldsymbol{y},n_a}&amp;=\sum_{n_a\in[a_1,a_2]}t_j\left(n_a\right)\boldsymbol{y}\left(n_a\right)\end{aligned}\)</span>
+class="math display">\[\mathbf{c}_{t_j\boldsymbol{y}}\]</span> 为 <span
+class="math display">\[\begin{aligned}\mathbf{c}_{t_j\boldsymbol{y},n_a}&amp;=\sum_{n_a\in[a_1,a_2]}t_j\left(n_a\right)\boldsymbol{y}\left(n_a\right)\end{aligned}\]</span>
 ，并重新估计 <span
-class="math inline">\(\hat{t}_{j,n_a}\left(n\right)\)</span></li>
+class="math display">\[\hat{t}_{j,n_a}\left(n\right)\]</span></li>
 <li>寻找 PNR 接近的区间，在全部区间上重新求步骤 3 中的参数（PNR 会随着
-<span class="math inline">\(\Delta\mathbf{H}(n_a)\)</span> 和 <span
-class="math inline">\(\Delta\mathbf{H}(n_b)\)</span>
+<span class="math display">\[\Delta\mathbf{H}(n_a)\]</span> 和 <span
+class="math display">\[\Delta\mathbf{H}(n_b)\]</span>
 之间差异的增大而减小，因此 PNR 只是一个代替指标，用来寻找 <span
-class="math inline">\(\mathbf{H}(n_a)\)</span> 和 <span
-class="math inline">\(\mathbf{H}(n_b)\)</span> 接近的区间。等式中的 PNR
+class="math display">\[\mathbf{H}(n_a)\]</span> 和 <span
+class="math display">\[\mathbf{H}(n_b)\]</span> 接近的区间。等式中的 PNR
 值取决于所有 hdEMG 通道中第 j 个 MU 的 MUAP 的形状。因此，局部 PNR
 允许对具有相对恒定的 <span
-class="math inline">\(\mathbf{c}_{t_j\boldsymbol{y}}\)</span> 和 <span
-class="math inline">\(\mathbf{C}_y\)</span>
+class="math display">\[\mathbf{c}_{t_j\boldsymbol{y}}\]</span> 和 <span
+class="math display">\[\mathbf{C}_y\]</span>
 的时间间隔进行MU特定的选择。</li>
 </ol>
 <blockquote>
@@ -596,7 +597,7 @@ research problem.</li>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

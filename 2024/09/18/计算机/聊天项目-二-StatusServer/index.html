@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. Main函数的初始化 StatusServer 主要用作 GateServer 的 gRPC 服务器以及 ChatServer 的 gRPC 的客户端。 主函数是如何初始化 gRPC 服务器的？ 在主函数里面，只需要启动 gRPC 的服务端就可以了。作为服务端，肯定是要一直处于监听状态，那么就需要一个上下文和一个监听端点：  这里的端点就是服务器自己设定的端口号，在 init">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-18T07:46:28.000Z">
-<meta property="article:modified_time" content="2024-09-20T08:20:07.935Z">
+<meta property="article:modified_time" content="2025-01-15T09:37:05.234Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 
@@ -218,7 +218,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-20 16:20:07" itemprop="dateModified" datetime="2024-09-20T16:20:07+08:00">2024-09-20</time>
+                <time title="Modified: 2025-01-15 17:37:05" itemprop="dateModified" datetime="2025-01-15T17:37:05+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -286,7 +286,7 @@ proto 文件中定义的 rpc 接口。</p></li>
 <p><strong>主函数是如何优雅退出的？</strong></p>
 <p>状态服务器的优雅退出和网关服务器是一样的，都需要通过 asio
 库定义一个上下文和一个信号组，信号组需要处于一个异步非阻塞监听的状态，而上下文用于轮询信号是否产生：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">boost::asio::io_context ioc;</span><br><span class="line">boost::asio::signal_set signals(ioc, SIGINT, SIGTERM);</span><br><span class="line">signals.async_wait([&amp;server, &amp;io_context]()&#123;</span><br><span class="line">	server-&gt;shutdown();</span><br><span class="line">	ioc.stop();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">boost::asio::io_context ioc;</span><br><span class="line">boost::<span class="function">asio::signal_set <span class="title">signals</span><span class="params">(ioc, SIGINT, SIGTERM)</span></span>;</span><br><span class="line">signals.<span class="built_in">async_wait</span>([&amp;server, &amp;io_context]()&#123;</span><br><span class="line">	server-&gt;<span class="built_in">shutdown</span>();</span><br><span class="line">	ioc.<span class="built_in">stop</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注意：如果没有调用 ioc.stop()，那么主函数会一直阻塞在 ioc.run()
 中，而调用了 ioc.stop()
@@ -296,7 +296,7 @@ proto 文件中定义的 rpc 接口。</p></li>
 <p>StatusServer 的 ioc.run() 和 GateServer 中的不太一样，GateServer 中的
 ioc.run() 是在主线程中执行的，而 StatusServer 中把主线程的轮询分配给了
 gRPC 服务器，所以单独启了一个线程给 ioc 来跑监听 signals：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 在单独的线程中运行io_context</span><br><span class="line">std::thread([&amp;io_context]() &#123; io_context.run(); &#125;).detach();</span><br><span class="line"></span><br><span class="line">// 等待服务器关闭</span><br><span class="line">server-&gt;Wait();</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在单独的线程中运行io_context</span></span><br><span class="line">std::<span class="built_in">thread</span>([&amp;io_context]() &#123; io_context.<span class="built_in">run</span>(); &#125;).<span class="built_in">detach</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等待服务器关闭</span></span><br><span class="line">server-&gt;<span class="built_in">Wait</span>();</span><br></pre></td></tr></table></figure>
 <h1 id="grpc服务的重写">2. gRPC服务的重写</h1>
 <p>StatusServer 有两个 gRPC 服务：</p>
 <ul>
@@ -496,7 +496,7 @@ ChatServer 中有多少个连接数，所以 ChatServer 需要向 Redis
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231161048995.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/image-20221231163927905.png">
 <meta property="article:published_time" content="2022-12-05T14:17:21.000Z">
-<meta property="article:modified_time" content="2024-09-17T03:39:52.586Z">
+<meta property="article:modified_time" content="2025-01-15T12:14:39.015Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="PNR">
 <meta property="article:tag" content="JNE">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-17 11:39:52" itemprop="dateModified" datetime="2024-09-17T11:39:52+08:00">2024-09-17</time>
+                <time title="Modified: 2025-01-15 20:14:39" itemprop="dateModified" datetime="2025-01-15T20:14:39+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,13 +280,13 @@ all EMG measurements</p>
 \mathrm{PNR}(j)=\mathrm{PNR}(\hat{t}_j(n))=10\cdot\log\left(\dfrac{E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)\geqslant
 r}\big)}{E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)&lt;r}\big)}\right)
 \]</span> <span
-class="math inline">\(E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)\geqslant
-r}\big)\)</span> 这一项可以由 <span
-class="math inline">\(E(x|_{t_j(n)=1}) \approx
-E(x|_{\hat{t}_j(n)\geqslant r})\)</span> 这一项代替。<span
-class="math inline">\(E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)&lt;r}\big)\)</span>
-这一项可以由 <span class="math inline">\(E(x|_{t_j(n)=0}) \approx
-E(x|_{\hat{t}_j(n)&lt; r})\)</span> 这项代替。 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnr = <span class="number">10</span>*<span class="built_in">log10</span>(<span class="built_in">mean</span>(signal_cluster)/<span class="built_in">mean</span>(noise_cluster));</span><br></pre></td></tr></table></figure></p>
+class="math display">\[E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)\geqslant
+r}\big)\]</span> 这一项可以由 <span
+class="math display">\[E(x|_{t_j(n)=1}) \approx
+E(x|_{\hat{t}_j(n)\geqslant r})\]</span> 这一项代替。<span
+class="math display">\[E\big(\hat{t}_j^2(n)\big|_{\hat{t}_j(n)&lt;r}\big)\]</span>
+这一项可以由 <span class="math display">\[E(x|_{t_j(n)=0}) \approx
+E(x|_{\hat{t}_j(n)&lt; r})\]</span> 这项代替。 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnr = <span class="number">10</span>*<span class="built_in">log10</span>(<span class="built_in">mean</span>(signal_cluster)/<span class="built_in">mean</span>(noise_cluster));</span><br></pre></td></tr></table></figure></p>
 <h2 id="实验">1.2 实验</h2>
 <p>9名受试者的优势胫骨前肌和9名受试者中的6名优势肱二头肌同时获得表面肌电图和肌内肌电图信号。在最大自愿收缩(MVC)的5%、10%、15%、20%、50%、60%和70%的等距恒力收缩过程中获得15
 s长信号。</p>
@@ -461,7 +461,7 @@ dB的MUs具有&gt; 90%的灵敏度和低于2%的虚警率。</mark></p>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
