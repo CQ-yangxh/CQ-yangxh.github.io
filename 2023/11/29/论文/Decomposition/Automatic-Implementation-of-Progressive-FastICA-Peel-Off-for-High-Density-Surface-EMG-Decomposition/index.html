@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike tr">
+  <meta name="description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Automatic Implementation of Progressive FastICA Peel-Off for High Density Surface EMG Decomposition">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike tr">
+<meta property="og:description" content="表面肌电分解最重要的难点是MUAP的叠加。 PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
 <meta property="article:published_time" content="2023-11-29T14:10:54.000Z">
-<meta property="article:modified_time" content="2025-01-15T12:17:00.866Z">
+<meta property="article:modified_time" content="2025-01-16T07:25:15.797Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:17:00" itemprop="dateModified" datetime="2025-01-15T20:17:00+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 15:25:15" itemprop="dateModified" datetime="2025-01-16T15:25:15+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,21 +255,14 @@
 
       
         <p>表面肌电分解最重要的难点是MUAP的叠加。</p>
-<p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel
-off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained
-FastICA用于评估每个spike
-train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
+<p>PFP框架是一个逐渐扩大MUST集合的过程。最初的的MUST集合是由FastICA从高密度肌电估计而来；然后，peel off过程被用来从原信号中减去已经识别到的MU的MUAP，这个过程能够减少已经识别到的MU对FastICA收敛的影响，因此更多MU能够从残差信号中涌现出来；最后，Constrained FastICA用于评估每个spike train以及纠正可能的错误和丢失的spikes。这个框架不断重复上述过程直到没有新的MU出现。</p>
 <span id="more"></span>
 <p><strong>PFP算法的主要步骤：</strong></p>
-<ol type="1">
+<ol>
 <li>初始化残差为原始信号，spike train集合为空</li>
-<li>在扩展的残差信号上执行并行FastICA，提取spike
-train，通过聚类来区分输出中混叠的波形</li>
-<li>对集合中的每一个spike
-train，将其作为参考信号，在原始信号上执行Constrained
-FastICA，保存可靠的spike train到集合中</li>
-<li>对每一个通道，原始信号减去集合中所有spike
-trian的MUAPT（peel-off过程），得到残差信号</li>
+<li>在扩展的残差信号上执行并行FastICA，提取spike train，通过聚类来区分输出中混叠的波形</li>
+<li>对集合中的每一个spike train，将其作为参考信号，在原始信号上执行Constrained FastICA，保存可靠的spike train到集合中</li>
+<li>对每一个通道，原始信号减去集合中所有spike trian的MUAPT（peel-off过程），得到残差信号</li>
 <li>更新残差信号，然后重新执行步骤2</li>
 <li>没有新的spike train或者到达终止条件时停止</li>
 </ol>
@@ -278,78 +271,48 @@ trian的MUAPT（peel-off过程），得到残差信号</li>
 <li>如何克服FastICA的符号不确定性，如何设置合适的阈值</li>
 <li>如何确定Constrained FastICA的输出是一个可靠的MU</li>
 </ul>
-<p>针对第一个问题，通过非线性能量算子，能够把FastICA的输出转变成更清晰的正尖峰序列。但是NEO过程会导致spike偏移，虽然不影响spike
-train的识别，但是会影响MUAP的估计精度，所以本文不选择NEO，而是计算3阶标准矩Skewness，通过skew能够把<mark>FastICA的输出变成right-skewed（positive
-skew，即偏向正）。</mark></p>
+<p>针对第一个问题，通过非线性能量算子，能够把FastICA的输出转变成更清晰的正尖峰序列。但是NEO过程会导致spike偏移，虽然不影响spike train的识别，但是会影响MUAP的估计精度，所以本文不选择NEO，而是计算3阶标准矩Skewness，通过skew能够把<mark>FastICA的输出变成right-skewed（positive skew，即偏向正）。</mark></p>
 <p>针对第二个问题，通过迭代算法来确定阈值，迭代算法的过程如下：</p>
-<ol type="1">
+<ol>
 <li>设置初始阈值</li>
 <li>将信号按照阈值分成两个部分，分别计算两个部分的均值</li>
 <li>将新的阈值设置为两个均值的算术平均值</li>
 <li>重复步骤2和步骤3直到均值收敛</li>
 </ol>
-<p>初始值的设置非常重要，对结果有着非常大的影响，采用类似于Otsu阈值方法来设置初始值，发现这样的初始值离收敛值特别近。同时，这个阈值的收敛还可以用作终止判断条件，如果提取的尖峰序列不再改变，那么当使用该尖峰序列作为参考时，Constrained
-FastICA的输出将不会改变，因此阈值也将保持不变。</p>
+<p>初始值的设置非常重要，对结果有着非常大的影响，采用类似于Otsu阈值方法来设置初始值，发现这样的初始值离收敛值特别近。同时，这个阈值的收敛还可以用作终止判断条件，如果提取的尖峰序列不再改变，那么当使用该尖峰序列作为参考时，Constrained FastICA的输出将不会改变，因此阈值也将保持不变。</p>
 <p><strong>但是，</strong></p>
 <p>上述两个问题的解决，只能在FastICA输出是高信噪比的稀疏序列下有较好的效果，但有的时候FastICA的输出有非常低的信噪比。尽管理想情况下FastICA可以突出只属于一个运动单元的稀疏尖峰序列并抑制其他运动单元的尖峰，<mark>但实践中的另一种可能的情况是来自FastICA输出的尖峰不只属于一个运动单位，尤其是当处理具有非常严重的MUAP叠加或高运动单元同步水平的EMG信号时（这就是为什么要设置聚类）。</mark></p>
-<p><mark>一定要明确</mark>：FastICA估计出来的是一个带尖峰的信号，通过设置阈值来得到spike
-train。如果两个重叠的spike幅值接近，就很难区分出来，所以本文利用spikes的形态特征，通过聚类来区分。</p>
+<p><mark>一定要明确</mark>：FastICA估计出来的是一个带尖峰的信号，通过设置阈值来得到spike train。如果两个重叠的spike幅值接近，就很难区分出来，所以本文利用spikes的形态特征，通过聚类来区分。</p>
 <p>聚类需要满足以下要求：</p>
 <ul>
 <li>无监督的</li>
 <li>能够处理各种分布。spike的特征倾向于椭圆形的，K-means等处理球形分布的算法就不适用</li>
 <li>低复杂度</li>
 </ul>
-<p>基于上述要求选择了valley-seeking
-聚类算法。聚类之后同一个cluster中的spikes有很大概率是来自同一个MU的，把同一个cluster中的spikes作为caonstrained
-fastica的初始spike
-train，使其收敛到相应的MU。因此，在执行valley-seeking聚类时，我们应该将false
-positive的发生率降至最低，即我们更愿意保证聚类中的大多数尖峰是正确的，而不是识别所有尖峰。</p>
-<p><strong>虽然</strong>，Constrained FastICA
-能够有一个高信噪比的输出，<strong>但是</strong>，这个算法不能保证 spike
-都来自于一个运动单元，并且存在如下问题：</p>
-<ol type="1">
+<p>基于上述要求选择了valley-seeking 聚类算法。聚类之后同一个cluster中的spikes有很大概率是来自同一个MU的，把同一个cluster中的spikes作为caonstrained fastica的初始spike train，使其收敛到相应的MU。因此，在执行valley-seeking聚类时，我们应该将false positive的发生率降至最低，即我们更愿意保证聚类中的大多数尖峰是正确的，而不是识别所有尖峰。</p>
+<p><strong>虽然</strong>，Constrained FastICA 能够有一个高信噪比的输出，<strong>但是</strong>，这个算法不能保证 spike 都来自于一个运动单元，并且存在如下问题：</p>
+<ol>
 <li>输出可能不是一个稀疏序列，而是一个白噪声序列，这说明已经没有新的MU了</li>
 <li>输出包含少量零散的尖峰，这些尖峰通常有着较大的间隔</li>
 <li>出现一个单峰，这是由于FastICA过拟合的现象</li>
 <li>输出依然是几个MU的混叠，如果这种MU不能被valley-seeking分解出来，那么就应该舍弃他们</li>
 </ol>
-<p>为了解决上述4个问题，一些限制性参数被提出来根据MU的发放特性，参数如下：
-- <span class="math display">\[\xi\]</span>：Constrained FastICA
-的输出与参考尖峰序列之间的相关系数。此参数是 Constrained FastICA
-中的受约束条件。为了保证 Constrained FastICA 的收敛性，<span
-class="math display">\[\xi\]</span>
-被设置为在该过程中逐渐减小。这可能导致较小的 <span
-class="math display">\[\xi\]</span>，并因此损害相关性约束的重要性。因此，我们应该丢弃
-<span class="math display">\[\xi\]</span>
-太小的尖峰序列。该参数可以有效地排除上述情况（1）和情况（4）。阈值设置为0.5。
-- <span
-class="math display">\[cov_{amp}\]</span>：如果spikes属于同一个MU，那么它的幅值应该保持一致，变异系数应该特别小。因此如果一个spike
-train的这个参数过大，那么就应该舍弃。阈值设置为0.3。 - <span
-class="math display">\[cov_{ISI}\]</span>：如果 MU 保持稳定放电，那么
-<span class="math display">\[cov_{ISI}\]</span> 过大的 spike train
-应该舍弃掉。这个参数能够排除上述4个问题。阈值设置为0.4。 - <span
-class="math display">\[FR\]</span>：放电频率有一个生理学的上下界，通常是4-50Hz。</p>
+<p>为了解决上述4个问题，一些限制性参数被提出来根据MU的发放特性，参数如下：</p>
+<ul>
+<li>$\xi$：Constrained FastICA 的输出与参考尖峰序列之间的相关系数。此参数是 Constrained FastICA 中的受约束条件。为了保证 Constrained FastICA 的收敛性，$\xi$ 被设置为在该过程中逐渐减小。这可能导致较小的 $\xi$，并因此损害相关性约束的重要性。因此，我们应该丢弃 $\xi$ 太小的尖峰序列。该参数可以有效地排除上述情况（1）和情况（4）。阈值设置为0.5。</li>
+<li>$cov_{amp}$：如果spikes属于同一个MU，那么它的幅值应该保持一致，变异系数应该特别小。因此如果一个spike train的这个参数过大，那么就应该舍弃。阈值设置为0.3。</li>
+<li>$cov_{ISI}$：如果 MU 保持稳定放电，那么 $cov_{ISI}$ 过大的 spike train 应该舍弃掉。这个参数能够排除上述4个问题。阈值设置为0.4。</li>
+<li>$FR$：放电频率有一个生理学的上下界，通常是4-50Hz。</li>
+</ul>
 <p><strong>APFP算法的主要步骤：</strong></p>
-<ol type="1">
-<li>初始化残差信号为原始表面肌电信号，输入判断参数 c 1=0.5，c 2=0.3，c
-3=0.4 和 c 4=4。初始化可靠发放时间序列集合 <span
-class="math inline">\(\psi\)</span> 和待定发放时间序列集合 <span
-class="math inline">\(\psi _1\)</span> 为空集</li>
+<ol>
+<li>初始化残差信号为原始表面肌电信号，输入判断参数 c 1=0.5，c 2=0.3，c 3=0.4 和 c 4=4。初始化可靠发放时间序列集合 $\psi$ 和待定发放时间序列集合 $\psi _1$ 为空集</li>
 <li>在扩展后的残差信号上运行parallel FastICA</li>
-<li>对FastICA的每个输出，自动提取发放波形，并将它们通过Valley-seeking
-Clustering聚类</li>
-<li>将第3步中每个聚类后的发放序列作为初始的参考信号，反复执行constrained
-FastICA直到迭代阈值收敛</li>
-<li>对第4步中每个提取出来的发放序列，进行下面的判断过程：
-<img src="/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png" class="" title="image-20231201195318336"></li>
-<li>对原始表面肌电信号的每一个通道，用 <span
-class="math inline">\(\psi\)</span>
-中所有的运动单位发放时间序列来估计这些运动单位在该通道的动作电位序列波形，接着将这些已经识别出的运动单位动作电位序列从原始信号中剥去，并更新残差信号，返回第
-2 步</li>
-<li>如果 <span class="math inline">\(\psi\)</span>
-中没有增加任何新的可靠运动单位发放序列，或者程序达到了预设的终止条件，输出
-<span class="math inline">\(\psi\)</span> 并结束程序</li>
+<li>对FastICA的每个输出，自动提取发放波形，并将它们通过Valley-seeking Clustering聚类 </li>
+<li>将第3步中每个聚类后的发放序列作为初始的参考信号，反复执行constrained FastICA直到迭代阈值收敛</li>
+<li>对第4步中每个提取出来的发放序列，进行下面的判断过程：<img src="/2023/11/29/%E8%AE%BA%E6%96%87/Decomposition/Automatic-Implementation-of-Progressive-FastICA-Peel-Off-for-High-Density-Surface-EMG-Decomposition/image-20231201195318336.png" class="" title="image-20231201195318336"></li>
+<li>对原始表面肌电信号的每一个通道，用 $\psi$ 中所有的运动单位发放时间序列来估计这些运动单位在该通道的动作电位序列波形，接着将这些已经识别出的运动单位动作电位序列从原始信号中剥去，并更新残差信号，返回第 2 步</li>
+<li>如果 $\psi$ 中没有增加任何新的可靠运动单位发放序列，或者程序达到了预设的终止条件，输出 $\psi$ 并结束程序</li>
 </ol>
 
     </div>

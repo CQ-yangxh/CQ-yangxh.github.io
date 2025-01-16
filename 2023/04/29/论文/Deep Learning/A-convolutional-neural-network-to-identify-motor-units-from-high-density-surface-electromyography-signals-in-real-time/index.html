@@ -30,9 +30,8 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/Untitled.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230913171459585.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230913171524030.png">
-<meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230914113549166.png">
 <meta property="article:published_time" content="2023-04-29T13:31:19.000Z">
-<meta property="article:modified_time" content="2024-02-10T13:23:55.992Z">
+<meta property="article:modified_time" content="2025-01-16T07:35:25.904Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Image">
 <meta property="article:tag" content="JNE">
@@ -226,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-10 21:23:55" itemprop="dateModified" datetime="2024-02-10T21:23:55+08:00">2024-02-10</time>
+                <time title="Modified: 2025-01-16 15:35:25" itemprop="dateModified" datetime="2025-01-16T15:35:25+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -334,14 +333,18 @@
 <li>HD-EMG decomposition with the CKC algorithm implemented in the DEMUSE tool software<br>需要人工检查假阳或者假阴，剔除信噪比小于30dB的运动单元（该阈值确保灵敏度高于90%，假阳性率低于2%），剔除尖峰序列小于150的运动单元。（提高灵敏度降低误差）</li>
 <li>利用所有网格中的最大幅值对信号进行-1到1的归一化（通过限制输入的幅值对学习进行加速）</li>
 <li>并不是所有的MU都用于CNN的训练，选取了至少有150个spikes的MU用作CNN的输入<h1 id="文献使用了哪些方法？"><a href="#文献使用了哪些方法？" class="headerlink" title="文献使用了哪些方法？"></a>文献使用了哪些方法？</h1></li>
-<li>滑动窗口方法：窗宽和步长的选择，<mark>要考虑窗口没有重叠和存在gap的情况。</mark></li>
-<li>深度CNN由四个卷积层（C1-C4）、两个完全连接层（F1和F2）、两层最大池层和一个平坦层组成。Deep CNN使用tensorflow和keras完成</li>
-<li>CKC算法使用matalb开发的DEMUSE工具软件</li>
+<li><p>滑动窗口方法：窗宽和步长的选择，<mark>要考虑窗口没有重叠和存在gap的情况。</mark></p>
+</li>
+<li><p>深度CNN由四个卷积层（C1-C4）、两个完全连接层（F1和F2）、两层最大池层和一个平坦层组成。Deep CNN使用tensorflow和keras完成</p>
+</li>
+<li><p>CKC算法使用matalb开发的DEMUSE工具软件</p>
+</li>
 <li><p>灵敏度和准确率：</p>
-<img src="/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230914113549166.png" class="" title="image-20230914113549166">
-<h1 id="文献得到了哪些结论？"><a href="#文献得到了哪些结论？" class="headerlink" title="文献得到了哪些结论？"></a>文献得到了哪些结论？</h1></li>
+<script type="math/tex; mode=display">
+\mathrm{Sensitivity} = \frac{\mathrm{TP}}{\mathrm{TP+FN}} \\</script><script type="math/tex; mode=display">
+\text{Precision}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}</script></li>
 </ol>
-<ul>
+<h1 id="文献得到了哪些结论？"><a href="#文献得到了哪些结论？" class="headerlink" title="文献得到了哪些结论？"></a>文献得到了哪些结论？</h1><ul>
 <li><p>MO-DCNN 训练和预测的时间最低，但是 SO-DCNN 的准确率和灵敏度普遍较高。MO-DCNN 在训练时间（3.2-21.4 s/epoch）方面优于 SO-DCNN（6.5–47.8 s/epoch）和预测时间也同样是 MO-DCNN 更优（0.04 vs 0.27 s/sample）。MO-DCNN 的最佳窗口大小和步长分别为 120 和 20 个数据点。模拟和实验记录的 HD-EMG 信号的准确率和灵敏度分别为 98%和 85%，与 CKC 估计的神经驱动相关系数高于0.85</p>
 </li>
 <li><p>CKC的分解结果显示发力水平越低，识别到的MU越多（10%：22，30%：23，50%：15）</p>

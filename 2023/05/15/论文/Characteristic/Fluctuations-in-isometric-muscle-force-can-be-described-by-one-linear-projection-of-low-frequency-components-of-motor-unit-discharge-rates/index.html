@@ -28,7 +28,7 @@
 <meta property="og:description" content="这篇文章研究了肌肉等长收缩力可以通过一个线性映射来描述，该映射是运动单位放电频率的低频成分。研究人员记录了来自八名健康男性拇指外展肌的肌内 (电极)和高密度表面肌电图(13x5电极网格)，并在最大力的5%、7.5%和10%外进行了60秒的收缩。通过分解算法从肌电图记录中识别出总共222个运动单位的尖峰队列。主成分分析表明，第一个共同成分（FCC）在整个收缩间隔内描述了平滑放电率的44.2+7.5%">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-15T07:25:22.000Z">
-<meta property="article:modified_time" content="2024-02-08T07:12:32.064Z">
+<meta property="article:modified_time" content="2025-01-16T07:17:04.484Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta name="twitter:card" content="summary">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-02-08 15:12:32" itemprop="dateModified" datetime="2024-02-08T15:12:32+08:00">2024-02-08</time>
+                <time title="Modified: 2025-01-16 15:17:04" itemprop="dateModified" datetime="2025-01-16T15:17:04+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -473,6 +473,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

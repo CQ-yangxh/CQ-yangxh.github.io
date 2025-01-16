@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。文章结果表明CST的鲁棒性是比">
+  <meta name="description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效 MUST 的提取。文章实验分为两个 session，第一个 session 考虑单动作，第二个 session 考虑双动作，把第一个 session 的动作级联后得到的分离矩阵运用到第二个 session 的 EMG 数据中直接分解得到 MUST。文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Non-Invasive Analysis of Motor Unit Activation During Simultaneous and Continuous Wrist Movements">
 <meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。文章结果表明CST的鲁棒性是比">
+<meta property="og:description" content="文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效 MUST 的提取。文章实验分为两个 session，第一个 session 考虑单动作，第二个 session 考虑双动作，把第一个 session 的动作级联后得到的分离矩阵运用到第二个 session 的 EMG 数据中直接分解得到 MUST。文">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png">
 <meta property="article:published_time" content="2022-12-05T11:37:47.000Z">
-<meta property="article:modified_time" content="2025-01-15T12:01:29.218Z">
+<meta property="article:modified_time" content="2025-01-16T07:16:37.316Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="MUST">
 <meta property="article:tag" content="CST">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:01:29" itemprop="dateModified" datetime="2025-01-15T20:01:29+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 15:16:37" itemprop="dateModified" datetime="2025-01-16T15:16:37+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,41 +261,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效MUST的提取。文章实验分为两个session，第一个session考虑单动作，第二个session考虑双动作，把第一个session的动作级联后得到的分离矩阵运用到第二个session的EMG数据中直接分解得到MUST。<mark>文章结果表明CST的鲁棒性是比RMS更好的，EMG通道之间的串扰可能会导致通过RMS力矩估计的准确率降低。</mark></p>
+        <p>文章使用了三种神经特征来对力矩进行估计。分别是CST的放电频率、MUST的放电频率、PCA主成分。这篇文章中使用CKC算法进行分解，使用聚类进行有效 MUST 的提取。文章实验分为两个 session，第一个 session 考虑单动作，第二个 session 考虑双动作，把第一个 session 的动作级联后得到的分离矩阵运用到第二个 session 的 EMG 数据中直接分解得到 MUST。<mark>文章结果表明 CST 的鲁棒性是比 RMS 更好的，EMG 通道之间的串扰可能会导致通过 RMS 力矩估计的准确率降低。</mark></p>
 <span id="more"></span>
-<h1 id="笔记">1.笔记</h1>
-<h2 id="introduction">1.1 Introduction</h2>
-<p><strong>不能完全反映神经活动的原因</strong>：</p>
+<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><h2 id="1-1-Introduction"><a href="#1-1-Introduction" class="headerlink" title="1.1 Introduction"></a>1.1 Introduction</h2><p><strong>不能完全反映神经活动的原因</strong>：</p>
 <ul>
 <li>容积导体：类似于低通滤波的作用</li>
 <li>幅值抵消：由于动作电位的重叠</li>
 </ul>
-<p><mark>植入式电极可以在没有容积导体干扰的情况下直接获得MUAP，因此，MUST可以通过比较和计数MUAP来获得。<strong>MUAP和MUST是一一对应的</strong></mark></p>
+<p><mark>植入式电极可以在没有容积导体干扰的情况下直接获得 MUAP，因此，MUST 可以通过比较和计数 MUAP 来获得。<strong>MUAP 和 MUST 是一一对应的</strong></mark></p>
 <blockquote>
-<p>With needle/wire electrodes implanted inside the muscle, the motor
-unit action potentials (MUAP) can be observed without volume conduction
-and crosstalk. Therefore, the MUST can be obtained by comparing and
-counting the MUAP.</p>
+<p>With needle/wire electrodes implanted inside the muscle, the motor unit action potentials (MUAP) can be observed without volume conduction and crosstalk. Therefore, the MUST can be obtained by comparing and counting the MUAP.   </p>
 </blockquote>
-<p>之前的研究主要集中在单个自由度的动作，本文选用了手腕关节，手腕关节拥有多自由度。除此之外，运动单元到运动学参数的映射通常使用基于data-driven的模式识别、聚类、主成分分析等方法，并没有把运动单元和动作直接联系起来。</p>
+<p>之前的研究主要集中在单个自由度的动作，本文选用了手腕关节，手腕关节拥有多自由度。除此之外，运动单元到运动学参数的映射通常使用基于 data-driven 模式识别、聚类、主成分分析等方法，并没有把运动单元和动作直接联系起来。</p>
 <p><strong>表面肌电的两类分解算法</strong>：</p>
 <ul>
 <li>Blind source separation</li>
 <li>Template matching</li>
 </ul>
 <p><strong>Data-driven 和 EMG-driven 的区别</strong>：</p>
-<p>​
-（1）Data-driven是一个黑箱模型，是model-free的，这里的model指代的是关节运动之类的运动学模型。Data-driven是直接将EMG映射到力/力矩、速度、角位移上，优点是训练完之后，模型的计算速度快。</p>
-<p>​ （2）EMG-driven的全称是EMG-driven musculoskeletal
-model，EMG只是参与计算肌肉活性，通过Hill模型，使用肌肉活性和肌腱长度作为输入来计算个体肌肉力，其核心还是骨骼肌模型（肌肉-肌腱模型、关节运动学模型）。肌肉活性的计算公式如下：
-<span class="math display">\[
-a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}
-\]</span></p>
-<h2 id="experiment">1.2 Experiment</h2>
-<p>被试：12，9男性，3女性。</p>
-<p>被试被要求在低和中力水平下，执行动态和静态的手腕收缩。一个session包含4个task（对应4个动作），每个task包含3个重复trial。trial之间休息1-2分钟，斌面肌肉疲劳。session中的1个trial用作训练，剩下的trial和session2用作测试。</p>
-<ol type="1">
-<li><p>session1包含4个<mark>单自由度</mark>的动作：等长收缩</p>
+<p>​    （1）Data-driven 是一个黑箱模型，是 model-free 的，这里的 model 指代的是关节运动之类的运动学模型。Data-driven 是直接将EMG 映射到力/力矩、速度、角位移上，优点是训练完之后，模型的计算速度快。</p>
+<p>​    （2）EMG-driven 的全称是 EMG-driven musculoskeletal model，EMG 只是参与计算肌肉活性，通过 Hill 模型，使用肌肉活性和肌腱长度作为输入来计算个体肌肉力，其核心还是骨骼肌模型（肌肉-肌腱模型、关节运动学模型）。肌肉活性的计算公式如下：</p>
+<script type="math/tex; mode=display">
+a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}</script><h2 id="1-2-Experiment"><a href="#1-2-Experiment" class="headerlink" title="1.2 Experiment"></a>1.2 Experiment</h2><p>被试：12，9男性，3女性。</p>
+<p>被试被要求在低和中力水平下，执行动态和静态的手腕收缩。一个 session 包含4个 task（对应4个动作），每个 task 包含3个重复 trial。trial 之间休息1-2分钟，斌面肌肉疲劳。session 中的1个 trial 用作训练，剩下的 trial 和 session2 用作测试。</p>
+<ol>
+<li><p>session1 包含4个<mark>单自由度</mark>的动作：等长收缩</p>
 <ul>
 <li>伸展</li>
 <li>收缩</li>
@@ -304,59 +294,55 @@ a_i(t)=\dfrac{e^{Au_i(t)}-1}{e^A-1}
 </ul>
 <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421204749427.png" class="" title="image-20230421204749427">
 <p>平均每个动作识别到 44 ± 13 个运动单元</p>
-<img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png" class="" title="image-20230421210338235"></li>
-<li><p>session2包含4组<mark>两自由度</mark>的动作</p></li>
+<img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230421210338235.png" class="" title="image-20230421210338235">
+</li>
+<li><p>session2 包含4组<mark>两自由度</mark>的动作</p>
+</li>
 </ol>
 <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20221215204556250.png" class="">
-<p>​ 注：session2中两个动作的曲线有重叠部分</p>
-<ol start="3" type="1">
-<li><p>通道数：使用 3 * 64=192 个电极进行 HD-EMG 的采集。</p></li>
-<li><p>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</p></li>
+<p>​    注：session2 中两个动作的曲线有重叠部分</p>
+<ol>
+<li><p>通道数：使用 3 * 64=192 个电极进行 HD-EMG 的采集。</p>
+</li>
+<li><p>实验曲线是一个梯形，上升阶段2.5秒，保持5秒水平，下降阶段2.5秒。</p>
+</li>
 </ol>
-<h2 id="method">1.3 Method</h2>
-<p>文章对session1的动作先进行了级联，级联后进行训练，得到了MUST的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2的数据中直接得到MUST（session1和session2的动作有区别，session2考虑了动作的协同）。</p>
-<p>session2的task对应session1的哪个MUST分离矩阵呢？——session2包含哪两个动作就用哪两个动作级联。</p>
+<h2 id="1-3-Method"><a href="#1-3-Method" class="headerlink" title="1.3 Method"></a>1.3 Method</h2><p>文章对 session1 的动作先进行了级联，级联后进行训练，得到了 MUST 的分离矩阵和相关参数，然后把这些分离矩阵和相关参数运用到session2 的数据中直接得到 MUST（session1 和 session2 的动作有区别，session2 考虑了动作的协同）。</p>
+<p>session2 的 task 对应 session1 的哪个 MUST 分离矩阵呢？——session2 包含哪两个动作就用哪两个动作级联。</p>
 <p><strong>EMG分解方法：</strong></p>
-<p>step1. 使用CKC算法将EMG分解成MUST</p>
-<p>step2.
-使用聚类算法（设置聚类的数目为2）区分脉冲和基线噪声（传统的方法采用设置阈值目视检查）</p>
-<p><strong>EMG分解准确率的评价方法：</strong><mark>PNR
-(pulse-to-noise)</mark>，PNR与MUST高度相关，并用于间接评估本工作中的<mark>分解性能</mark>，训练的平均PNR大于
-25 dB</p>
+<p>step1. 使用 CKC 算法将 EMG 分解成 MUST</p>
+<p>step2. 使用聚类算法（设置聚类的数目为2）区分脉冲和基线噪声（传统的方法采用设置阈值目视检查）</p>
+<p><strong>EMG分解准确率的评价方法：</strong><mark>PNR (pulse-to-noise)</mark>，PNR 与 MUST 高度相关，并用于间接评估本工作中的<mark>分解性能</mark>，训练的平均 PNR 大于 25 dB</p>
 <p><strong>神经特征提取：</strong></p>
-<p>MU首先被分组，与动作一一对应，两个动作共同的MU在分析中被忽略。</p>
-<ol type="1">
-<li>表征单个运动神经元的放电活动
+<p>MU 首先被分组，与动作一一对应，两个动作共同的 MU 在分析中被忽略。</p>
+<ol>
+<li><p>表征单个运动神经元的放电活动</p>
 <ul>
-<li>MUST：把滑动窗口中尖峰的的数量作为 MUST
-的实时放电率，使用多元线性回归来拟合 MUST 和弯矩。 <span
-class="math display">\[
-y_i=\sum_{m=1}^{M_i} a_{i m} x_{i m}+b_i
-\]</span></li>
-</ul></li>
-<li>表征神经对肌肉的共同输入
+<li>MUST：把滑动窗口中尖峰的的数量作为 MUST 的实时放电率，使用多元线性回归来拟合 MUST 和弯矩。<script type="math/tex; mode=display">
+y_i=\sum_{m=1}^{M_i} a_{i m} x_{i m}+b_i</script></li>
+</ul>
+</li>
+<li><p>表征神经对肌肉的共同输入</p>
 <ul>
-<li><p>PCA：从全部 MUST 池中得到的主成分，用主成分表征。PCA：从全部 MUST
-池中得到的主成分，用主成分表征。</p></li>
-<li><p>CST：将 MUST 池划分成两组，对应两个动作，每组中分别得到的 CST，用
-CST 的频率作为特征。选取了 300 ms 宽、100 ms
-步长的滑动窗口，使用一元线性回归来拟合弯矩和 CST 的放电频率。 <span
-class="math display">\[y_i=a_i x_i+b_i\]</span> CST
-的实时放电率与力曲线非常的接近： <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png" class="" title="image-20230419170121928"> 如何从 MUST 得到 CST
-的参考文献：</p>
+<li>PCA：从全部 MUST 池中得到的主成分，用主成分表征。PCA：从全部 MUST 池中得到的主成分，用主成分表征。</li>
+<li><p>CST：将 MUST 池划分成两组，对应两个动作，每组中分别得到的 CST，用 CST 的频率作为特征。选取了 300 ms 宽、100 ms 步长的滑动窗口，使用一元线性回归来拟合弯矩和 CST 的放电频率。</p>
+<pre><code>  $$y_i=a_i x_i+b_i$$
+</code></pre><p>   CST 的实时放电率与力曲线非常的接近：</p>
+   <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Characteristic/Non-Invasive-Analysis-of-Motor-Unit-Activation-During-Simultaneous-and-Continuous-Wrist-Movements/image-20230419170121928.png" class="" title="image-20230419170121928"> 
+<p>   如何从 MUST 得到 CST 的参考文献：</p>
 <blockquote>
-<p>Central nervous system modulates the neuromechanical delay in a broad
-range for the control of muscle force</p>
-</blockquote></li>
-</ul></li>
+<p>Central nervous system modulates the neuromechanical delay in a broad range for the control of muscle force</p>
+</blockquote>
+</li>
+</ul>
+</li>
 </ol>
-<p>（这里的CST和MUST都是通过滑动窗口计算的放电频率。除此之外，还提取了时域的RMS来和神经特征作为对比。）</p>
-<p><strong>MUAP分析参数：</strong></p>
+<p>（这里的 CST 和 MUST 都是通过滑动窗口计算的放电频率。除此之外，还提取了时域的 RMS 来和神经特征作为对比。）</p>
+<p><strong>MUAP 分析参数：</strong></p>
 <ul>
 <li>peak-to-peak value</li>
 <li>duration</li>
-<li>area of MUAP（obtained by computing the definite integral of action
-potentials within the duration.）</li>
+<li>area of MUAP（obtained by computing the definite integral of action potentials within the duration.）  </li>
 </ul>
 <p><strong>特征评估：</strong></p>
 <ul>
@@ -366,25 +352,28 @@ potentials within the duration.）</li>
 <ul>
 <li><mark>linear regression model</mark></li>
 </ul>
-<h2 id="conclusion">1.3 Conclusion</h2>
-<ol type="1">
-<li><p>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig
-3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关</p></li>
-<li><p>RMS用来和神经特征做对比，在训练集上，RMS在大多数情况下性能是优于神经特征的，然而在测试集上，RMS的估计性能会显著降低，CST的估计结果从决定系数和RMSE上来说均显著好于RMS。这说明神经特征的鲁棒性更好</p></li>
+<h2 id="1-3-Conclusion"><a href="#1-3-Conclusion" class="headerlink" title="1.3 Conclusion"></a>1.3 Conclusion</h2><ol>
+<li><p>运动单元大多数情况下只在一个动作下激活并且可以与这个动作关联起来，这种关联在两个动作时也同样适用，<font color="red">两个动作中同时激活的MU在数据处理中被忽略掉，对应Fig 3.4.5图中的灰线部分</font>。CST已被证明可以代表从脊髓传递到肌肉的共同驱动力，本文结果表明，CST与手腕力矩高度相关</p>
+</li>
+<li><p>RMS用来和神经特征做对比，在训练集上，RMS在大多数情况下性能是优于神经特征的，然而在测试集上，RMS的估计性能会显著降低，CST的估计结果从决定系数和RMSE上来说均显著好于RMS。这说明神经特征的鲁棒性更好</p>
+</li>
 <li><p>RMS性能低下的原因可能是由于：（1）EMG通道之间的串扰；（2）2-DOF下动作电位的叠加，存在幅值抵消的特性</p>
 <blockquote>
-<p><em>Amplitude cancellationof motor-unit action potentials in the
-surface electromyogram can be estimated with spike-triggered
-averaging</em></p>
-</blockquote></li>
-<li><p>文章尝试直接把MUST映射到力矩的输出上，这比CST的维度更高，但效果并没有比CST好，特别是在光滑度上，CST要优异很多（但是文章适用的是多元线性回归，效果不理想的原因也可能是受限于方法，因为神经元是非线性的，同时，单独考虑MUST可能引入单个MU中的震荡）</p></li>
-<li><p>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation
-和supination 的MUAP激活区域几乎相同；然而flexion 和extension
-的激活区域很容易区分</p></li>
-<li><p>PCA能够从多个MUST中提取出低维信息，能够代表从神经驱动。因此比传统的EMG-based的方法有更好的性能</p></li>
-<li><p>MUAP的一些参数能够反映一些肌肉特性，比如MUAP的幅值和长度能够反映肌肉的疲劳程度</p></li>
-<li><p>MUAP的空间信息能够帮助改善力矩的估计</p></li>
-<li><p>MUAP的空间特征在不同被试之间是相似的，这说明这些特征能够用在被试之间的估计</p></li>
+<p>_Amplitude cancellationof motor-unit action potentials in the surface electromyogram can be estimated with spike-triggered averaging_</p>
+</blockquote>
+</li>
+<li><p>文章尝试直接把MUST映射到力矩的输出上，这比CST的维度更高，但效果并没有比CST好，特别是在光滑度上，CST要优异很多（但是文章适用的是多元线性回归，效果不理想的原因也可能是受限于方法，因为神经元是非线性的，同时，单独考虑MUST可能引入单个MU中的震荡）</p>
+</li>
+<li><p>MUAP的分析结果表明，PPV值在四种动作中明显不同。pronation 和supination 的MUAP激活区域几乎相同；然而flexion 和extension 的激活区域很容易区分</p>
+</li>
+<li><p>PCA能够从多个MUST中提取出低维信息，能够代表从神经驱动。因此比传统的EMG-based的方法有更好的性能</p>
+</li>
+<li><p>MUAP的一些参数能够反映一些肌肉特性，比如MUAP的幅值和长度能够反映肌肉的疲劳程度</p>
+</li>
+<li><p>MUAP的空间信息能够帮助改善力矩的估计</p>
+</li>
+<li><p>MUAP的空间特征在不同被试之间是相似的，这说明这些特征能够用在被试之间的估计</p>
+</li>
 </ol>
 
     </div>
@@ -472,7 +461,7 @@ averaging</em></p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-text">1.1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experiment"><span class="nav-text">1.2 Experiment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#method"><span class="nav-text">1.3 Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-text">1.3 Conclusion</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Introduction"><span class="nav-text">1.1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Experiment"><span class="nav-text">1.2 Experiment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Method"><span class="nav-text">1.3 Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Conclusion"><span class="nav-text">1.3 Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
