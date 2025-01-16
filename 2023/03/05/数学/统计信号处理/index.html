@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。 参考书籍：《Fundamentals of statistical signal processing: Estimation theory》">
+  <meta name="description" content="生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。 参考书籍：《Fundamentals of statistical signal processing: Estimation theory》">
 <meta property="og:type" content="article">
 <meta property="og:title" content="统计信号处理">
 <meta property="og:url" content="https://cq-yangxh.github.io/2023/03/05/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。 参考书籍：《Fundamentals of statistical signal processing: Estimation theory》">
+<meta property="og:description" content="生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。 参考书籍：《Fundamentals of statistical signal processing: Estimation theory》">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/03/05/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/image-20230308215313896.png">
 <meta property="article:published_time" content="2023-03-05T12:45:41.000Z">
-<meta property="article:modified_time" content="2025-01-15T12:54:49.720Z">
+<meta property="article:modified_time" content="2025-01-16T09:30:56.729Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/03/05/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/image-20230308215313896.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:54:49" itemprop="dateModified" datetime="2025-01-15T20:54:49+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 17:30:56" itemprop="dateModified" datetime="2025-01-16T17:30:56+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,63 +251,33 @@
 
       
         <p>生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。</p>
-<p>参考书籍：《Fundamentals of statistical signal processing: Estimation
-theory》</p>
+<p>参考书籍：《Fundamentals of statistical signal processing: Estimation theory》</p>
 <span id="more"></span>
-<h1 id="chapter-1-无偏估计">Chapter 1 无偏估计</h1>
-<p>无偏估计值估计量的期望等于真实值： <span class="math display">\[
-E(\hat{\theta})=\theta
-\]</span>
-与无偏估计相对应的是有偏估计，无偏估计并不一定是好的估计，只代表估计量的期望等于真值。</p>
-<h1 id="chapter-12-线性贝叶斯估计量">Chapter 12 线性贝叶斯估计量</h1>
-<p>保留MMSE准则，但是限定估计量是线性的。</p>
-<p>线性估计量的形式： <span class="math display">\[
-\hat{\theta}=\sum_{n=0}^{N-1} a_n x[n]+a_N
-\]</span> 选择加权系数 <span
-class="math inline">\(a_n\)</span>来使贝叶斯 MSE 最小。贝叶斯 MSE：
-<span class="math display">\[
-\operatorname{Bmse}(\hat{\theta})=E\left[(\theta-\hat{\theta})^2\right]
-\]</span> 导出的估计量称为线性最小均方误差(LMMSE)估计量.</p>
-<hr />
+<h1 id="Chapter-1-无偏估计"><a href="#Chapter-1-无偏估计" class="headerlink" title="Chapter 1 无偏估计"></a>Chapter 1 无偏估计</h1><p>无偏估计值估计量的期望等于真实值：</p>
+<script type="math/tex; mode=display">
+E(\hat{\theta})=\theta</script><p>与无偏估计相对应的是有偏估计，无偏估计并不一定是好的估计，只代表估计量的期望等于真值。</p>
+<h1 id="Chapter-12-线性贝叶斯估计量"><a href="#Chapter-12-线性贝叶斯估计量" class="headerlink" title="Chapter 12 线性贝叶斯估计量"></a>Chapter 12 线性贝叶斯估计量</h1><p>保留MMSE准则，但是限定估计量是线性的。</p>
+<p>线性估计量的形式：</p>
+<script type="math/tex; mode=display">
+\hat{\theta}=\sum_{n=0}^{N-1} a_n x[n]+a_N</script><p>选择加权系数 $a_n$ 来使贝叶斯 MSE 最小。贝叶斯 MSE：</p>
+<script type="math/tex; mode=display">
+\operatorname{Bmse}(\hat{\theta})=E\left[(\theta-\hat{\theta})^2\right]</script><p>导出的估计量称为线性最小均方误差(LMMSE)估计量.</p>
+<hr>
 <p><strong>一个例子帮助理解：</strong></p>
-<p>考虑一个参数θ，它根据单一数据 <span
-class="math display">\[x[0]\]</span> 来估计, 其中 <span
-class="math display">\[x[0] \sim \mathcal{N}\left(0,
-\sigma^2\right)\]</span> 。如果待估计的参数是 <span
-class="math display">\[x[0]\]</span> 现实的功率, 即 <span
-class="math display">\[\theta=x^2[0]\]</span>，那么理想的估计量是：
-<span class="math display">\[
-\hat{\theta}=x^2[0]
-\]</span> 因为最小贝叶斯 MSE 将等于零。很显然这个估计量是非线性的。然而,
-如果我们试图应用 LMMSE 估计量, 即： <span class="math display">\[
-\hat{\theta}=a_0 x[0]+a_1
-\]</span> 那么最佳加权系数 <span class="math display">\[a_0\]</span> 和
-<span class="math display">\[a_1\]</span> 可以通过使： <span
-class="math display">\[
-\operatorname{Bmse}(\hat{\theta})=E\left[(\theta-\hat{\theta})^2\right]=E\left[\left(\theta-a_0
-x[0]-a_1\right)^2\right]
-\]</span> 最小而求出。</p>
-<hr />
+<p>考虑一个参数θ，它根据单一数据 $x[0]$ 来估计, 其中 $x[0] \sim \mathcal{N}\left(0, \sigma^2\right)$ 。如果待估计的参数是 $x[0]$ 现实的功率, 即 $\theta=x^2[0]$，那么理想的估计量是：</p>
+<script type="math/tex; mode=display">
+\hat{\theta}=x^2[0]</script><p>因为最小贝叶斯 MSE 将等于零。很显然这个估计量是非线性的。然而, 如果我们试图应用 LMMSE 估计量, 即：</p>
+<script type="math/tex; mode=display">
+\hat{\theta}=a_0 x[0]+a_1</script><p>那么最佳加权系数 $a_0$ 和 $a_1$ 可以通过使：</p>
+<script type="math/tex; mode=display">
+\operatorname{Bmse}(\hat{\theta})=E\left[(\theta-\hat{\theta})^2\right]=E\left[\left(\theta-a_0 x[0]-a_1\right)^2\right]</script><p>最小而求出。</p>
+<hr>
 <p><strong>几何意义：</strong></p>
-<p>矢量长度的定义：对于一个零均值的变量来说，它的长度定义为方差的平方根（<span
-class="math display">\[\|x\|=\sqrt{E\left(x^2\right)}\]</span>），方差越大矢量长度越长。</p>
+<p>矢量长度的定义：对于一个零均值的变量来说，它的长度定义为方差的平方根（$|x|=\sqrt{E\left(x^2\right)}$），方差越大矢量长度越长。</p>
 <p>如果两个矢量是正交的，那么我们不能用其中的一个来估计另一个参数，因为在x方向没有y的分量，所以我们可以只考虑投影带来的关系。</p>
-<p>LMMSE 估计量：<span
-class="math display">\[\hat{\theta}=\sum_{n=0}^{N-1} a_n
-x[n]\]</span></p>
-<p>优化目标：<span
-class="math display">\[E\left[(\theta-\hat{\theta})^2\right]=E\left[\left(\theta-\sum_{n=0}^{N-1}
-a_n x[n]\right)^2\right]=\left\|\theta-\sum_{n=0}^{N-1} a_n
-x[n]\right\|^2\]</span> <span class="math display">\[\theta\]</span>
-与估计量 <span class="math display">\[\hat{\theta}\]</span>
-之差的期望与所有 <span class="math display">\[x[n]\]</span>
-张成的向量垂直，最终估计量 <span
-class="math display">\[\hat{\theta}\]</span> 是 <span
-class="math display">\[\theta\]</span> 在 <span
-class="math display">\[x[n]\]</span> 张成的轴上的投影的和。e.g. <span
-class="math display">\[\hat{\theta}=\hat{\theta}_0+\hat{\theta}_1\]</span></p>
+<p>LMMSE 估计量：$\hat{\theta}=\sum_{n=0}^{N-1} a_n x[n]$</p>
+<p>优化目标：$E\left[(\theta-\hat{\theta})^2\right]=E\left[\left(\theta-\sum_{n=0}^{N-1} a_n x[n]\right)^2\right]=\left|\theta-\sum_{n=0}^{N-1} a_n x[n]\right|^2$<br>$\theta$ 与估计量 $\hat{\theta}$ 之差的期望与所有 $x[n]$ 张成的向量垂直，最终估计量 $\hat{\theta}$ 是 $\theta$ 在 $x[n]$ 张成的轴上的投影的和。e.g. $\hat{\theta}=\hat{\theta}_0+\hat{\theta}_1$</p>
 <img src="/2023/03/05/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/image-20230308215313896.png" class="">
-
     </div>
 
     
@@ -387,7 +357,7 @@ class="math display">\[\hat{\theta}=\hat{\theta}_0+\hat{\theta}_1\]</span></p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#chapter-1-%E6%97%A0%E5%81%8F%E4%BC%B0%E8%AE%A1"><span class="nav-text">Chapter 1 无偏估计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chapter-12-%E7%BA%BF%E6%80%A7%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%B0%E8%AE%A1%E9%87%8F"><span class="nav-text">Chapter 12 线性贝叶斯估计量</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-1-%E6%97%A0%E5%81%8F%E4%BC%B0%E8%AE%A1"><span class="nav-text">Chapter 1 无偏估计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-12-%E7%BA%BF%E6%80%A7%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%B0%E8%AE%A1%E9%87%8F"><span class="nav-text">Chapter 12 线性贝叶斯估计量</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

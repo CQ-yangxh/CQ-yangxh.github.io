@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:55:56" itemprop="dateModified" datetime="2025-01-15T20:55:56+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 17:32:00" itemprop="dateModified" datetime="2025-01-16T17:32:00+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -239,29 +239,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/388508562">LMMSE -
-知乎 (zhihu.com)</a></p>
+          <p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/388508562">LMMSE - 知乎 (zhihu.com)</a></p>
 <p>参考书籍：《统计信号处理基础》</p>
-<p>LMMSE（Linear Minimum Mean Squared
-Error）是一种信号处理方法，用于对输入信号进行估计或恢复。LMMSE方法基于线性估计器，通过最小化误差均方差的方式对信号进行估计。</p>
-<p>在信号处理领域，LMMSE方法常用于恢复被加噪声或失真的信号。假设有一个被噪声污染的信号
-<span class="math display">\[y\]</span>，我们希望得到它的无噪声版本
-<span class="math display">\[x\]</span>。假设 <span
-class="math display">\[y\]</span> 和 <span
-class="math display">\[x\]</span> 之间存在线性关系，即：<span
-class="math display">\[y=Hx+n\]</span>。其中，<span
-class="math display">\[H\]</span> 是一个已知的线性变换矩阵，<span
-class="math display">\[n\]</span>
-是加性高斯噪声。我们可以使用LMMSE方法来估计 <span
-class="math display">\[x\]</span>。</p>
-<p>LMMSE方法的基本思想是，首先利用信号和噪声的统计特性，构造一个最小均方误差准则函数，然后通过对准则函数求导的方式，求得最小误差下的估计器。对于上述的线性模型，LMMSE估计器的形式为：
-<span class="math display">\[
-\hat{x}=E{x|y}=x+E{H^{T}(HH^{T}+\sigma_{n}^{2}I)^{-1}(y-Hx)}​
-\]</span> 其中，<span class="math display">\[\sigma_n^2\]</span>
-是噪声方差，<span class="math display">\[E{x|y}\]</span> 表示在已知
-<span class="math display">\[y\]</span> 的情况下对 <span
-class="math display">\[x\]</span>
-的最小均方误差估计值，即后验均值估计。</p>
+<p>LMMSE（Linear Minimum Mean Squared Error）是一种信号处理方法，用于对输入信号进行估计或恢复。LMMSE方法基于线性估计器，通过最小化误差均方差的方式对信号进行估计。</p>
+<p>在信号处理领域，LMMSE方法常用于恢复被加噪声或失真的信号。假设有一个被噪声污染的信号 $y$，我们希望得到它的无噪声版本 $x$。假设 $y$ 和 $x$ 之间存在线性关系，即：$y=Hx+n$。其中，$H$ 是一个已知的线性变换矩阵，$n$ 是加性高斯噪声。我们可以使用LMMSE方法来估计 $x$。</p>
+<p>LMMSE方法的基本思想是，首先利用信号和噪声的统计特性，构造一个最小均方误差准则函数，然后通过对准则函数求导的方式，求得最小误差下的估计器。对于上述的线性模型，LMMSE估计器的形式为：</p>
+<script type="math/tex; mode=display">
+\hat{x}=E{x|y}=x+E{H^{T}(HH^{T}+\sigma_{n}^{2}I)^{-1}(y-Hx)}​</script><p>其中，$\sigma_n^2$  是噪声方差，$E{x|y}$ 表示在已知 $y$ 的情况下对 $x$ 的最小均方误差估计值，即后验均值估计。</p>
 <p>LMMSE方法具有良好的性能和广泛的应用，尤其在通信系统、图像处理、音频处理等领域得到了广泛应用。</p>
 
       
@@ -313,7 +297,7 @@ class="math display">\[x\]</span>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:54:49" itemprop="dateModified" datetime="2025-01-15T20:54:49+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 17:30:56" itemprop="dateModified" datetime="2025-01-16T17:30:56+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -337,8 +321,7 @@ class="math display">\[x\]</span>
 
       
           <p>生物信号、语音信号、雷达信号等随机信号具有易变性，因此通常使用属性而不是波形自身来度量，因为属性对变化的敏感度较低。</p>
-<p>参考书籍：《Fundamentals of statistical signal processing: Estimation
-theory》</p>
+<p>参考书籍：《Fundamentals of statistical signal processing: Estimation theory》</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/03/05/%E6%95%B0%E5%AD%A6/%E7%BB%9F%E8%AE%A1%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/#more" rel="contents">
@@ -396,7 +379,7 @@ theory》</p>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-15 20:52:43" itemprop="dateModified" datetime="2025-01-15T20:52:43+08:00">2025-01-15</time>
+                <time title="Modified: 2025-01-16 17:29:18" itemprop="dateModified" datetime="2025-01-16T17:29:18+08:00">2025-01-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -419,18 +402,10 @@ theory》</p>
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="随机变量">1. 随机变量</h1>
-<p>随机变量的每一个随机事件映射到实数轴上是<mark>一个</mark>实数。</p>
-<h2 id="概率分布函数和概率密度函数">1.1 概率分布函数和概率密度函数</h2>
-<p><strong>概率分布函数：</strong> 随机变量的概率分布函数 ( probability
-distribution function) <span class="math display">\[P_X(x)\]</span>
-是所观察的该随机变量 <span class="math display">\[X\]</span>
-小于或等于数值 <span class="math display">\[x\]</span>
-这一事件的概率。它是随机变量所取数值 <span
-class="math display">\[x\]</span> 的函数, 即： <span
-class="math display">\[
-P_X(x)=P\{X \leqslant x\}
-\]</span></p>
+          <h1 id="1-随机变量"><a href="#1-随机变量" class="headerlink" title="1. 随机变量"></a>1. 随机变量</h1><p>随机变量的每一个随机事件映射到实数轴上是<mark>一个</mark>实数。</p>
+<h2 id="1-1-概率分布函数和概率密度函数"><a href="#1-1-概率分布函数和概率密度函数" class="headerlink" title="1.1 概率分布函数和概率密度函数"></a>1.1 概率分布函数和概率密度函数</h2><p><strong>概率分布函数：</strong> 随机变量的概率分布函数 ( probability distribution function) $P_X(x)$ 是所观察的该随机变量 $X$ 小于或等于数值 $x$ 这一事件的概率。它是随机变量所取数值 $x$ 的函数, 即：</p>
+<script type="math/tex; mode=display">
+P_X(x)=P\{X \leqslant x\}</script>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/03/05/%E6%95%B0%E5%AD%A6/%E9%9A%8F%E6%9C%BA%E4%BF%A1%E5%8F%B7/#more" rel="contents">
