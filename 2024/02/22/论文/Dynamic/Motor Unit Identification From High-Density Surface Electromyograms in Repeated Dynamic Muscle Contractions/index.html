@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="本文引入了MUAP变化的MU特异性测量，该测量可以直接在已识别的MU spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何外部测量。PNR同样适用于动态下的分解效果评估。所引入的方法对MUAP变化和肌肉收缩速度表现出相当大的稳健性。 由于EMG混合过程的复杂性，通常由卷积多输入多输出系统建模，个体MU发放模式的识别在很大程度上仅限于等长肌肉收缩，其中肌肉和周围组织的几何形状不会发生显著变化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Motor Unit Identification From High-Density Surface Electromyograms in Repeated Dynamic Muscle Contractions">
+<meta property="og:url" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="本文引入了MUAP变化的MU特异性测量，该测量可以直接在已识别的MU spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何外部测量。PNR同样适用于动态下的分解效果评估。所引入的方法对MUAP变化和肌肉收缩速度表现出相当大的稳健性。 由于EMG混合过程的复杂性，通常由卷积多输入多输出系统建模，个体MU发放模式的识别在很大程度上仅限于等长肌肉收缩，其中肌肉和周围组织的几何形状不会发生显著变化">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204647387.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204750539.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240226215147388.png">
+<meta property="article:published_time" content="2024-02-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-01-16T07:40:56.272Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204647387.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Motor Unit Identification From High-Density Surface Electromyograms in Repeated Dynamic Muscle Contractions | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Motor Unit Identification From High-Density Surface Electromyograms in Repeated Dynamic Muscle Contractions
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-02-22 00:00:00" itemprop="dateCreated datePublished" datetime="2024-02-22T00:00:00+08:00">2024-02-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-01-16 15:40:56" itemprop="dateModified" datetime="2025-01-16T15:40:56+08:00">2025-01-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文引入了MUAP变化的MU特异性测量，该测量可以直接在已识别的MU spikes中使用，并且不依赖于肌肉几何形状或关节角度的任何外部测量。PNR同样适用于动态下的分解效果评估。<mark>所引入的方法对MUAP变化和肌肉收缩速度表现出相当大的稳健性。</mark></p>
+<p>由于EMG混合过程的复杂性，通常由卷积多输入多输出系统建模，个体MU发放模式的识别在很大程度上<mark>仅限于等长肌肉收缩</mark>，其中肌肉和周围组织的几何形状不会发生显著变化。在这种条件下，由电极获取的MU动作电位（MUAP）是相对稳定的，并且主要的EMG非平稳性来自MU的募集和放电速率调制。在动态收缩中，MUAP 形状改变的两个因素：  </p>
+<ul>
+<li>肌肉缩短会影响动作电位在肌肉连接处终止的潜伏期，从而导致MUAP成分不传导；</li>
+<li>肌肉纤维和摄取电极之间的距离随着肌肉缩短而变化。这两个因素都会影响检测到的MUAP形状。</li>
+</ul>
+<span id="more"></span>
+<hr>
+<p><em>2024/3/27</em></p>
+<ul>
+<li><p>该算法的步骤是怎样的？</p>
+<p>该算法首先是选取一段小区间，这段小区间上的 $\Delta{H}$ 可以视为噪声，然后使用传统的 CKC 算法可以分解得到不同的 MU。关键在于怎样去追踪这个 MU。算法分为两步：</p>
+<ul>
+<li>先寻找 PNR 值接近的区间，这样的区间和初始区间有着相似的混合矩阵（这样的区间可不可以直接用 gCKC 算法分解出来？）。</li>
+<li>然后需要寻找别的区间，这涉及到 MUAP 的缓慢变化，因此需要设置一个加权函数 f，当权重在右边时，右边的相关向量占主要成分，所以会以右边的 MUAP 波形为基础去寻找下一个区间</li>
+</ul>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>Due to the complexity of the EMG mixing process, which is typically modelled by convolutive multiple-input-multiple-output system [12]–[15], identification of individual MU firing pattern has been largely limited to isometric muscle contractions, in which the geometry of the muscle and surrounding tissue does not change considerably. In such conditions, the MU action potentials (MUAPs), acquired by the uptake electrodes are relatively stationary and the main EMG nonstationarity comes from the MU recruitment and firing rates modulation.  </p>
+</blockquote>
+<p>上述表明，之前的 MU 分解都限制在等长收缩（肌肉的几何尺寸不变，周围的组织变化很小），在这种情况下，MUAP 是相对静态的，主要的非静态来自于 MU 的募集和发放频率的调制。如果连发放频率和募集都是恒定的，那么就说收缩是完全静态的。</p>
+<h1 id="hdEMG的动态建模"><a href="#hdEMG的动态建模" class="headerlink" title="hdEMG的动态建模"></a>hdEMG的动态建模</h1><p>在<code>等长非疲劳性</code>肌肉收缩中，可以假设混合矩阵 $\mathbf{H}(n)$ 是静止的。在这种情况下，经典的 hdEMG 分解技术，如 CKC，可以应用于整个 hdEMG 信号。在<mark>缓慢的动态肌肉收缩</mark>和<mark>长时间的等长收缩</mark>中，由于几何变形或肌肉疲劳，MUAP 形状逐渐变化，因此，<mark>hdEMG 需要被划分为 $\mathbf{H}(n)$ 没有显著变化的足够短的时期</mark>。因此，经典的 hdEMG 分解技术需要独立地应用于每个信号历元。在典型的设置中，<mark>信号区间重叠 50%</mark>，以支持从不同的 hdEMG 区间识别的 MU 尖峰序列的不同片段能够有效合并。在<mark>中等和快速的动态收缩</mark>中，$\mathbf{H}(n)$ 变得非平稳，但在某种意义上仍然遵循局部性原理，即它逐渐变化，并且这些变化可以用<mark>连续函数</mark>来建模。</p>
+<p>注意本文对 $H(n)$ 进行了重新建模：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\text{y(n)} =\bar{\mathbf{H}}\bar{\mathbf{t}}\left(n\right)+\Delta\mathbf{H}(n)\bar{\mathbf{t}}\left(n\right)+\boldsymbol{\omega}\left(n\right) \\
+=\bar{\mathbf{H}}\bar{\mathbf{t}}(n)+\mathbf{z}(n)+\omega(n)
+\end{gathered}</script><p>这里的 $\Delta\mathbf{H}\left(n\right)\mathbf{\bar{t}}\left(n\right)$ 可以视作模型误差，$\bar{\mathbf{H}}$ 是 $\mathbf{H}(n)$ 在区间内的平均。在重复非疲劳实验中，$\Delta\mathbf{H}$ 和 $\mathbf{H}$ 是重复的，但是 $\mathbf{z}(n)$ 不是重复的，因为还取决于 $\bar{\mathbf{t}(n)}$ 。但是结果表明 $\mathbf{z}(n)$ 的相关矩阵能部分反应周期重复性。</p>
+<h1 id="MUST的估计"><a href="#MUST的估计" class="headerlink" title="MUST的估计"></a>MUST的估计</h1><p>总结一下估计方法：分为<mark>区间内和区间外</mark>，区间内是寻找 PNR 值接近的区间（<strong>本质是寻找 $\mathbf{H}$ 接近的区间，$\mathbf{H}$ 代表的是 MUAP，$\mathbf{H}$ 接近说明 MUAP 接近，也就是说 MUAP 近似没有改变</strong>），然后重新求解参数。也就是说，只要把区间选的足够小，那么就可以把 hdEMG 视为静态的。</p>
+<h2 id="区间内估计"><a href="#区间内估计" class="headerlink" title="区间内估计"></a>区间内估计</h2><ol>
+<li>第 $j$ 个 MU 的 spike train 的估计等式为：</li>
+</ol>
+<script type="math/tex; mode=display">
+\hat{t}_j\left(n\right)=\mathbf{c}_{\mathrm{t_j}\mathbf{y}}^{\mathrm{T}}\mathbf{C_y}^{-1}\mathbf{y}(n)</script><ol>
+<li>在区间[a1, a2]上，通过梯度下降法得到 $\mathbf{c}_{t_j\boldsymbol{y}}$ ，进而估计 $\hat{t_j}\left(n_a\right)$ </li>
+<li>重求 $\mathbf{c}_{t_j\boldsymbol{y}}$ 为 $\begin{aligned}\mathbf{c}_{t_j\boldsymbol{y},n_a}&amp;=\sum_{n_a\in[a_1,a_2]}t_j\left(n_a\right)\boldsymbol{y}\left(n_a\right)\end{aligned}$ ，并重新估计 $\hat{t}_{j,n_a}\left(n\right)$</li>
+<li>寻找 PNR 接近的区间，在全部区间上重新求步骤 3 中的参数（PNR 会随着 $\Delta\mathbf{H}(n_a)$ 和 $\Delta\mathbf{H}(n_b)$ 之间差异的增大而减小，因此 PNR 只是一个代替指标，用来寻找 $\mathbf{H}(n_a)$ 和 $\mathbf{H}(n_b)$ 接近的区间。等式中的 PNR 值取决于所有 hdEMG 通道中第 j 个 MU 的 MUAP 的形状。因此，局部 PNR 允许对具有相对恒定的 $\mathbf{c}_{t_j\boldsymbol{y}}$ 和 $\mathbf{C}_y$ 的时间间隔进行MU特定的选择。</li>
+</ol>
+<blockquote>
+<p>Δa was fixed to 1/5 of the contraction ramp (see the next section), whereas the number of decomposition runs in step 12 was fixed to 100</p>
+</blockquote>
+<h2 id="区间外估计"><a href="#区间外估计" class="headerlink" title="区间外估计"></a>区间外估计</h2><p>通过一个加权函数来使得区间中不同位置的 spike 被放大，最后把所有识别到的所有 spikes 都加在一块。移动区间 [a1, a2]，不断寻找。</p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="仿真数据集："><a href="#仿真数据集：" class="headerlink" title="仿真数据集："></a>仿真数据集：</h2><p>仿真数据集就是先逐段分解出 MUAP，通过重叠来匹配MUAP，从而得到一个 MUAP 库，这个库中的 MUAP 有一个动态的变化，使用这个库中的 MUAP 来合成 repeated dynamic EMG（注意分解的范式和合成的范式是不一样的）。</p>
+<ul>
+<li>志愿者进行了80秒长的缓慢等速收缩，从肘部完全伸展开始，到肘部完全弯曲结束。肌肉收缩的范式包括完全伸展-屈曲斜坡。<mark>带通滤波范围：20-700 Hz</mark></li>
+<li>记录的信号被划分为10s长的历元，具有50%的重叠。通过 CKC 分解技术独立地分解每个历元，并成对比较所识别的MU尖峰序列，以识别整个80s记录信号上的MU发射模式。他们的 MUAP 是通过36个连续10秒长的 EMG 周期的尖峰触发平均值来估计的，这些周期重叠7.8秒。（注意，计算 MUST 和 MUAP 时的步长时不一样的，但是都是以10 s为一个 epoch）</li>
+<li>仿真了 60 s的肌肉兴奋。在生成了 spike 后（MU firing rate 峰值为 35，意味着最小的 spike interval 为 30ms 左右），与 MUAP 库中的动态波形卷积得到仿真的 dynamic EMG。<mark>斜坡的数量设置为2、3、6和12</mark>，分别对应在15、10、5和2.5秒内实现肌肉完全伸展/屈曲。为了符合小的，远的 MU 常常淹没在生理噪声中这种情况，所有的 MUAP 被乘以了一个系数。</li>
+</ul>
+<h2 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h2><ul>
+<li>5个人，4男1女</li>
+<li>两个64通道电极，13×5，5列电极平行于肌纤维</li>
+</ul>
+<p>在每次试验中，受试者进行<mark>重复的</mark>膝盖屈伸运动，将1公斤的重量固定在主腿的脚踝上。通过Fastrak运动跟踪器（Polheus，USA）测量膝关节角度，参考膝关节角度以稳定的速率从100度变化到160度，并在10秒内（中速）和20秒内（缓慢收缩）恢复。这里180度对应于膝盖的完全伸展。踝关节以100度角固定。每个试验包括<mark>八次（中速）或四次（慢速）</mark>连续重复所述膝盖运动，在整个试验过程中连续记录肌电图，并连续跟踪膝盖角度。至少 5 分钟间隔用来休息。</p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><ul>
+<li><p>All the identified MUs extensively changed their MUAPs with muscle shortening.</p>
+</li>
+<li><p>MUAP 的改变程度不仅特定于肌肉和收缩，还特定于 MU，这说明不同条件下 MUAP 的改变程度不同：</p>
+<blockquote>
+<p>the extent of MUAP changes in dynamic contractions is not only muscle and contraction, but also MU specific.  </p>
+</blockquote>
+<p>但是， 有的 MU 即使 MUAP 改变了， 也不影响它的 MUST 的识别，能够在整个周期上识别出来，如后图所示：  </p>
+<blockquote>
+<p>the impact of the MUAP changes on identified MU spikes is MU specific.</p>
+</blockquote>
+</li>
+<li><p>分解对MU是特异性的，<mark>有的 MU 可以在整个收缩周期被分解出来，但有的 MU 只能在某一段强度下分解出来</mark>。  </p>
+<img src="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204647387.png" class="" title="image-20240225204647387">  
+<img src="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240225204750539.png" class="" title="image-20240225204750539">
+</li>
+<li><p>脉冲噪声比 PNR，先前引入用于测量等长肌肉收缩中MU识别的准确性，也可应用于动态条件。PNR反应了 spike train 中 spike 的高度，spike 的高度越高，那么 PNR 值就越大。。sensitivity 和 precision 与 PNR 成正相关，false alarm 和 PNR 值成负相关。PNR &gt; 30 dB 时，灵敏度和准确度 &gt; 90%，误报率 &lt; 1%，这个在等长收缩时的特性在动态收缩中依然保留了下来，尽管明确指出 PNR 值在肌肉收缩、MUAP 改变时会受到影响。因此，PNR ≥ 30 dB 的标准应使用在局部 PNR 中，而在灵敏度 &gt; 90%的 MU 中经常观察到相当低的全局PNR值（图6）。</p>
+</li>
+<li><p>发力斜坡的长度并不能决定分解出的 MU 个数、PNR 值，以及灵敏度和准确度，说明这种算法对<mark>肌肉的收缩速度是鲁棒的</mark>。但是兴奋程度越高识别到的 MU 越多。</p>
+</li>
+<li><p>与所提出的循环平稳CKC相比，经典的 CKC 方法识别出更多的 MUs ，但灵敏度明显较低(图5)。这与图 3 中识别出的 spike 序列的例子一致。</p>
+</li>
+<li><p><mark>实验范式设置参考</mark>：MU 分解对曲线重复次数的敏感性是特定于肌肉和收缩水平的。一般来说，运动速度越高，所需的运动重复次数就越大。值得注意的是，运动重复不需要具有与伪码1的步骤6中实现的MU跟踪相同的持续时间，该MU跟踪在每个运动重复中自动确定用于MU尖峰识别的最佳时间支持。</p>
+</li>
+<li><p>与传统 CKC 的区别：传统的 CKC 是作用于整个信号，通常不能完整地识别出所有的 spikes。CKC 算法的循环次数一般设置为100。而 csCKC 算法识别出的 spike 更多。  </p>
+<img src="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/Motor%20Unit%20Identification%20From%20High-Density%20Surface%20Electromyograms%20in%20Repeated%20Dynamic%20Muscle%20Contractions/image-20240226215147388.png" class="" title="image-20240226215147388">
+</li>
+<li><p>PNR 这个标准可以用于任何复杂的肌肉收缩。</p>
+</li>
+</ul>
+<h1 id="还有哪些工作可以做"><a href="#还有哪些工作可以做" class="headerlink" title="还有哪些工作可以做"></a>还有哪些工作可以做</h1><ul>
+<li>没有试图解释同心和偏心期MU发射率的差异，也没有试图解释股外侧肌和股直肌中MU发射模式之间的差异。这些解释需要大量的重复肌肉收缩，超出了本研究的范围。</li>
+<li>未来需要进一步的研究来评估所述方法在不同骨骼肌中识别MU的适当性，并分析其对肌肉收缩重复次数的敏感性。</li>
+<li>Validation of dynamic surface EMG decomposition is currently an open research problem.  </li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/19/%E5%AE%9E%E9%AA%8C/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%8D%A1/" rel="prev" title="数据采集卡">
+      <i class="fa fa-chevron-left"></i> 数据采集卡
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/02/22/%E8%AE%BA%E6%96%87/Dynamic/A%20new%20method%20for%20high-density%20surface%20electromyography%20decomposition%20in%20dynamic%20muscle%20contraction/" rel="next" title="A new method for high-density surface electromyography decomposition in dynamic muscle contraction">
+      A new method for high-density surface electromyography decomposition in dynamic muscle contraction <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hdEMG%E7%9A%84%E5%8A%A8%E6%80%81%E5%BB%BA%E6%A8%A1"><span class="nav-text">hdEMG的动态建模</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MUST%E7%9A%84%E4%BC%B0%E8%AE%A1"><span class="nav-text">MUST的估计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E5%86%85%E4%BC%B0%E8%AE%A1"><span class="nav-text">区间内估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E5%A4%96%E4%BC%B0%E8%AE%A1"><span class="nav-text">区间外估计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%9A"><span class="nav-text">仿真数据集：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-text">实验数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-text">结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E4%BD%9C%E5%8F%AF%E4%BB%A5%E5%81%9A"><span class="nav-text">还有哪些工作可以做</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

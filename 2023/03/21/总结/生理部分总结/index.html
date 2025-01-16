@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="1. 神经-肌肉通路1.1 运动神经元运动神经元位于脊髓的腹角或脑干&#x2F;运动皮质，在那里它接收来自神经系统其他部分的感觉和下行输入。运动神经元通常可以分为两类：  上运动神经元：细胞体在脑干或运动皮质。它们的轴突可以直接延伸到脊髓与下运动神经元突触接触 下运动神经元：细胞体在脊髓灰质，下图中紫色蝴蝶一样的部分是脊髓的灰质，灰质的腹角中汇集着运动神经元的细胞体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生理部分总结">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="1. 神经-肌肉通路1.1 运动神经元运动神经元位于脊髓的腹角或脑干&#x2F;运动皮质，在那里它接收来自神经系统其他部分的感觉和下行输入。运动神经元通常可以分为两类：  上运动神经元：细胞体在脑干或运动皮质。它们的轴突可以直接延伸到脊髓与下运动神经元突触接触 下运动神经元：细胞体在脊髓灰质，下图中紫色蝴蝶一样的部分是脊髓的灰质，灰质的腹角中汇集着运动神经元的细胞体">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630100833548.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630101851451.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630101422818.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630104219694.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630185241964.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630120205118.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630162312165.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630174226936.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630174832590.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630184000612.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230701113742016.png">
+<meta property="article:published_time" content="2023-03-21T09:11:13.000Z">
+<meta property="article:modified_time" content="2024-02-09T11:55:40.762Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630100833548.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>生理部分总结 | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          生理部分总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-21 17:11:13" itemprop="dateCreated datePublished" datetime="2023-03-21T17:11:13+08:00">2023-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-02-09 19:55:40" itemprop="dateModified" datetime="2024-02-09T19:55:40+08:00">2024-02-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">总结</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-神经-肌肉通路"><a href="#1-神经-肌肉通路" class="headerlink" title="1. 神经-肌肉通路"></a>1. 神经-肌肉通路</h1><h2 id="1-1-运动神经元"><a href="#1-1-运动神经元" class="headerlink" title="1.1 运动神经元"></a>1.1 运动神经元</h2><p>运动神经元位于脊髓的腹角或脑干/运动皮质，在那里它接收来自神经系统其他部分的感觉和下行输入。运动神经元通常可以分为两类：</p>
+<ul>
+<li>上运动神经元：细胞体在脑干或运动皮质。它们的轴突可以直接延伸到脊髓与下运动神经元突触接触</li>
+<li>下运动神经元：细胞体在脊髓灰质，下图中紫色蝴蝶一样的部分是脊髓的灰质，灰质的腹角中汇集着运动神经元的细胞体</li>
+</ul>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630100833548.png" class="" title="image-20230630100833548">
+<span id="more"></span>
+<p>在功能上，上运动神经元负责发布指令，下运动神经元负责控制肌肉和传递信息。脊髓中的运动神经元的轴突通过腹根离开脊髓，脑干中的运动神经元通过颅神经离开脑干，并在外周神经中投射到其目标肌肉及其支配的肌肉纤维。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630101851451.png" class="" title="image-20230630101851451">
+<p>脊髓灰质腹角中的运动神经元又可以分为两类：</p>
+<ul>
+<li>α运动神经元：连接梭外肌纤维，负责肌肉收缩</li>
+<li>γ运动神经元：连接梭内肌纤维，保持肌梭敏感性，增益感觉神经元的反馈</li>
+</ul>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630101422818.png" class="" title="image-20230630101422818">
+<h2 id="1-2-运动单位"><a href="#1-2-运动单位" class="headerlink" title="1.2 运动单位"></a>1.2 运动单位</h2><p><strong>运动单位（motor unit）</strong>是神经肌肉系统的基本功能单位。它包括一个运动神经元（包括其树突和轴突），以及受轴突支配的肌肉纤维。每个运动神经元的轴突最终与肌肉上的肌纤维相连，运动神经与肌纤维的连接点称为神经肌肉接头。运动单元通常被认为是<strong>最终共同通路  （final common pathway）</strong>，因为感觉和下行输入汇聚到一个神经元的树突上，该神经元向其支配的肌肉纤维释放激活信号。</p>
+<p>一根肌纤维只接受一个α运动神经元的指令，但一个α运动神经元可以连接多个肌肉纤维。一个 MU 支配的所有肌纤维的集合称为<strong>肌肉单位（muscle unit）</strong>。一块肌肉上所有 MU 的集合被称为<strong>运动神经元池（motor neuron pool）</strong>，运动神经元池中的大多数 MU 只支配着较小的肌肉单位（肌纤维数量少），只有少数 MU 支配较大的肌肉单位，分布呈现指数分布状态。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630104219694.png" class="" title="image-20230630104219694">
+<p>每一条运动神经元所支配的肌纤维数量与肌肉本身的大小并无实际关系，反而与肌肉运作时要达至的精确度和协调性有关。负责细致和精密工作的肌肉（如眼部肌肉），每一个运动单内可能只有一条至数条的肌纤维。反过来说，专责粗重工作的肌肉（如四头肌），每一个运动单位内就可以有数百以至数千条的肌纤维。在大部分的肌肉当中，运动单位内肌纤维的数目都有差异。 例如，某一块肌肉可能包含有25个运动单位，平均每个运动单位内有200条肌纤维，但最小的一个可能只有25条肌纤维，而最大的一个却可能有近500条肌纤维之多。</p>
+<h2 id="1-3-动作电位"><a href="#1-3-动作电位" class="headerlink" title="1.3 动作电位"></a>1.3 动作电位</h2><p>运动神经元具有广泛的树突分支，可接受多达50000次突触接触，每次接触都能引发跨膜的向内或向外电流，从而产生兴奋性或抑制性突触后电位。当膜电位的变化超过电压阈值时，输入被整合，并将在触发区（轴丘）产生动作电位。运动神经元有四种主要类型的受体和离子通道，对突触输入产生反应。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630185241964.png" class="" title="image-20230630185241964">
+<ul>
+<li><p>泄漏通道：无门通道（non-gated channel），一直开着，在化学力的作用下运输钠钾离子，负责形成静息电位。</p>
+</li>
+<li><p>电压门通道：这些通道被膜电位的变化激活，例如膜电位升高会激活Na、K通道。</p>
+</li>
+<li><p>离子突触通道：这些是配体门控受体，结合神经递质并传递产生兴奋性或抑制性突触后电位的电流。使膜电位去极化的兴奋性电流主要由谷氨酸门控受体产生，而使膜超极化的抑制性电流通常涉及甘氨酸门控受体或GABA门控受体。</p>
+</li>
+<li>神经调节受体：一旦神经递质与这些受体结合，它们就会激活细胞内的第二信使通路，从而调节泄露、电压门控和离子通道。因此，神经调节受体通过调节运动神经元对离子输入的反应来控制运动神经元的兴奋性。</li>
+</ul>
+<p>细胞膜电势由离子在膜内外浓度差造成，浓度差和电势由钠钾离子泵维持。静息状态下细胞膜外正内负，静息电位为-70mv：</p>
+<ul>
+<li>细胞外的钠离子、氯离子、钙离子浓度高，钾离子浓度低</li>
+<li>细胞内的钾离子和负蛋白浓度高，钠离子、氯离子浓度低</li>
+</ul>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630120205118.png" class="" title="image-20230630120205118">
+<p>静息电位下，如果轴丘部分收到了一个很强的向内正电流，突如其来的细胞内的很多正电荷使得这一小块细胞膜的电位升高（比如从-70mv升到-50mv）。超过了膜上钠离子电压门通道的阈值电压，钠离子电压门通道被打开，钠离子顺着化学力和电子力冲动涌向细胞内，使得细胞内的电压更高，更多的钠离子通道被打开，从而更多的钠离子涌入，形成Hodgkin cycle正反馈循环，膜电位骤升变成正的。</p>
+<p>但是钠离子电压门通道开得快关得也快，1ms不到就关上了。相较而言，钾离子通道开得慢，开的时间长。在钠离子电压门通道关上后，钾离子电压门通道逐渐打开，钾离子顺着化学力涌向细胞外，让细胞内的电压降低，随着打开的钾离子电压门增多，更多的钾离子涌出，电压更低，直到低于钾离子电压门的阈值，这是一种负反馈。低于阈值后，打开状态下的钾离子电压门通道也被关闭，膜电位又在钠钾离子泵的作用下恢复到了平常的静息电位。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630162312165.png" class="" title="image-20230630162312165">
+<p>神经元形成的动作电位峰值手原先的内外梨子浓度差影响，也就是说一条轴突上发送的动作电位峰值是一致的。神经元通过改变放电频率来传递不同的信息，如果刺激越强，那么神经元发送动作电位的频率也越快。但是频率不可能一直增大，因为神经元存在不应期，在不应期内，神经元是无法发放动作电位的。这也解释了电信号传递的方向性。神经元还有一个重要的结构叫做髓鞘，髓鞘是一节一节的，髓鞘包裹的部分只有泄露通道和离子泵，因此髓鞘部分产生不了动作电位，而在结节（郎飞氏结）的地方没有髓鞘包裹，有很多电压门通道，也只有在郎飞氏结的地方才能产生动作电位。髓鞘起着绝缘的作用，保证电流在到了郎飞氏结的时候还能够比阈值大。</p>
+<h2 id="1-4-运动单位动作电位MUAP"><a href="#1-4-运动单位动作电位MUAP" class="headerlink" title="1.4 运动单位动作电位MUAP"></a>1.4 运动单位动作电位MUAP</h2><p>在人类有了行动的意向后，中枢神经系统会通过运动神经末端和它的运动终板，将电脉冲传递到神经肌肉接头处，促使神经元分泌乙酰胆碱，从而让肌细胞被激活。每一个肌纤维的激活所产生的运动电势叫做<strong>单纤维动作电位</strong>（Single Fiber Action Potential, SFAP）。每个运动单位全部肌肉纤维的SFAP共同构成了<strong>运动单位动作电位</strong>（Motor Unit Action Potential, MUAP），整个过程如下图所示。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630174226936.png" class="" title="image-20230630174226936">
+<p>一旦运动中心下达了一条运动命令，一连串的神经元脉冲就会通过运动神经元的轴突传递到神经肌肉结合处，形成一系列MUAP，并由此构成运动单位动作电位序列（Motor Unit Action Potential Train, MUAPT）。MUAPT在皮肤上的传递会受到皮肤、脂肪等的过滤，通过电极检测到进而形成表面肌电信号。</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630174832590.png" class="" title="image-20230630174832590">
+<p>不同运动单位的动作电位形状可能不同，同时，在传输的过程中也可能存在变化。</p>
+<h2 id="1-5-运动单位尖峰队列MUST"><a href="#1-5-运动单位尖峰队列MUST" class="headerlink" title="1.5 运动单位尖峰队列MUST"></a>1.5 运动单位尖峰队列MUST</h2><p>相较于静息电位来说，动作电位像是一个个脉冲信号，因而叫做spike train。表面肌电信号分解最主要的目的就是得到单个运动单位的发放信息和波形信息，其中发放信息最为重要。事实上如果得到了准确的运动单位的发放信息，就不难得到其波形信息(在运动单位持续发放时间足够长的情况下)，<font color="red">比如可以通过发放位置的平均波形来作为运动单位动作电位波形的估计(Spike Trigger Average,STA)。</font>FastICA输出的结果虽然不能直接被当成运动单位尖峰队列，但是它是对应于某个运动单位动作电位队列滤波后的结果，因此可以从FastICA的输出中提取出不同运动单位的发放时间信息。<font color="red">比如，可以认为FastICA输出中波形的峰值位置就对应着某运动单位的发放时刻。 </font></p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230630184000612.png" class="" title="image-20230630184000612">
+<p>尖峰队列是神经元的语言。人们倾向于将尖峰视为点事件，将尖峰队列视为点过程，我们用神经反应函数来描述这些：</p>
+<script type="math/tex; mode=display">
+\rho(t)=\sum_{i=1}^k \delta\left(t-t_i\right)</script><h2 id="1-6-高密度肌电卷积模型"><a href="#1-6-高密度肌电卷积模型" class="headerlink" title="1.6 高密度肌电卷积模型"></a>1.6 高密度肌电卷积模型</h2><p>高密度肌电可以建模为如下表达式：</p>
+<script type="math/tex; mode=display">
+x_i(n)=\sum_{j=1}^N \sum_{l=0}^{L-1} a_{i j}(l) t_j(n-l) ; i=1, \ldots, M</script><p>在这个模型中，有两个假设，第一个是假设在所有通道中，运动单位的发放时间是一致的。第二个假设便是每个运动单元在某个通道的波形，在信号持续时间段内是不变的。也就是说这是一个Shift invariant的系统。第二个假设对于肌电信号来说并不是总成立的。比如在肌肉收缩的过程中肌纤维的长度和运动单位到电极的距离都会发生变化，可能会导致动作电位的形变。因此该公式中可以引入时变的因素从而使得模型更为贴切。但是这同时也会让问题变得更加复杂。就目前的研究来说，肌电信号分解往往只考虑肌肉等长收缩(Isometric Contraction)情况，在这种情况下，肌肉组织并不发生形变，可以认为运动单元动作电位在采集过程中是保持一致的，这个模型已经能很真实地描述肌电信号的生成过程。</p>
+<p>通过FastICA、CKC等盲源分离算法，高密度表面肌电能够被分解成多个运动单元的放电序列MUST。MUST反应了运动神经元的放电时刻，从而能够对动作、肌力进行神经生理学上的分析。分解结果的示意图如下所示：</p>
+<img src="/2023/03/21/%E6%80%BB%E7%BB%93/%E7%94%9F%E7%90%86%E9%83%A8%E5%88%86%E6%80%BB%E7%BB%93/image-20230701113742016.png" class="" title="image-20230701113742016">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/21/%E8%AE%BA%E6%96%87/Control/A-Novel-Myoelectric-Control-Scheme-Supporting-Synchronous-Gesture-Recognition-and-Muscle-Force-Estimation/" rel="prev" title="A Novel Myoelectric Control Scheme Supporting Synchronous Gesture Recognition and Muscle Force Estimation">
+      <i class="fa fa-chevron-left"></i> A Novel Myoelectric Control Scheme Supporting Synchronous Gesture Recognition and Muscle Force Estimation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%85%B3%E4%BA%8Ehd-EMG%E5%88%86%E8%A7%A3%E7%9A%84%E5%BC%80%E6%BA%90%E4%BB%A3%E7%A0%81/" rel="next" title="关于hd-EMG分解的开源代码">
+      关于hd-EMG分解的开源代码 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%A5%9E%E7%BB%8F-%E8%82%8C%E8%82%89%E9%80%9A%E8%B7%AF"><span class="nav-text">1. 神经-肌肉通路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%BF%90%E5%8A%A8%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-text">1.1 运动神经元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%BF%90%E5%8A%A8%E5%8D%95%E4%BD%8D"><span class="nav-text">1.2 运动单位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8D"><span class="nav-text">1.3 动作电位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%BF%90%E5%8A%A8%E5%8D%95%E4%BD%8D%E5%8A%A8%E4%BD%9C%E7%94%B5%E4%BD%8DMUAP"><span class="nav-text">1.4 运动单位动作电位MUAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E8%BF%90%E5%8A%A8%E5%8D%95%E4%BD%8D%E5%B0%96%E5%B3%B0%E9%98%9F%E5%88%97MUST"><span class="nav-text">1.5 运动单位尖峰队列MUST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-%E9%AB%98%E5%AF%86%E5%BA%A6%E8%82%8C%E7%94%B5%E5%8D%B7%E7%A7%AF%E6%A8%A1%E5%9E%8B"><span class="nav-text">1.6 高密度肌电卷积模型</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

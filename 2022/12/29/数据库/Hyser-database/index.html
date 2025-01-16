@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="Open Access Dataset and Toolbox of High-Density Surface Electromyogram Recordings v1.0.0 (physionet.org)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hyser database">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="Open Access Dataset and Toolbox of High-Density Surface Electromyogram Recordings v1.0.0 (physionet.org)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/image-20230429112024197.png">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/image-20230429112922371.png">
+<meta property="article:published_time" content="2022-12-29T12:45:38.000Z">
+<meta property="article:modified_time" content="2024-09-17T03:45:53.816Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/image-20230429112024197.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hyser database | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hyser database
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-12-29 20:45:38" itemprop="dateCreated datePublished" datetime="2022-12-29T20:45:38+08:00">2022-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-17 11:45:53" itemprop="dateModified" datetime="2024-09-17T11:45:53+08:00">2024-09-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://physionet.org/content/hd-semg/1.0.0/">Open Access
+Dataset and Toolbox of High-Density Surface Electromyogram Recordings
+v1.0.0 (physionet.org)</a></p>
+<span id="more"></span>
+<h1 id="概述">1.概述</h1>
+<p>我们提供了一个<em>高密度表面肌电图</em>（HD-sEMG）<em>记录</em>（名为“<em>Hyser</em>”）的开放访问数据集，以及用于神经接口研究的工具箱。我们从20名受试者那里获得了数据，每个受试者在不同的日期按照相同的实验范式参加了两次实验。使用我们的数据集，研究人员可以开发34个手势的模式识别以及HD-sEMG和五个手指力之间的回归的先进技术。这些技术对于直观控制神经假体和神经外骨骼至关重要。我们的工具箱可用于：（1）使用标准基准方法分析五个数据集中的每一个，以及（2）通过独立成分分析将HD-sEMG信号分解为运动单元动作电位。</p>
+<h1 id="背景">2.背景</h1>
+<p>基于表面肌电图（sEMG）的神经接口[1]最近引起了越来越多的关注。具体来说，通过从sEMG信号中解码截肢者的运动意图信息，可以自动检测残肢残余肌肉的收缩，然后用于直观地控制神经假体和神经外骨骼[2]。随着柔性传感技术的进步，高密度sEMG（HD-sEMG）具有覆盖特定肌肉上方更大皮肤区域的大量通道，可以提供高分辨率的肌肉激活图[3]。然而，HD-sEMG数据集非常稀缺。此外，没有用于手部假肢的HD-sEMG数据集来控制五个手指的力量（我们松散地使用术语手指来指代给定手上的手指和拇指）。因此，我们提供了一个<em>高密度表面肌电图记录</em>（名为“<em>Hyser</em>”）的开放访问数据集。</p>
+<p>Hyser数据集由5个子数据集组成：（1）模式识别（PR）数据集，该数据集是在日常常用的34个手势下获得的，（2）最大自愿肌肉收缩（MVC）数据集，该数据集是在每个受试者单独收缩他们的5个手指时获得的（MVC信号可用于归一化力数据），（3）在每个手指收缩期间获得的一自由度（DoF）数据集（跟踪目标力轨迹），（4）在规定的多个手指组合收缩期间获得的N-DoF数据集（跟踪目标力轨迹），以及（5）在手指组合随机收缩期间获得的随机任务数据集，不遵循任何规定的力轨迹。</p>
+<p>不同手势的模式识别[4]和HD-sEMG和手指力[2]之间的回归都可以使用我们的Hyser数据集进行研究。此外，我们的工具箱可用于：（1）使用标准基准方法分析五个数据集中的每一个[2]和（2）通过独立的分量分析将HD-sEMG信号分解为运动单元动作电位[5]。我们希望我们的数据集能够提供一个平台，以促进神经接口技术的广泛研究以及神经康复领域工程师之间的合作。</p>
+<h1 id="方法">3.方法</h1>
+<ul>
+<li><p>20名受试者，包括12名男性和8名女性（22至34岁），手指完好无损，参加了这项研究。所有受试者都签署了书面知情同意书。该实验经复旦大学伦理委员会审核通过（批准文号：BE2035）。</p></li>
+<li><p>对于PR数据集，当受试者执行34种不同的手势时，获得了256通道HD-sEMG。对于每个手势，执行动态任务（1
+s持续时间，从受试者的放松状态到所需的手势）和保持任务（4
+s持续时间，从受试者的放松状态到所需的手势，然后保持该手势）。</p></li>
+<li><p>对于MVC数据集，1-DoF数据集，N-DoF数据集和随机数据集，同步获取256通道HD-sEMG和地面实况力值。</p>
+<p>EMG采集位置：</p></li>
+</ul>
+<img src="/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/image-20230429112024197.png" class="" title="image-20230429112024197">
+<p>​
+一共5个手指，对每个手指，按三角形力曲线发力，持续时间为25s，三角形力曲线从<mark>伸</mark>的30%MVC到<mark>屈</mark>的30%MVC，重复<mark>3次</mark>，执行<mark>等长收缩</mark>。</p>
+<img src="/2022/12/29/%E6%95%B0%E6%8D%AE%E5%BA%93/Hyser-database/image-20230429112922371.png" class="" title="image-20230429112922371">
+<p>​ HD-sEMG信号以<mark>2048 Hz采样率</mark>采集。以<mark>100
+Hz</mark>采样率采集地面实况力信号。</p>
+<ul>
+<li><p>在预处理阶段，首先使用10--500 Hz
+8阶巴特沃兹带通滤波器对采集的HD-sEMG信号进行滤波。然后使用陷波滤波器组合来衰减50
+Hz的电力线干扰和高达400 Hz的所有谐波分量。 力数据由8阶10
+Hz低通巴特沃兹滤波器滤波。我们在数据集中提供原始的HD-sEMG信号和预处理的HD-sEMG信号。</p></li>
+<li><p>此外，我们提供了一个用于HD-sEMG分析的工具箱，它执行：（1）使用基于线性判别分析（LDA）和基于深度学习的手势分类分析模式识别数据集，（2）分析数据集2--4（来自背景部分中概述的5个子数据集），（3）使用ICA将HD-sEMG信号分解为MU尖峰序列。我们工具箱中的所有分析都是通过
+MATLAB 实现的。请注意，要完全实现我们的工具箱，用户仍然需要 MATLAB
+许可证。</p></li>
+</ul>
+<h1 id="数据描述">4.数据描述</h1>
+<p>五个数据集对应的数据存储在五个文件夹中，分别是"pr_dataset"（37.1GB）,
+"mvc_dataset"（7.8GB）,"1dof_dataset"（29.3GB）,
+"ndof_dataset"（58.6GB）, "random_dataset"（9.8GB）。对于 PR
+数据集，真实手势标签存储在“.txt”文件中，具有逗号分隔值格式。所有其他信号段（HD-sEMG信号和地面实况力轨迹）都以波形数据库（WFDB）格式存储，其中一个“.dat”文件存储所有16位有符号类型量化值，一个“.hea”文件（除文件扩展名外，文件名与“.dat”文件相同）存储比例因子。</p>
+<p>array1+array2：伸肌</p>
+<p>array3+array4：屈肌</p>
+<h1 id="mu分解结果">5. MU分解结果</h1>
+<p><strong>SIL 阈值</strong>：0.6</p>
+<p><strong>识别到的 MU 数目</strong>：18.28（±5.82）+14.29(±7.32)
+。前面为伸肌，后面为屈肌</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/24/%E8%AE%BA%E6%96%87/Decomposition/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/" rel="prev" title="Multichannel Blind Source Separation Using Convolution Kernel Compensation">
+      <i class="fa fa-chevron-left"></i> Multichannel Blind Source Separation Using Convolution Kernel Compensation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/04/%E8%AE%BA%E6%96%87/Characteristic/Surface-electromyography-physiology-engineering-and-applications-1/" rel="next" title="Surface electromyography  physiology, engineering and applications">
+      Surface electromyography  physiology, engineering and applications <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">1.概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">2.背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-text">3.方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8F%8F%E8%BF%B0"><span class="nav-text">4.数据描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mu%E5%88%86%E8%A7%A3%E7%BB%93%E6%9E%9C"><span class="nav-text">5. MU分解结果</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

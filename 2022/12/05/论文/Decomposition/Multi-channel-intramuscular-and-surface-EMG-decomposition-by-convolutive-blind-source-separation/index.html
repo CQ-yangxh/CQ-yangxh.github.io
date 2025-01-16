@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation">
+<meta property="og:url" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png">
+<meta property="article:published_time" content="2022-12-05T12:12:19.000Z">
+<meta property="article:modified_time" content="2024-09-17T03:40:05.166Z">
+<meta property="article:author" content="Xinhao">
+<meta property="article:tag" content="Decomposition">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Multi-channel intramuscular and surface EMG decomposition by convolutive blind source separation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-12-05 20:12:19" itemprop="dateCreated datePublished" datetime="2022-12-05T20:12:19+08:00">2022-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-17 11:40:05" itemprop="dateModified" datetime="2024-09-17T11:40:05+08:00">2024-09-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Decomposition/" itemprop="url" rel="index"><span itemprop="name">Decomposition</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。</p>
+<span id="more"></span>
+<h1 id="笔记">1.笔记</h1>
+<p>卷积混合可以表示成扩展向量的线性瞬时混合模型。</p>
+<p>卷积混合模型： <span class="math display">\[
+\underline{\underline{x}}(k)=\sum_{l=0}^{L-1}
+\underline{\underline{H}}(l)
+\underline{\underline{s}}(k-l)+\underline{\underline{n}}(k) \\
+x_i(k)=\sum_{l=0}^{L-1} \sum_{j=1}^n h_{i j}(l) s_j(k-l)+n_i(k) \\
+\underline{\underline{x}}(k) =
+\left[\begin{array}{c}
+x_1(k) \\
+x_2(k) \\
+\vdots \\
+x_m(k)
+\end{array}\right]
+\]</span> 扩展后的线性瞬时混合模型： <span class="math display">\[
+\begin{aligned}
+&amp;
+\underline{\underline{\tilde{x}}}(k)=\underline{\underline{\tilde{H}}}
+\underline{\underline{\tilde{s}}}(k)+\underline{\underline{\tilde{n}}}(k)
+\\
+&amp; \underline{\underline{\tilde{s}}}(k)=\left[\tilde{s}_1(k),
+\tilde{s}_2(k), \ldots, \tilde{s}_n(k)\right]^T \\
+&amp; \underline{\underline{\tilde{x}}}(k)=\left[\tilde{x}_1(k),
+\tilde{x}_2(k), \ldots, \tilde{x}_m(k)\right]^T \\
+&amp; \underline{\underline{\tilde{n}}}(k)=\left[\tilde{n}_1(k),
+\tilde{n}_2(k), \ldots, \tilde{n}_m(k)\right]^T \\
+&amp; \tilde{h}_{i j}= {\left[\begin{array}{cccccc}
+h_{i j}[0] &amp; \cdots &amp; h_{i j}[L-1] &amp; 0 &amp; \cdots &amp; 0
+\\
+0 &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+0 &amp; \cdots &amp; 0 &amp; h_{i j}[0] &amp; \cdots &amp; h_{i j}[L-1]
+\end{array}\right] } \\
+&amp; \underline{\underline{\tilde{H}}}= {\left[\begin{array}{ccc}
+\tilde{h}_{11} &amp; \cdots &amp; \tilde{h}_{1 n} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\tilde{h}_{m 1} &amp; \cdots &amp; \tilde{h}_{m n}
+\end{array}\right] }
+\end{aligned}
+\]</span> 对上述符号的理解就是： <span class="math display">\[
+\left.\underline{\underline{\tilde{H}}}=\left[\begin{array}{cccc}MUAP_{1,1}(t)&amp;MUAP_{1,2}(t)&amp;\cdots&amp;MUAP_{1,NR}(t)\\\vdots&amp;\vdots&amp;\vdots&amp;\vdots\\MUAP_{NM,1}(t)&amp;MUAP_{NM,2}(t)&amp;\cdots&amp;MUAP_{NM,NR}(t)\end{array}\right.\right]
+\]</span> <mark>注意，这里的MUAPT是扩展后的MUAPT！</mark></p>
+<p>这种分离方法的前提是，<mark>需要满足一个条件：</mark><span
+class="math inline">\(R \geqslant(n / m)
+L\)</span>。因此MUAP相对较长的话需要扩展的多一点来满足上述条件。</p>
+<blockquote>
+<p>Currently, the only sufficiently validated method for testing the
+accuracy of EMG decomposition in the absence of a gold standard provided
+by expert decomposition, is the comparison of the decomposition results
+of two or more EMG signal sets that share some common sources (discharge
+timings) (De Luca et al 2006, Holobar et al 2010, Holobar and Farina
+2014), but also have a number of different sources and different action
+potential shapes.</p>
+</blockquote>
+<p>算法有效性的一种评价方法就是比较分解两套或者多套EMG数据的结果，这些数据必须包含共同的源。</p>
+<h2 id="为什么要扩展">1.1 为什么要扩展？</h2>
+<p>为了增大观测数和源数之间的比例。</p>
+<blockquote>
+<p>In order to increase the ratio between the number of observations and
+the number of sources and, thus, conditionality of the described mixing
+process, the observations are also usually extended, adding R delayed
+versions of each observation.</p>
+</blockquote>
+<p>扩展要满足一个要求才能用最小二乘法求解： <span
+class="math display">\[
+R\geqslant(n/m)L
+\]</span>
+上式中R是扩展的参数，n是源的个数，m是观测的通道数，L是MUAP的长度，这在调参的时候需要注意。</p>
+<p>由于源的大多数样本为零，因此可以作为尖峰队列这种特定结构，并且在对源扩展了之后也保持了稀疏性。直观地说，这是由于具有相关激发的源的总和总是不如单个源稀疏，除非激发完全一致（可能性非常小）。</p>
+<p>扩展系数与识别到的MU数目之间的关系：</p>
+<img src="/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png" class="" title="image-20230901214955664">
+<h2 id="如何执行分离向量的初始化">1.2 如何执行分离向量的初始化？</h2>
+<p>对白化后的矩阵，取一列观测向量，先求和，再求平方，峰值最大处可以视为肌肉的激活程度最高，出现运动单元放电的可能性最大，取该列向量来初始化分离向量。</p>
+<h2 id="为什么要执行白化">1.3 为什么要执行白化？</h2>
+<p>现实世界中的独立信号往往都是非高斯的，而非高斯信号线性混合后的混迭信号会比源信号更趋近于高斯分布（中心极限定理）。因此可以说“非高斯就是独立的”。为此，算法的目标就由直接度量独立性转变为度量输出的非高斯性，也即是需要使得输出的概率密度距离高斯分布最远。Aapo
+HyVarinen当时提出使用峭度或者负熵来作为非高斯性度量。<font color = "red">信息论指出，在方差一定的情况下，高斯变量具有最大的熵，因此负熵的值恒非负，当且仅当p(y)为高斯分布时候其值为0。因此负熵的值越大则意味着该变量的非高斯性就越强。</font>白化的详细原理参考笔记：<a
+href="白化.md">白化学习笔记</a></p>
+<h2 id="如何执行白化">1.4 如何执行白化？</h2>
+<p>本文中的白化步骤为：</p>
+<ul>
+<li>对扩展后的矩阵计算协方差</li>
+<li>对协方差矩阵进行特征值分解</li>
+<li>计算特征值中最小一半的平均值</li>
+<li>将小于平均值的特征值替换成平均值</li>
+<li>根据公式得到白化矩阵</li>
+</ul>
+<p>正则化过程是为了减小求解的数值不稳定性（基于假设噪声的方差等于最小一半特征值的均值）。这个值太小会引入部分噪声，影响估计；这个值太大会导致一些源信号被忽略掉。</p>
+<p>The coefficient of variation of inter-spike intervals
+(CVoISI)描述的是相邻脉冲之间的时间间隔的变异系数，这个值应该越小越好。50%以上的MU应该剔除。计算cv时，先对MUST取差分得到间隔，然后用间隔的标准差初一间隔的均值。</p>
+<p>Rate of
+Agreement是指采用两种方法分解，并将结果比较，根据计算公式可以看到，这个值是属于0-1的，越接近1说明两种方法的吻合度越高，分解结果也越可信。当RoA大于30%就可以认为是同一个MU。当two
+source
+method不可行时，由于SIL于RoA具有高度的线性关系，因此可以通过计算归一化的SIL来检验分解的有效性。</p>
+<p>SIL计算公式： <span class="math display">\[
+\begin{aligned}
+&amp; \text{silhouete score}=\frac{b-a}{max(a,b)}\\
+&amp; a=inter-cluster\;sum\;of\;point-to-centroid\;distances\\
+&amp; b=intra-cluster\;sum\;of\;point-to-centroid\;distances\\
+\end{aligned}
+\]</span> SIL称为轮廓系数，由簇内不相似度a(i) ，簇间不相似度b(i)
+计算得来，反应的是聚类的效果，SIL计算代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">intra_sums = sum(<span class="built_in">abs</span>(noise_cluster - noise_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - peak_centroid));</span><br><span class="line">inter_sums = sum(<span class="built_in">abs</span>(noise_cluster - peak_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - noise_centroid));</span><br><span class="line"></span><br><span class="line">sil = (inter_sums - intra_sums)/<span class="built_in">max</span>([intra_sums inter_sums]);</span><br></pre></td></tr></table></figure>
+<p>contrast
+function既可以衡量独立性，也可以衡量稀疏性，同一脉冲序列的两个不同延迟的线性混合总是比原始脉冲序列更密集。稀疏度是放电速率的函数：放电速率越大，源的稀疏度越低。</p>
+<p>人神经的不应期决定了最小的放电间隔（对应放电频率为30-40 pps）</p>
+<h2 id="聚类评估">1.5 聚类评估</h2>
+<p>本文中将聚类的SIL阈值设置为了0.9。本文中认为SIL虽然与PNR的定义不同，但是都是可靠的，并且SIL能够直接用于RoA的计算。</p>
+<h2 id="伪代码">1.6 伪代码</h2>
+<ul>
+<li>最外层for循环，m次，m为观测通道数
+<ul>
+<li>第一个while循环，fast ICA</li>
+<li>第二个while循环，CKC，这个循环是为了移除错误的尖峰</li>
+</ul></li>
+</ul>
+<p>也就是说分解的源最多就是观测的通道数，但这几乎不可能。（有文章是把这个for循环的m次设置成大于通道数的）</p>
+<h1 id="算法改进">2. 算法改进</h1>
+<blockquote>
+<p>Any other criteria for stopping the second iteration would also be
+acceptable. For example, it would be possible to apply the SIL measure
+to this second iteration (note that this measure would also increase
+with the number of iterations, being an efficient criterion for
+determining convergence).</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Decomposition/" rel="tag"># Decomposition</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/%E7%AD%89%E9%95%BF%E4%BC%B8%E8%86%9D%E5%8A%A8%E4%BD%9C%E7%9A%84%E8%BF%90%E5%8A%A8%E5%8D%95%E5%85%83%E6%94%BE%E7%94%B5%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/" rel="prev" title="等长伸膝动作的运动单元放电特征分析">
+      <i class="fa fa-chevron-left"></i> 等长伸膝动作的运动单元放电特征分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Accurate-identification-of-motor-unit-discharge-patterns-from-high-density-surface-EMG-and-validation-with-a-novel-signal-based-performance-metric/" rel="next" title="Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric">
+      Accurate identification of motor unit discharge patterns from high-density surface EMG and validation with a novel signal-based performance metric <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A9%E5%B1%95"><span class="nav-text">1.1 为什么要扩展？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E5%90%91%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1.2 如何执行分离向量的初始化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96"><span class="nav-text">1.3 为什么要执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96"><span class="nav-text">1.4 如何执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E7%B1%BB%E8%AF%84%E4%BC%B0"><span class="nav-text">1.5 聚类评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-text">1.6 伪代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B"><span class="nav-text">2. 算法改进</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

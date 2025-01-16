@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="这篇文章使用NMF分解算法把高密度肌电分解为激活模式和时变系数。并且对动态下的分解算法进行了改善，采用了分段分解的方法。看这篇文章主要是为了学习如何处理非等长收缩的情况。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elbow-flexion force estimation during arm posture dynamically changing between pronation and supination">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="这篇文章使用NMF分解算法把高密度肌电分解为激活模式和时变系数。并且对动态下的分解算法进行了改善，采用了分段分解的方法。看这篇文章主要是为了学习如何处理非等长收缩的情况。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231019000541389.png">
+<meta property="article:published_time" content="2023-10-16T11:09:40.000Z">
+<meta property="article:modified_time" content="2025-01-16T07:37:31.611Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231019000541389.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Elbow-flexion force estimation during arm posture dynamically changing between pronation and supination | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Elbow-flexion force estimation during arm posture dynamically changing between pronation and supination
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-10-16 19:09:40" itemprop="dateCreated datePublished" datetime="2023-10-16T19:09:40+08:00">2023-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-01-16 15:37:31" itemprop="dateModified" datetime="2025-01-16T15:37:31+08:00">2025-01-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章使用NMF分解算法把高密度肌电分解为激活模式和时变系数。并且对动态下的分解算法进行了改善，采用了分段分解的方法。看这篇文章主要是为了学习如何处理非等长收缩的情况。</p>
+<span id="more"></span>
+<h1 id="1-Method"><a href="#1-Method" class="headerlink" title="1. Method"></a>1. Method</h1><p><strong>实验范式：</strong></p>
+<ol>
+<li>首先执行MVC，MVC执行3次，为了精度需要，至少需要保持 3 s</li>
+<li>等长收缩获取训练数据<ul>
+<li>pronated arm posture<ul>
+<li>sinusoidal: the duration of sinusoidal pattern was 6s and its amplitude ranged from 0% to 60% MVC</li>
+<li>staircase: from 0% to 20%, 40% and 60% MVC successively, and each targeted force level was held for 2s  </li>
+</ul>
+</li>
+<li>supinated arm poseture<ul>
+<li>sinusoidal</li>
+<li>staircase</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>动态收缩测试力估计的性能<ul>
+<li>被试的手臂在pronation和supination之间切换</li>
+<li>一个切换周期为8-10s</li>
+<li>总任务时常为40s</li>
+</ul>
+</li>
+</ol>
+<p><strong>非负矩阵分解</strong>：</p>
+<script type="math/tex; mode=display">
+M^{m \times n} = W^{m \times s} \cdot C^{s \times n}</script><script type="math/tex; mode=display">
+M = 
+\begin{bmatrix}
+M_1(t) \\
+\vdots \\
+M_m(t)
+\end{bmatrix}, \quad
+W = 
+\begin{bmatrix}
+W_{11} & \cdots & W_{s1} \\
+\vdots & \ddots & \vdots \\
+W_{1m} & \cdots & W_{sm}
+\end{bmatrix}, \quad
+C = 
+\begin{bmatrix}
+C_1(t) \\
+\vdots \\
+C_s(t)
+\end{bmatrix}</script><p>上式中，M是标准化后的高密度肌电包络线（m个通道，n个采样），W的每一列代表一个激活模式（activation pattern，一共有s个激活模式），每个激活模式有m个权重因子；C的每一行代表时变的系数向量，时变系数的面积定义为相应激活模式的激活强度。</p>
+<script type="math/tex; mode=display">
+\text{VAF} = 1 - \frac{\sum_{i,j} (M - M^r)_{ij}^2}{\sum_{i,j} M_{ij}^2}</script><p>只有VAF＞0.95重建的M才能较好地反映原始的M，所以VAF的阈值设置为0.95。</p>
+<h1 id="2-Data-Processing"><a href="#2-Data-Processing" class="headerlink" title="2. Data Processing"></a>2. Data Processing</h1><p><strong>静态等长收缩：</strong></p>
+<p>主激活模式：激活强度最高的激活模式</p>
+<p>有效通道：每个激活模式权重因子排在前1/4的通道被选做有效通道，取这些通道的标准化sEMG包络线用作力估计模型的输入</p>
+<p><strong>动态改进</strong>：</p>
+<p>力估计模型的输入基于激活强度的比例，具体步骤如下：</p>
+<ol>
+<li>高密度肌电分段为segments，NMF算法对每个段进行分解</li>
+<li>对每个segment，当最大和次大的激活强度超过阈值，认为存在主激活模式，否则认为存在多个激活模式，对力的贡献均有显著贡献</li>
+<li>由于激活模式的激活强度在不同的任务和被试之间存在差别，所以需要阈值需要经验设置并且进行调整</li>
+<li>所有激活模式下，通道根据权重参数进行降序排列。当主模式存在的时候，选取主模式的前1/4通道被选取提取输入；当主模式不存在时，选取所有通道的前1/4</li>
+</ol>
+<p><strong>滑动窗口的使用</strong>：</p>
+<blockquote>
+<p>The threshold of VAF was also set to 0.95 and data segment length was 1 s (1000 data points). To achieve point-by-point force estimation, a sliding window with step length 1 was used to extract data segments. For each task, the first 1 s data segment was used to realize the estimation of the 1000th points (the starting point to estimate)</p>
+</blockquote>
+<h1 id="3-Conclusion"><a href="#3-Conclusion" class="headerlink" title="3. Conclusion"></a>3. Conclusion</h1><ul>
+<li>动态运动的主要特征是在动作转变的过程中伴随这激活区域的改变，这些激活区域对力的估计非常重要。</li>
+<li>不同通道的选择结果在不同收缩阶段是不同的。</li>
+</ul>
+<img src="/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Elbow-flexion-force-estimation-during-arm-posture-dynamically-changing-between-pronation-and-supination/image-20231019000541389.png" class="" title="image-20231019000541389">
+<ul>
+<li>实验曲线选择正弦函数可能包含更多有效的信息并且在选择通道上更加的高效</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/16/%E8%AE%BA%E6%96%87/Dynamic/Decomposition-of-surface-EMG-signals-from-cyclic-dynamic-contractions/" rel="prev" title="Decomposition of surface EMG signals from cyclic dynamic contractions">
+      <i class="fa fa-chevron-left"></i> Decomposition of surface EMG signals from cyclic dynamic contractions
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/10/19/%E8%AE%BA%E6%96%87/Across%20Day/Toward-a-generalizable-deep-CNN-for-neural-drive-estimation-across-muscles-and-participants/" rel="next" title="Toward a generalizable deep CNN for neural drive estimation across muscles and participants">
+      Toward a generalizable deep CNN for neural drive estimation across muscles and participants <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Method"><span class="nav-text">1. Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Data-Processing"><span class="nav-text">2. Data Processing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Conclusion"><span class="nav-text">3. Conclusion</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

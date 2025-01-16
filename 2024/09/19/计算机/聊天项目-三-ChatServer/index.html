@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="1. Main函数初始化 ChatServer 同时兼具两种服务器的功能，一种是 TCP 服务器，用于聊天，一种是 gRPC 服务器，用于消息的转发。 所以初始化的时候就需要两种初始化，分别跑在不同的线程里。之前是让 ioc.run() 单独跑在一个线程里的，这次让 gRPC 的监听单独跑在一个线程里： 1234567891011ChatServiceImpl service;grpc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊天项目(三) ChatServer">
+<meta property="og:url" content="https://cq-yangxh.github.io/2024/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%89-ChatServer/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="1. Main函数初始化 ChatServer 同时兼具两种服务器的功能，一种是 TCP 服务器，用于聊天，一种是 gRPC 服务器，用于消息的转发。 所以初始化的时候就需要两种初始化，分别跑在不同的线程里。之前是让 ioc.run() 单独跑在一个线程里的，这次让 gRPC 的监听单独跑在一个线程里： 1234567891011ChatServiceImpl service;grpc">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-09-19T02:53:23.000Z">
+<meta property="article:modified_time" content="2024-09-20T13:53:32.000Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2024/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%89-ChatServer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>聊天项目(三) ChatServer | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2024/09/19/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%B8%89-ChatServer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          聊天项目(三) ChatServer
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-09-19 10:53:23" itemprop="dateCreated datePublished" datetime="2024-09-19T10:53:23+08:00">2024-09-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-20 21:53:32" itemprop="dateModified" datetime="2024-09-20T21:53:32+08:00">2024-09-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="main函数初始化">1. Main函数初始化</h1>
+<p>ChatServer 同时兼具两种服务器的功能，一种是 TCP
+服务器，用于聊天，一种是 gRPC 服务器，用于消息的转发。</p>
+<p>所以初始化的时候就需要两种初始化，分别跑在不同的线程里。之前是让
+ioc.run() 单独跑在一个线程里的，这次让 gRPC
+的监听单独跑在一个线程里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ChatServiceImpl service;</span><br><span class="line">grpc::ServiceBuilder builder;</span><br><span class="line">// 监听端口和添加服务</span><br><span class="line">builder.AddListeningPort(server_address);</span><br><span class="line">builder.RegisterService(service);</span><br><span class="line">// 构建并启动gRPC服务器</span><br><span class="line">unique_ptr&lt;grpc::Server&gt; server(builder.BuildAndStart());</span><br><span class="line">// 单独启动一个线程处理grpc服务</span><br><span class="line">std::thread grpc_server_thread([&amp;server]()&#123;</span><br><span class="line">	server.Wait();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>然后再初始化 boost::io_context：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">boost::asio::io_context ioc;</span><br><span class="line"><span class="function">boost::signal_set <span class="title">signals</span><span class="params">(ioc, SIGINT, SIGTERM)</span></span>;</span><br><span class="line">signals.<span class="built_in">async_wait</span>([&amp;ioc, pool, &amp;server]()&#123;</span><br><span class="line">	ioc.<span class="built_in">stop</span>();</span><br><span class="line">    pool-&gt;stop;</span><br><span class="line">    server-&gt;Shutdown;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 只需要传入 port 地址，任意 IP 都可以监听</span></span><br><span class="line"><span class="function">CServer <span class="title">s</span><span class="params">(ioc, port_str)</span></span>;</span><br><span class="line">ioc.<span class="built_in">run</span>();</span><br></pre></td></tr></table></figure>
+<p>由于 StatusServer 需要从 Redis 中读取 TCP
+服务器的连接数，所以在最开始时要往 Redis 中写入连接数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//将登录数设置为0</span><br><span class="line">RedisMgr::GetInstance()-&gt;HSet(LOGIN_COUNT, server_name,&quot;0&quot;);</span><br></pre></td></tr></table></figure>
+<p>服务器关闭后要从 Redis 中删除：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RedisMgr::GetInstance()-&gt;HDel(LOGIN_COUNT, server_name);</span><br><span class="line">RedisMgr::GetInstance()-&gt;Close();</span><br></pre></td></tr></table></figure>
+<h1 id="数据的接收和逻辑处理">2. 数据的接收和逻辑处理</h1>
+<p>记住，一定是 CSession 中解析出 data（通过 tlv 协议解析的），然后把
+recv_node 节点交给逻辑类去处理（与 GateServer 不同，ChatServer
+的逻辑类单独开了一个线程）。先来看一下 ChatServer 中 CSession
+类的成员函数和成员变量，这和 GateServer 中存在较大差别：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CSession</span>: <span class="keyword">public</span> std::enable_shared_from_this&lt;CSession&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">CSession</span>(boost::asio::io_context&amp; io_context, CServer* server);</span><br><span class="line">	~<span class="built_in">CSession</span>();</span><br><span class="line">	<span class="function">tcp::socket&amp; <span class="title">GetSocket</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">std::string&amp; <span class="title">GetSessionId</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SetUserId</span><span class="params">(<span class="type">int</span> uid)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">GetUserId</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Send</span><span class="params">(<span class="type">char</span>* msg,  <span class="type">short</span> max_length, <span class="type">short</span> msgid)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Send</span><span class="params">(std::string msg, <span class="type">short</span> msgid)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Close</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">std::shared_ptr&lt;CSession&gt; <span class="title">SharedSelf</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">AsyncReadBody</span><span class="params">(<span class="type">int</span> length)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">AsyncReadHead</span><span class="params">(<span class="type">int</span> total_len)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">asyncReadFull</span><span class="params">(std::<span class="type">size_t</span> maxLength, std::function&lt;<span class="type">void</span>(<span class="type">const</span> boost::system::error_code&amp; , std::<span class="type">size_t</span>)&gt; handler)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">asyncReadLen</span><span class="params">(std::<span class="type">size_t</span>  read_len, std::<span class="type">size_t</span> total_len,std::function&lt;<span class="type">void</span>(<span class="type">const</span> boost::system::error_code&amp;, std::<span class="type">size_t</span>)&gt; handler)</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">HandleWrite</span><span class="params">(<span class="type">const</span> boost::system::error_code&amp; error, std::shared_ptr&lt;CSession&gt; shared_self)</span></span>;</span><br><span class="line">	tcp::socket _socket;</span><br><span class="line">	std::string _session_id;</span><br><span class="line">	<span class="type">char</span> _data[MAX_LENGTH]; <span class="comment">//存储读取的数据</span></span><br><span class="line">	CServer* _server;</span><br><span class="line">	<span class="type">bool</span> _b_close;</span><br><span class="line">	std::queue&lt;shared_ptr&lt;SendNode&gt; &gt; _send_que;</span><br><span class="line">	std::mutex _send_lock;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">//收到的消息结构</span></span><br><span class="line">	std::shared_ptr&lt;RecvNode&gt; _recv_msg_node;</span><br><span class="line">	<span class="type">bool</span> _b_head_parse;</span><br><span class="line">	<span class="comment">//收到的头部结构</span></span><br><span class="line">	std::shared_ptr&lt;MsgNode&gt; _recv_head_node;</span><br><span class="line">	<span class="type">int</span> _user_uid;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>CSession 是怎么读数据的？</strong></p>
+<p>首先来看消息节点：</p>
+<p>解析的数据放在 msg_node 中，msg_node 包含以下成员变量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">short</span> _cur_len;</span><br><span class="line"><span class="type">short</span> _total_len;</span><br><span class="line"><span class="type">char</span>* _data;</span><br></pre></td></tr></table></figure>
+<p>而为了区分接收节点和发送节点，还派生了 recv_node 和
+send_node，两个子类都添加了 msg_id
+这个成员变量。除此之外，还封装了用于逻辑线程的逻辑节点，这个节点由
+recv_node 和 解析这个 recv_node 的 csession 组成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class LogicNode &#123;</span><br><span class="line">	friend class LogicSystem;</span><br><span class="line">public:</span><br><span class="line">	LogicNode(shared_ptr&lt;CSession&gt;, shared_ptr&lt;RecvNode&gt;);</span><br><span class="line">private:</span><br><span class="line">	shared_ptr&lt;CSession&gt; _session;</span><br><span class="line">	shared_ptr&lt;RecvNode&gt; _recvnode;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>主要有以下几个函数：</p>
+<ul>
+<li>asyncReadLen 读指定长度的字节数，主要通过 _socket.async_read_some
+这个函数，通过 read_len 和 total_len 来控制读取，数据是读到 CSession
+自己的 _data 里面的，后续要把这个数据复制到 CSession
+的成员节点中。注意，参数里面有个回调函数，这个回调函数其实是在
+AsyncReadHead 和 AsyncReadBody 中定义的 lambda 表达式。</li>
+<li>asyncReadFull 读之前把 buffer 清空，相当于开始一次新的读，然后调用
+asyncReadLen</li>
+<li>AsyncReadHead 用于读取头部的 ID 和
+LEN，数据存放在_recv_head_node，这里涉及到字节序的转换：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">_recv_head_node-&gt;<span class="built_in">Clear</span>();</span><br><span class="line"><span class="comment">//拷贝数据到这个头部节点里面</span></span><br><span class="line"><span class="built_in">memcpy</span>(_recv_head_node-&gt;_data, _data, bytes_transfered);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取头部MSGID数据</span></span><br><span class="line"><span class="type">short</span> msg_id = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;msg_id, _recv_head_node-&gt;_data, HEAD_ID_LEN);</span><br><span class="line"><span class="comment">//网络字节序转化为本地字节序</span></span><br><span class="line">msg_id = boost::asio::detail::socket_ops::<span class="built_in">network_to_host_short</span>(msg_id);</span><br><span class="line"></span><br><span class="line"><span class="type">short</span> msg_len = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//这样 msg_len 就是消息的长度</span></span><br><span class="line"><span class="built_in">memcpy</span>(&amp;msg_len, _recv_head_node-&gt;_data + HEAD_ID_LEN, HEAD_DATA_LEN);</span><br><span class="line"><span class="comment">//网络字节序转化为本地字节序</span></span><br><span class="line">msg_len = boost::asio::detail::socket_ops::<span class="built_in">network_to_host_short</span>(msg_len);</span><br><span class="line"></span><br><span class="line"><span class="comment">//开启消息体的读取</span></span><br><span class="line"><span class="comment">//！！！注意这里传入了 msg_id 来构造接收节点！！！</span></span><br><span class="line">_recv_msg_node = <span class="built_in">make_shared</span>&lt;RecvNode&gt;(msg_len, msg_id);</span><br><span class="line"><span class="built_in">AsyncReadBody</span>(msg_len);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>AsyncReadBody 用于读取消息体，数据存放在 _recv_msg_node 中：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memcpy</span>(_recv_msg_node-&gt;_data , _data , bytes_transfered);</span><br><span class="line">_recv_msg_node-&gt;_cur_len += bytes_transfered;</span><br><span class="line">_recv_msg_node-&gt;_data[_recv_msg_node-&gt;_total_len] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;receive data is &quot;</span> &lt;&lt; _recv_msg_node-&gt;_data &lt;&lt; endl;</span><br><span class="line"><span class="comment">//此处将消息投递到逻辑队列中</span></span><br><span class="line">LogicSystem::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">PostMsgToQue</span>(<span class="built_in">make_shared</span>&lt;LogicNode&gt;(<span class="built_in">shared_from_this</span>(), _recv_msg_node));</span><br><span class="line"><span class="comment">//继续监听头部接受事件</span></span><br><span class="line"><span class="built_in">AsyncReadHead</span>(HEAD_TOTAL_LEN);</span><br></pre></td></tr></table></figure>
+<p>AsyncReadBody 读完数据之后，会把 _recv_msg_node
+这个节点投放到消息队列当中，注意：并不是直接 push，这个消息队列是一个
+LogicNode 组成的队列，LogicNode 包含两个成员变量，一个是
+CSession，一个是 _recvnode，而这个 _recvnode 才是 AsyncReadBody 中读到的
+_recv_msg_node。消息队列会取出最原始的 msg_node 和 msg_id。</p>
+<p>逻辑线程有一个 DealMsg 的成员函数，这个函数会一直循环地从队列中取出
+recv_node。这个 DealMsg
+函数会进行两次判断，首先判断消息队列是否为空，如果消息队列为空那么就使用条件变量阻塞，当
+PostMsgToQue
+执行后会唤醒一个条件变量；然后会判断服务器是否要关闭，如果要关闭就把队列里面的消息节点依次取出执行完成。</p>
+<p>如果没有关服并且服务器里面有消息节点，那么就要开始取出消息节点并且解析，解析出消息
+ID 后根据 ID 调用注册函数。注册函数及其对应的 ID 存放在一个 map 里，map
+的键是 ID，map 的值是 function 对象。由于 function 对象是通过 ChatServer
+的成员函数绑定的，所以需要设置占位符来传递参数到实际的成员函数处：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果没有停服，且说明队列中有数据</span></span><br><span class="line"><span class="keyword">auto</span> msg_node = _msg_que.<span class="built_in">front</span>();</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;recv_msg id  is &quot;</span> &lt;&lt; msg_node-&gt;_recvnode-&gt;_msg_id &lt;&lt; endl;</span><br><span class="line"><span class="keyword">auto</span> call_back_iter = _fun_callbacks.<span class="built_in">find</span>(msg_node-&gt;_recvnode-&gt;_msg_id);</span><br><span class="line"><span class="keyword">if</span> (call_back_iter == _fun_callbacks.<span class="built_in">end</span>()) &#123;</span><br><span class="line">	_msg_que.<span class="built_in">pop</span>();</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;msg id [&quot;</span> &lt;&lt; msg_node-&gt;_recvnode-&gt;_msg_id &lt;&lt; <span class="string">&quot;] handler not found&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br><span class="line">call_back_iter-&gt;<span class="built_in">second</span>(msg_node-&gt;_session, msg_node-&gt;_recvnode-&gt;_msg_id, </span><br><span class="line">std::<span class="built_in">string</span>(msg_node-&gt;_recvnode-&gt;_data, msg_node-&gt;_recvnode-&gt;_cur_len));</span><br><span class="line">_msg_que.<span class="built_in">pop</span>();</span><br></pre></td></tr></table></figure>
+<p><strong>逻辑线程是怎么处理数据的？</strong></p>
+<p>逻辑线程有5个注册函数：</p>
+<ul>
+<li>LoginHandler：登录的时候要更新服务器的连接数和在 Redis 中添加
+uid-server ip</li>
+<li>SearchInfo：</li>
+<li>AddFriendApply：用于申请好友，首先看本机有没有，没有再通过 Redis
+查找 server，然后通过 gRPC 转发</li>
+<li>AuthFriendApply：用于认证好友，在认证的时候首先要更新数据库，然后路由服务器</li>
+<li>DealChatTextMsg：由于消息已经在接受的时候解析了，所以直接转发 Json
+对象就可以了。依然是先查询本机，然后路由服务器</li>
+</ul>
+<h1 id="grpc接口的实现">3. gRPC接口的实现</h1>
+<p>首先查看 proto 文件中有哪些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">service ChatService &#123;</span><br><span class="line">	rpc NotifyAddFriend(AddFriendReq) returns (AddFriendRsp) &#123;&#125;</span><br><span class="line">	rpc RplyAddFriend(RplyFriendReq) returns (RplyFriendRsp) &#123;&#125;</span><br><span class="line">	rpc SendChatMsg(SendChatMsgReq) returns (SendChatMsgRsp) &#123;&#125;</span><br><span class="line">	rpc NotifyAuthFriend(AuthFriendReq) returns (AuthFriendRsp) &#123;&#125;</span><br><span class="line">	rpc NotifyTextChatMsg(TextChatMsgReq) returns (TextChatMsgRsp)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message RplyFriendReq &#123;</span><br><span class="line">	int32 rplyuid = 1;</span><br><span class="line">	bool  agree = 2;</span><br><span class="line">	int32 touid = 3;</span><br><span class="line">&#125;</span><br><span class="line">message RplyFriendRsp &#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 rplyuid = 2;</span><br><span class="line">	int32 touid = 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message SendChatMsgReq&#123;</span><br><span class="line">		int32 fromuid = 1;</span><br><span class="line">		int32 touid = 2;</span><br><span class="line">		string message = 3;</span><br><span class="line">&#125;</span><br><span class="line">message SendChatMsgRsp&#123;</span><br><span class="line">		int32 error = 1;</span><br><span class="line">		int32 fromuid = 2;</span><br><span class="line">		int32 touid = 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AuthFriendReq&#123;</span><br><span class="line">	int32 fromuid = 1;</span><br><span class="line">	int32 touid = 2;</span><br><span class="line">&#125;</span><br><span class="line">message AuthFriendRsp&#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 fromuid = 2;</span><br><span class="line">	int32 touid = 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message TextChatMsgReq &#123;</span><br><span class="line">	int32 fromuid = 1;</span><br><span class="line">    int32 touid = 2;</span><br><span class="line">	repeated TextChatData textmsgs = 3;</span><br><span class="line">&#125;</span><br><span class="line">message TextChatData&#123;</span><br><span class="line">	string msgid = 1;</span><br><span class="line">	string msgcontent = 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message TextChatMsgRsp &#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 fromuid = 2;</span><br><span class="line">	int32 touid = 3; </span><br><span class="line">	repeated TextChatData textmsgs = 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结为以下5个服务：</p>
+<ul>
+<li>通知添加好友</li>
+<li>通知验证好友</li>
+<li>通知聊天消息</li>
+<li>回复添加好友</li>
+<li>聊天消息发送</li>
+</ul>
+<h2 id="loginhandler">3.1 LoginHandler</h2>
+<p>在解析登录消息的时候，客户端会把自己的 uid 存放到 json
+对象中，CSession 也会随机生成一个 session_id。注意：这个 uid 是存放在
+Mysql 中的，回顾一下哪些信息要存放在 Mysql 中？是在注册的时候会存放在
+Mysql 中的，请求注册的时候会在 HTTP 的 request.body.data
+中携带这些信息</p>
+<ol type="1">
+<li>name</li>
+<li>email</li>
+<li>pwd</li>
+<li>icon</li>
+</ol>
+<p>然后会调用 Mysql 封装的函数进行注册，注册过程中会先从一张 user_id
+的表中获取 id 值，并且把这个 id 值进行 +1 操作，然后把这个 id
+值连同用户的<code>name</code>, <code>email</code>, <code>pwd</code>,
+<code>nickname</code>, <code>icon</code> 一同写入到 user
+表中。注册完之后会返回 uid，然后写入到 json 对象中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root[<span class="string">&quot;error&quot;</span>] = <span class="number">0</span>;</span><br><span class="line">root[<span class="string">&quot;uid&quot;</span>] = uid;</span><br><span class="line">root[<span class="string">&quot;email&quot;</span>] = email;</span><br><span class="line">root [<span class="string">&quot;user&quot;</span>]= name;</span><br><span class="line">root[<span class="string">&quot;passwd&quot;</span>] = pwd;</span><br><span class="line">root[<span class="string">&quot;confirm&quot;</span>] = confirm;</span><br><span class="line">root[<span class="string">&quot;icon&quot;</span>] = icon;</span><br><span class="line">root[<span class="string">&quot;varifycode&quot;</span>] = src_root[<span class="string">&quot;varifycode&quot;</span>].<span class="built_in">asString</span>();</span><br><span class="line">std::string jsonstr = root.<span class="built_in">toStyledString</span>();</span><br><span class="line">beast::<span class="built_in">ostream</span>(connection-&gt;_response.<span class="built_in">body</span>()) &lt;&lt; jsonstr;</span><br></pre></td></tr></table></figure>
+<p>这样注册完之后用户就知道自己的 uid 了。然后连接的时候会携带这个 uid
+发送给 ChatServer。</p>
+<p>ChatServer 在接收到 LoginHandler 的 msg_id 的时候，会从数据库中通过
+uid 来获取客户端的完全信息（先从 Redis 中获取，如果 Redis 中没有，则去
+Mysql 查询，查询到后还要写入到 Redis 中）。然后再通过 uid
+来从数据库获取申请列表，以及获取好友列表。这个时候 ChatServer 会从 Redis
+中获取自己的连接数，然后把这个连接数 +1 并再次存到 Redis 中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> rd_res = RedisMgr::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HGet</span>(LOGIN_COUNT, server_name);</span><br><span class="line"><span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (!rd_res.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">	count = std::<span class="built_in">stoi</span>(rd_res);</span><br><span class="line">&#125;</span><br><span class="line">count++;</span><br><span class="line"><span class="keyword">auto</span> count_str = std::<span class="built_in">to_string</span>(count);</span><br><span class="line">RedisMgr::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">HSet</span>(LOGIN_COUNT, server_name, count_str);</span><br></pre></td></tr></table></figure>
+<p>最后还需要把用户的 id 和 session
+绑定起来，并且存储起来，这样后续可以直接根据 uid 在 Redis
+中查询其对应的服务器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//session绑定用户uid</span></span><br><span class="line">session-&gt;<span class="built_in">SetUserId</span>(uid);</span><br><span class="line"><span class="comment">//为用户设置登录ip server的名字</span></span><br><span class="line">std::string  ipkey = USERIPPREFIX + uid_str;</span><br><span class="line">RedisMgr::<span class="built_in">GetInstance</span>()-&gt;<span class="built_in">Set</span>(ipkey, server_name);</span><br></pre></td></tr></table></figure>
+<h2 id="notifyaddfriend">3.1 NotifyAddFriend</h2>
+<p>首先根据 proto 文件查看请求和响应各有哪些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">message AddFriendReq &#123;</span><br><span class="line">	int32  applyuid = 1;</span><br><span class="line">	string name = 2;</span><br><span class="line">	string desc = 3;</span><br><span class="line">	string icon = 4;</span><br><span class="line">	string nick = 5;</span><br><span class="line">	int32  sex = 6;</span><br><span class="line">	int32  touid = 7;</span><br><span class="line">&#125;</span><br><span class="line">message AddFriendRsp &#123;</span><br><span class="line">	int32 error = 1;</span><br><span class="line">	int32 applyuid = 2;</span><br><span class="line">	int32 touid = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是逻辑类中的成员函数：</p>
+<ol type="1">
+<li>把 msg_node 中的 data 字符串解析成 json 对象</li>
+<li>解析完了之后要先更新数据库，<strong>为什么要更新数据库？</strong></li>
+<li>根据客户端的 uid 去 Redis 中查找对应的 IP，<strong>什么时候存储了
+uid 和 IP？</strong></li>
+<li></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E8%81%8A%E5%A4%A9%E9%A1%B9%E7%9B%AE-%E4%BA%8C-StatusServer/" rel="prev" title="聊天项目(二) StatusServer">
+      <i class="fa fa-chevron-left"></i> 聊天项目(二) StatusServer
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/" rel="next" title="Cpp八股笔记">
+      Cpp八股笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">1. Main函数初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8E%A5%E6%94%B6%E5%92%8C%E9%80%BB%E8%BE%91%E5%A4%84%E7%90%86"><span class="nav-text">2. 数据的接收和逻辑处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grpc%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3. gRPC接口的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#loginhandler"><span class="nav-text">3.1 LoginHandler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notifyaddfriend"><span class="nav-text">3.1 NotifyAddFriend</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/neural.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/neural.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
+  </script>
+
+  <meta name="description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— ra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses">
+<meta property="og:url" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/index.html">
+<meta property="og:site_name" content="Xinhao&#39;s notebook">
+<meta property="og:description" content="这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲&#x2F;伸展、旋前&#x2F;旋后和尺骨&#x2F;桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：  flexion——extension pronation——supination adduction——abduction（ulnar deviation—— ra">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
+<meta property="article:published_time" content="2023-11-03T01:52:49.000Z">
+<meta property="article:modified_time" content="2024-04-10T13:52:53.440Z">
+<meta property="article:author" content="Xinhao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
+
+<link rel="canonical" href="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses | Xinhao's notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xinhao's notebook</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Xinhao">
+      <meta itemprop="description" content="无限进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinhao's notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Predicting wrist kinematics from motor unit discharge timings for the control of active prostheses
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-11-03 09:52:49" itemprop="dateCreated datePublished" datetime="2023-11-03T09:52:49+08:00">2023-11-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-04-10 21:52:53" itemprop="dateModified" datetime="2024-04-10T21:52:53+08:00">2024-04-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">论文</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/Dynamic/" itemprop="url" rel="index"><span itemprop="name">Dynamic</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章描述并验证了一种从运动单元动作电位队列（MUAPT，称为神经特征）中预测腕关节屈曲/伸展、旋前/旋后和尺骨/桡骨偏移的关节角度的方法，并将预测结果与从全局肌电图特征的线性回归中获得的预测结果进行了比较。手的几个动作：</p>
+<ul>
+<li>flexion——extension</li>
+<li>pronation——supination</li>
+<li>adduction——abduction（ulnar deviation—— radial deviation）</li>
+</ul>
+<p>这篇文章先通过训练集得到spike到neural
+input的函数，然后把MUAPT和residual EMG当作neural feature，然后对neural
+feature降维，然后通过线性回归来估计力矩。这篇文章的实验范式重点参考。</p>
+<span id="more"></span>
+<h1 id="method">1. Method</h1>
+<ul>
+<li>两到三片高密度肌电电极，8×8，10 inter-electrode distance</li>
+<li>参考电极和地电极防止在手腕处</li>
+<li>monopolar mode</li>
+<li>5nd band-pass filter: 20-500Hz, zero phase</li>
+</ul>
+<p><strong>实验范式：</strong></p>
+<p>每个自由度下关节角度呈三角形变化，这样能够保证关节角度匀速。同时，两个方向均弯曲，弯曲范围为动作的极限。一个三角形称为一个trials，这样一共就有6个trials。一个run包含其中3个trials（DoF和trial随机选取）。每一个被试执行3次run，每个run斜坡的时长不同，代表着不同的收缩速度，分别是：</p>
+<ul>
+<li>5s，慢速</li>
+<li>2.5s，中速</li>
+<li>1s，高速</li>
+</ul>
+<h1 id="processing">2. Processing</h1>
+<h2 id="td-feature-extraction">2.1 TD feature extraction</h2>
+<blockquote>
+<p>The following time-domain features were calculated for each window
+across all considered channels: root mean square, slope sign changes,
+zero crossings, and waveform length.</p>
+</blockquote>
+<h2 id="neural-feature-extraction">2.2 neural feature extraction</h2>
+<ul>
+<li><font color = "red">为了识别在一个以上DoF的任务中活动的运动单位，通过互相关对运动单位动作电位的波形进行比较。如果两个动作电位的波形的互相关系数＞0.8，那么认为是由同一个运动单位产生的。</font></li>
+<li>分解高密度肌电信号的时候也是分段分解的，滑动窗口宽度为100ms，重叠10ms。</li>
+<li><font color = "red">重构的EMG信号与原始的EMG信号之间的差异部分也被用来提取信息，这与之前的想法一致。</font></li>
+</ul>
+<h2 id="model-based-dimensionality-reduction">2.3 model-based
+dimensionality reduction</h2>
+<p>肌电信号的分解是存在错误的，这些错误不能被人工检查出来。另一方面，运动神经元之间的活动是存在相关性的，这种相关性可以用来弥补分解的错误。同一池或协同肌肉中的运动神经元共享相对较大比例的突触输入。因此，每个运动单位的放电时间不仅携带关于肌肉力量的信息，而且还与其他运动单元的活动相关，<mark>可以利用这个特性来降低特征维度</mark>。如何来提取这种共同的突触输入呢？</p>
+<ul>
+<li>首先每个神经元从中枢神经系统接收到的输入与尖峰队列的关系可以用一个函数表示：<span
+class="math display">\[ \alpha_{ij}=g_{ij}(x_{ij})
+\]</span>。使用鲁棒回归对 spike train 和关节角度来确定函数 <span
+class="math inline">\(g\)</span>。<mark>之所以能这样确定是因为神经输入
+<span class="math inline">\(\alpha\)</span>
+与关节角度有关，因此可以通过手腕关节角度来得到神经输入。</mark></li>
+<li>在估计时，每个MU被分组到最相关的自由度中，在这个自由度下估计神经的输入。</li>
+<li>在每个自由度下，得到运动神经元池中所有神经元的上述输入后，结合前一个窗口的共同输入（用于平滑）用来提取一个共同的输入<span
+class="math inline">\(\alpha_{i}^{r}\)</span>。（因为每个MU接收到的信息不同，同时还有分解误差，所以不能直接相加，而需要一个专门的方法，最终选用了中位数这个方法）</li>
+<li>这篇文章中的<mark>神经特征</mark>：（1）提取出的共同输入；（2）残留信号的时频域特征。</li>
+<li>神经特征用于最简单的线性回归，回归后的力矩分解到3个自由度上。</li>
+</ul>
+<h2 id="comparison-between-features">2.4 comparison between
+features</h2>
+<ul>
+<li>neural feature this paper proposed</li>
+<li>time-domain feature</li>
+<li>AM1：discharge spike count and EMG residual without model-based
+dimensionality reduction</li>
+<li>AM2：only DSC without model-based dimensionality reduction and
+without the residual EMG features</li>
+</ul>
+<h1 id="results">3. Results</h1>
+<p>神经特征和时频域特征得到的决定系数之间是有显著统计差.的，神经特征回归的决定系数为0.77，时频域特征回归的决定系数为0.7。</p>
+<p><strong>一些重要结论：</strong></p>
+<ul>
+<li>与ramp duration有关，ramp
+duration越短，动作速度越快，收缩强度越大，募集的MU越多，识别到的spike
+trains越多，但是文章说这个没有显著的统计学差异，因为可能受其他因素影响</li>
+<li>只有少数MU在多个自由度中被识别到，这就是说绝大多数MU都只与单一的自由度有关，MU是与动作相关联的。这一点从上交的论文中也能看出来</li>
+</ul>
+<img src="/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png" class="" title="image-20231109115844912">
+<ul>
+<li>使用替代方法的测试表明，包括残差EMG和所提出的降维都有助于实现卓越的性能</li>
+<li>所提出的方法以及AM1优于TD的观察结果表明，<mark>尖峰序列确实携带了传统特征无法提取的额外信息</mark>，即使对于如此高的信道数量也是如此</li>
+<li>分解算法识别出的MU都是阈值高的，因为阈值高的MU有更高的能量，这对分解和波形比较有利</li>
+</ul>
+<h1 id="limitations">4. Limitations</h1>
+<ul>
+<li>分解算法主要用于低、中力下的等长收缩，对动态收缩只部分有效</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/27/%E5%AE%9E%E9%AA%8C/%E9%AB%98%E5%AF%86%E5%BA%A6%E8%82%8C%E7%94%B5%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" rel="prev" title="高密度肌电使用方法">
+      <i class="fa fa-chevron-left"></i> 高密度肌电使用方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/07/%E6%95%B0%E5%AD%A6/%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/" rel="next" title="假设检验">
+      假设检验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#method"><span class="nav-text">1. Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#processing"><span class="nav-text">2. Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#td-feature-extraction"><span class="nav-text">2.1 TD feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#neural-feature-extraction"><span class="nav-text">2.2 neural feature extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model-based-dimensionality-reduction"><span class="nav-text">2.3 model-based
+dimensionality reduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comparison-between-features"><span class="nav-text">2.4 comparison between
+features</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#results"><span class="nav-text">3. Results</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#limitations"><span class="nav-text">4. Limitations</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xinhao"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Xinhao</p>
+  <div class="site-description" itemprop="description">无限进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CQ-yangxh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CQ-yangxh" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xinhao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
