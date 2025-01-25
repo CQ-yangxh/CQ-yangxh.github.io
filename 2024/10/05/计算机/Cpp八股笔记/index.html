@@ -20,17 +20,17 @@
     var CONFIG = {"hostname":"cq-yangxh.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.json"};
   </script>
 
-  <meta name="description" content="1. Shared_ptr 的底层原理 std::shared_ptr 是 C++ 标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个 shared_ptr 指向同一个对象。当最后一个 shared_ptr 被销毁或重置时，对象也会被删除。 内部结构 std::shared_ptr 的底层实现通常包括以下几个关键组件：  控制块（Control Blo">
+  <meta name="description" content="1. Shared_ptr 的底层原理std::shared_ptr 是 C++ 标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个 shared_ptr 指向同一个对象。当最后一个 shared_ptr 被销毁或重置时，对象也会被删除。 内部结构std::shared_ptr 的底层实现通常包括以下几个关键组件：  控制块（Control Block）： 控制块通常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cpp八股笔记">
 <meta property="og:url" content="https://cq-yangxh.github.io/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Xinhao&#39;s notebook">
-<meta property="og:description" content="1. Shared_ptr 的底层原理 std::shared_ptr 是 C++ 标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个 shared_ptr 指向同一个对象。当最后一个 shared_ptr 被销毁或重置时，对象也会被删除。 内部结构 std::shared_ptr 的底层实现通常包括以下几个关键组件：  控制块（Control Blo">
+<meta property="og:description" content="1. Shared_ptr 的底层原理std::shared_ptr 是 C++ 标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个 shared_ptr 指向同一个对象。当最后一个 shared_ptr 被销毁或重置时，对象也会被删除。 内部结构std::shared_ptr 的底层实现通常包括以下几个关键组件：  控制块（Control Block）： 控制块通常">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/v2-6507ab3517814b1b84fbff9a3eb31842_1440w.webp">
 <meta property="og:image" content="https://cq-yangxh.github.io/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/v2-6507ab3517814b1b84fbff9a3eb31842_1440w.webp">
 <meta property="article:published_time" content="2024-10-05T06:51:44.000Z">
-<meta property="article:modified_time" content="2025-01-01T10:00:04.417Z">
+<meta property="article:modified_time" content="2025-01-22T09:39:32.000Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/v2-6507ab3517814b1b84fbff9a3eb31842_1440w.webp">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-01 18:00:04" itemprop="dateModified" datetime="2025-01-01T18:00:04+08:00">2025-01-01</time>
+                <time title="Modified: 2025-01-22 17:39:32" itemprop="dateModified" datetime="2025-01-22T17:39:32+08:00">2025-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,28 +251,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="shared_ptr-的底层原理">1. Shared_ptr 的底层原理</h2>
-<p><code>std::shared_ptr</code> 是 C++
-标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个
-<code>shared_ptr</code> 指向同一个对象。当最后一个
-<code>shared_ptr</code> 被销毁或重置时，对象也会被删除。</p>
-<h3 id="内部结构">内部结构</h3>
-<p><code>std::shared_ptr</code> 的底层实现通常包括以下几个关键组件：</p>
-<ol type="1">
-<li><strong>控制块（Control Block）</strong>：
-<ul>
+        <h2 id="1-Shared-ptr-的底层原理"><a href="#1-Shared-ptr-的底层原理" class="headerlink" title="1. Shared_ptr 的底层原理"></a>1. Shared_ptr 的底层原理</h2><p><code>std::shared_ptr</code> 是 C++ 标准库中的一个智能指针，用于自动管理对象的生命周期。它通过引用计数来跟踪有多少个 <code>shared_ptr</code> 指向同一个对象。当最后一个 <code>shared_ptr</code> 被销毁或重置时，对象也会被删除。</p>
+<h3 id="内部结构"><a href="#内部结构" class="headerlink" title="内部结构"></a>内部结构</h3><p><code>std::shared_ptr</code> 的底层实现通常包括以下几个关键组件：</p>
+<ol>
+<li><strong>控制块（Control Block）</strong>：<ul>
 <li>控制块通常是一个独立的对象，它负责管理对象的引用计数和弱引用计数。</li>
-<li>引用计数（<code>use_count</code>）记录了多少个
-<code>shared_ptr</code> 指向同一个对象。</li>
-<li>弱引用计数（<code>weak_count</code>）记录了多少个
-<code>std::weak_ptr</code> 持有对该对象的引用。</li>
-</ul></li>
-<li><strong>存储机制</strong>：
-<ul>
+<li>引用计数（<code>use_count</code>）记录了多少个 <code>shared_ptr</code> 指向同一个对象。</li>
+<li>弱引用计数（<code>weak_count</code>）记录了多少个 <code>std::weak_ptr</code> 持有对该对象的引用。</li>
+</ul>
+</li>
+<li><strong>存储机制</strong>：<ul>
 <li><code>std::shared_ptr</code> 包含一个指向控制块的指针。</li>
 <li>控制块包含一个指向实际对象的指针。</li>
 <li>控制块还包含一个指向删除器函数的指针（可选）。</li>
-</ul></li>
+</ul>
+</li>
 </ol>
 <span id="more"></span>
 <p>在典型的实现中，shared_ptr 只保有两个指针：</p>
@@ -285,573 +278,414 @@
 <li>指向被管理对象的指针或被管理对象本身；（基础对象的内存地址）</li>
 <li>删除器；（Deleter，类型擦除）</li>
 <li>分配器；（Allocator，类型擦除）</li>
-<li>占用被管理对象的shared_ptr的数量（strong
-refs强引用的引用计数）；</li>
+<li>占用被管理对象的shared_ptr的数量（strong refs强引用的引用计数）；</li>
 <li>涉及被管理对象的weak_ptr的数量（weak refs弱引用的引用计数） 。</li>
 </ul>
-<h3 id="创建和销毁">创建和销毁</h3>
-<h4 id="创建-stdshared_ptr">创建 <code>std::shared_ptr</code></h4>
-<p>当你创建一个新的 <code>std::shared_ptr</code>
-时，通常会做以下几件事：</p>
-<ol type="1">
-<li><strong>创建控制块</strong>：
-<ul>
+<h3 id="创建和销毁"><a href="#创建和销毁" class="headerlink" title="创建和销毁"></a>创建和销毁</h3><h4 id="创建-std-shared-ptr"><a href="#创建-std-shared-ptr" class="headerlink" title="创建 std::shared_ptr"></a>创建 <code>std::shared_ptr</code></h4><p>当你创建一个新的 <code>std::shared_ptr</code> 时，通常会做以下几件事：</p>
+<ol>
+<li><strong>创建控制块</strong>：<ul>
 <li>分配内存来存储控制块。</li>
 <li>初始化引用计数和弱引用计数（通常是0）。</li>
-</ul></li>
-<li><strong>设置指针</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>设置指针</strong>：<ul>
 <li>设置 <code>std::shared_ptr</code> 内部的指针，使其指向控制块。</li>
 <li>设置控制块内的指针，使其指向实际对象。</li>
-</ul></li>
-<li><strong>增加引用计数</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>增加引用计数</strong>：<ul>
 <li>创建新的 <code>std::shared_ptr</code> 时，引用计数加1。</li>
-</ul></li>
+</ul>
+</li>
 </ol>
-<h4 id="销毁-stdshared_ptr">销毁 <code>std::shared_ptr</code></h4>
-<p>当 <code>std::shared_ptr</code>
-被销毁或重置时，会发生以下几件事：</p>
-<ol type="1">
-<li><strong>减少引用计数</strong>：
-<ul>
+<h4 id="销毁-std-shared-ptr"><a href="#销毁-std-shared-ptr" class="headerlink" title="销毁 std::shared_ptr"></a>销毁 <code>std::shared_ptr</code></h4><p>当 <code>std::shared_ptr</code> 被销毁或重置时，会发生以下几件事：</p>
+<ol>
+<li><strong>减少引用计数</strong>：<ul>
 <li>销毁或重置 <code>std::shared_ptr</code> 时，引用计数减1。</li>
-</ul></li>
-<li><strong>检查引用计数</strong>：
-<ul>
-<li>如果引用计数变为0，表示没有 <code>std::shared_ptr</code>
-指向该对象。</li>
-<li>此时，执行删除操作：
-<ul>
+</ul>
+</li>
+<li><strong>检查引用计数</strong>：<ul>
+<li>如果引用计数变为0，表示没有 <code>std::shared_ptr</code> 指向该对象。</li>
+<li>此时，执行删除操作：<ul>
 <li>调用控制块中存储的删除器（如果有）。</li>
 <li>释放实际对象占用的内存。</li>
 <li>最后，释放控制块占用的内存。</li>
-</ul></li>
-</ul></li>
-</ol>
-<p>下面是一个简单的示例代码，展示了 <code>std::shared_ptr</code>
-的基本用法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MyClass</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;MyClass constructor called\n&quot;</span>; &#125;</span><br><span class="line">    ~<span class="built_in">MyClass</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;MyClass destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个 std::shared_ptr</span></span><br><span class="line">    <span class="function">std::shared_ptr&lt;MyClass&gt; <span class="title">sptr</span><span class="params">(<span class="keyword">new</span> MyClass())</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count: &quot;</span> &lt;&lt; sptr.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重新创建一个指向同一对象的 shared_ptr</span></span><br><span class="line">    std::shared_ptr&lt;MyClass&gt; sptr2 = sptr;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count after copy: &quot;</span> &lt;&lt; sptr.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 sptr</span></span><br><span class="line">    sptr.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count after reset: &quot;</span> &lt;&lt; sptr2.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当程序结束时，sptr2 会被销毁，对象也会被删除</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="内存管理">内存管理</h3>
-<p><code>std::shared_ptr</code> 通过引用计数来管理内存，使得多个
-<code>std::shared_ptr</code> 可以共享对同一个对象的拥有权。当最后一个
-<code>std::shared_ptr</code>
-被销毁时，对象也会被自动删除，从而避免了内存泄漏。</p>
-<h3 id="性能考虑">性能考虑</h3>
-<p>虽然 <code>std::shared_ptr</code>
-提供了方便的内存管理，但由于涉及额外的控制块和引用计数的操作，它可能会带来一定的性能开销。特别是当引用计数频繁变化时，这些操作可能会变得较为昂贵。</p>
-<p>总的来说，<code>std::shared_ptr</code>
-是一个强大的工具，用于自动管理对象的生命周期，但使用时需要注意其内部机制以避免潜在的问题。</p>
-<h2 id="shared_ptr-的循环引用">2. Shared_ptr 的循环引用</h2>
-<p>共享指针（<code>std::shared_ptr</code>）的一个常见问题是循环引用（circular
-reference），这会导致内存泄漏。当两个或多个 <code>std::shared_ptr</code>
-彼此持有对方时，它们的引用计数永远不会降为零，从而导致它们所指向的对象永远不会被删除。</p>
-<h3 id="循环引用示例">循环引用示例</h3>
-<p>假设我们有两个类 <code>A</code> 和 <code>B</code>，它们互相持有对方的
-<code>std::shared_ptr</code>：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::shared_ptr&lt;B&gt; b;</span><br><span class="line">    <span class="built_in">A</span>(std::shared_ptr&lt;B&gt; b) : <span class="built_in">b</span>(b) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::shared_ptr&lt;A&gt; a;</span><br><span class="line">    <span class="built_in">B</span>(std::shared_ptr&lt;A&gt; a) : <span class="built_in">a</span>(a) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;B destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    a-&gt;b = b;</span><br><span class="line">    b-&gt;a = a;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 循环引用导致 a 和 b 的引用计数始终不会为零</span></span><br><span class="line">    <span class="comment">// 即使 main 函数结束，a 和 b 也不会被删除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>A</code> 持有一个指向 <code>B</code> 的
-<code>std::shared_ptr</code>，而 <code>B</code> 也持有一个指向
-<code>A</code> 的
-<code>std::shared_ptr</code>。因此，这两个对象的引用计数始终大于零，导致它们永远不会被删除。</p>
-<h3 id="解决循环引用的方法">解决循环引用的方法</h3>
-<p>解决循环引用问题通常有几种方法：</p>
-<ol type="1">
-<li><strong>使用 <code>std::weak_ptr</code></strong>：
-<ul>
-<li><code>std::weak_ptr</code>
-不增加引用计数，可以用来打破循环引用。</li>
-<li>当 <code>std::weak_ptr</code> 的 <code>lock()</code> 方法返回
-<code>nullptr</code> 时，表明没有 <code>std::shared_ptr</code>
-持有该对象。</li>
-</ul></li>
-<li><strong>重构代码逻辑</strong>：
-<ul>
-<li>重新设计类之间的依赖关系，避免相互持有。</li>
-</ul></li>
-</ol>
-<h3 id="使用-stdweak_ptr-打破循环引用">使用 <code>std::weak_ptr</code>
-打破循环引用</h3>
-<p>我们可以修改上面的例子，使用 <code>std::weak_ptr</code>
-来持有对方的指针：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::weak_ptr&lt;B&gt; b;</span><br><span class="line">    <span class="built_in">A</span>(std::weak_ptr&lt;B&gt; b) : <span class="built_in">b</span>(b) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A destructor called\n&quot;</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">std::shared_ptr&lt;B&gt; <span class="title">getB</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.<span class="built_in">lock</span>(); <span class="comment">// 返回一个 shared_ptr 或者 nullptr</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::weak_ptr&lt;A&gt; a;</span><br><span class="line">    <span class="built_in">B</span>(std::weak_ptr&lt;A&gt; a) : <span class="built_in">a</span>(a) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;B destructor called\n&quot;</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">getA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.<span class="built_in">lock</span>(); <span class="comment">// 返回一个 shared_ptr 或者 nullptr</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 使用 weak_ptr 的时候不互相增加引用</span></span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;(std::<span class="built_in">weak_ptr</span>&lt;B&gt;());</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;(std::<span class="built_in">weak_ptr</span>&lt;A&gt;());</span><br><span class="line"></span><br><span class="line">    a-&gt;b = b;</span><br><span class="line">    b-&gt;a = a;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 weak_ptr 打破循环引用</span></span><br><span class="line">    <span class="comment">// 当 main 函数结束时，a 和 b 会被正确地删除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个修改后的例子中，<code>A</code> 和 <code>B</code> 都持有对方的
-<code>std::weak_ptr</code>。当需要获取对方的
-<code>std::shared_ptr</code> 时，可以通过 <code>lock()</code> 方法从
-<code>std::weak_ptr</code> 转换为
-<code>std::shared_ptr</code>。如果没有任何 <code>std::shared_ptr</code>
-持有该对象，<code>lock()</code> 方法将返回 <code>nullptr</code>。</p>
-<h3 id="注意事项">注意事项</h3>
-<p>使用 <code>std::weak_ptr</code> 时需要注意：</p>
-<ul>
-<li>在使用 <code>lock()</code> 获取 <code>std::shared_ptr</code>
-时，要确保对象仍然存在。</li>
-<li>如果 <code>lock()</code> 返回
-<code>nullptr</code>，说明对象已经不存在，此时不应该继续使用该对象。</li>
 </ul>
-<p>通过使用
-<code>std::weak_ptr</code>，我们可以有效地避免由循环引用导致的内存泄漏问题。</p>
-<h2 id="移动语义">3. 移动语义</h2>
-<p>移动语义能够转移资源的所有权，而非拷贝资源，能够更高效地管理资源。移动语义接受一个
-<code>右值</code>
-引用作为参数，通常调用移动构造函数或者移动赋值函数。而通过
-<code>move</code> 能够把一个 <code>左值</code> 转换为
-<code>右值</code>，触发移动语义，通过 <code>forward</code>
-能够保持原有的引用类型。</p>
-<p><code>右值</code>
-可以种发移动语义，那什么是移动语义?我们可以理解为在对象转换的时候，通过右值可以触发到类的移动构造函数或者移动赋值函数。
-因为触发了 <code>移动构造函数</code> 或者
-<code>移动赋值函数</code>，我们就默认，原对象后面已经不会再使用了(包括内部的某些内存)，这样我们就可以在新对象中直接使用原对象的那部分内存，减少了数据的拷贝操作，昂贵的拷贝转为了廉价的移动，提升了程序的性能。</p>
-<h3 id="左值和右值">左值和右值</h3>
-<p>一个变量可以分为左值和右值：</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>下面是一个简单的示例代码，展示了 <code>std::shared_ptr</code> 的基本用法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MyClass</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;MyClass constructor called\n&quot;</span>; &#125;</span><br><span class="line">    ~<span class="built_in">MyClass</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;MyClass destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个 std::shared_ptr</span></span><br><span class="line">    <span class="function">std::shared_ptr&lt;MyClass&gt; <span class="title">sptr</span><span class="params">(<span class="keyword">new</span> MyClass())</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count: &quot;</span> &lt;&lt; sptr.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重新创建一个指向同一对象的 shared_ptr</span></span><br><span class="line">    std::shared_ptr&lt;MyClass&gt; sptr2 = sptr;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count after copy: &quot;</span> &lt;&lt; sptr.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 sptr</span></span><br><span class="line">    sptr.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出引用计数</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Use count after reset: &quot;</span> &lt;&lt; sptr2.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当程序结束时，sptr2 会被销毁，对象也会被删除</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p><code>std::shared_ptr</code> 通过引用计数来管理内存，使得多个 <code>std::shared_ptr</code> 可以共享对同一个对象的拥有权。当最后一个 <code>std::shared_ptr</code> 被销毁时，对象也会被自动删除，从而避免了内存泄漏。</p>
+<h3 id="性能考虑"><a href="#性能考虑" class="headerlink" title="性能考虑"></a>性能考虑</h3><p>虽然 <code>std::shared_ptr</code> 提供了方便的内存管理，但由于涉及额外的控制块和引用计数的操作，它可能会带来一定的性能开销。特别是当引用计数频繁变化时，这些操作可能会变得较为昂贵。</p>
+<p>总的来说，<code>std::shared_ptr</code> 是一个强大的工具，用于自动管理对象的生命周期，但使用时需要注意其内部机制以避免潜在的问题。</p>
+<h2 id="2-Shared-ptr-的循环引用"><a href="#2-Shared-ptr-的循环引用" class="headerlink" title="2. Shared_ptr 的循环引用"></a>2. Shared_ptr 的循环引用</h2><p>共享指针（<code>std::shared_ptr</code>）的一个常见问题是循环引用（circular reference），这会导致内存泄漏。当两个或多个 <code>std::shared_ptr</code> 彼此持有对方时，它们的引用计数永远不会降为零，从而导致它们所指向的对象永远不会被删除。</p>
+<h3 id="循环引用示例"><a href="#循环引用示例" class="headerlink" title="循环引用示例"></a>循环引用示例</h3><p>假设我们有两个类 <code>A</code> 和 <code>B</code>，它们互相持有对方的 <code>std::shared_ptr</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::shared_ptr&lt;B&gt; b;</span><br><span class="line">    <span class="built_in">A</span>(std::shared_ptr&lt;B&gt; b) : <span class="built_in">b</span>(b) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::shared_ptr&lt;A&gt; a;</span><br><span class="line">    <span class="built_in">B</span>(std::shared_ptr&lt;A&gt; a) : <span class="built_in">a</span>(a) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;B destructor called\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    a-&gt;b = b;</span><br><span class="line">    b-&gt;a = a;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 循环引用导致 a 和 b 的引用计数始终不会为零</span></span><br><span class="line">    <span class="comment">// 即使 main 函数结束，a 和 b 也不会被删除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>A</code> 持有一个指向 <code>B</code> 的 <code>std::shared_ptr</code>，而 <code>B</code> 也持有一个指向 <code>A</code> 的 <code>std::shared_ptr</code>。因此，这两个对象的引用计数始终大于零，导致它们永远不会被删除。</p>
+<h3 id="解决循环引用的方法"><a href="#解决循环引用的方法" class="headerlink" title="解决循环引用的方法"></a>解决循环引用的方法</h3><p>解决循环引用问题通常有几种方法：</p>
+<ol>
+<li><strong>使用 <code>std::weak_ptr</code></strong>：<ul>
+<li><code>std::weak_ptr</code> 不增加引用计数，可以用来打破循环引用。</li>
+<li>当 <code>std::weak_ptr</code> 的 <code>lock()</code> 方法返回 <code>nullptr</code> 时，表明没有 <code>std::shared_ptr</code> 持有该对象。</li>
+</ul>
+</li>
+<li><strong>重构代码逻辑</strong>：<ul>
+<li>重新设计类之间的依赖关系，避免相互持有。</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用-std-weak-ptr-打破循环引用"><a href="#使用-std-weak-ptr-打破循环引用" class="headerlink" title="使用 std::weak_ptr 打破循环引用"></a>使用 <code>std::weak_ptr</code> 打破循环引用</h3><p>我们可以修改上面的例子，使用 <code>std::weak_ptr</code> 来持有对方的指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::weak_ptr&lt;B&gt; b;</span><br><span class="line">    <span class="built_in">A</span>(std::weak_ptr&lt;B&gt; b) : <span class="built_in">b</span>(b) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A destructor called\n&quot;</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">std::shared_ptr&lt;B&gt; <span class="title">getB</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.<span class="built_in">lock</span>(); <span class="comment">// 返回一个 shared_ptr 或者 nullptr</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::weak_ptr&lt;A&gt; a;</span><br><span class="line">    <span class="built_in">B</span>(std::weak_ptr&lt;A&gt; a) : <span class="built_in">a</span>(a) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;B destructor called\n&quot;</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">getA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.<span class="built_in">lock</span>(); <span class="comment">// 返回一个 shared_ptr 或者 nullptr</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 使用 weak_ptr 的时候不互相增加引用</span></span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;(std::<span class="built_in">weak_ptr</span>&lt;B&gt;());</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;(std::<span class="built_in">weak_ptr</span>&lt;A&gt;());</span><br><span class="line"></span><br><span class="line">    a-&gt;b = b;</span><br><span class="line">    b-&gt;a = a;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 weak_ptr 打破循环引用</span></span><br><span class="line">    <span class="comment">// 当 main 函数结束时，a 和 b 会被正确地删除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个修改后的例子中，<code>A</code> 和 <code>B</code> 都持有对方的 <code>std::weak_ptr</code>。当需要获取对方的 <code>std::shared_ptr</code> 时，可以通过 <code>lock()</code> 方法从 <code>std::weak_ptr</code> 转换为 <code>std::shared_ptr</code>。如果没有任何 <code>std::shared_ptr</code> 持有该对象，<code>lock()</code> 方法将返回 <code>nullptr</code>。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>使用 <code>std::weak_ptr</code> 时需要注意：</p>
+<ul>
+<li>在使用 <code>lock()</code> 获取 <code>std::shared_ptr</code> 时，要确保对象仍然存在。</li>
+<li>如果 <code>lock()</code> 返回 <code>nullptr</code>，说明对象已经不存在，此时不应该继续使用该对象。</li>
+</ul>
+<p>通过使用 <code>std::weak_ptr</code>，我们可以有效地避免由循环引用导致的内存泄漏问题。</p>
+<h2 id="3-移动语义"><a href="#3-移动语义" class="headerlink" title="3. 移动语义"></a>3. 移动语义</h2><p>移动语义能够转移资源的所有权，而非拷贝资源，能够更高效地管理资源。移动语义接受一个 <code>右值</code> 引用作为参数，通常调用移动构造函数或者移动赋值函数。而通过 <code>move</code> 能够把一个 <code>左值</code> 转换为 <code>右值</code>，触发移动语义，通过 <code>forward</code> 能够保持原有的引用类型。</p>
+<p><code>右值</code> 可以种发移动语义，那什么是移动语义?我们可以理解为在对象转换的时候，通过右值可以触发到类的移动构造函数或者移动赋值函数。<br>因为触发了 <code>移动构造函数</code> 或者 <code>移动赋值函数</code>，我们就默认，原对象后面已经不会再使用了(包括内部的某些内存)，这样我们就可以在新对象中直接使用原对象的那部分内存，减少了数据的拷贝操作，昂贵的拷贝转为了廉价的移动，提升了程序的性能。</p>
+<h3 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h3><p>一个变量可以分为左值和右值：</p>
 <ul>
 <li>是否能放在等号左边</li>
 <li>是否能够取地址</li>
 </ul>
-<h3 id="move">move</h3>
-<p><code>std::move</code>
-函数的作用是将一个左值转换为一个可以像右值一样被处理的对象。它通常用于明确表示希望将一个左值当作右值来对待，从而可以利用移动语义（move
-semantics），允许编译器使用移动构造函数或移动赋值运算符。<code>std::move</code>
-的源码如下：</p>
+<h3 id="move"><a href="#move" class="headerlink" title="move"></a>move</h3><p><code>std::move</code> 函数的作用是将一个左值转换为一个可以像右值一样被处理的对象。它通常用于明确表示希望将一个左值当作右值来对待，从而可以利用移动语义（move semantics），允许编译器使用移动构造函数或移动赋值运算符。<code>std::move</code> 的源码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  @brief  Convert a value to an rvalue.</span></span><br><span class="line"><span class="comment"> *  @param  __t  A thing of arbitrary type.</span></span><br><span class="line"><span class="comment"> *  @return The parameter cast to an rvalue-reference to allow moving it.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Tp&gt;</span><br><span class="line">  <span class="keyword">constexpr</span> <span class="keyword">typename</span> std::remove_reference&lt;_Tp&gt;::<span class="function">type&amp;&amp;</span></span><br><span class="line"><span class="function">  <span class="title">move</span><span class="params">(_Tp&amp;&amp; <span class="type">__t</span>)</span> <span class="keyword">noexcept</span></span></span><br><span class="line"><span class="function">  </span>&#123; <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">typename</span> std::remove_reference&lt;_Tp&gt;::type&amp;&amp;&gt;(<span class="type">__t</span>); &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>使用<code>std::move</code>
-是为了能够触发移动语义，调用移动构造函数，从而避免资源的拷贝：</p>
+<p>使用<code>std::move</code> 是为了能够触发移动语义，调用移动构造函数，从而避免资源的拷贝：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MyClass</span>(<span class="type">int</span> x) : <span class="built_in">data</span>(x) &#123;&#125;</span><br><span class="line">    <span class="built_in">MyClass</span>(MyClass&amp;&amp; other) : <span class="built_in">data</span>(other.data) &#123;</span><br><span class="line">        other.data = <span class="number">0</span>; <span class="comment">// 移动操作</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Move constructor called&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    MyClass&amp; <span class="keyword">operator</span>=(MyClass&amp;&amp; other) &#123;</span><br><span class="line">        data = other.data;</span><br><span class="line">        other.data = <span class="number">0</span>; <span class="comment">// 移动操作</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Move assignment operator called&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> data;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">exampleFunction</span><span class="params">(MyClass&amp;&amp; param)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// param 是一个右值引用</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Parameter is: &quot;</span> &lt;&lt; param.data &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">MyClass <span class="title">obj</span><span class="params">(<span class="number">42</span>)</span></span>;</span><br><span class="line">    <span class="built_in">exampleFunction</span>(std::<span class="built_in">move</span>(obj)); <span class="comment">// 使用 std::move 转换左值为右值引用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="forward">forward</h3>
-<p><code>std::forward</code>
-用于转发模板参数，它在模板函数中用于保持模板参数的引用类型不变。源码如下：</p>
+<h3 id="forward"><a href="#forward" class="headerlink" title="forward"></a>forward</h3><p><code>std::forward</code> 用于转发模板参数，它在模板函数中用于保持模板参数的引用类型不变。源码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  @brief  Forward an lvalue.</span></span><br><span class="line"><span class="comment"> *  @return The parameter cast to the specified type.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  This function is used to implement &quot;perfect forwarding&quot;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Tp&gt;</span></span><br><span class="line"><span class="function">  <span class="keyword">constexpr</span> _Tp&amp;&amp;</span></span><br><span class="line"><span class="function">  <span class="title">forward</span><span class="params">(<span class="keyword">typename</span> std::remove_reference&lt;_Tp&gt;::type&amp; <span class="type">__t</span>)</span> <span class="keyword">noexcept</span></span></span><br><span class="line"><span class="function">  </span>&#123; <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;_Tp&amp;&amp;&gt;(<span class="type">__t</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  @brief  Forward an rvalue.</span></span><br><span class="line"><span class="comment"> *  @return The parameter cast to the specified type.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  This function is used to implement &quot;perfect forwarding&quot;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Tp&gt;</span></span><br><span class="line"><span class="function">  <span class="keyword">constexpr</span> _Tp&amp;&amp;</span></span><br><span class="line"><span class="function">  <span class="title">forward</span><span class="params">(<span class="keyword">typename</span> std::remove_reference&lt;_Tp&gt;::type&amp;&amp; <span class="type">__t</span>)</span> <span class="keyword">noexcept</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">static_assert</span>(!std::is_lvalue_reference&lt;_Tp&gt;::value, <span class="string">&quot;template argument&quot;</span></span><br><span class="line">          <span class="string">&quot; substituting _Tp is an lvalue reference type&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;_Tp&amp;&amp;&gt;(<span class="type">__t</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p><code>std::forward</code> 主要有两个作用：</p>
-<ol type="1">
-<li>保持引用类型：<code>std::forward</code>
-可以保持模板参数的引用类型不变，无论是左值引用还是右值引用。</li>
-<li>完美转发：在模板函数中，<code>std::forward</code>
-可以实现“完美转发”，即保持原始参数的引用类型，从而允许模板函数透明地处理不同类型和引用类型的参数。</li>
+<ol>
+<li>保持引用类型：<code>std::forward</code> 可以保持模板参数的引用类型不变，无论是左值引用还是右值引用。</li>
+<li>完美转发：在模板函数中，<code>std::forward</code> 可以实现“完美转发”，即保持原始参数的引用类型，从而允许模板函数透明地处理不同类型和引用类型的参数。</li>
 </ol>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">forwardExampleFunction</span><span class="params">(T&amp;&amp; param)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// param 是一个右值引用或左值引用</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Parameter is: &quot;</span> &lt;&lt; param &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> value = <span class="number">42</span>;</span><br><span class="line">    forwardExampleFunction(std::forward&lt;<span class="type">int</span>&gt;(value)); <span class="comment">// 保持左值引用</span></span><br><span class="line">    forwardExampleFunction(std::forward&lt;<span class="type">int</span>&gt;(<span class="number">42</span>)); <span class="comment">// 保持右值引用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="区别总结">区别总结</h3>
-<ol type="1">
-<li><strong>目的不同</strong>：
-<ul>
-<li><code>std::move</code>
-的主要目的是将左值转换为右值引用，以便使用移动语义。</li>
-<li><code>std::forward</code>
-的主要目的是保持模板参数的引用类型，实现完美转发。</li>
-</ul></li>
-<li><strong>用法不同</strong>：
-<ul>
+<h3 id="区别总结"><a href="#区别总结" class="headerlink" title="区别总结"></a>区别总结</h3><ol>
+<li><strong>目的不同</strong>：<ul>
+<li><code>std::move</code> 的主要目的是将左值转换为右值引用，以便使用移动语义。</li>
+<li><code>std::forward</code> 的主要目的是保持模板参数的引用类型，实现完美转发。</li>
+</ul>
+</li>
+<li><strong>用法不同</strong>：<ul>
 <li><code>std::move</code> 通常用于显式地将左值转换为右值引用。</li>
-<li><code>std::forward</code>
-通常用于模板函数中，保持模板参数的引用类型。</li>
-</ul></li>
-<li><strong>模板参数</strong>：
-<ul>
+<li><code>std::forward</code> 通常用于模板函数中，保持模板参数的引用类型。</li>
+</ul>
+</li>
+<li><strong>模板参数</strong>：<ul>
 <li><code>std::move</code> 可以直接应用于具体的表达式。</li>
-<li><code>std::forward</code>
-需要模板参数来确定原始类型的引用类型。</li>
-</ul></li>
+<li><code>std::forward</code> 需要模板参数来确定原始类型的引用类型。</li>
+</ul>
+</li>
 </ol>
-<h3 id="通用引用">通用引用</h3>
-<p>当 <code>T</code> 是一个 <code>模板参数</code>
-时，<code>T&amp;&amp;</code> 表示一个“通用引用”（universal
-reference）。这种引用类型可以根据传入的实际类型的不同，既可以绑定到左值（lvalue），也可以绑定到右值（rvalue）。<code>T&amp;&amp;</code>
-允许我们在模板函数中灵活地处理不同的输入类型：</p>
-<ol type="1">
-<li><strong>左值引用</strong>：当 <code>T&amp;&amp;</code>
-绑定到一个左值时，它实际上退化成 <code>T&amp;</code>（左值引用）。</li>
-<li><strong>右值引用</strong>：当 <code>T&amp;&amp;</code>
-绑定到一个右值时，它保留其作为右值引用的本质。</li>
+<h3 id="通用引用"><a href="#通用引用" class="headerlink" title="通用引用"></a>通用引用</h3><p>当 <code>T</code> 是一个 <code>模板参数</code> 时，<code>T&amp;&amp;</code> 表示一个“通用引用”（universal reference）。这种引用类型可以根据传入的实际类型的不同，既可以绑定到左值（lvalue），也可以绑定到右值（rvalue）。<code>T&amp;&amp;</code> 允许我们在模板函数中灵活地处理不同的输入类型：</p>
+<ol>
+<li><strong>左值引用</strong>：当 <code>T&amp;&amp;</code> 绑定到一个左值时，它实际上退化成 <code>T&amp;</code>（左值引用）。</li>
+<li><strong>右值引用</strong>：当 <code>T&amp;&amp;</code> 绑定到一个右值时，它保留其作为右值引用的本质。</li>
 </ol>
 <p>注意通用引用和右值引用的区别：</p>
-<ol type="1">
-<li><strong>右值引用</strong>：
-<ul>
-<li><code>std::string&amp;&amp;</code>
-表示一个绑定到右值的引用。右值通常指的是临时对象或表达式的结果，这些对象通常没有名字，因此不能绑定到左值引用（lvalue
-reference）。</li>
-</ul></li>
-<li><strong>万能引用（Universal Reference）</strong>：
-<ul>
-<li>在 C++ 中，当一个引用类型前面加上 <code>&amp;&amp;</code>
-时，它被称为“万能引用”。万能引用实际上是模板推导中的一个概念，用于在模板函数中实现完美转发。</li>
-<li>在非模板上下文中，<code>std::string&amp;&amp;</code>
-仍然是一个右值引用，只能绑定到右值。</li>
-</ul></li>
+<ol>
+<li><strong>右值引用</strong>：<ul>
+<li><code>std::string&amp;&amp;</code> 表示一个绑定到右值的引用。右值通常指的是临时对象或表达式的结果，这些对象通常没有名字，因此不能绑定到左值引用（lvalue reference）。</li>
+</ul>
+</li>
+<li><strong>万能引用（Universal Reference）</strong>：<ul>
+<li>在 C++ 中，当一个引用类型前面加上 <code>&amp;&amp;</code> 时，它被称为“万能引用”。万能引用实际上是模板推导中的一个概念，用于在模板函数中实现完美转发。</li>
+<li>在非模板上下文中，<code>std::string&amp;&amp;</code> 仍然是一个右值引用，只能绑定到右值。</li>
+</ul>
+</li>
 </ol>
-<p>让我们通过几个示例来展示 <code>std::string&amp;&amp;</code>
-的行为：</p>
-<h4 id="绑定到临时对象">绑定到临时对象</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值（临时对象）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="string">&quot;Hello, World!&quot;</span>);  <span class="comment">// str绑定到了一个临时对象</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>foo("Hello, World!")</code>
-调用时，<code>str</code> 绑定到了一个临时字符串对象
-<code>"Hello, World!"</code>。</p>
-<h4 id="绑定到命名的右值">绑定到命名的右值</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值（命名的临时对象）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string temp = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    std::string&amp;&amp; rvalue = std::<span class="built_in">move</span>(temp);</span><br><span class="line">    <span class="built_in">foo</span>(rvalue);  <span class="comment">// str绑定到了命名的右值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>foo(rvalue)</code> 调用时，<code>str</code>
-绑定到了通过 <code>std::move</code> 转换得到的右值引用
-<code>rvalue</code>。</p>
-<h4 id="绑定到左值错误">绑定到左值（错误）</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string temp = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    <span class="built_in">foo</span>(temp);  <span class="comment">// 错误！str不能绑定到左值temp</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，尝试将命名的左值 <code>temp</code> 作为参数传递给
-<code>foo</code> 函数会导致编译错误，因为
-<code>std::string&amp;&amp;</code> 只能绑定到右值。</p>
-<h3 id="总结">总结</h3>
-<ul>
-<li><strong>右值引用</strong>：<code>std::string&amp;&amp;</code>
-表示一个绑定到右值的引用，主要用于支持移动语义和绑定临时对象。</li>
-<li><strong>万能引用</strong>：在模板上下文中，<code>T&amp;&amp;</code>
-通常表示万能引用，可以绑定到左值或右值，并通过模板推导实现完美转发。</li>
+<p>让我们通过几个示例来展示 <code>std::string&amp;&amp;</code> 的行为：</p>
+<h4 id="绑定到临时对象"><a href="#绑定到临时对象" class="headerlink" title="绑定到临时对象"></a>绑定到临时对象</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值（临时对象）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="string">&quot;Hello, World!&quot;</span>);  <span class="comment">// str绑定到了一个临时对象</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>foo(&quot;Hello, World!&quot;)</code> 调用时，<code>str</code> 绑定到了一个临时字符串对象 <code>&quot;Hello, World!&quot;</code>。</p>
+<h4 id="绑定到命名的右值"><a href="#绑定到命名的右值" class="headerlink" title="绑定到命名的右值"></a>绑定到命名的右值</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值（命名的临时对象）</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string temp = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    std::string&amp;&amp; rvalue = std::<span class="built_in">move</span>(temp);</span><br><span class="line">    <span class="built_in">foo</span>(rvalue);  <span class="comment">// str绑定到了命名的右值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>foo(rvalue)</code> 调用时，<code>str</code> 绑定到了通过 <code>std::move</code> 转换得到的右值引用 <code>rvalue</code>。</p>
+<h4 id="绑定到左值（错误）"><a href="#绑定到左值（错误）" class="headerlink" title="绑定到左值（错误）"></a>绑定到左值（错误）</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(std::string&amp;&amp; str)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的str绑定到了一个右值</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with string: &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string temp = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    <span class="built_in">foo</span>(temp);  <span class="comment">// 错误！str不能绑定到左值temp</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，尝试将命名的左值 <code>temp</code> 作为参数传递给 <code>foo</code> 函数会导致编译错误，因为 <code>std::string&amp;&amp;</code> 只能绑定到右值。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>右值引用</strong>：<code>std::string&amp;&amp;</code> 表示一个绑定到右值的引用，主要用于支持移动语义和绑定临时对象。</li>
+<li><strong>万能引用</strong>：在模板上下文中，<code>T&amp;&amp;</code> 通常表示万能引用，可以绑定到左值或右值，并通过模板推导实现完美转发。</li>
 </ul>
 <p>如果你想要一个函数既能接受左值也能接受右值，可以使用模板和万能引用：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bar</span><span class="params">(T&amp;&amp; t)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里的t可以是左值或右值</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Called with value: &quot;</span> &lt;&lt; t &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">bar</span>(<span class="string">&quot;Hello, World!&quot;</span>);  <span class="comment">// t绑定到了一个临时对象</span></span><br><span class="line">    std::string temp = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    <span class="built_in">bar</span>(temp);             <span class="comment">// t绑定到了一个左值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>bar</code> 函数通过模板和万能引用
-<code>T&amp;&amp;</code> 实现了既可以接受左值也可以接受右值的能力。</p>
-<h2 id="raii-技术">4. RAII 技术</h2>
-<p>RAII（Resource Acquisition Is
-Initialization）是一种编程模式，它通过在对象的生命周期内自动管理资源来确保资源的安全释放。RAII
-的核心思想是将资源的获取与对象的初始化绑定在一起，同时把资源的释放与对象的析构关联起来。简单来说，就是在构造函数中获取资源（比如动态分配内存、打开文件、获取数据库连接等），当对象生命周期结束，在析构函数中自动释放这些资源，从而确保资源的正确管理，避免资源泄漏等问题。在多线程编程中，RAII
-通常用于管理互斥锁（mutexes）等同步原语，以确保在适当的时机锁定和解锁资源。</p>
-<h3 id="raii-lock-的概念">RAII Lock 的概念</h3>
-<p>RAII Lock 是一种基于 RAII
-模式的锁定机制，它通过构造和析构来自动管理锁的状态。具体来说：</p>
-<ol type="1">
-<li><strong>构造时锁定</strong>：在 RAII Lock
-对象构造时自动获取锁。</li>
-<li><strong>析构时解锁</strong>：在 RAII Lock
-对象析构时自动释放锁。</li>
+<p>在这个例子中，<code>bar</code> 函数通过模板和万能引用 <code>T&amp;&amp;</code> 实现了既可以接受左值也可以接受右值的能力。</p>
+<h2 id="4-RAII-技术"><a href="#4-RAII-技术" class="headerlink" title="4. RAII 技术"></a>4. RAII 技术</h2><p>RAII（Resource Acquisition Is Initialization）是一种编程模式，它通过在对象的生命周期内自动管理资源来确保资源的安全释放。RAII 的核心思想是将资源的获取与对象的初始化绑定在一起，同时把资源的释放与对象的析构关联起来。简单来说，就是在构造函数中获取资源（比如动态分配内存、打开文件、获取数据库连接等），当对象生命周期结束，在析构函数中自动释放这些资源，从而确保资源的正确管理，避免资源泄漏等问题。在多线程编程中，RAII 通常用于管理互斥锁（mutexes）等同步原语，以确保在适当的时机锁定和解锁资源。</p>
+<h3 id="RAII-Lock-的概念"><a href="#RAII-Lock-的概念" class="headerlink" title="RAII Lock 的概念"></a>RAII Lock 的概念</h3><p>RAII Lock 是一种基于 RAII 模式的锁定机制，它通过构造和析构来自动管理锁的状态。具体来说：</p>
+<ol>
+<li><strong>构造时锁定</strong>：在 RAII Lock 对象构造时自动获取锁。</li>
+<li><strong>析构时解锁</strong>：在 RAII Lock 对象析构时自动释放锁。</li>
 </ol>
-<h3 id="示例使用-stdlock_guard">示例：使用
-<code>std::lock_guard</code></h3>
-<p><code>std::lock_guard</code> 是 C++
-标准库中的一个类模板，用于自动锁定和解锁互斥锁。它是一个典型的 RAII Lock
-的实现。</p>
+<h3 id="示例：使用-std-lock-guard"><a href="#示例：使用-std-lock-guard" class="headerlink" title="示例：使用 std::lock_guard"></a>示例：使用 <code>std::lock_guard</code></h3><p><code>std::lock_guard</code> 是 C++ 标准库中的一个类模板，用于自动锁定和解锁互斥锁。它是一个典型的 RAII Lock 的实现。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// 自动释放锁，当 lock_guard 析构时</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">t</span><span class="params">(thread_func)</span></span>;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>)); <span class="comment">// 让主线程等待一会儿</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Main thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="comment">// lock_guard 析构时自动释放锁</span></span><br><span class="line"></span><br><span class="line">    t.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>std::lock_guard</code> 在构造时自动锁定互斥锁
-<code>mtx</code>，并在析构时自动释放锁。这样可以确保在函数执行期间互斥锁始终处于锁定状态，从而防止数据竞争。</p>
-<h3 id="示例使用-stdunique_lock">示例：使用
-<code>std::unique_lock</code></h3>
-<p><code>std::unique_lock</code> 是另一个常用的 RAII Lock
-类模板，它提供了比 <code>std::lock_guard</code>
-更多的灵活性，例如可以显式地锁定和解锁互斥锁，并支持超时等特性。</p>
+<p>在这个例子中，<code>std::lock_guard</code> 在构造时自动锁定互斥锁 <code>mtx</code>，并在析构时自动释放锁。这样可以确保在函数执行期间互斥锁始终处于锁定状态，从而防止数据竞争。</p>
+<h3 id="示例：使用-std-unique-lock"><a href="#示例：使用-std-unique-lock" class="headerlink" title="示例：使用 std::unique_lock"></a>示例：使用 <code>std::unique_lock</code></h3><p><code>std::unique_lock</code> 是另一个常用的 RAII Lock 类模板，它提供了比 <code>std::lock_guard</code> 更多的灵活性，例如可以显式地锁定和解锁互斥锁，并支持超时等特性。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;chrono&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    lock.<span class="built_in">unlock</span>(); <span class="comment">// 显式解锁</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Thread has unlocked the mutex.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>)); <span class="comment">// 让线程等待一会儿</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">t</span><span class="params">(thread_func)</span></span>;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>)); <span class="comment">// 让主线程等待一会儿</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Main thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="comment">// unique_lock 析构时自动释放锁</span></span><br><span class="line"></span><br><span class="line">    t.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>std::unique_lock</code>
-提供了更多的灵活性，可以在适当的时候显式地锁定和解锁互斥锁。</p>
-<h3 id="raii-lock-的优点">RAII Lock 的优点</h3>
-<ol type="1">
-<li><strong>自动管理锁</strong>：RAII Lock
-在构造和析构时自动管理锁的状态，减少了手动锁定和解锁的出错机会。</li>
-<li><strong>异常安全</strong>：即使在函数抛出异常的情况下，RAII Lock
-也能保证锁被正确释放。</li>
-<li><strong>易于理解和维护</strong>：使用 RAII Lock
-的代码更加清晰和简洁，易于理解和维护。</li>
+<p>在这个例子中，<code>std::unique_lock</code> 提供了更多的灵活性，可以在适当的时候显式地锁定和解锁互斥锁。</p>
+<h3 id="RAII-Lock-的优点"><a href="#RAII-Lock-的优点" class="headerlink" title="RAII Lock 的优点"></a>RAII Lock 的优点</h3><ol>
+<li><strong>自动管理锁</strong>：RAII Lock 在构造和析构时自动管理锁的状态，减少了手动锁定和解锁的出错机会。</li>
+<li><strong>异常安全</strong>：即使在函数抛出异常的情况下，RAII Lock 也能保证锁被正确释放。</li>
+<li><strong>易于理解和维护</strong>：使用 RAII Lock 的代码更加清晰和简洁，易于理解和维护。</li>
 </ol>
-<h3 id="raii-lock-的注意事项">RAII Lock 的注意事项</h3>
-<p>尽管 RAII Lock 提供了许多便利，但在使用时也需要注意以下几点：</p>
-<ol type="1">
+<h3 id="RAII-Lock-的注意事项"><a href="#RAII-Lock-的注意事项" class="headerlink" title="RAII Lock 的注意事项"></a>RAII Lock 的注意事项</h3><p>尽管 RAII Lock 提供了许多便利，但在使用时也需要注意以下几点：</p>
+<ol>
 <li><strong>锁的粒度</strong>：尽量减小锁的范围，只在必要的时候锁定资源，以减少锁的竞争。</li>
-<li><strong>死锁问题</strong>：确保不会因为锁定多个互斥锁而导致死锁。可以使用
-<code>std::lock</code> 或 <code>std::lock_scope</code>
-来同时锁定多个互斥锁，并保证锁定顺序的一致性。</li>
+<li><strong>死锁问题</strong>：确保不会因为锁定多个互斥锁而导致死锁。可以使用 <code>std::lock</code> 或 <code>std::lock_scope</code> 来同时锁定多个互斥锁，并保证锁定顺序的一致性。</li>
 <li><strong>线程安全性</strong>：确保在多线程环境下正确使用互斥锁，避免数据竞争和竞态条件。</li>
 </ol>
-<p>通过使用 RAII Lock（如 <code>std::lock_guard</code> 和
-<code>std::unique_lock</code>），可以有效地管理多线程环境中的互斥锁，提高代码的健壮性和可维护性。</p>
-<h2 id="互斥锁如何访问共享资源">5. 互斥锁如何访问共享资源</h2>
-<p>互斥锁（<code>std::mutex</code>）是用于确保多线程环境中共享资源安全访问的一种重要同步机制。互斥锁的基本思想是在访问共享资源之前先获取锁，确保在同一时刻只有一个线程可以访问共享资源，从而避免数据竞争和竞态条件。</p>
-<h3 id="互斥锁的工作原理">互斥锁的工作原理</h3>
-<p>互斥锁通过以下步骤实现共享资源的安全访问：</p>
-<ol type="1">
-<li><strong>锁定互斥锁</strong>：
-<ul>
+<p>通过使用 RAII Lock（如 <code>std::lock_guard</code> 和 <code>std::unique_lock</code>），可以有效地管理多线程环境中的互斥锁，提高代码的健壮性和可维护性。</p>
+<h2 id="5-互斥锁如何访问共享资源"><a href="#5-互斥锁如何访问共享资源" class="headerlink" title="5. 互斥锁如何访问共享资源"></a>5. 互斥锁如何访问共享资源</h2><p>互斥锁（<code>std::mutex</code>）是用于确保多线程环境中共享资源安全访问的一种重要同步机制。互斥锁的基本思想是在访问共享资源之前先获取锁，确保在同一时刻只有一个线程可以访问共享资源，从而避免数据竞争和竞态条件。</p>
+<h3 id="互斥锁的工作原理"><a href="#互斥锁的工作原理" class="headerlink" title="互斥锁的工作原理"></a>互斥锁的工作原理</h3><p>互斥锁通过以下步骤实现共享资源的安全访问：</p>
+<ol>
+<li><strong>锁定互斥锁</strong>：<ul>
 <li>在访问共享资源之前，线程必须首先获取互斥锁。</li>
 <li>如果互斥锁已经被另一个线程持有，则当前线程将被阻塞，直到锁被释放为止。</li>
-</ul></li>
-<li><strong>访问共享资源</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>访问共享资源</strong>：<ul>
 <li>一旦线程获得了互斥锁，就可以安全地访问共享资源。</li>
 <li>在这个过程中，其他试图获取同一互斥锁的线程将会被阻塞，直到当前线程释放锁。</li>
-</ul></li>
-<li><strong>解锁互斥锁</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>解锁互斥锁</strong>：<ul>
 <li>当线程完成了对共享资源的访问后，必须释放互斥锁。</li>
 <li>释放锁后，其他被阻塞的线程可以继续尝试获取锁。</li>
-</ul></li>
+</ul>
+</li>
 </ol>
-<h3 id="示例代码">示例代码</h3>
-<p>下面是一个使用 <code>std::mutex</code> 和
-<code>std::unique_lock</code> 保护共享资源的示例代码：</p>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>下面是一个使用 <code>std::mutex</code> 和 <code>std::unique_lock</code> 保护共享资源的示例代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;chrono&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; data;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 访问共享资源</span></span><br><span class="line">    data.<span class="built_in">push_back</span>(<span class="number">10</span>);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Data size: &quot;</span> &lt;&lt; data.<span class="built_in">size</span>() &lt;&lt; std::endl;</span><br><span class="line">    </span><br><span class="line">    lock.<span class="built_in">unlock</span>(); <span class="comment">// 显式解锁</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Thread has unlocked the mutex.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    </span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>)); <span class="comment">// 让线程等待一会儿</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">t</span><span class="params">(thread_func)</span></span>;</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>)); <span class="comment">// 让主线程等待一会儿</span></span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Main thread is executing in a locked section.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 访问共享资源</span></span><br><span class="line">        data.<span class="built_in">push_back</span>(<span class="number">20</span>);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Data size: &quot;</span> &lt;&lt; data.<span class="built_in">size</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="comment">// unique_lock 析构时自动释放锁</span></span><br><span class="line">    </span><br><span class="line">    t.<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="stdlist-的访问">6. std::list 的访问</h2>
-<p>在 C++ 中，<code>std::list</code>
-提供了双向链表的功能，它使用双向迭代器来访问元素。与随机访问迭代器不同，双向迭代器不支持索引访问，也不支持迭代器之间的算术运算，但支持前后移动迭代器。</p>
-<h3 id="如何在-stdlist-中指向下一个元素">如何在 <code>std::list</code>
-中指向下一个元素</h3>
-<p>要在 <code>std::list</code> 中指向下一个元素，你可以使用
-<code>++</code> 操作符来递增迭代器。同样，你可以使用 <code>--</code>
-操作符来递减迭代器。</p>
-<h3 id="示例代码-1">示例代码</h3>
-<p>下面是一个示例代码，展示了如何使用迭代器来访问 <code>std::list</code>
-中的元素，并指向下一个元素：</p>
+<h2 id="6-std-list-的访问"><a href="#6-std-list-的访问" class="headerlink" title="6. std::list 的访问"></a>6. std::list 的访问</h2><p>在 C++ 中，<code>std::list</code> 提供了双向链表的功能，它使用双向迭代器来访问元素。与随机访问迭代器不同，双向迭代器不支持索引访问，也不支持迭代器之间的算术运算，但支持前后移动迭代器。</p>
+<h3 id="如何在-std-list-中指向下一个元素"><a href="#如何在-std-list-中指向下一个元素" class="headerlink" title="如何在 std::list 中指向下一个元素"></a>如何在 <code>std::list</code> 中指向下一个元素</h3><p>要在 <code>std::list</code> 中指向下一个元素，你可以使用 <code>++</code> 操作符来递增迭代器。同样，你可以使用 <code>--</code> 操作符来递减迭代器。</p>
+<h3 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h3><p>下面是一个示例代码，展示了如何使用迭代器来访问 <code>std::list</code> 中的元素，并指向下一个元素：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个std::list容器</span></span><br><span class="line">    std::list&lt;<span class="type">int</span>&gt; lst = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用迭代器访问元素</span></span><br><span class="line">    std::list&lt;<span class="type">int</span>&gt;::iterator it = lst.<span class="built_in">begin</span>();</span><br><span class="line">    std::list&lt;<span class="type">int</span>&gt;::iterator end = lst.<span class="built_in">end</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出前五个元素</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; it != end &amp;&amp; i &lt; <span class="number">5</span>; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; *it &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        ++it;  <span class="comment">// 指向下一个元素</span></span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向最后一个元素</span></span><br><span class="line">    <span class="keyword">if</span> (it != end) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Last element: &quot;</span> &lt;&lt; *it &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重新设置迭代器到开始位置</span></span><br><span class="line">    it = lst.<span class="built_in">begin</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出前五个元素并打印下一个元素</span></span><br><span class="line">    <span class="keyword">while</span> (it != end &amp;&amp; it != lst.<span class="built_in">end</span>()) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Current element: &quot;</span> &lt;&lt; *it &lt;&lt; std::endl;</span><br><span class="line">        ++it;  <span class="comment">// 指向下一个元素</span></span><br><span class="line">        <span class="keyword">if</span> (it != end) &#123;</span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;Next element: &quot;</span> &lt;&lt; *it &lt;&lt; std::endl;</span><br><span class="line">            ++it;  <span class="comment">// 再次指向下一个元素</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="解释">解释</h3>
-<ol type="1">
-<li><strong>创建容器</strong>：
-<ul>
-<li>创建了一个包含 10 个元素的 <code>std::list&lt;int&gt;</code> 容器
-<code>lst</code>。</li>
-</ul></li>
-<li><strong>使用迭代器访问元素</strong>：
-<ul>
-<li>使用 <code>lst.begin()</code> 获取容器的开始迭代器
-<code>it</code>。</li>
-<li>使用 <code>lst.end()</code> 获取容器的结束迭代器
-<code>end</code>。</li>
-</ul></li>
-<li><strong>输出前五个元素</strong>：
-<ul>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ol>
+<li><strong>创建容器</strong>：<ul>
+<li>创建了一个包含 10 个元素的 <code>std::list&lt;int&gt;</code> 容器 <code>lst</code>。</li>
+</ul>
+</li>
+<li><strong>使用迭代器访问元素</strong>：<ul>
+<li>使用 <code>lst.begin()</code> 获取容器的开始迭代器 <code>it</code>。</li>
+<li>使用 <code>lst.end()</code> 获取容器的结束迭代器 <code>end</code>。</li>
+</ul>
+</li>
+<li><strong>输出前五个元素</strong>：<ul>
 <li>使用迭代器和解引用操作符 <code>*it</code> 输出前五个元素。</li>
 <li>使用 <code>++it</code> 操作符将迭代器指向下一个元素。</li>
-</ul></li>
-<li><strong>指向最后一个元素</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>指向最后一个元素</strong>：<ul>
 <li>如果迭代器未到达末尾，输出最后一个元素。</li>
-</ul></li>
-<li><strong>重新设置迭代器到开始位置</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>重新设置迭代器到开始位置</strong>：<ul>
 <li>将迭代器 <code>it</code> 重新设置为容器的开始位置。</li>
-</ul></li>
-<li><strong>输出当前元素并打印下一个元素</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>输出当前元素并打印下一个元素</strong>：<ul>
 <li>使用循环遍历列表，并输出当前元素。</li>
 <li>使用 <code>++it</code> 操作符将迭代器指向下一个元素。</li>
 <li>如果迭代器未到达末尾，输出下一个元素，并再次将迭代器指向下一个元素。</li>
-</ul></li>
+</ul>
+</li>
 </ol>
-<h3 id="总结-1">总结</h3>
-<p>在 <code>std::list</code>
-中，你可以使用双向迭代器来前后移动迭代器。要指向下一个元素，可以使用
-<code>++</code> 操作符递增迭代器。同样，要指向上一个元素，可以使用
-<code>--</code>
-操作符递减迭代器。这种方式适用于任何双向链表结构，不仅限于
-<code>std::list</code>。</p>
-<p>这种方法相比随机访问迭代器（如 <code>std::vector</code>
-中使用的迭代器）稍微复杂一些，因为不支持索引访问和迭代器之间的算术运算，但在处理大量数据时，双向链表提供了更好的插入和删除性能。</p>
-<h2 id="迭代器的类别">7. 迭代器的类别</h2>
-<h3 id="迭代器类别及其支持的操作">迭代器类别及其支持的操作</h3>
-<ol type="1">
-<li><strong>输入迭代器（Input Iterator）</strong>：
-<ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>在 <code>std::list</code> 中，你可以使用双向迭代器来前后移动迭代器。要指向下一个元素，可以使用 <code>++</code> 操作符递增迭代器。同样，要指向上一个元素，可以使用 <code>--</code> 操作符递减迭代器。这种方式适用于任何双向链表结构，不仅限于 <code>std::list</code>。</p>
+<p>这种方法相比随机访问迭代器（如 <code>std::vector</code> 中使用的迭代器）稍微复杂一些，因为不支持索引访问和迭代器之间的算术运算，但在处理大量数据时，双向链表提供了更好的插入和删除性能。</p>
+<h2 id="7-迭代器的类别"><a href="#7-迭代器的类别" class="headerlink" title="7. 迭代器的类别"></a>7. 迭代器的类别</h2><h3 id="迭代器类别及其支持的操作"><a href="#迭代器类别及其支持的操作" class="headerlink" title="迭代器类别及其支持的操作"></a>迭代器类别及其支持的操作</h3><ol>
+<li><strong>输入迭代器（Input Iterator）</strong>：<ul>
 <li>支持解引用 (<code>*</code>) 和递增 (<code>++</code>) 操作。</li>
 <li>不支持索引访问和算术运算。</li>
-</ul></li>
-<li><strong>输出迭代器（Output Iterator）</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>输出迭代器（Output Iterator）</strong>：<ul>
 <li>支持赋值 (<code>*</code>) 和递增 (<code>++</code>) 操作。</li>
 <li>不支持索引访问和算术运算。</li>
-</ul></li>
-<li><strong>前向迭代器（Forward Iterator）</strong>：
-<ul>
+</ul>
+</li>
+<li><strong>前向迭代器（Forward Iterator）</strong>：<ul>
 <li>支持解引用 (<code>*</code>) 和递增 (<code>++</code>) 操作。</li>
 <li>不支持索引访问和算术运算。</li>
-</ul></li>
-<li><strong>双向迭代器（Bidirectional Iterator）</strong>：
-<ul>
-<li>支持解引用 (<code>*</code>)、递增 (<code>++</code>)、递减
-(<code>--</code>) 操作。</li>
-<li>不支持索引访问和算术运算。</li>
-</ul></li>
-<li><strong>随机访问迭代器（Random Access Iterator）</strong>：
-<ul>
-<li>支持解引用 (<code>*</code>)、递增 (<code>++</code>)、递减
-(<code>--</code>) 操作。</li>
-<li>支持索引访问（如 <code>container[index]</code>）。</li>
-<li>支持迭代器间的算术运算（如 <code>iter + n</code> 和
-<code>iter - n</code>）。</li>
-</ul></li>
-</ol>
-<h2 id="lock_guard-和-unique_lock-的区别">8. lock_guard 和 unique_lock
-的区别</h2>
-<p>两者都是 RAII 形式的
-<code>锁管理类</code>，用于管理互斥锁(mutex)。不过它们有一些关键区别:</p>
-<ul>
-<li><p>lock_guard
-是一个简单且轻量级的锁管理类。在构造时锁定给定的互斥体，并在销毁时自动解锁。它不可以显式解锁，也不支持锁的转移。</p></li>
-<li><p>unique_lock
-提供了更多的灵活性。它允许显式的锁定和解锁操作，还支持锁的所有权转移。unique_lock
-可以在构造时选择不锁定互斥体，并在稍后需要时手动锁定。</p></li>
 </ul>
-<h2 id="字节序的判断">9. 字节序的判断</h2>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isLittleEndian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">uint16_t</span> num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="built_in">reinterpret_cast</span>&lt;<span class="type">char</span>*&gt;(&amp;num)) == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">isLittleEndian</span>()) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;System is Little-Endian&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;System is Big-Endian&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="同步异步和阻塞非阻塞">10. 同步/异步和阻塞/非阻塞</h2>
-<h3 id="阻塞和非阻塞">阻塞和非阻塞</h3>
-<p>从简单的开始，我们以经典的读取文件的模型举例。（对操作系统而言，所有的输入输出设备都被抽象成文件。）</p>
+</li>
+<li><strong>双向迭代器（Bidirectional Iterator）</strong>：<ul>
+<li>支持解引用 (<code>*</code>)、递增 (<code>++</code>)、递减 (<code>--</code>) 操作。</li>
+<li>不支持索引访问和算术运算。</li>
+</ul>
+</li>
+<li><strong>随机访问迭代器（Random Access Iterator）</strong>：<ul>
+<li>支持解引用 (<code>*</code>)、递增 (<code>++</code>)、递减 (<code>--</code>) 操作。</li>
+<li>支持索引访问（如 <code>container[index]</code>）。</li>
+<li>支持迭代器间的算术运算（如 <code>iter + n</code> 和 <code>iter - n</code>）。</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-lock-guard-和-unique-lock-的区别"><a href="#8-lock-guard-和-unique-lock-的区别" class="headerlink" title="8. lock_guard 和 unique_lock 的区别"></a>8. lock_guard 和 unique_lock 的区别</h2><p>两者都是 RAII 形式的 <code>锁管理类</code>，用于管理互斥锁(mutex)。不过它们有一些关键区别:</p>
+<ul>
+<li><p>lock_guard 是一个简单且轻量级的锁管理类。在构造时锁定给定的互斥体，并在销毁时自动解锁。它不可以显式解锁，也不支持锁的转移。</p>
+</li>
+<li><p>unique_lock 提供了更多的灵活性。它允许显式的锁定和解锁操作，还支持锁的所有权转移。unique_lock 可以在构造时选择不锁定互斥体，并在稍后需要时手动锁定。</p>
+</li>
+</ul>
+<h2 id="9-字节序的判断"><a href="#9-字节序的判断" class="headerlink" title="9. 字节序的判断"></a>9. 字节序的判断</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isLittleEndian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">uint16_t</span> num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="built_in">reinterpret_cast</span>&lt;<span class="type">char</span>*&gt;(&amp;num)) == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">isLittleEndian</span>()) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;System is Little-Endian&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;System is Big-Endian&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="10-同步-异步和阻塞-非阻塞"><a href="#10-同步-异步和阻塞-非阻塞" class="headerlink" title="10. 同步/异步和阻塞/非阻塞"></a>10. 同步/异步和阻塞/非阻塞</h2><h3 id="阻塞和非阻塞"><a href="#阻塞和非阻塞" class="headerlink" title="阻塞和非阻塞"></a>阻塞和非阻塞</h3><p>从简单的开始，我们以经典的读取文件的模型举例。（对操作系统而言，所有的输入输出设备都被抽象成文件。）</p>
 <p>在发起读取文件的请求时，应用层会调用系统内核的I/O接口。</p>
 <p>如果应用层调用的是阻塞型I/O，那么在调用之后，应用层即刻被挂起，一直出于等待数据返回的状态，直到系统内核从磁盘读取完数据并返回给应用层，应用层才用获得的数据进行接下来的其他操作。</p>
 <p>如果应用层调用的是非阻塞I/O，那么调用后，系统内核会立即返回（虽然还没有文件内容的数据），应用层并不会被挂起，它可以做其他任意它想做的操作。（至于文件内容数据如何返回给应用层，这已经超出了阻塞和非阻塞的辨别范畴。）</p>
 <p>这便是（脱离同步和异步来说之后）阻塞和非阻塞的区别。总结来说，是否是阻塞还是非阻塞，关注的是接口调用（发出请求）后等待数据返回时的状态。被挂起无法执行其他操作的则是阻塞型的，可以被立即「抽离」去完成其他「任务」的则是非阻塞型的。</p>
 <img src="/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/v2-6507ab3517814b1b84fbff9a3eb31842_1440w.webp" class="" title="img">
-<h3 id="同步和异步">同步和异步</h3>
-<p>阻塞和非阻塞解决了应用层等待数据返回时的状态问题，那系统内核获取到的数据到底如何返回给应用层呢？这里不同类型的操作便体现的是同步和异步的区别。</p>
+<h3 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h3><p>阻塞和非阻塞解决了应用层等待数据返回时的状态问题，那系统内核获取到的数据到底如何返回给应用层呢？这里不同类型的操作便体现的是同步和异步的区别。</p>
 <p>对于同步型的调用，应用层需要自己去向系统内核问询，如果数据还未读取完毕，那此时读取文件的任务还未完成，应用层根据其阻塞和非阻塞的划分，或挂起或去做其他事情（所以同步和异步并不决定其等待数据返回时的状态）；如果数据已经读取完毕，那此时系统内核将数据返回给应用层，应用层即可以用取得的数据做其他相关的事情。</p>
 <p>而对于异步型的调用，应用层无需主动向系统内核问询，在系统内核读取完文件数据之后，会主动通知应用层数据已经读取完毕，此时应用层即可以接收系统内核返回过来的数据，再做其他事情。</p>
 <p>这便是（脱离阻塞和非阻塞来说之后）同步和异步的区别。也就是说，是否是同步还是异步，关注的是任务完成时消息通知的方式。由调用方盲目主动问询的方式是同步调用，由被调用方主动通知调用方任务已完成的方式是异步调用。</p>
 <img src="/2024/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA/Cpp%E5%85%AB%E8%82%A1%E7%AC%94%E8%AE%B0/v2-6507ab3517814b1b84fbff9a3eb31842_1440w.webp" class="" title="img">
-<h3 id="示例">示例</h3>
-<p>老张爱喝茶，废话不说，煮开水。
-出场人物：老张，水壶两把（普通水壶，简称水壶；会响的水壶，简称响水壶）。
-1 老张把水壶放到火上，立等水开。（同步阻塞） 老张觉得自己有点傻 2
-老张把水壶放到火上，去客厅看电视，时不时去厨房看看水开没有。（同步非阻塞）
-老张还是觉得自己有点傻，于是变高端了，买了把会响笛的那种水壶。水开之后，能大声发出嘀~~~~的噪音。
-3 老张把响水壶放到火上，立等水开。（异步阻塞） 老张觉得这样傻等意义不大
-4
-老张把响水壶放到火上，去客厅看电视，水壶响之前不再去看它了，响了再去拿壶。（异步非阻塞）
-老张觉得自己聪明了。</p>
-<p>所谓同步异步，只是对于水壶而言。 普通水壶，同步；响水壶，异步。
-虽然都能干活，但响水壶可以在自己完工之后，提示老张水开了。这是普通水壶所不能及的。
-同步只能让调用者去轮询自己（情况2中），造成老张效率的低下。</p>
-<p>所谓阻塞非阻塞，仅仅对于老张而言。
-立等的老张，阻塞；看电视的老张，非阻塞。
-情况1和情况3中老张就是阻塞的，媳妇喊他都不知道。虽然3中响水壶是异步的，可对于立等的老张没有太大的意义。所以一般异步是配合非阻塞使用的，这样才能发挥异步的效用。</p>
-<h3 id="阻塞时程序的行为">阻塞时程序的行为</h3>
-<ol type="1">
-<li><strong>I/O 操作</strong>：
-<ul>
-<li>当程序试图读写磁盘文件、网络连接等 I/O 资源时，如果 I/O
-操作尚未完成，程序会进入阻塞状态。</li>
-<li>在阻塞期间，当前线程将不会执行任何代码，CPU
-时间片将被分配给其他就绪状态的线程或进程。</li>
-</ul></li>
-<li><strong>同步原语</strong>：
-<ul>
-<li>当程序试图获取互斥锁（Mutex）、信号量（Semaphore）、条件变量（Condition
-Variable）等同步对象时，如果这些对象当前不可用，程序会进入阻塞状态。</li>
-<li>在阻塞期间，当前线程将不会执行任何代码，CPU
-时间片将被分配给其他就绪状态的线程或进程。</li>
-</ul></li>
-<li><strong>等待特定条件</strong>：
-<ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>老张爱喝茶，废话不说，煮开水。 出场人物：老张，水壶两把（普通水壶，简称水壶；会响的水壶，简称响水壶）。 1 老张把水壶放到火上，立等水开。（同步阻塞） 老张觉得自己有点傻 2 老张把水壶放到火上，去客厅看电视，时不时去厨房看看水开没有。（同步非阻塞） 老张还是觉得自己有点傻，于是变高端了，买了把会响笛的那种水壶。水开之后，能大声发出嘀~~~~的噪音。 3 老张把响水壶放到火上，立等水开。（异步阻塞） 老张觉得这样傻等意义不大 4 老张把响水壶放到火上，去客厅看电视，水壶响之前不再去看它了，响了再去拿壶。（异步非阻塞） 老张觉得自己聪明了。</p>
+<p>所谓同步异步，只是对于水壶而言。 普通水壶，同步；响水壶，异步。 虽然都能干活，但响水壶可以在自己完工之后，提示老张水开了。这是普通水壶所不能及的。 同步只能让调用者去轮询自己（情况2中），造成老张效率的低下。</p>
+<p>所谓阻塞非阻塞，仅仅对于老张而言。 立等的老张，阻塞；看电视的老张，非阻塞。 情况1和情况3中老张就是阻塞的，媳妇喊他都不知道。虽然3中响水壶是异步的，可对于立等的老张没有太大的意义。所以一般异步是配合非阻塞使用的，这样才能发挥异步的效用。</p>
+<h3 id="阻塞时程序的行为"><a href="#阻塞时程序的行为" class="headerlink" title="阻塞时程序的行为"></a>阻塞时程序的行为</h3><ol>
+<li><strong>I/O 操作</strong>：<ul>
+<li>当程序试图读写磁盘文件、网络连接等 I/O 资源时，如果 I/O 操作尚未完成，程序会进入阻塞状态。</li>
+<li>在阻塞期间，当前线程将不会执行任何代码，CPU 时间片将被分配给其他就绪状态的线程或进程。</li>
+</ul>
+</li>
+<li><strong>同步原语</strong>：<ul>
+<li>当程序试图获取互斥锁（Mutex）、信号量（Semaphore）、条件变量（Condition Variable）等同步对象时，如果这些对象当前不可用，程序会进入阻塞状态。</li>
+<li>在阻塞期间，当前线程将不会执行任何代码，CPU 时间片将被分配给其他就绪状态的线程或进程。</li>
+</ul>
+</li>
+<li><strong>等待特定条件</strong>：<ul>
 <li>当程序等待某个条件满足（例如，等待另一个线程的通知）时，程序会进入阻塞状态。</li>
-<li>在阻塞期间，当前线程将不会执行任何代码，CPU
-时间片将被分配给其他就绪状态的线程或进程。</li>
-</ul></li>
+<li>在阻塞期间，当前线程将不会执行任何代码，CPU 时间片将被分配给其他就绪状态的线程或进程。</li>
+</ul>
+</li>
 </ol>
-<h2 id="常用容器及操作">11. 常用容器及操作</h2>
-<h4 id="向量-stdvector">向量 (std::vector)</h4>
-<ul>
+<h2 id="11-常用容器及操作"><a href="#11-常用容器及操作" class="headerlink" title="11. 常用容器及操作"></a>11. 常用容器及操作</h2><h4 id="向量-std-vector"><a href="#向量-std-vector" class="headerlink" title="向量 (std::vector)"></a>向量 (std::vector)</h4><ul>
 <li>增加：<code>push_back()</code>, <code>insert()</code></li>
 <li>删除：<code>erase()</code>, <code>clear()</code></li>
-<li>查找：<code>find()</code> (需要算法)， <code>at()</code>,
-<code>operator[]</code></li>
-<li>修改：<code>at()</code>, <code>operator[]</code>,
-<code>front()</code>, <code>back()</code>, <code>assign()</code></li>
+<li>查找：<code>find()</code> (需要算法)， <code>at()</code>, <code>operator[]</code></li>
+<li>修改：<code>at()</code>, <code>operator[]</code>, <code>front()</code>, <code>back()</code>, <code>assign()</code></li>
 </ul>
-<h4 id="列表-stdlist">列表 (std::list)</h4>
-<ul>
-<li>增加：<code>push_front()</code>, <code>push_back()</code>,
-<code>insert()</code></li>
-<li>删除：<code>remove()</code>, <code>erase()</code>,
-<code>pop_front()</code>, <code>pop_back()</code>,
-<code>clear()</code></li>
+<h4 id="列表-std-list"><a href="#列表-std-list" class="headerlink" title="列表 (std::list)"></a>列表 (std::list)</h4><ul>
+<li>增加：<code>push_front()</code>, <code>push_back()</code>, <code>insert()</code></li>
+<li>删除：<code>remove()</code>, <code>erase()</code>, <code>pop_front()</code>, <code>pop_back()</code>, <code>clear()</code></li>
 <li>查找：<code>find()</code></li>
-<li>修改：<code>splice()</code>, <code>reverse()</code>,
-<code>sort()</code>, <code>unique()</code></li>
+<li>修改：<code>splice()</code>, <code>reverse()</code>, <code>sort()</code>, <code>unique()</code></li>
 </ul>
-<h4 id="队列-stdqueue-stdpriority_queue">队列 (std::queue,
-std::priority_queue)</h4>
-<ul>
+<h4 id="队列-std-queue-std-priority-queue"><a href="#队列-std-queue-std-priority-queue" class="headerlink" title="队列 (std::queue, std::priority_queue)"></a>队列 (std::queue, std::priority_queue)</h4><ul>
 <li>增加：<code>push()</code></li>
 <li>删除：<code>pop()</code></li>
 <li>查找：通常不适用，因为队列是先进先出或优先级排序的</li>
 <li>修改：不直接支持修改元素</li>
 </ul>
-<h4 id="双端队列-stddeque">双端队列 (std::deque)</h4>
-<ul>
-<li>增加：<code>push_front()</code>, <code>push_back()</code>,
-<code>insert()</code></li>
-<li>删除：<code>pop_front()</code>, <code>pop_back()</code>,
-<code>erase()</code>, <code>clear()</code></li>
-<li>查找：<code>find()</code> (需要算法)， <code>at()</code>,
-<code>operator[]</code></li>
-<li>修改：<code>at()</code>, <code>operator[]</code>,
-<code>front()</code>, <code>back()</code></li>
+<h4 id="双端队列-std-deque"><a href="#双端队列-std-deque" class="headerlink" title="双端队列 (std::deque)"></a>双端队列 (std::deque)</h4><ul>
+<li>增加：<code>push_front()</code>, <code>push_back()</code>, <code>insert()</code></li>
+<li>删除：<code>pop_front()</code>, <code>pop_back()</code>, <code>erase()</code>, <code>clear()</code></li>
+<li>查找：<code>find()</code> (需要算法)， <code>at()</code>, <code>operator[]</code></li>
+<li>修改：<code>at()</code>, <code>operator[]</code>, <code>front()</code>, <code>back()</code></li>
 </ul>
-<h4 id="映射-stdmap-stdunordered_map">映射 (std::map,
-std::unordered_map)</h4>
-<ul>
+<h4 id="映射-std-map-std-unordered-map"><a href="#映射-std-map-std-unordered-map" class="headerlink" title="映射 (std::map, std::unordered_map)"></a>映射 (std::map, std::unordered_map)</h4><ul>
 <li>增加：<code>insert()</code>, <code>emplace()</code></li>
 <li>删除：<code>erase()</code>, <code>clear()</code></li>
 <li>查找：<code>find()</code>, <code>count()</code></li>
 <li>修改：<code>emplace()</code>, <code>operator[]</code></li>
 </ul>
-<h4 id="集合-stdset-stdunordered_set">集合 (std::set,
-std::unordered_set)</h4>
-<ul>
+<h4 id="集合-std-set-std-unordered-set"><a href="#集合-std-set-std-unordered-set" class="headerlink" title="集合 (std::set, std::unordered_set)"></a>集合 (std::set, std::unordered_set)</h4><ul>
 <li>增加：<code>insert()</code>, <code>emplace()</code></li>
 <li>删除：<code>erase()</code>, <code>clear()</code></li>
 <li>查找：<code>find()</code>, <code>count()</code></li>
 <li>修改：不直接支持修改元素</li>
 </ul>
-<h2 id="defer的作用">12. Defer的作用</h2>
-<p>C++中可以通过定义一个类来实现defer效果，这个类在析构的时候调用析构函数，而把要实现的功能放在析构函数中就能够近似defer的效果，当这个对象在作用域结束后就会终结自己的生命周期，从而调用析构函数。</p>
-<h2 id="c中list和vector的区别">13. C++中list和vector的区别</h2>
-<h3 id="底层数据结构">底层数据结构</h3>
-<ul>
+<h2 id="12-Defer的作用"><a href="#12-Defer的作用" class="headerlink" title="12. Defer的作用"></a>12. Defer的作用</h2><p>C++中可以通过定义一个类来实现defer效果，这个类在析构的时候调用析构函数，而把要实现的功能放在析构函数中就能够近似defer的效果，当这个对象在作用域结束后就会终结自己的生命周期，从而调用析构函数。</p>
+<h2 id="13-C-中list和vector的区别"><a href="#13-C-中list和vector的区别" class="headerlink" title="13. C++中list和vector的区别"></a>13. C++中list和vector的区别</h2><h3 id="底层数据结构"><a href="#底层数据结构" class="headerlink" title="底层数据结构"></a>底层数据结构</h3><ul>
 <li><strong><code>vector</code></strong>：是一个动态数组，在内存中以连续的块存储元素，类似于普通数组，但可以根据需要自动扩展或收缩大小。</li>
 <li><strong><code>list</code></strong>：是一个双向链表，每个节点包含元素值以及指向前一个和后一个节点的指针，元素在内存中不一定是连续的。</li>
 </ul>
-<h3 id="访问元素方式">访问元素方式</h3>
-<ul>
-<li><strong><code>vector</code></strong>：支持随机访问，可以使用索引直接访问元素，时间复杂度为
-O
-(1)。这是因为其元素在内存中连续存储，通过指针运算就能快速定位到指定元素。</li>
-<li><strong><code>list</code></strong>：不支持随机访问，要访问其中的元素，需要遍历链表，从链表的头节点或其他已知位置开始，逐个节点访问，时间复杂度为
-O (n)。</li>
+<h3 id="访问元素方式"><a href="#访问元素方式" class="headerlink" title="访问元素方式"></a>访问元素方式</h3><ul>
+<li><strong><code>vector</code></strong>：支持随机访问，可以使用索引直接访问元素，时间复杂度为 O (1)。这是因为其元素在内存中连续存储，通过指针运算就能快速定位到指定元素。</li>
+<li><strong><code>list</code></strong>：不支持随机访问，要访问其中的元素，需要遍历链表，从链表的头节点或其他已知位置开始，逐个节点访问，时间复杂度为 O (n)。</li>
 </ul>
-<h3 id="插入和删除操作">插入和删除操作</h3>
-<ul>
-<li><strong><code>vector</code></strong>：在末尾插入和删除元素通常效率较高，时间复杂度为
-O
-(1)。但在中间或开头插入和删除元素时，可能需要移动大量其他元素，时间复杂度为
-O (n)。</li>
-<li><strong><code>list</code></strong>：在任何位置插入和删除元素都比较高效，只需修改指向前后元素的指针，时间复杂度为
-O (1)。</li>
+<h3 id="插入和删除操作"><a href="#插入和删除操作" class="headerlink" title="插入和删除操作"></a>插入和删除操作</h3><ul>
+<li><strong><code>vector</code></strong>：在末尾插入和删除元素通常效率较高，时间复杂度为 O (1)。但在中间或开头插入和删除元素时，可能需要移动大量其他元素，时间复杂度为 O (n)。</li>
+<li><strong><code>list</code></strong>：在任何位置插入和删除元素都比较高效，只需修改指向前后元素的指针，时间复杂度为 O (1)。</li>
 </ul>
-<h3 id="内存分配与空间占用">内存分配与空间占用</h3>
-<ul>
+<h3 id="内存分配与空间占用"><a href="#内存分配与空间占用" class="headerlink" title="内存分配与空间占用"></a>内存分配与空间占用</h3><ul>
 <li><strong><code>vector</code></strong>：通常会预分配一定的内存空间，当元素数量增加超过当前容量时，可能需要重新分配更大的连续内存块，并将原有元素复制到新的内存空间中，可能会导致一定的内存浪费。</li>
-<li><strong><code>list</code></strong>：每个元素单独分配内存，不会预分配额外空间，除了存储元素本身外，还需要额外的空间来存储指针，因此单个元素占用的内存空间相对较大，但不会出现像
-<code>vector</code> 那样因扩容导致的大量未使用空间。</li>
+<li><strong><code>list</code></strong>：每个元素单独分配内存，不会预分配额外空间，除了存储元素本身外，还需要额外的空间来存储指针，因此单个元素占用的内存空间相对较大，但不会出现像 <code>vector</code> 那样因扩容导致的大量未使用空间。</li>
 </ul>
-<h3 id="迭代器特性">迭代器特性</h3>
-<ul>
-<li><strong><code>vector</code></strong>：支持随机访问迭代器，可以像指针一样进行算术运算，如
-<code>++</code>、<code>--</code>、<code>+</code>、<code>-</code>
-等，能够快速定位到任意位置的元素。但在插入或删除元素时，可能会导致迭代器失效。</li>
+<h3 id="迭代器特性"><a href="#迭代器特性" class="headerlink" title="迭代器特性"></a>迭代器特性</h3><ul>
+<li><strong><code>vector</code></strong>：支持随机访问迭代器，可以像指针一样进行算术运算，如 <code>++</code>、<code>--</code>、<code>+</code>、<code>-</code> 等，能够快速定位到任意位置的元素。但在插入或删除元素时，可能会导致迭代器失效。</li>
 <li><strong><code>list</code></strong>：支持双向迭代器，只能逐个元素地向前或向后移动，不支持随机访问。在插入或删除元素时，迭代器的稳定性较高，只有指向被插入或删除元素的迭代器会受影响，其他迭代器仍然有效。</li>
 </ul>
-<h3 id="排序操作">排序操作</h3>
-<ul>
-<li><strong><code>vector</code></strong>：可以使用
-<code>&lt;algorithm&gt;</code> 头文件中的 <code>sort()</code>
-函数进行快速排序，默认使用快速排序算法，时间复杂度为 O (n log n)。</li>
+<h3 id="排序操作"><a href="#排序操作" class="headerlink" title="排序操作"></a>排序操作</h3><ul>
+<li><strong><code>vector</code></strong>：可以使用 <code>&lt;algorithm&gt;</code> 头文件中的 <code>sort()</code> 函数进行快速排序，默认使用快速排序算法，时间复杂度为 O (n log n)。</li>
 <li><strong><code>list</code></strong>：本身没有内置的排序函数，需要手动实现排序算法或使用自定义的比较函数进行排序。</li>
 </ul>
-<h3 id="适用场景">适用场景</h3>
-<ul>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
 <li><strong><code>vector</code></strong>：适合需要频繁随机访问元素，且元素数量变化不大，或者对插入和删除操作主要集中在末尾的情况，如数值计算、数组替代、数据缓冲区等。</li>
 <li><strong><code>list</code></strong>：适合需要频繁在任意位置插入和删除元素，而对随机访问性能要求不高的场景，如实现队列、栈、复杂的数据结构调整等。</li>
 </ul>
-<h2 id="crtp技术">14. CRTP技术</h2>
-<p>CRTP 基于 C++
-的模板特性，是一种静态多态的实现方式。它的核心在于让派生类将自身作为模板参数传递给基类，从而在基类中可以使用派生类的类型信息，实现一些依赖于具体派生类特性的操作，同时又不需要虚函数表等动态多态机制带来的额外运行时开销，达到在编译期进行多态绑定的效果。</p>
-<h3 id="优势">优势</h3>
-<p><strong>性能优势</strong>：
-相比于传统的基于虚函数的动态多态（运行时多态），CRTP
-是在编译期就确定了具体要调用的函数版本，避免了虚函数调用带来的额外开销，如虚函数表查找等操作，因此在性能敏感的场景中可以提升程序的运行效率，特别是对于频繁调用的函数，这种性能提升会更加明显。</p>
-<p><strong>代码复用与灵活性</strong>：
-基类可以定义通用的算法框架或者逻辑流程，然后由派生类去填充具体的实现细节，这样在多个派生类具有相似逻辑结构但具体实现不同的场景下，能很好地复用基类代码。而且派生类可以根据自身需求灵活地定制实现，不需要受限于基类事先定义好的虚函数接口形式等，只要遵循基类调用的约定即可。</p>
-<p><strong>编译时错误检查</strong>： 因为 CRTP
-的多态绑定是在编译期完成的，所以如果派生类没有正确实现基类所期望调用的函数等情况，编译器能够及时发现并报错，有助于更早地排查代码中的问题，而不像动态多态可能要到运行时才会暴露出错误（比如派生类忘记重写虚函数等情况）。</p>
+<h2 id="14-CRTP技术"><a href="#14-CRTP技术" class="headerlink" title="14. CRTP技术"></a>14. CRTP技术</h2><p>CRTP 基于 C++ 的模板特性，是一种静态多态的实现方式。它的核心在于让派生类将自身作为模板参数传递给基类，从而在基类中可以使用派生类的类型信息，实现一些依赖于具体派生类特性的操作，同时又不需要虚函数表等动态多态机制带来的额外运行时开销，达到在编译期进行多态绑定的效果。</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p><strong>性能优势</strong>：<br>相比于传统的基于虚函数的动态多态（运行时多态），CRTP 是在编译期就确定了具体要调用的函数版本，避免了虚函数调用带来的额外开销，如虚函数表查找等操作，因此在性能敏感的场景中可以提升程序的运行效率，特别是对于频繁调用的函数，这种性能提升会更加明显。</p>
+<p><strong>代码复用与灵活性</strong>：<br>基类可以定义通用的算法框架或者逻辑流程，然后由派生类去填充具体的实现细节，这样在多个派生类具有相似逻辑结构但具体实现不同的场景下，能很好地复用基类代码。而且派生类可以根据自身需求灵活地定制实现，不需要受限于基类事先定义好的虚函数接口形式等，只要遵循基类调用的约定即可。</p>
+<p><strong>编译时错误检查</strong>：<br>因为 CRTP 的多态绑定是在编译期完成的，所以如果派生类没有正确实现基类所期望调用的函数等情况，编译器能够及时发现并报错，有助于更早地排查代码中的问题，而不像动态多态可能要到运行时才会暴露出错误（比如派生类忘记重写虚函数等情况）。</p>
+<h2 id="15-构造函数的初始化列表要初始化些什么？"><a href="#15-构造函数的初始化列表要初始化些什么？" class="headerlink" title="15. 构造函数的初始化列表要初始化些什么？"></a>15. 构造函数的初始化列表要初始化些什么？</h2><p>在C++中，初始化列表用于在构造函数中初始化类成员。并非所有的成员变量都需要通过初始化列表来初始化，但某些情况下使用初始化列表是必要的或更合适的。以下是需要考虑通过初始化列表初始化的变量类型：</p>
+<ol>
+<li><mark><strong>常量成员（const members）</strong></mark>： 如果一个类包含<code>const</code>修饰的成员变量，那么这些变量必须在初始化列表中进行初始化，因为它们在创建后不能被修改。</li>
+<li><mark><strong>引用成员（reference members）</strong></mark>： 类中的引用成员也必须在初始化列表中初始化，因为引用一旦绑定到一个对象就不能再改变，并且必须立即绑定到某个有效的对象。</li>
+<li><mark><strong>没有默认构造函数的类类型的成员</strong></mark>： 如果一个成员是一个类类型的对象，并且该类没有提供无参数的构造函数（即默认构造函数），那么你需要在初始化列表中调用其构造函数来初始化这个成员。</li>
+<li><strong>基类和虚基类</strong>： 当派生类从基类继承时，如果基类有带参数的构造函数，则需要在派生类的初始化列表中明确地调用它。对于虚基类来说，即使它是间接基类，派生类也需要负责调用它的构造函数。</li>
+<li><strong>性能考量</strong>： 对于那些可以通过复制赋值操作符或等号运算符正确初始化的成员变量，你可以在构造函数体内初始化它们。但是，对于一些复杂的对象（如动态分配内存的对象），直接在构造函数体中初始化可能会导致不必要的拷贝，而使用初始化列表可以避免这种情况，从而提高效率。</li>
+<li><strong>成员变量的顺序</strong>： 初始化列表中的成员变量会按照它们在类定义中的声明顺序被初始化，而不是按照你在初始化列表中列出的顺序。因此，通常最好按照声明顺序书写初始化列表，以避免混淆。</li>
+</ol>
+<h2 id="16-单例类的构造"><a href="#16-单例类的构造" class="headerlink" title="16. 单例类的构造"></a>16. 单例类的构造</h2><p>在这个例子中，<code>Singleton</code> 类的构造函数是私有的，因此<mark>不能从 <code>main</code> 函数中直接创建它的实例</mark>。相反，我们提供了一个静态成员函数 <code>getInstance</code> 来返回一个已经创建好的实例。对于 <code>Base</code> 和 <code>Derived</code> 类，<code>Base</code> 的构造函数是保护的，所以只能由 <code>Derived</code> 类内部调用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 私有构造函数，防止外部实例化</span></span><br><span class="line">    <span class="built_in">Singleton</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;Singleton created\n&quot;</span>; &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 静态成员函数作为工厂方法</span></span><br><span class="line">    <span class="function"><span class="type">static</span> std::shared_ptr&lt;Singleton&gt; <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">static</span> std::shared_ptr&lt;Singleton&gt; instance = std::<span class="built_in">make_shared</span>&lt;Singleton&gt;();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Doing something...\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="17-头文件和源文件中的include有什么区别？"><a href="#17-头文件和源文件中的include有什么区别？" class="headerlink" title="17. 头文件和源文件中的include有什么区别？"></a>17. 头文件和源文件中的include有什么区别？</h2><p>在C++编程中，头文件（.h 或 .hpp）和源文件（.cpp 或 .cc）中的包含指令（<code>#include</code>）都用于引入其他文件的内容，但它们的使用场景和目的有所不同。理解这两者之间的区别对于编写清晰、高效的代码至关重要。</p>
+<h3 id="头文件中的-include"><a href="#头文件中的-include" class="headerlink" title="头文件中的 #include"></a>头文件中的 <code>#include</code></h3><ul>
+<li><strong>声明与定义分离</strong>：头文件主要用于声明函数、类、变量等，而这些实体的具体实现则放在源文件中。通过在头文件中使用 <code>#include</code>，你可以确保所有需要这些声明的源文件都能访问到它们，而无需重复书写相同的声明。</li>
+<li><strong>防止重复定义</strong>：通常会使用预处理指令如 <code>#ifndef</code>/<code>#define</code> 或 <code>#pragma once</code> 来避免同一个头文件被多次包含，这可以防止编译时出现重复定义错误。</li>
+<li><strong>跨文件依赖管理</strong>：当多个源文件需要共享某些声明或类型定义时，将这些内容放在头文件中并通过 <code>#include</code> 引入是最佳实践。这有助于维护一个清晰的依赖关系图，并使得代码更易于管理和扩展。</li>
+</ul>
+<h3 id="源文件中的-include"><a href="#源文件中的-include" class="headerlink" title="源文件中的 #include"></a>源文件中的 <code>#include</code></h3><ul>
+<li><strong>实现细节</strong>：源文件主要负责提供函数、方法等的实现。当你在一个源文件中 <code>#include</code> 一个头文件时，你是在告诉编译器：“我在这个源文件中实现了这个头文件中声明的东西。” 这样做可以让编译器知道如何正确地链接这些实现与它们的声明。</li>
+<li><strong>减少编译时间</strong>：尽量只在源文件中 <code>#include</code> 必要的头文件，而不是在头文件中。因为如果一个头文件被多个源文件包含，那么每次编译这些源文件时都会重新解析该头文件的内容，从而增加编译时间。此外，过度的头文件包含还可能导致不必要的依赖传播，使项目更加复杂。</li>
+<li><strong>模块化开发</strong>：每个源文件应该尽量独立，只包含它实际需要的头文件。这样不仅提高了代码的可读性和可维护性，而且也有助于并行编译，加快整体构建过程。</li>
+</ul>
+<h3 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h3><p>在C++中，选择在一个源文件（.cpp 或 .cc）中包含另一个类的头文件，而不是在头文件中包含，主要是为了遵循一些最佳实践和原则，以确保代码的清晰性、减少编译依赖以及优化编译时间。以下是几个关键原因：</p>
+<ol>
+<li><strong>减少编译依赖</strong></li>
+</ol>
+<p>当你在一个头文件中包含其他头文件时，所有包含该头文件的源文件都会间接地包含那些被包含的头文件。这会增加不必要的依赖关系，使得修改一个头文件可能需要重新编译大量的源文件，即使这些源文件实际上并不直接使用那个头文件的内容。</p>
+<p>通过只在源文件中包含所需的头文件，你可以限制这种依赖链，从而减少由于某个头文件变化而引起的重新编译范围。这不仅提高了开发效率，还减少了构建时间。</p>
+<ol>
+<li><strong>避免重复定义和命名冲突</strong></li>
+</ol>
+<p>如果多个头文件相互包含，并且这些头文件又被多个源文件包含，可能会导致重复定义问题或命名空间冲突。虽然预处理器指令如 <code>#ifndef</code>/<code>#define</code> 或 <code>#pragma once</code> 可以防止多重包含带来的直接错误，但复杂的包含关系仍然可能导致难以追踪的问题。</p>
+<ol>
+<li><strong>提高编译速度</strong></li>
+</ol>
+<p>每个 <code>#include</code> 指令都会让编译器处理额外的文件内容，这会增加编译时间和内存占用。特别是当一个头文件被多个源文件包含时，相同的代码会在每次编译中被解析多次。通过将 <code>#include</code> 放在源文件中，可以减少编译器处理的总代码量，进而加快编译速度。</p>
+<ol>
+<li><strong>前向声明的使用</strong></li>
+</ol>
+<p>很多时候，你只需要知道某个类的存在，而不需要完整的类定义。在这种情况下，可以使用前向声明（forward declaration），而不是包含整个头文件。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SomeClass</span>; <span class="comment">// 前向声明</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只有当需要使用 SomeClass 的完整定义时才包含其头文件</span></span><br></pre></td></tr></table></figure>
+<p>前向声明可以减少对其他头文件的依赖，同时保持代码的正确性。如果你只需要指针或引用类型的参数或返回值，通常前向声明就足够了。</p>
+<ol>
+<li><strong>接口与实现分离</strong></li>
+</ol>
+<p>头文件应该尽量保持精简，只包含必要的声明，这样可以更清晰地展示类的接口。而具体的实现细节则放在源文件中。这样做有助于维护模块化设计，使代码更容易理解和维护。</p>
+<h2 id="18-namespace-和-using-的区别"><a href="#18-namespace-和-using-的区别" class="headerlink" title="18. namespace 和 using 的区别"></a>18. namespace 和 using 的区别</h2><p>为什么有的别名是 namespace，有的别名是 using？</p>
+<ul>
+<li><code>namespace http = beast::http;</code> 创建了一个名为 <code>http</code> 的<mark>命名空间别名</mark>，指向 <code>beast::http</code>。</li>
+<li><code>using tcp = boost::asio::ip::tcp;</code> 为 <code>boost::asio::ip::tcp</code> <mark>类型</mark>创建了一个别名 <code>tcp</code>。</li>
+</ul>
+<h2 id="19-VS-中的动态库"><a href="#19-VS-中的动态库" class="headerlink" title="19. VS 中的动态库"></a>19. VS 中的动态库</h2><p>vs 中引入动态库需要两个文件，一个是 dll 文件，同时还需要一个 lib 文件，这个 lib 文件不是静态库，只是动态库的引导文件，存储着动态库的函数和相应的符号，相当于动态库的简介。因此配置动态库的时候需要设置3个步骤：</p>
+<ol>
+<li>配置包含目录</li>
+<li>配置库目录</li>
+<li>配置附加依赖项</li>
+</ol>
 
     </div>
 
@@ -932,15 +766,7 @@ O (1)。</li>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shared_ptr-%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-text">1. Shared_ptr 的底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="nav-text">内部结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81"><span class="nav-text">创建和销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-stdshared_ptr"><span class="nav-text">创建 std::shared_ptr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%80%E6%AF%81-stdshared_ptr"><span class="nav-text">销毁 std::shared_ptr</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E8%80%83%E8%99%91"><span class="nav-text">性能考虑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared_ptr-%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-text">2. Shared_ptr 的循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">循环引用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">解决循环引用的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-stdweak_ptr-%E6%89%93%E7%A0%B4%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-text">使用 std::weak_ptr
-打破循环引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89"><span class="nav-text">3. 移动语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC"><span class="nav-text">左值和右值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#move"><span class="nav-text">move</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forward"><span class="nav-text">forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93"><span class="nav-text">区别总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%BC%95%E7%94%A8"><span class="nav-text">通用引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1"><span class="nav-text">绑定到临时对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E5%91%BD%E5%90%8D%E7%9A%84%E5%8F%B3%E5%80%BC"><span class="nav-text">绑定到命名的右值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E5%B7%A6%E5%80%BC%E9%94%99%E8%AF%AF"><span class="nav-text">绑定到左值（错误）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#raii-%E6%8A%80%E6%9C%AF"><span class="nav-text">4. RAII 技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#raii-lock-%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">RAII Lock 的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-stdlock_guard"><span class="nav-text">示例：使用
-std::lock_guard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-stdunique_lock"><span class="nav-text">示例：使用
-std::unique_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#raii-lock-%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-text">RAII Lock 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#raii-lock-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">RAII Lock 的注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E8%B5%84%E6%BA%90"><span class="nav-text">5. 互斥锁如何访问共享资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">互斥锁的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-text">示例代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stdlist-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">6. std::list 的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8-stdlist-%E4%B8%AD%E6%8C%87%E5%90%91%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-text">如何在 std::list
-中指向下一个元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-1"><span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E7%B1%BB%E5%88%AB"><span class="nav-text">7. 迭代器的类别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%B1%BB%E5%88%AB%E5%8F%8A%E5%85%B6%E6%94%AF%E6%8C%81%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-text">迭代器类别及其支持的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lock_guard-%E5%92%8C-unique_lock-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">8. lock_guard 和 unique_lock
-的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-text">9. 字节序的判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E5%92%8C%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-text">10. 同步&#x2F;异步和阻塞&#x2F;非阻塞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-text">阻塞和非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E6%97%B6%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="nav-text">阻塞时程序的行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8%E5%8F%8A%E6%93%8D%E4%BD%9C"><span class="nav-text">11. 常用容器及操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E9%87%8F-stdvector"><span class="nav-text">向量 (std::vector)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E8%A1%A8-stdlist"><span class="nav-text">列表 (std::list)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%9F%E5%88%97-stdqueue-stdpriority_queue"><span class="nav-text">队列 (std::queue,
-std::priority_queue)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97-stddeque"><span class="nav-text">双端队列 (std::deque)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%A0%E5%B0%84-stdmap-stdunordered_map"><span class="nav-text">映射 (std::map,
-std::unordered_map)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88-stdset-stdunordered_set"><span class="nav-text">集合 (std::set,
-std::unordered_set)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defer%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">12. Defer的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E4%B8%ADlist%E5%92%8Cvector%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">13. C++中list和vector的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">底层数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0%E6%96%B9%E5%BC%8F"><span class="nav-text">访问元素方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="nav-text">插入和删除操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8"><span class="nav-text">内存分配与空间占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%89%B9%E6%80%A7"><span class="nav-text">迭代器特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">排序操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crtp%E6%8A%80%E6%9C%AF"><span class="nav-text">14. CRTP技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-text">优势</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Shared-ptr-%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-text">1. Shared_ptr 的底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="nav-text">内部结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81"><span class="nav-text">创建和销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-std-shared-ptr"><span class="nav-text">创建 std::shared_ptr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%80%E6%AF%81-std-shared-ptr"><span class="nav-text">销毁 std::shared_ptr</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E8%80%83%E8%99%91"><span class="nav-text">性能考虑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Shared-ptr-%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-text">2. Shared_ptr 的循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">循环引用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">解决循环引用的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-std-weak-ptr-%E6%89%93%E7%A0%B4%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-text">使用 std::weak_ptr 打破循环引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89"><span class="nav-text">3. 移动语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC"><span class="nav-text">左值和右值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#move"><span class="nav-text">move</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forward"><span class="nav-text">forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93"><span class="nav-text">区别总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%BC%95%E7%94%A8"><span class="nav-text">通用引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1"><span class="nav-text">绑定到临时对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E5%91%BD%E5%90%8D%E7%9A%84%E5%8F%B3%E5%80%BC"><span class="nav-text">绑定到命名的右值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%88%B0%E5%B7%A6%E5%80%BC%EF%BC%88%E9%94%99%E8%AF%AF%EF%BC%89"><span class="nav-text">绑定到左值（错误）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-RAII-%E6%8A%80%E6%9C%AF"><span class="nav-text">4. RAII 技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAII-Lock-%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">RAII Lock 的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-std-lock-guard"><span class="nav-text">示例：使用 std::lock_guard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-std-unique-lock"><span class="nav-text">示例：使用 std::unique_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAII-Lock-%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-text">RAII Lock 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAII-Lock-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">RAII Lock 的注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BA%92%E6%96%A5%E9%94%81%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E8%B5%84%E6%BA%90"><span class="nav-text">5. 互斥锁如何访问共享资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">互斥锁的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-text">示例代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-std-list-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">6. std::list 的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8-std-list-%E4%B8%AD%E6%8C%87%E5%90%91%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-text">如何在 std::list 中指向下一个元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-1"><span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E7%B1%BB%E5%88%AB"><span class="nav-text">7. 迭代器的类别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%B1%BB%E5%88%AB%E5%8F%8A%E5%85%B6%E6%94%AF%E6%8C%81%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-text">迭代器类别及其支持的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-lock-guard-%E5%92%8C-unique-lock-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">8. lock_guard 和 unique_lock 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%AD%97%E8%8A%82%E5%BA%8F%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-text">9. 字节序的判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%90%8C%E6%AD%A5-%E5%BC%82%E6%AD%A5%E5%92%8C%E9%98%BB%E5%A1%9E-%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-text">10. 同步&#x2F;异步和阻塞&#x2F;非阻塞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-text">阻塞和非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E6%97%B6%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="nav-text">阻塞时程序的行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8%E5%8F%8A%E6%93%8D%E4%BD%9C"><span class="nav-text">11. 常用容器及操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E9%87%8F-std-vector"><span class="nav-text">向量 (std::vector)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E8%A1%A8-std-list"><span class="nav-text">列表 (std::list)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%9F%E5%88%97-std-queue-std-priority-queue"><span class="nav-text">队列 (std::queue, std::priority_queue)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97-std-deque"><span class="nav-text">双端队列 (std::deque)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%A0%E5%B0%84-std-map-std-unordered-map"><span class="nav-text">映射 (std::map, std::unordered_map)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88-std-set-std-unordered-set"><span class="nav-text">集合 (std::set, std::unordered_set)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Defer%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">12. Defer的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-C-%E4%B8%ADlist%E5%92%8Cvector%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">13. C++中list和vector的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">底层数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0%E6%96%B9%E5%BC%8F"><span class="nav-text">访问元素方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="nav-text">插入和删除操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8"><span class="nav-text">内存分配与空间占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%89%B9%E6%80%A7"><span class="nav-text">迭代器特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">排序操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-CRTP%E6%8A%80%E6%9C%AF"><span class="nav-text">14. CRTP技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-text">优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E8%A6%81%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BA%9B%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">15. 构造函数的初始化列表要初始化些什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-%E5%8D%95%E4%BE%8B%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0"><span class="nav-text">16. 单例类的构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-%E5%A4%B4%E6%96%87%E4%BB%B6%E5%92%8C%E6%BA%90%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84include%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">17. 头文件和源文件中的include有什么区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84-include"><span class="nav-text">头文件中的 #include</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84-include"><span class="nav-text">源文件中的 #include</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%88%99"><span class="nav-text">原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-namespace-%E5%92%8C-using-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">18. namespace 和 using 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-VS-%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93"><span class="nav-text">19. VS 中的动态库</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -956,7 +782,7 @@ std::unordered_set)</span></a></li></ol></li></ol></li><li class="nav-item nav-l
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
