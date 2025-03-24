@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
 <meta property="article:published_time" content="2023-11-03T01:52:49.000Z">
-<meta property="article:modified_time" content="2025-03-23T05:37:38.453Z">
+<meta property="article:modified_time" content="2025-03-23T06:30:34.764Z">
 <meta property="article:author" content="Xinhao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cq-yangxh.github.io/2023/11/03/%E8%AE%BA%E6%96%87/Dynamic/Predicting-wrist-kinematics-from-motor-unit-discharge-timings-for-the-control-of-active-prostheses/image-20231109115844912.png">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-03-23 13:37:38" itemprop="dateModified" datetime="2025-03-23T13:37:38+08:00">2025-03-23</time>
+                <time title="Modified: 2025-03-23 14:30:34" itemprop="dateModified" datetime="2025-03-23T14:30:34+08:00">2025-03-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,7 +285,7 @@
 
 </li>
 </ul>
-<h2 id="2-3-model-based-dimensionality-reduction"><a href="#2-3-model-based-dimensionality-reduction" class="headerlink" title="2.3 model-based dimensionality reduction"></a>2.3 model-based dimensionality reduction</h2><p>肌电信号的分解是存在错误的，这些错误不能被人工检查出来。另一方面，运动神经元之间的活动是存在相关性的，这种相关性可以用来弥补分解的错误。同一池或协同肌肉中的运动神经元共享相对较大比例的突触输入。因此，每个运动单位的放电时间不仅携带关于肌肉力量的信息，而且还与其他运动单元的活动相关，==可以利用这个特性来降低特征维度==。如何来提取这种共同的突触输入呢？</p>
+<h2 id="2-3-model-based-dimensionality-reduction"><a href="#2-3-model-based-dimensionality-reduction" class="headerlink" title="2.3 model-based dimensionality reduction"></a>2.3 model-based dimensionality reduction</h2><p>肌电信号的分解是存在错误的，这些错误不能被人工检查出来。另一方面，运动神经元之间的活动是存在相关性的，这种相关性可以用来弥补分解的错误。同一池或协同肌肉中的运动神经元共享相对较大比例的突触输入。因此，每个运动单位的放电时间不仅携带关于肌肉力量的信息，而且还与其他运动单元的活动相关，<mark>可以利用这个特性来降低特征维度</mark>。如何来提取这种共同的突触输入呢？</p>
 <ul>
 <li>首先每个神经元从中枢神经系统接收到的输入与尖峰队列的关系可以用一个函数表示：<script type="math/tex">\alpha_{ij}=g_{ij}(x_{ij})</script>。使用鲁棒回归对 spike train 和关节角度来确定函数 $g$。<mark>之所以能这样确定是因为神经输入 $\alpha$ 与关节角度有关，因此可以通过手腕关节角度来得到神经输入。</mark></li>
 <li>在估计时，每个MU被分组到最相关的自由度中，在这个自由度下估计神经的输入。</li>
