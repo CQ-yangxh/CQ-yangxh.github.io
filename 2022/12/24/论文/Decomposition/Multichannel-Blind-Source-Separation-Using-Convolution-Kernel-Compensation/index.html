@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/%E8%AE%BA%E6%96%87/Decomposition/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230309210631973.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/24/%E8%AE%BA%E6%96%87/Decomposition/Multichannel-Blind-Source-Separation-Using-Convolution-Kernel-Compensation/image-20230315162816044.png">
 <meta property="article:published_time" content="2022-12-24T11:46:46.000Z">
-<meta property="article:modified_time" content="2025-03-28T10:15:27.011Z">
+<meta property="article:modified_time" content="2025-03-28T10:17:47.025Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Decomposition">
 <meta name="twitter:card" content="summary">
@@ -223,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-03-28 18:15:27" itemprop="dateModified" datetime="2025-03-28T18:15:27+08:00">2025-03-28</time>
+                <time title="Modified: 2025-03-28 18:17:47" itemprop="dateModified" datetime="2025-03-28T18:17:47+08:00">2025-03-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,21 +281,20 @@
 <p>我们知道，分离向量是找到一个时刻，然后相关矩阵的逆矩阵乘以该时刻的<mark>观测值列向量</mark>就得到了分离向量。文章说先是计算激活指数，然后如果第j个MU在n0时刻发放的话，那么 $s_{n0}(n)=\bar{X}^T(n_0)C_{\overline{X}\overline{X}}^{-1}\bar{X}(n)$ 就是第 j 个MU的IPT估计，后续只需要通过下述表达式改进这个<mark>观测值列向量</mark>就行：</p>
 <script type="math/tex; mode=display">
 C_{\bar{X}_{sj}}=\frac1{\operatorname{card}(\varphi_n)}\sum\bar{X}(\varphi_n)</script></li>
-<li></li>
 </ul>
-<p>_2023/12/29_</p>
+<p><em>2023/12/29</em></p>
 <ul>
 <li><p>为什么有这么一个取平均的操作？</p>
 <p>注意到 CKC 算法的关键是估计相关向量 $\mathbf{c}_{t_j\mathbf{x}}$，但是由于 $t_j$ 事先是不知道，因此无法直接计算。而 $\mathbf{c}_{t_j\mathbf{x}}=E(t_j(n)\mathbf{x}(n))$ 这个计算公式表明，$\mathbf{c}_{t_j\mathbf{x}}$ 是第 $j$ 个 MU 发放时刻 $t$ 的发放时刻处，观测向量的期望，而期望就是取平均，所有才有了取平均估计相关向量这么一个操作。</p>
 </li>
 </ul>
-<p>_2024/1/2_</p>
+<p><em>2024/1/2</em></p>
 <ul>
 <li><p>对相关矩阵进行截取操作</p>
 <p>这个操作是为了减小噪声带来的干扰，在SNR=15dB时，截取程度为0%，在SNR为0dB时，截取程度为20%。</p>
 </li>
 </ul>
-<p>_2024/1/10_</p>
+<p><em>2024/1/10</em></p>
 <ul>
 <li><p>n0时刻的相关向量分离得到的spike train，只有那些在n0时刻发放的mu对这个spike train有贡献，也就是说，使用n0时刻的观测向量作为相关向量，只要是在n0时刻发放的mu，它们的脉冲都会被加强，只是其他时刻的脉冲幅值加强程度没有n0时刻强。而其他没有在n0时刻发放的mu则在幅值上贡献的非常少。所以一般情况下某个时刻只有一个脉冲序列发放，因此该时刻的分离向量分离得到的spike，幅值较高的都来自于这个脉冲序列。</p>
 </li>
@@ -307,7 +306,7 @@ C_{\bar{X}_{sj}}=\frac1{\operatorname{card}(\varphi_n)}\sum\bar{X}(\varphi_n)</s
 <li><p>CKC算法一般取4个发放时刻，通过两个假设以及这几个时刻的spike数目来对这些spike的归属进行判断，如果都是来自于同一个MU，那么通过对这些发放时刻的观测向量取均值，得到相关向量，然后得到spike。</p>
 </li>
 </ul>
-<p>2024/3/6</p>
+<p><em>2024/3/6</em></p>
 <ul>
 <li><p>对相关矩阵 $C$ 的理解，假设有这么一个信号：</p>
 <script type="math/tex; mode=display">
