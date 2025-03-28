@@ -749,7 +749,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-02-28 11:02:42" itemprop="dateModified" datetime="2025-02-28T11:02:42+08:00">2025-02-28</time>
+                <time title="Modified: 2025-03-24 13:30:22" itemprop="dateModified" datetime="2025-03-24T13:30:22+08:00">2025-03-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -772,7 +772,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h3 id="步骤-1-安装-Redis"><a href="#步骤-1-安装-Redis" class="headerlink" title="步骤 1: 安装 Redis"></a>步骤 1: 安装 Redis</h3><p>如果你还没有安装 Redis，可以通过以下命令进行安装：</p>
+          <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="步骤-1-安装-Redis"><a href="#步骤-1-安装-Redis" class="headerlink" title="步骤 1: 安装 Redis"></a>步骤 1: 安装 Redis</h3><p>如果你还没有安装 Redis，可以通过以下命令进行安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install redis-server</span><br></pre></td></tr></table></figure>
 <p>安装完成后，Redis服务会自动启动。你可以通过以下命令检查 Redis 服务状态：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status redis-server</span><br></pre></td></tr></table></figure>
@@ -783,7 +783,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; AUTH password</span><br></pre></td></tr></table></figure>
 <h3 id="步骤-4-输入密码"><a href="#步骤-4-输入密码" class="headerlink" title="步骤 4: 输入密码"></a>步骤 4: 输入密码</h3><p>在 <code>redis-cli</code> 中，使用 <code>SET</code> 命令可以向 Redis 中添加或更新一个字符串值。语法如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET key value</span><br></pre></td></tr></table></figure>
-<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><h3 id="步骤-1-安装"><a href="#步骤-1-安装" class="headerlink" title="步骤 1: 安装"></a>步骤 1: 安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mysql-server</span><br></pre></td></tr></table></figure>
+<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><h3 id="步骤-1-安装"><a href="#步骤-1-安装" class="headerlink" title="步骤 1: 安装"></a>步骤 1: 安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mysql-server</span><br></pre></td></tr></table></figure>
 <h3 id="步骤-2-使用root用户登录"><a href="#步骤-2-使用root用户登录" class="headerlink" title="步骤 2: 使用root用户登录"></a>步骤 2: 使用root用户登录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">登录mysql并输入密码</span></span><br><span class="line">mysql -u root -p</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mysql8 修改密码方式</span></span><br><span class="line">alter user &#x27;root&#x27;@&#x27;localhost&#x27; identified by &#x27;这里填你要的密码&#x27;;</span><br></pre></td></tr></table></figure>
 <h3 id="步骤-3-退出MySQL命令行"><a href="#步骤-3-退出MySQL命令行" class="headerlink" title="步骤 3: 退出MySQL命令行"></a>步骤 3: 退出MySQL命令行</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">quit</span></span><br></pre></td></tr></table></figure>
 <h3 id="步骤-4-创建用户（用于客户端登陆）"><a href="#步骤-4-创建用户（用于客户端登陆）" class="headerlink" title="步骤 4: 创建用户（用于客户端登陆）"></a>步骤 4: 创建用户（用于客户端登陆）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;username&#x27;@&#x27;host&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br></pre></td></tr></table></figure>
@@ -837,7 +837,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-03-23 12:25:18" itemprop="dateModified" datetime="2025-03-23T12:25:18+08:00">2025-03-23</time>
+                <time title="Modified: 2025-03-24 13:29:33" itemprop="dateModified" datetime="2025-03-24T13:29:33+08:00">2025-03-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -860,7 +860,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="大脑"><a href="#大脑" class="headerlink" title="大脑"></a>大脑</h1><h2 id="大脑构成"><a href="#大脑构成" class="headerlink" title="大脑构成"></a>大脑构成</h2><ul>
+          <h2 id="大脑"><a href="#大脑" class="headerlink" title="大脑"></a>大脑</h2><h3 id="大脑构成"><a href="#大脑构成" class="headerlink" title="大脑构成"></a>大脑构成</h3><ul>
 <li>本能脑，形成时间最久，3.6 亿年</li>
 <li>情绪脑，形成时间两亿年</li>
 <li>理智脑，最年轻，话语权也最小</li>
