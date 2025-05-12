@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230913171459585.png">
 <meta property="og:image" content="https://cq-yangxh.github.io/2023/04/29/%E8%AE%BA%E6%96%87/Deep%20Learning/A-convolutional-neural-network-to-identify-motor-units-from-high-density-surface-electromyography-signals-in-real-time/image-20230913171524030.png">
 <meta property="article:published_time" content="2023-04-29T13:31:19.000Z">
-<meta property="article:modified_time" content="2025-01-16T07:35:25.904Z">
+<meta property="article:modified_time" content="2025-05-12T15:08:18.270Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Image">
 <meta property="article:tag" content="JNE">
@@ -225,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-01-16 15:35:25" itemprop="dateModified" datetime="2025-01-16T15:35:25+08:00">2025-01-16</time>
+                <time title="Modified: 2025-05-12 23:08:18" itemprop="dateModified" datetime="2025-05-12T23:08:18+08:00">2025-05-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -309,7 +309,7 @@
 <ul>
 <li><p><font color = "red">上面公式中的max以及后面的公式是什么意思？</font><br><mark>max的意思是取最大值，如果有1则是1，如果没有1则是零。这里是在步长这么大的窗口里进行取值，取出来构成输入窗口的输出</mark></p>
 </li>
-<li><p>CNN的输入输出：<br>CNN的输入：one window of the HD-EMG signal (width: $M$; length: $w$)<br>CNN的输出：binary value, indicating the discharge times of a given MU</p>
+<li><p>CNN的输入输出：<br>CNN的输入：one window of the HD-EMG signal (width: $M$; length: $m$)<br>CNN的输出：binary value, indicating the discharge times of a given MU</p>
 <font color = "red">[i × s - w/2, i × s + w/2]——>discharge time instance: i × s——>会造成一个w/2的延迟。</font>
 </li>
 <li><p>通过F1-score来评判一个MU是否被成功识别<br><mark>结构和超参数手动优化，比较不同层数的3种网络，比较不同节点数的3种网络，本文用的CNN是效果最好的。文章使用的CNN是两个卷积层接一个池化层，然后再两个卷积层接一个池化层，最后接两个全连接层。输出层采用了sigmoid激活函数，因为值域是0-1，其他层采用了ReLU激活函数，ReLU解决了梯度消失的问题并且能够快速收敛。</mark></p>
