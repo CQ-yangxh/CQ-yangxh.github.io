@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cq-yangxh.github.io/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png">
 <meta property="article:published_time" content="2022-12-05T12:12:19.000Z">
-<meta property="article:modified_time" content="2025-05-19T20:35:55.282Z">
+<meta property="article:modified_time" content="2025-05-21T13:20:23.542Z">
 <meta property="article:author" content="Xinhao">
 <meta property="article:tag" content="Decomposition">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-05-20 04:35:55" itemprop="dateModified" datetime="2025-05-20T04:35:55+08:00">2025-05-20</time>
+                <time title="Modified: 2025-05-21 21:20:23" itemprop="dateModified" datetime="2025-05-21T21:20:23+08:00">2025-05-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,18 +257,19 @@
       
         <p>这篇文章通过稀疏度来得到分离向量，而不是FASTICA中的非高斯性和独立性。整个分解算法分为两个迭代过程，第一个迭代过程类似于fastICA，第二个迭代过程类似于CKC。该方法的主要假设是，两个运动单元脉冲序列的叠加总是比单个运动单元的叠加更具可变性（方差更大）。</p>
 <span id="more"></span>
-<h1 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h1><p>卷积混合可以表示成扩展向量的线性瞬时混合模型。</p>
-<p>卷积混合模型：</p>
+<h2 id="1-笔记"><a href="#1-笔记" class="headerlink" title="1.笔记"></a>1.笔记</h2><p>卷积混合可以表示成扩展向量的线性瞬时混合模型。<br>卷积混合模型：</p>
 <script type="math/tex; mode=display">
-\underline{\underline{x}}(k)=\sum_{l=0}^{L-1} \underline{\underline{H}}(l) \underline{\underline{s}}(k-l)+\underline{\underline{n}}(k) \\
-x_i(k)=\sum_{l=0}^{L-1} \sum_{j=1}^n h_{i j}(l) s_j(k-l)+n_i(k) \\
-\underline{\underline{x}}(k) = 
-\left[\begin{array}{c}
+\begin{align}
+\underline{\underline{x}}(k) &= \sum_{l=0}^{L-1} \underline{\underline{H}}(l) \, \underline{\underline{s}}(k-l) + \underline{\underline{n}}(k), \\
+x_i(k) &= \sum_{l=0}^{L-1} \sum_{j=1}^n h_{ij}(l) \, s_j(k-l) + n_i(k), \\
+\underline{\underline{x}}(k) &= 
+\begin{bmatrix}
 x_1(k) \\
 x_2(k) \\
 \vdots \\
 x_m(k)
-\end{array}\right]</script><p>扩展后的线性瞬时混合模型：</p>
+\end{bmatrix}.
+\end{align}</script><p>扩展后的线性瞬时混合模型：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 & \underline{\underline{\tilde{x}}}(k)=\underline{\underline{\tilde{H}}} \underline{\underline{\tilde{s}}}(k)+\underline{\underline{\tilde{n}}}(k) \\
@@ -288,13 +289,12 @@ h_{i j}[0] & \cdots & h_{i j}[L-1] & 0 & \cdots & 0 \\
 \end{array}\right] }
 \end{aligned}</script><p>对上述符号的理解就是：</p>
 <script type="math/tex; mode=display">
-\left.\underline{\underline{\tilde{H}}}=\left[\begin{array}{cccc}MUAP_{1,1}(t)&MUAP_{1,2}(t)&\cdots&MUAP_{1,NR}(t)\\\vdots&\vdots&\vdots&\vdots\\MUAP_{NM,1}(t)&MUAP_{NM,2}(t)&\cdots&MUAP_{NM,NR}(t)\end{array}\right.\right]</script><p><mark>注意，这里的MUAPT是扩展后的MUAPT！</mark></p>
-<p>这种分离方法的前提是，<mark>需要满足一个条件：</mark>$R \geqslant(n / m) L$。因此MUAP相对较长的话需要扩展的多一点来满足上述条件。</p>
+\left.\underline{\underline{\tilde{H}}}=\left[\begin{array}{cccc}MUAP_{1,1}(t)&MUAP_{1,2}(t)&\cdots&MUAP_{1,NR}(t)\\\vdots&\vdots&\vdots&\vdots\\MUAP_{NM,1}(t)&MUAP_{NM,2}(t)&\cdots&MUAP_{NM,NR}(t)\end{array}\right.\right]</script><p><mark>注意，这里的MUAPT是扩展后的MUAPT！</mark><br>这种分离方法的前提是，<mark>需要满足一个条件：</mark> $R\geqslant(n/m)L$ 。因此MUAP相对较长的话需要扩展的多一点来满足上述条件。</p>
 <blockquote>
 <p>Currently, the only sufficiently validated method for testing the accuracy of EMG decomposition in the absence of a gold standard provided by expert decomposition, is the comparison of the decomposition results of two or more EMG signal sets that share some common sources (discharge timings) (De Luca et al 2006, Holobar et al 2010, Holobar and Farina 2014), but also have a number of different sources and different action potential shapes.  </p>
 </blockquote>
 <p>算法有效性的一种评价方法就是比较分解两套或者多套EMG数据的结果，这些数据必须包含共同的源。</p>
-<h2 id="1-1-为什么要扩展？"><a href="#1-1-为什么要扩展？" class="headerlink" title="1.1 为什么要扩展？"></a>1.1 为什么要扩展？</h2><p>为了增大观测数和源数之间的比例。</p>
+<h3 id="1-1-为什么要扩展？"><a href="#1-1-为什么要扩展？" class="headerlink" title="1.1 为什么要扩展？"></a>1.1 为什么要扩展？</h3><p>为了增大观测数和源数之间的比例。</p>
 <blockquote>
 <p>In order to increase the ratio between the number of observations and the number of sources and, thus, conditionality of the described mixing process, the observations are also usually extended, adding R delayed versions of each observation.  </p>
 </blockquote>
@@ -304,9 +304,9 @@ R\geqslant(n/m)L</script><p>上式中R是扩展的参数，n是源的个数，m�
 <p>由于源的大多数样本为零，因此可以作为尖峰队列这种特定结构，并且在对源扩展了之后也保持了稀疏性。直观地说，这是由于具有相关激发的源的总和总是不如单个源稀疏，除非激发完全一致（可能性非常小）。</p>
 <p>扩展系数与识别到的MU数目之间的关系：</p>
 <img src="/2022/12/05/%E8%AE%BA%E6%96%87/Decomposition/Multi-channel-intramuscular-and-surface-EMG-decomposition-by-convolutive-blind-source-separation/image-20230901214955664.png" class="" title="image-20230901214955664">
-<h2 id="1-2-如何执行分离向量的初始化？"><a href="#1-2-如何执行分离向量的初始化？" class="headerlink" title="1.2 如何执行分离向量的初始化？"></a>1.2 如何执行分离向量的初始化？</h2><p>对白化后的矩阵，取一列观测向量，先求和，再求平方，峰值最大处可以视为肌肉的激活程度最高，出现运动单元放电的可能性最大，取该列向量来初始化分离向量。</p>
-<h2 id="1-3-为什么要执行白化？"><a href="#1-3-为什么要执行白化？" class="headerlink" title="1.3 为什么要执行白化？"></a>1.3 为什么要执行白化？</h2><p>现实世界中的独立信号往往都是非高斯的，而非高斯信号线性混合后的混迭信号会比源信号更趋近于高斯分布（中心极限定理）。因此可以说“非高斯就是独立的”。为此，算法的目标就由直接度量独立性转变为度量输出的非高斯性，也即是需要使得输出的概率密度距离高斯分布最远。Aapo HyVarinen当时提出使用峭度或者负熵来作为非高斯性度量。<font color = "red">信息论指出，在方差一定的情况下，高斯变量具有最大的熵，因此负熵的值恒非负，当且仅当p(y)为高斯分布时候其值为0。因此负熵的值越大则意味着该变量的非高斯性就越强。</font>白化的详细原理参考笔记：<a href="白化.md">白化学习笔记</a></p>
-<h2 id="1-4-如何执行白化？"><a href="#1-4-如何执行白化？" class="headerlink" title="1.4 如何执行白化？"></a>1.4 如何执行白化？</h2><p>本文中的白化步骤为：</p>
+<h3 id="1-2-如何执行分离向量的初始化？"><a href="#1-2-如何执行分离向量的初始化？" class="headerlink" title="1.2 如何执行分离向量的初始化？"></a>1.2 如何执行分离向量的初始化？</h3><p>对白化后的矩阵，取一列观测向量，先求和，再求平方，峰值最大处可以视为肌肉的激活程度最高，出现运动单元放电的可能性最大，取该列向量来初始化分离向量。</p>
+<h3 id="1-3-为什么要执行白化？"><a href="#1-3-为什么要执行白化？" class="headerlink" title="1.3 为什么要执行白化？"></a>1.3 为什么要执行白化？</h3><p>现实世界中的独立信号往往都是非高斯的，而非高斯信号线性混合后的混迭信号会比源信号更趋近于高斯分布（中心极限定理）。因此可以说“非高斯就是独立的”。为此，算法的目标就由直接度量独立性转变为度量输出的非高斯性，也即是需要使得输出的概率密度距离高斯分布最远。Aapo HyVarinen当时提出使用峭度或者负熵来作为非高斯性度量。<font color = "red">信息论指出，在方差一定的情况下，高斯变量具有最大的熵，因此负熵的值恒非负，当且仅当p(y)为高斯分布时候其值为0。因此负熵的值越大则意味着该变量的非高斯性就越强。</font>白化的详细原理参考笔记：<a href="白化.md">白化学习笔记</a></p>
+<h3 id="1-4-如何执行白化？"><a href="#1-4-如何执行白化？" class="headerlink" title="1.4 如何执行白化？"></a>1.4 如何执行白化？</h3><p>本文中的白化步骤为：</p>
 <ul>
 <li>对扩展后的矩阵计算协方差</li>
 <li>对协方差矩阵进行特征值分解</li>
@@ -327,8 +327,8 @@ R\geqslant(n/m)L</script><p>上式中R是扩展的参数，n是源的个数，m�
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">intra_sums = sum(<span class="built_in">abs</span>(noise_cluster - noise_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - peak_centroid));</span><br><span class="line">inter_sums = sum(<span class="built_in">abs</span>(noise_cluster - peak_centroid)) + sum(<span class="built_in">abs</span>(peak_cluster - noise_centroid));</span><br><span class="line"></span><br><span class="line">sil = (inter_sums - intra_sums)/<span class="built_in">max</span>([intra_sums inter_sums]);</span><br></pre></td></tr></table></figure>
 <p>contrast function既可以衡量独立性，也可以衡量稀疏性，同一脉冲序列的两个不同延迟的线性混合总是比原始脉冲序列更密集。稀疏度是放电速率的函数：放电速率越大，源的稀疏度越低。</p>
 <p>人神经的不应期决定了最小的放电间隔（对应放电频率为30-40 pps）</p>
-<h2 id="1-5-聚类评估"><a href="#1-5-聚类评估" class="headerlink" title="1.5 聚类评估"></a>1.5 聚类评估</h2><p>本文中将聚类的SIL阈值设置为了0.9。本文中认为SIL虽然与PNR的定义不同，但是都是可靠的，并且SIL能够直接用于RoA的计算。</p>
-<h2 id="1-6-伪代码"><a href="#1-6-伪代码" class="headerlink" title="1.6 伪代码"></a>1.6 伪代码</h2><ul>
+<h3 id="1-5-聚类评估"><a href="#1-5-聚类评估" class="headerlink" title="1.5 聚类评估"></a>1.5 聚类评估</h3><p>本文中将聚类的SIL阈值设置为了0.9。本文中认为SIL虽然与PNR的定义不同，但是都是可靠的，并且SIL能够直接用于RoA的计算。</p>
+<h3 id="1-6-伪代码"><a href="#1-6-伪代码" class="headerlink" title="1.6 伪代码"></a>1.6 伪代码</h3><ul>
 <li>最外层for循环，m次，m为观测通道数<ul>
 <li>第一个while循环，fast ICA</li>
 <li>第二个while循环，CKC，这个循环是为了移除错误的尖峰</li>
@@ -336,7 +336,7 @@ R\geqslant(n/m)L</script><p>上式中R是扩展的参数，n是源的个数，m�
 </li>
 </ul>
 <p>也就是说分解的源最多就是观测的通道数，但这几乎不可能。（有文章是把这个for循环的m次设置成大于通道数的）</p>
-<h1 id="2-算法改进"><a href="#2-算法改进" class="headerlink" title="2. 算法改进"></a>2. 算法改进</h1><blockquote>
+<h2 id="2-算法改进"><a href="#2-算法改进" class="headerlink" title="2. 算法改进"></a>2. 算法改进</h2><blockquote>
 <p>Any other criteria for stopping the second iteration would also be acceptable. For example, it would be possible to apply the SIL measure to this second iteration (note that this measure would also increase with the number of iterations, being an efficient criterion for determining convergence).</p>
 </blockquote>
 
@@ -422,7 +422,7 @@ R\geqslant(n/m)L</script><p>上式中R是扩展的参数，n是源的个数，m�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A9%E5%B1%95%EF%BC%9F"><span class="nav-text">1.1 为什么要扩展？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E5%90%91%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9F"><span class="nav-text">1.2 如何执行分离向量的初始化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96%EF%BC%9F"><span class="nav-text">1.3 为什么要执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96%EF%BC%9F"><span class="nav-text">1.4 如何执行白化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E8%81%9A%E7%B1%BB%E8%AF%84%E4%BC%B0"><span class="nav-text">1.5 聚类评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-text">1.6 伪代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B"><span class="nav-text">2. 算法改进</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AC%94%E8%AE%B0"><span class="nav-text">1.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A9%E5%B1%95%EF%BC%9F"><span class="nav-text">1.1 为什么要扩展？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E5%90%91%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9F"><span class="nav-text">1.2 如何执行分离向量的初始化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96%EF%BC%9F"><span class="nav-text">1.3 为什么要执行白化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%99%BD%E5%8C%96%EF%BC%9F"><span class="nav-text">1.4 如何执行白化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E8%81%9A%E7%B1%BB%E8%AF%84%E4%BC%B0"><span class="nav-text">1.5 聚类评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-text">1.6 伪代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B"><span class="nav-text">2. 算法改进</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
